@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import AboutMeBio from '../components/about/AboutMeBio';
+import Experience from '../components/about/Experience';
 import PagesMetaHead from '../components/PagesMetaHead';
 
-function about() {
+function experience() {
 	return (
 		<div>
-			<PagesMetaHead title="About Me" />
+			<PagesMetaHead title="Experience" />
 
 			<motion.div
 				initial={{ opacity: 0 }}
@@ -13,10 +13,10 @@ function about() {
 				exit={{ opacity: 0 }}
 				className="container mx-auto"
 			>
-				<AboutMeBio />
+				<Experience />
 			</motion.div>
 		</div>
 	);
 }
 
-export default about;
+export default experience;

@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import ContactDetails from '../components/contact/ContactDetails';
-import ContactForm from '../components/contact/ContactForm';
 import PagesMetaHead from '../components/PagesMetaHead';
 
 function contact() {
@@ -18,7 +17,6 @@ function contact() {
 				}}
 				className="container mx-auto flex flex-col-reverse lg:flex-row py-5 lg:py-10 lg:mt-5"
 			>
-				<ContactForm />
 
 				<ContactDetails />
 			</motion.div>

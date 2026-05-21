@@ -245,3 +245,46 @@ a {
 		opacity: 0.5;
 	}
 }
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background:
+		radial-gradient(circle at top left, rgba(99, 102, 241, 0.14), transparent 32rem),
+		radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 30rem),
+		linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.dark body {
+	background:
+		radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 32rem),
+		radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 30rem),
+		linear-gradient(180deg, #020617 0%, #0f172a 100%);
+}
+
+.glass-card {
+	background: rgba(255, 255, 255, 0.68);
+	backdrop-filter: blur(22px);
+	-webkit-backdrop-filter: blur(22px);
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+}
+
+.dark .glass-card {
+	background: rgba(15, 23, 42, 0.58);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.glass-button {
+	background: rgba(79, 70, 229, 0.92);
+	box-shadow: 0 16px 40px rgba(79, 70, 229, 0.25);
+	transition: all 0.25s ease;
+}
+
+.glass-button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 20px 48px rgba(79, 70, 229, 0.32);
+}

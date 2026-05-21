@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import AboutMeBio from '../components/about/AboutMeBio';
+import ArticlesGrid from '../components/articles/ArticlesGrid';
 import PagesMetaHead from '../components/PagesMetaHead';
 
-function about() {
+function articles() {
 	return (
 		<div>
-			<PagesMetaHead title="About Me" />
+			<PagesMetaHead title="Articles" />
 
 			<motion.div
 				initial={{ opacity: 0 }}
@@ -13,10 +13,10 @@ function about() {
 				exit={{ opacity: 0 }}
 				className="container mx-auto"
 			>
-				<AboutMeBio />
+				<ArticlesGrid />
 			</motion.div>
 		</div>
 	);
 }
 
-export default about;
+export default articles;

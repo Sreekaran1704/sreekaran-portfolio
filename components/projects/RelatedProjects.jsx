@@ -1,26 +1,25 @@
 import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
 
 const RelatedProject = {
 	title: 'Related Projects',
 	Projects: [
 		{
-			id: uuidv4(),
+			id: 'related-mobile-ui',
 			title: 'Mobile UI',
 			img: '/images/ui-project-2.jpg',
 		},
 		{
-			id: uuidv4(),
+			id: 'related-web-application',
 			title: 'Web Application',
 			img: '/images/mobile-project-1.jpg',
 		},
 		{
-			id: uuidv4(),
+			id: 'related-ui-design',
 			title: 'UI Design',
 			img: '/images/web-project-1.jpg',
 		},
 		{
-			id: uuidv4(),
+			id: 'related-kabul-mobile-app-ui',
 			title: 'Kabul Mobile App UI',
 			img: '/images/mobile-project-2.jpg',
 		},
