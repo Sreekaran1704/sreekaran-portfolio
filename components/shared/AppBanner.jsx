@@ -40,10 +40,11 @@ function AppBanner() {
 			}}
 			className="mt-7 max-w-2xl space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base lg:mx-0 mx-auto"
 		>
-			<p>
-	I&apos;m a data + applied AI builder currently pursuing my MS in Computer
-	Science at UMKC. I work where messy datasets enter like tangled wires and
-	leave as dashboards, models, and systems people can actually use.
+<p>
+	I&apos;m a data + applied AI builder with an MS in Computer Science from the
+	University of Missouri-Kansas City. I work where messy datasets enter like
+	tangled wires and leave as dashboards, models, and systems people can
+	actually use.
 </p>
 
 <p>
