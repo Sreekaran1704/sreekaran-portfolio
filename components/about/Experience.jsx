@@ -12,12 +12,14 @@ const experienceGroups = [
 				period: 'May 2023 - Apr 2024',
 				type: 'Data Analytics • Machine Learning • MLOps',
 				points: [
-					'Worked with 50K+ inconsistent construction records where missing values, schema mismatches, outliers, and unstructured cost entries made reporting unreliable. I cleaned and structured the data using SQL, Python, Pandas, and NumPy, then performed schema validation, missing-value handling, outlier treatment, and feature engineering to turn raw construction data into analysis-ready and model-ready datasets.',
-					'Performed exploratory data analysis across material, labor, timeline, and cost data to understand why project budgets were drifting. I analyzed cost variance patterns, resource utilization signals, operational inefficiencies, and project planning gaps, then translated those findings into clearer metrics that helped stakeholders understand where cost overruns and reporting issues were coming from.',
-					'Built regression-based construction cost estimation models by engineering features from historical project data, comparing model behavior with RMSE and R², and tracking 10+ MLflow experiments. This helped me evaluate which cost drivers were actually useful, which model configurations were stable, and how changes in the pipeline affected prediction quality.',
-					'Converted the analysis into Tableau dashboards and stakeholder-facing reports that showed cost trends, budget variance patterns, and operational inefficiencies in a more usable format. The dashboards improved reporting reliability by 30% and helped move the work from “raw numbers in files” to planning insights that engineering and operations teams could actually discuss.',
-					'Connected the machine learning work to a deployable system by packaging the trained model as a FastAPI inference service, containerizing it with Docker, deploying it on AWS EC2, and supporting CI/CD with GitHub Actions. This gave the project an end-to-end shape: data cleaning, analysis, modeling, experiment tracking, dashboarding, and production-style model serving.',
+					'At Sree Nirman, the project started with a familiar data problem: the data existed, but trust in the data did not.',
+					'I worked with 50K+ construction cost and operations records where missing values, schema mismatches, outliers, and inconsistent cost entries made reporting difficult to rely on. Before any dashboard or model could make sense, the foundation had to be fixed. I cleaned, normalized, validated, and structured the data using SQL, Python, Pandas, and NumPy, turning scattered construction records into datasets that were ready for analysis, reporting, and machine learning.',
+					'Once the data became usable, I moved into the deeper question: why were project costs drifting? I analyzed material, labor, timeline, and cost data to uncover budget variance patterns, resource utilization gaps, productivity signals, and operational inefficiencies. The work was not just about finding numbers that looked unusual. It was about understanding what those numbers were trying to say about project planning, cost control, and execution.',
+					'From there, I built regression-based construction cost estimation models using engineered features from historical project data. I compared model behavior using RMSE and R², tracked 10+ MLflow experiments, and studied which cost drivers actually helped prediction quality. This helped me move beyond “the model gives an answer” toward a more useful question: which inputs explain the answer, and can stakeholders trust it?',
+					'To make the insights easier to use, I translated the analysis into Tableau dashboards and stakeholder-facing reports that showed cost trends, budget variance, productivity gaps, and operational risks. These dashboards improved reporting reliability by 30% and helped shift the work from raw numbers sitting in files to planning insights that engineering and operations teams could actually discuss.',
+					'I also helped give the project an end-to-end shape by connecting the machine learning work to deployment. I packaged the trained model as a FastAPI inference service, containerized it with Docker, deployed it on AWS EC2, and supported CI/CD workflows with GitHub Actions. By the end, the work covered the full path: messy data, clean datasets, statistical analysis, feature engineering, model evaluation, dashboard reporting, and production-style model serving.',
 				],
+
 			},
 			{
 				id: 2,
@@ -26,15 +28,18 @@ const experienceGroups = [
 				period: 'Apr 2022 - Jan 2023',
 				type: 'Financial Analytics • Data Science • Applied AI',
 				points: [
-					'Worked with 50K+ financial and operational records across hostel, academics, and sports departments, where inconsistent entries and fragmented reporting made spending patterns difficult to trust. I cleaned, validated, and structured the data using Python, Excel, and statistical analysis, improving data quality and consistency by 30%.',
-					'Analyzed department-wise expenditure, budget variance, category-level spending, and recurring financial anomalies to understand where institutional expenses were quietly leaking. Through EDA, variance analysis, trend analysis, regression/distribution analysis, and hypothesis testing, I identified over-budget areas and 10-15% potential cost-saving opportunities.',
-					'Built monthly dashboards and reports that tracked spending trends, department-wise expenditure, budget variance, and category-level cost behavior. These reports reduced reporting turnaround time by 20% and gave administrators clearer visibility into how money was being spent across departments instead of relying on scattered manual summaries.',
-					'Developed an XGBoost-based student performance prediction workflow using academic history and entrance-score data, mapping predictions to standardized concession brackets. This helped make student evaluation and concession planning more structured, data-driven, and consistent instead of depending only on manual judgment.',
-					'Fine-tuned a GPT-2 model as an LLM-based evaluator using 5K+ historical student response samples and scoring labels. I documented preprocessing steps, evaluation logic, assumptions, and reporting workflows so the AI-assisted evaluation process could be reviewed, repeated, and explained more clearly.',
+					'At Avanthi High School, the challenge was not that data was missing. The challenge was that the data was scattered across different parts of the institution and difficult to turn into decisions.',
+					'Then I worked with 12K+ student records and 50K+ financial and operational records across hostel, academics, sports, and administrative departments. The records had inconsistent entries, missing values, fragmented formats, and reporting gaps that made it hard to clearly understand spending behavior. I cleaned, validated, and standardized the data using Python, Excel, and statistical analysis, improving data quality and consistency by 30%.',
+					'After cleaning the data, I focused on the financial story behind it. I analyzed department-wise expenditure, budget variance, category-level spending, and recurring anomalies to understand where expenses were increasing and where money was quietly leaking. Using EDA, variance analysis, trend analysis, distribution analysis, regression analysis, and hypothesis testing, I identified over-budget areas and 10–15% potential cost-saving opportunities.',
+					'Then I built monthly dashboards and Excel-based reports that tracked spending trends, department-level expenses, budget variance, and category-level financial behavior. These reports reduced reporting turnaround time by 20% and gave administrators a clearer view of institutional spending instead of depending on scattered manual summaries.',
+					'The role also gave me room to apply machine learning to academic and evaluation workflows. I developed an XGBoost-based student performance prediction workflow using academic history and entrance-score data, mapping predictions to standardized concession brackets. This helped make concession planning more structured, consistent, and data-informed.',
+					'And then I fine-tuned a GPT-2 model as an LLM-based evaluator using 5K+ historical student response samples and scoring labels. I documented preprocessing steps, evaluation logic, assumptions, and reporting workflows so the AI-assisted evaluation process could be reviewed, repeated, and explained clearly. The goal was not to replace judgment blindly, but to make evaluation more consistent, auditable, and less dependent on scattered manual review.',
 				],
 			},
 		],
 	},
+
+
 	{
 		id: 2,
 		category: 'Assistantships',
