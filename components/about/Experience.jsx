@@ -12,7 +12,7 @@ const experienceGroups = [
 				period: 'May 2023 - Apr 2024',
 				type: 'Data Analytics • Machine Learning • MLOps',
 				points: [
-					'At Sree Nirman, the project started with a familiar data problem: the data existed, but trust in the data did not.',
+					'At Sree Nirman, the project started with a familiar data problem: the data existed, but do not know what to do with it.',
 					'I worked with 50K+ construction cost and operations records where missing values, schema mismatches, outliers, and inconsistent cost entries made reporting difficult to rely on. Before any dashboard or model could make sense, the foundation had to be fixed. I cleaned, normalized, validated, and structured the data using SQL, Python, Pandas, and NumPy, turning scattered construction records into datasets that were ready for analysis, reporting, and machine learning.',
 					'Once the data became usable, I moved into the deeper question: why were project costs drifting? I analyzed material, labor, timeline, and cost data to uncover budget variance patterns, resource utilization gaps, productivity signals, and operational inefficiencies. The work was not just about finding numbers that looked unusual. It was about understanding what those numbers were trying to say about project planning, cost control, and execution.',
 					'From there, I built regression-based construction cost estimation models using engineered features from historical project data. I compared model behavior using RMSE and R², tracked 10+ MLflow experiments, and studied which cost drivers actually helped prediction quality. This helped me move beyond “the model gives an answer” toward a more useful question: which inputs explain the answer, and can stakeholders trust it?',
