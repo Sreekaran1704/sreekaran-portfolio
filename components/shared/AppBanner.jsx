@@ -93,16 +93,16 @@ function AppBanner() {
 
 						<div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
 							<a
-								href="/files/Analyst.pdf"
-								download="Analyst.pdf"
+								href="/files/Data_Analyst.pdf"
+								download="Data_Analyst.pdf"
 								className="rounded-full bg-white/80 px-5 py-3 text-center text-sm font-medium text-indigo-600 shadow-sm duration-300 hover:bg-white dark:bg-white/10 dark:text-indigo-200 dark:hover:bg-white/20"
 							>
 								Data Analyst
 							</a>
 
 							<a
-								href="/files/Data_Science.pdf"
-								download="Data_Science.pdf"
+								href="/files/DataScience.pdf"
+								download="DataScience.pdf"
 								className="rounded-full bg-white/80 px-5 py-3 text-center text-sm font-medium text-indigo-600 shadow-sm duration-300 hover:bg-white dark:bg-white/10 dark:text-indigo-200 dark:hover:bg-white/20"
 							>
 								Data Science
