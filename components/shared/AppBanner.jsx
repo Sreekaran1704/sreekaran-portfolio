@@ -65,7 +65,7 @@ function AppBanner() {
 					className="mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start"
 				>
 					<a
-						href="https://drive.google.com/file/d/1DaqJ9CUIIwFsPXN4q2oYONw9RhrGyjUU/view?usp=sharing"
+						href="https://drive.google.com/file/d/1pFrw6AF9ftb5T-YWQIMjhhTpZ8tL-rpg/view?usp=sharing"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="glass-button font-general-medium rounded-full px-8 py-4 text-base text-white duration-300"
