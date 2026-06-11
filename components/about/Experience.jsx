@@ -12,14 +12,13 @@ const experienceGroups = [
 				period: 'May 2023 - Apr 2024',
 				type: 'Data Analytics • Machine Learning • MLOps',
 				points: [
-					'At Sree Nirman, the project started with a familiar data problem: the data existed, but do not know what to do with it.',
-					'I worked with 50K+ construction cost and operations records where missing values, schema mismatches, outliers, and inconsistent cost entries made reporting difficult to rely on. Before any dashboard or model could make sense, the foundation had to be fixed. I cleaned, normalized, validated, and structured the data using SQL, Python, Pandas, and NumPy, turning scattered construction records into datasets that were ready for analysis, reporting, and machine learning.',
-					'Once the data became usable, I moved into the deeper question: why were project costs drifting? I analyzed material, labor, timeline, and cost data to uncover budget variance patterns, resource utilization gaps, productivity signals, and operational inefficiencies. The work was not just about finding numbers that looked unusual. It was about understanding what those numbers were trying to say about project planning, cost control, and execution.',
-					'From there, I built regression-based construction cost estimation models using engineered features from historical project data. I compared model behavior using RMSE and R², tracked 10+ MLflow experiments, and studied which cost drivers actually helped prediction quality. This helped me move beyond “the model gives an answer” toward a more useful question: which inputs explain the answer, and can stakeholders trust it?',
-					'To make the insights easier to use, I translated the analysis into Tableau dashboards and stakeholder-facing reports that showed cost trends, budget variance, productivity gaps, and operational risks. These dashboards improved reporting reliability by 30% and helped shift the work from raw numbers sitting in files to planning insights that engineering and operations teams could actually discuss.',
-					'I also helped give the project an end-to-end shape by connecting the machine learning work to deployment. I packaged the trained model as a FastAPI inference service, containerized it with Docker, deployed it on AWS EC2, and supported CI/CD workflows with GitHub Actions. By the end, the work covered the full path: messy data, clean datasets, statistical analysis, feature engineering, model evaluation, dashboard reporting, and production-style model serving.',
+					'At Sree Nirman, the problem was not a lack of data. The problem was that construction cost, labor, material, and project records were scattered, inconsistent, and difficult to trust for planning decisions.',
+					'I started by working with 50K+ construction cost and operations records, cleaning missing values, schema mismatches, outliers, duplicate entries, and inconsistent cost fields using SQL, Python, Pandas, and NumPy. Before building dashboards or models, I focused on making the data usable, structured, and analysis-ready.',
+					'Once the data foundation was stronger, I analyzed material costs, labor utilization, timeline delays, budget variance, and project-level performance patterns to understand why costs were drifting and where operational inefficiencies were showing up.',
+					'I built regression-based construction cost estimation models using historical project, labor, material, location, budget, and progress data. I engineered features, compared model performance using RMSE and R², and tracked 10+ MLflow experiments to evaluate which cost drivers actually improved prediction quality.',
+					'To make the analysis useful beyond the model, I developed Tableau dashboards and reporting views that translated raw construction records into cost trends, budget variance insights, productivity gaps, and operational risk indicators, improving reporting reliability by 30%.',
+					'I also helped connect the analytics work to deployment by packaging the trained model as a FastAPI inference service, containerizing it with Docker, deploying it on AWS EC2, and supporting CI/CD workflows with GitHub Actions. The project gave me end-to-end exposure across data cleaning, analysis, modeling, reporting, and production-style model serving.',
 				],
-
 			},
 			{
 				id: 2,
@@ -28,18 +27,20 @@ const experienceGroups = [
 				period: 'Apr 2022 - Jan 2023',
 				type: 'Financial Analytics • Data Science • Applied AI',
 				points: [
-					'At Avanthi High School, the challenge was not that data was missing. The challenge was that the data was scattered across different parts of the institution and difficult to turn into decisions.',
-					'Then I worked with 12K+ student records and 50K+ financial and operational records across hostel, academics, sports, and administrative departments. The records had inconsistent entries, missing values, fragmented formats, and reporting gaps that made it hard to clearly understand spending behavior. I cleaned, validated, and standardized the data using Python, Excel, and statistical analysis, improving data quality and consistency by 30%.',
-					'After cleaning the data, I focused on the financial story behind it. I analyzed department-wise expenditure, budget variance, category-level spending, and recurring anomalies to understand where expenses were increasing and where money was quietly leaking. Using EDA, variance analysis, trend analysis, distribution analysis, regression analysis, and hypothesis testing, I identified over-budget areas and 10–15% potential cost-saving opportunities.',
-					'Then I built monthly dashboards and Excel-based reports that tracked spending trends, department-level expenses, budget variance, and category-level financial behavior. These reports reduced reporting turnaround time by 20% and gave administrators a clearer view of institutional spending instead of depending on scattered manual summaries.',
-					'The role also gave me room to apply machine learning to academic and evaluation workflows. I developed an XGBoost-based student performance prediction workflow using academic history and entrance-score data, mapping predictions to standardized concession brackets. This helped make concession planning more structured, consistent, and data-informed.',
-					'And then I fine-tuned a GPT-2 model as an LLM-based evaluator using 5K+ historical student response samples and scoring labels. I documented preprocessing steps, evaluation logic, assumptions, and reporting workflows so the AI-assisted evaluation process could be reviewed, repeated, and explained clearly. The goal was not to replace judgment blindly, but to make evaluation more consistent, auditable, and less dependent on scattered manual review.',
+					'At Avanthi High School, I inherited a familiar institutional data problem: the school had years of financial, academic, and operational records, but no clean structure to turn those records into reliable decisions.',
+					'I worked with 12K+ fragmented student financial records and 50K+ institutional expense records across fee collections, scholarships, hostel, dining, academics, activities, and administration. The data had duplicate entries, inconsistent fee formats, missing values, subjective scholarship records, and no standardized schema.',
+					'I built the school’s analytics foundation from scratch using SQL, Python, Excel, and Tableau, cleaning, normalizing, deduplicating, reconciling, and validating fee, scholarship, and expense records. This improved financial reporting accuracy and consistency by 30%.',
+					'Once the data became reliable, I analyzed fee collections, department spending, budget variance, category-level costs, collection gaps, scholarship patterns, and monthly financial performance to understand where money was leaking and where spending was drifting beyond plan.',
+					'I performed variance analysis, anomaly detection, spend-pattern analysis, trend analysis, and distribution checks across 50K+ expense records, identifying over-budget categories, abnormal spending behavior, collection gaps, and 10–15% cost-saving opportunities for leadership review.',
+					'I built recurring Excel reports, Tableau dashboards, and leadership summaries that gave administrators a clearer view of fee collections, department expenses, budget variance, and category-level financial performance, helping move the school from operating loss to break-even within four months.',
+					'I also worked on the school’s scholarship decision problem, where manual fee scholarships were inconsistent and sometimes influenced by counter-level bias. I validated historical concession labels with principal-approved records before using them for downstream modeling.',
+					'I engineered academic and financial features from admission test scores, prior-grade performance, fee category, and a 70/30 academic weighting structure, then built a regression-based scholarship estimation workflow to support more consistent and data-informed scholarship decisions.',
+					'To strengthen the AI-assisted decision workflow, I fine-tuned a GPT-2 model on historical admission and student-response samples with scoring labels, combining model outputs with structured scholarship logic to create a more stable recommendation signal for leadership review.',
+					'I documented preprocessing steps, label validation logic, model assumptions, dashboard definitions, and reporting workflows so the school could review, repeat, and explain the analytics process instead of depending on scattered manual judgment.',
 				],
 			},
 		],
 	},
-
-
 	{
 		id: 2,
 		category: 'Assistantships',
@@ -53,9 +54,10 @@ const experienceGroups = [
 				period: 'Aug 2025 - May 2026',
 				type: 'Technical Support • Data Workflows • Student Mentoring',
 				points: [
-					'Mentored undergraduate students on data analysis workflows, helping them think through statistics, EDA, data validation, reproducibility, and structured data handling. The work often involved helping students move from “my output does not make sense” to a cleaner workflow where data, assumptions, and analysis steps could be checked.',
-					'Reviewed datasets and analytical outputs to identify inconsistencies, reproducibility gaps, unclear assumptions, and documentation issues. I helped students troubleshoot these problems so their work became easier to validate, repeat, and explain.',
-					'Supported day-to-day university lab operations by assisting users with hardware/software issues, maintaining lab system documentation, and helping keep student-facing technical support workflows consistent. This gave me experience working at the intersection of technical troubleshooting, user support, and reliable system operations.',
+					'At UMKC, my work starts when something does not behave the way a student expected: a dataset looks wrong, an output does not make sense, or a workflow is hard to reproduce.',
+					'I mentored undergraduate students on statistics, EDA, data validation, reproducibility, and structured data handling, helping them move from unclear outputs to cleaner workflows where assumptions, data quality, and analysis steps could be checked.',
+					'I reviewed datasets, assignments, and analytical outputs to identify inconsistencies, missing assumptions, reproducibility gaps, unclear documentation, and validation issues, helping students make their work easier to explain and repeat.',
+					'I also supported daily university lab operations by assisting users with hardware and software issues, maintaining lab system documentation, and helping keep student-facing technical support workflows consistent, reliable, and easy to follow.',
 				],
 			},
 		],
@@ -67,7 +69,7 @@ function Experience() {
 		<section className="py-10 sm:py-16">
 			<div className="container mx-auto">
 				<div className="mb-10 max-w-3xl">
-					<h1 className="font-general-semibold text-4xl sm:text-5xl text-primary-dark dark:text-primary-light tracking-tight">
+					<h1 className="font-general-semibold text-4xl tracking-tight text-primary-dark dark:text-primary-light sm:text-5xl">
 						Experience
 					</h1>
 
@@ -82,14 +84,14 @@ function Experience() {
 						<div key={group.id}>
 							<div className="mb-6">
 								<div className="mb-4 flex items-center gap-4">
-									<h2 className="font-general-semibold text-2xl sm:text-3xl text-primary-dark dark:text-primary-light tracking-tight">
+									<h2 className="font-general-semibold text-2xl tracking-tight text-primary-dark dark:text-primary-light sm:text-3xl">
 										{group.category}
 									</h2>
 
 									<div className="h-px flex-1 bg-gradient-to-r from-indigo-400/60 to-transparent" />
 								</div>
 
-								<p className="max-w-3xl text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+								<p className="max-w-3xl text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg">
 									{group.description}
 								</p>
 							</div>
@@ -98,7 +100,7 @@ function Experience() {
 								{group.items.map((experience) => (
 									<div
 										key={experience.id}
-										className="glass-card rounded-3xl p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+										className="glass-card rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-8"
 									>
 										<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 											<div>
@@ -106,7 +108,7 @@ function Experience() {
 													{experience.type}
 												</p>
 
-												<h3 className="font-general-semibold text-2xl sm:text-3xl text-primary-dark dark:text-primary-light">
+												<h3 className="font-general-semibold text-2xl text-primary-dark dark:text-primary-light sm:text-3xl">
 													{experience.role}
 												</h3>
 
@@ -124,7 +126,7 @@ function Experience() {
 											{experience.points.map((point) => (
 												<li
 													key={point}
-													className="flex gap-3 text-base sm:text-lg leading-relaxed text-ternary-dark dark:text-ternary-light"
+													className="flex gap-3 text-base leading-relaxed text-ternary-dark dark:text-ternary-light sm:text-lg"
 												>
 													<span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-indigo-500" />
 													<span>{point}</span>

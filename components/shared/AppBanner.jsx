@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import useThemeSwitcher from '../../hooks/useThemeSwitcher';
 
 function AppBanner() {
 	const [activeTheme] = useThemeSwitcher();
-	const [showResumeOptions, setShowResumeOptions] = useState(false);
 
 	return (
 		<motion.section
@@ -14,7 +12,7 @@ function AppBanner() {
 			className="glass-card mt-24 flex flex-col-reverse items-center justify-between gap-12 rounded-[2rem] px-6 py-12 sm:px-10 lg:flex-row lg:px-16 lg:py-16"
 		>
 			{/* Left text */}
-			<div className="w-full lg:w-1/2 text-center lg:text-left">
+			<div className="w-full text-center lg:w-1/2 lg:text-left">
 				<motion.h1
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -25,12 +23,12 @@ function AppBanner() {
 					}}
 					className="leading-tight tracking-tight text-primary-dark dark:text-primary-light"
 				>
-					<span className="block font-bold text-3xl sm:text-4xl lg:text-6xl">
+					<span className="block text-3xl font-bold sm:text-4xl lg:text-6xl">
 						Hello, Sreekaran here! 👋
 					</span>
 
-					<span className="mt-5 block max-w-4xl font-normal text-2xl leading-snug text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
-						I read the footprints businesses leave in their data.
+					<span className="mt-5 block max-w-3xl text-2xl font-normal leading-snug text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
+						I try to investigate the the footprints businesses leave in their data.
 					</span>
 				</motion.h1>
 
@@ -42,13 +40,17 @@ function AppBanner() {
 						duration: 0.9,
 						delay: 0.2,
 					}}
-					className="mt-7 max-w-2xl space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base lg:mx-0 mx-auto"
+					className="mx-auto mt-7 max-w-2xl space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base lg:mx-0"
 				>
 					<p>
-
-					</p>
-					<p>
-						From school fee records to construction costs, every dataset I’ve worked with carried a trail: overspending, missed revenue, inconsistent decisions, delayed progress, or hidden risk. I follow those trails with SQL, Python, Tableau, Machine Learning, and Applied AI, while continuously learning new tools that help me work sharper, faster, and closer to the real problem. My goal is to turn scattered records into dashboards, prediction models, and provide insights to make better decisions which help teams see what their data has been trying to say.
+						From school fee records to construction costs, every dataset I’ve
+						worked with carried a trail: overspending, missed revenue,
+						inconsistent decisions, delayed progress, or hidden risk. I follow
+						those trails with SQL, Python, Tableau, Machine Learning, and
+						Applied AI, while continuously learning new tools that help me work
+						sharper, faster, and closer to the real problem. My goal is to turn
+						scattered records into dashboards, prediction models, and insights
+						that help teams see what their data has been trying to say.
 					</p>
 				</motion.div>
 
@@ -62,15 +64,14 @@ function AppBanner() {
 					}}
 					className="mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start"
 				>
-					<button
-						type="button"
-						onClick={() => setShowResumeOptions(!showResumeOptions)}
+					<a
+						href="https://drive.google.com/file/d/1DaqJ9CUIIwFsPXN4q2oYONw9RhrGyjUU/view?usp=sharing"
+						target="_blank"
+						rel="noopener noreferrer"
 						className="glass-button font-general-medium rounded-full px-8 py-4 text-base text-white duration-300"
-						aria-expanded={showResumeOptions}
-						aria-controls="resume-options"
 					>
-						Download Resume
-					</button>
+						View Resume
+					</a>
 
 					<a
 						href="mailto:sreekaran.2021@gmail.com"
@@ -79,45 +80,6 @@ function AppBanner() {
 						Contact Me
 					</a>
 				</motion.div>
-
-				{showResumeOptions && (
-					<div
-						id="resume-options"
-						className="glass-card mt-6 max-w-2xl rounded-3xl p-5 text-left"
-					>
-						<p className="mb-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-							Resume note: All three versions reflect the same core experience,
-							but each one is tailored to highlight the projects, tools, and
-							responsibilities most relevant to the roles they are specified for, i.e., Data Analyst, Data Science, or ML Engineering roles.
-						</p>
-
-						<div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-							<a
-								href="/files/Data_Analyst.pdf"
-								download="Data_Analyst.pdf"
-								className="rounded-full bg-white/80 px-5 py-3 text-center text-sm font-medium text-indigo-600 shadow-sm duration-300 hover:bg-white dark:bg-white/10 dark:text-indigo-200 dark:hover:bg-white/20"
-							>
-								Data Analyst
-							</a>
-
-							<a
-								href="/files/DataScience.pdf"
-								download="DataScience.pdf"
-								className="rounded-full bg-white/80 px-5 py-3 text-center text-sm font-medium text-indigo-600 shadow-sm duration-300 hover:bg-white dark:bg-white/10 dark:text-indigo-200 dark:hover:bg-white/20"
-							>
-								Data Science
-							</a>
-
-							<a
-								href="/files/ML_Engineer.pdf"
-								download="ML_Engineer.pdf"
-								className="rounded-full bg-white/80 px-5 py-3 text-center text-sm font-medium text-indigo-600 shadow-sm duration-300 hover:bg-white dark:bg-white/10 dark:text-indigo-200 dark:hover:bg-white/20"
-							>
-								ML Engineer
-							</a>
-						</div>
-					</div>
-				)}
 			</div>
 
 			{/* Right photo */}
@@ -125,7 +87,7 @@ function AppBanner() {
 				initial={{ opacity: 0, scale: 0.95 }}
 				animate={{ opacity: 1, scale: 1 }}
 				transition={{ ease: 'easeInOut', duration: 0.9, delay: 0.2 }}
-				className="flex w-full justify-center lg:w-1/2 lg:justify-center lg:translate-y-8"
+				className="flex w-full justify-center lg:w-1/2 lg:translate-y-8 lg:justify-center"
 			>
 				<div className="glass-card rounded-[2.25rem] p-4">
 					<img
