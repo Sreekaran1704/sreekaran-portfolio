@@ -79,47 +79,49 @@ const skillGroups = [
 
 function Skills() {
 	return (
-		<section className="py-10 sm:py-16">
-			<div className="container mx-auto">
-				<div className="mb-10 max-w-3xl">
-					<h1 className="font-general-semibold text-4xl sm:text-5xl text-primary-dark dark:text-primary-light tracking-tight">
-						Skills
-					</h1>
+		<section className="skills-wall-section px-6 py-16 sm:px-10 lg:px-16">
+			<div className="mx-auto max-w-7xl">
+				<div className="skills-wall-heading-wrap">
+					<h1 className="skills-wall-heading">Skills</h1>
 
-					<p className="mt-4 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+					<p className="skills-wall-intro">
 						A practical toolkit across analytics, machine learning, applied AI,
 						cloud deployment, and data product development.
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					{skillGroups.map((group) => (
-						<div
-							key={group.id}
-							className="glass-card rounded-3xl p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-						>
-							<div className="mb-5">
-								<h2 className="font-general-semibold text-2xl text-primary-dark dark:text-primary-light">
-									{group.title}
-								</h2>
+				<div className="skills-wall-board">
+					<div className="skills-wall-grid">
+						{skillGroups.map((group, index) => (
+							<article
+								key={group.id}
+								className={`sticky-skill-note sticky-skill-note-${(index % 6) + 1}`}
+							>
+								<div className="sticky-note-pin" aria-hidden="true" />
 
-								<p className="mt-3 text-base leading-relaxed text-gray-600 dark:text-gray-300">
-									{group.description}
-								</p>
-							</div>
+								<div className="sticky-note-content">
+									<p className="sticky-note-mini">
+										{group.description}
+									</p>
 
-							<div className="flex flex-wrap gap-2.5">
-								{group.skills.map((skill) => (
-									<span
-										key={skill}
-										className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-600 dark:bg-white/10 dark:text-gray-300"
-									>
-										{skill}
-									</span>
-								))}
-							</div>
-						</div>
-					))}
+									<h2 className="sticky-note-title">
+										{group.title}
+									</h2>
+
+									<div className="sticky-note-skills">
+										{group.skills.map((skill) => (
+											<span
+												key={skill}
+												className="sticky-skill-chip"
+											>
+												{skill}
+											</span>
+										))}
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
 				</div>
 			</div>
 		</section>

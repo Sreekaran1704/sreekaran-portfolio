@@ -1,9 +1,11 @@
 import AppBanner from '../components/shared/AppBanner';
-import HomeProjectsCarousel from '../components/home/HomeProjectsCarousel';
+import ProjectsGrid from '../components/projects/ProjectsGrid';
+import ArticlesGrid from '../components/articles/ArticlesGrid';
 import Skills from '../components/about/Skills';
-import HomeArticlesCarousel from '../components/home/HomeArticlesCarousel';
 import Experience from '../components/about/Experience';
 import PagesMetaHead from '../components/PagesMetaHead';
+import AboutMe from '../components/about/AboutMeBio';
+import ContactDetails from '../components/contact/ContactDetails';
 
 export default function Home() {
 	return (
@@ -12,11 +14,16 @@ export default function Home() {
 
 			<section id="home">
 				<AppBanner />
+				<AboutMe />
 			</section>
 
-			<HomeProjectsCarousel />
+			<section id="projects">
+				<ProjectsGrid />
+			</section>
 
-			<HomeArticlesCarousel />
+			<section id="articles">
+				<ArticlesGrid />
+			</section>
 
 			<section id="experience">
 				<Experience />
@@ -26,6 +33,9 @@ export default function Home() {
 				<Skills />
 			</section>
 
+			<section id="contact">
+				<ContactDetails />
+			</section>
 		</div>
 	);
 }

@@ -1,102 +1,292 @@
 import { motion } from 'framer-motion';
-import useThemeSwitcher from '../../hooks/useThemeSwitcher';
+import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+
+const workCards = [
+	{
+		id: 'sree-dashboard',
+		label: 'Dashboard',
+		title: 'Sree Nirman',
+		art: 'dashboard1',
+		metric: '50K+',
+		note: 'validated reporting records',
+	},
+	{
+		id: 'avanthi-dashboard',
+		label: 'Dashboard',
+		title: 'Avanthi High School',
+		art: 'dashboard2',
+		metric: '30%',
+		note: 'reporting accuracy improved',
+	},
+	{
+		id: 'sree-ml',
+		label: 'ML Pipeline',
+		title: 'Sree Nirman Pricing',
+		art: 'ml',
+		metric: '±20%',
+		note: 'tender bid-range guidance',
+	},
+	{
+		id: 'umkc',
+		label: 'Academics',
+		title: 'UMKC',
+		art: 'umkc',
+		metric: '3.97',
+		note: 'M.S. Computer Science GPA',
+	},
+	{
+		id: 'lora-story',
+		label: 'System Design',
+		title: 'LoRA Story Generator',
+		art: 'lora',
+		metric: '4-step',
+		note: 'genre-controlled story pipeline',
+	},
+];
+
+function renderDoodleArt(type) {
+	switch (type) {
+		case 'dashboard1':
+			return (
+				<div className="doodle-art">
+					<div className="doodle-grid">
+						<div className="kpi-box">
+							<span className="tiny-note">Records</span>
+							<strong>50K+</strong>
+						</div>
+
+						<div className="chart-box wide">
+							<span className="tiny-note">Project Trend</span>
+							<div className="mini-bar-chart">
+								<span style={{ height: '32%' }} />
+								<span style={{ height: '48%' }} />
+								<span style={{ height: '56%' }} />
+								<span style={{ height: '78%' }} />
+								<span style={{ height: '68%' }} />
+							</div>
+						</div>
+
+						<div className="kpi-box">
+							<span className="tiny-note">Efficiency</span>
+							<strong>15%</strong>
+						</div>
+					</div>
+				</div>
+			);
+
+		case 'dashboard2':
+			return (
+				<div className="doodle-art">
+					<div className="doodle-grid">
+						<div className="kpi-box">
+							<span className="tiny-note">Students</span>
+							<strong>12K+</strong>
+						</div>
+
+						<div className="kpi-box">
+							<span className="tiny-note">Expenses</span>
+							<strong>50K+</strong>
+						</div>
+
+						<div className="chart-box wide">
+							<span className="tiny-note">Collections / Spend</span>
+							<div className="mini-area-chart" />
+						</div>
+					</div>
+				</div>
+			);
+
+		case 'ml':
+			return (
+				<div className="doodle-art">
+					<div className="pipeline-stack">
+						<div className="pipeline-row">
+							<div className="pipeline-node">Cost Data</div>
+							<div className="pipeline-arrow">→</div>
+							<div className="pipeline-node">Cleaning</div>
+						</div>
+
+						<div className="pipeline-row">
+							<div className="pipeline-node">Features</div>
+							<div className="pipeline-arrow">→</div>
+							<div className="pipeline-node">Model</div>
+						</div>
+
+						<div className="pipeline-row">
+							<div className="pipeline-node">Forecast</div>
+							<div className="pipeline-arrow">→</div>
+							<div className="pipeline-node">Bid Range</div>
+						</div>
+					</div>
+				</div>
+			);
+
+		case 'umkc':
+			return (
+				<div className="doodle-art">
+					<div className="umkc-doodle">
+						<img
+							src="/images/umkc.png"
+							alt="UMKC doodle logo"
+							className="umkc-doodle-logo"
+						/>
+						<div className="gpa-badge">3.97 GPA</div>
+					</div>
+				</div>
+			);
+
+		case 'lora':
+			return (
+				<div className="doodle-art">
+					<div className="lora-flow">
+						<div className="lora-box">Prompt</div>
+						<div className="lora-arrow">↓</div>
+						<div className="lora-box">Genre Control</div>
+						<div className="lora-arrow">↓</div>
+						<div className="lora-box">LoRA Model</div>
+						<div className="lora-arrow">↓</div>
+						<div className="lora-box">Story Output</div>
+					</div>
+				</div>
+			);
+
+		default:
+			return null;
+	}
+}
 
 function AppBanner() {
-	const [activeTheme] = useThemeSwitcher();
-
 	return (
 		<motion.section
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
-			transition={{ ease: 'easeInOut', duration: 0.9, delay: 0.2 }}
-			className="glass-card mt-24 flex flex-col-reverse items-center justify-between gap-12 rounded-[2rem] px-6 py-12 sm:px-10 lg:flex-row lg:px-16 lg:py-16"
+			transition={{ ease: 'easeInOut', duration: 0.8 }}
+			className="hero-notebook mt-0 min-h-[calc(100vh-72px)] w-full"
 		>
-			{/* Left text */}
-			<div className="w-full text-center lg:w-1/2 lg:text-left">
-				<motion.h1
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{
-						ease: 'easeInOut',
-						duration: 0.9,
-						delay: 0.1,
-					}}
-					className="leading-tight tracking-tight text-primary-dark dark:text-primary-light"
-				>
-					<span className="block text-3xl font-bold sm:text-4xl lg:text-6xl">
-						Hello, Sreekaran here! 👋
-					</span>
-
-					<span className="mt-5 block max-w-3xl text-2xl font-normal leading-snug text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
-						I try to investigate the the footprints businesses leave in their data.
-					</span>
-				</motion.h1>
-
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{
-						ease: 'easeInOut',
-						duration: 0.9,
-						delay: 0.2,
-					}}
-					className="mx-auto mt-7 max-w-2xl space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base lg:mx-0"
-				>
-					<p>
-						From school fee records to construction costs, every dataset I’ve
-						worked with carried a trail: overspending, missed revenue,
-						inconsistent decisions, delayed progress, or hidden risk. I follow
-						those trails with SQL, Python, Tableau, Machine Learning, and
-						Applied AI, while continuously learning new tools that help me work
-						sharper, faster, and closer to the real problem. My goal is to turn
-						scattered records into dashboards, prediction models, and insights
-						that help teams see what their data has been trying to say.
-					</p>
-				</motion.div>
-
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{
-						ease: 'easeInOut',
-						duration: 0.9,
-						delay: 0.3,
-					}}
-					className="mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start"
-				>
-					<a
-						href="https://drive.google.com/file/d/1pFrw6AF9ftb5T-YWQIMjhhTpZ8tL-rpg/view?usp=sharing"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="glass-button font-general-medium rounded-full px-8 py-4 text-base text-white duration-300"
+			<div className="grid min-h-[calc(100vh-72px)] grid-cols-1 lg:grid-cols-2">
+				{/* Left ruled notebook side */}
+				<div className="hero-left-paper flex items-start border-r border-stone-500/40 px-6 pb-14 pt-24 sm:px-10 lg:px-16 lg:pt-28">
+					<motion.div
+						initial={{ opacity: 0, y: 24 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.65, ease: 'easeOut', delay: 0.1 }}
+						className="max-w-2xl"
 					>
-						View Resume
-					</a>
+						<div className="scribble-badge mb-8 inline-flex items-center px-1 py-1">
+							<span className="mr-3 h-2 w-2 rounded-full bg-stone-700" />
+							<p className="hero-label text-[0.9rem] font-semibold text-stone-700">
+								Open to Work · 2026
+							</p>
+						</div>
 
-					<a
-						href="mailto:sreekaran.2021@gmail.com"
-						className="font-general-medium rounded-full border border-gray-200 bg-white/70 px-8 py-4 text-base text-primary-dark shadow-sm duration-300 hover:border-indigo-400 hover:text-indigo-500 dark:border-white/10 dark:bg-white/10 dark:text-primary-light dark:hover:text-indigo-300"
-					>
-						Contact Me
-					</a>
-				</motion.div>
-			</div>
+						<h1 className="hero-name mb-4 text-4xl font-semibold leading-none text-stone-900 sm:text-5xl lg:text-[3.4rem]">
+							Sreekaran Reddy
+						</h1>
 
-			{/* Right photo */}
-			<motion.div
-				initial={{ opacity: 0, scale: 0.95 }}
-				animate={{ opacity: 1, scale: 1 }}
-				transition={{ ease: 'easeInOut', duration: 0.9, delay: 0.2 }}
-				className="flex w-full justify-center lg:w-1/2 lg:translate-y-8 lg:justify-center"
-			>
-				<div className="glass-card rounded-[2.25rem] p-4">
-					<img
-						className="h-[520px] w-[390px] rounded-[1.75rem] object-cover object-[center_45%] shadow-2xl"
-						src="/images/sreekaran3.jpg"
-						alt="Sreekaran Reddy"
-					/>
+						<h2 className="hero-subtitle mb-7 max-w-xl text-xl font-semibold leading-snug text-stone-700 sm:text-2xl lg:text-[1.7rem]">
+							Data Analyst · Applied AI Builder · MS Computer Science at UMKC
+						</h2>
+
+						<div className="mb-8 border-l-4 border-[#b9b982] pl-5">
+							<p className="hero-quote max-w-xl text-lg leading-relaxed text-stone-700 sm:text-xl">
+								“I investigate the footprints businesses leave in their data and turn scattered records into decisions people can trust.”
+							</p>
+						</div>
+
+						<div className="mb-8 flex flex-wrap items-center gap-5">
+							<a
+								href="https://drive.google.com/file/d/1pFrw6AF9ftb5T-YWQIMjhhTpZ8tL-rpg/view?usp=sharing"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="doodle-resume-btn inline-flex items-center gap-3 px-6 py-3 text-sm"
+							>
+								View Resume
+								<FiArrowRight />
+							</a>
+
+							<div className="flex items-center gap-3">
+								<a
+									href="https://github.com/Sreekaran1704"
+									target="_blank"
+									rel="noreferrer"
+									aria-label="GitHub"
+									className="doodle-icon-btn rotate-[-4deg]"
+								>
+									<FiGithub />
+								</a>
+
+								<a
+									href="https://www.linkedin.com/in/sree1704"
+									target="_blank"
+									rel="noreferrer"
+									aria-label="LinkedIn"
+									className="doodle-icon-btn rotate-[3deg]"
+								>
+									<FiLinkedin />
+								</a>
+
+								<a
+									href="mailto:sreekaran.2021@gmail.com"
+									aria-label="Email"
+									className="doodle-icon-btn rotate-[-2deg]"
+								>
+									<FiMail />
+								</a>
+							</div>
+						</div>
+
+						{/* <p className="max-w-xl font-general-regular text-sm leading-7 text-stone-600 sm:text-[0.95rem]">
+							From school fee records to construction costs, every dataset I have worked with carried a trail:
+							overspending, missed revenue, inconsistent decisions, delayed progress, or hidden risk. I follow those
+							trails with SQL, Python, Tableau, machine learning, and applied AI to build dashboards, validation
+							workflows, pricing logic, and decision-support systems.
+						</p> */}
+					</motion.div>
 				</div>
-			</motion.div>
+
+				{/* Right side card deck */}
+				{/* Right side card deck */}
+				<div className="hero-right-paper relative overflow-hidden px-6 pb-16 pt-20 sm:px-10 lg:px-12 lg:pt-24">
+					<motion.div
+						initial={{ opacity: 0, x: 28 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.7, ease: 'easeOut', delay: 0.18 }}
+						className="deck-spread"
+					>
+						{workCards.map((card, index) => (
+							<motion.div
+								key={card.id}
+								whileHover={{ y: -12, rotate: 0, scale: 1.03 }}
+								transition={{ duration: 0.24 }}
+								className={`deck-card deck-card-${index + 1}`}
+								tabIndex={0}
+							>
+								<div className="deck-card-pin" />
+
+								<div className="deck-card-content">
+									<p className="deck-card-label">{card.label}</p>
+									<h4 className="deck-card-title">{card.title}</h4>
+
+									<div className="deck-card-art">
+										{renderDoodleArt(card.art)}
+									</div>
+								</div>
+
+								<div className="deck-hover-overlay">
+									<div className="deck-hover-art">
+										{renderDoodleArt(card.art)}
+									</div>
+
+									<div className="deck-hover-stat">
+										<span className="deck-hover-metric">{card.metric}</span>
+										<p className="deck-hover-note">{card.note}</p>
+									</div>
+								</div>
+							</motion.div>
+						))}
+					</motion.div>
+				</div>
+			</div>
 		</motion.section>
 	);
 }

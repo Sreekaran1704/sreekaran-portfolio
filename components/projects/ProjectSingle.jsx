@@ -1,42 +1,81 @@
 import Link from 'next/link';
 
-function ProjectSingle({ title, url, githubUrl, category, ProjectInfo }) {
+function getProjectMetric(title, category) {
+	if (title.includes('Story')) {
+		return {
+			metric: 'QLoRA',
+			note: 'genre-controlled story generation',
+		};
+	}
+
+	if (title.includes('Readmission')) {
+		return {
+			metric: '100K+',
+			note: 'hospital records studied',
+		};
+	}
+
+	if (title.includes('Vehicle')) {
+		return {
+			metric: 'MLOps',
+			note: 'DVC, FastAPI, AWS pipeline',
+		};
+	}
+
+	if (title.includes('RecommenderX')) {
+		return {
+			metric: 'Cloud',
+			note: 'movie SaaS with AI support',
+		};
+	}
+
+	if (title.includes('Student')) {
+		return {
+			metric: 'EDA',
+			note: 'student performance insights',
+		};
+	}
+
+	return {
+		metric: category,
+		note: 'applied analytics project',
+	};
+}
+
+function ProjectSingle({ title, url, githubUrl, category, ProjectInfo, cardIndex = 0 }) {
 	const techs = ProjectInfo?.Technologies?.[0]?.techs || [];
+
 	const shortDescription =
 		ProjectInfo?.ObjectivesDetails ||
 		'A selected project focused on data, machine learning, applied AI, or cloud systems.';
 
+	const { metric, note } = getProjectMetric(title, category);
+
 	return (
-		<div className="glass-card group flex h-full flex-col justify-between rounded-3xl p-7 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-			<div>
-				<p className="mb-4 inline-flex rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-600 dark:bg-white/10 dark:text-gray-300">
-					{category}
-				</p>
+		<article className={`notice-project-card notice-project-card-${(cardIndex % 5) + 1}`}>
+			<div className="notice-pin" />
 
-				<h3 className="font-general-semibold mb-5 text-2xl leading-snug text-primary-dark dark:text-primary-light">
-					{title}
-				</h3>
+			<div className="notice-category-tag">{category}</div>
 
-				<p className="font-general-regular mb-6 text-base leading-relaxed text-gray-600 dark:text-gray-300">
-					{shortDescription}
-				</p>
+			<h3 className="notice-project-title">{title}</h3>
 
-				<div className="mb-7 flex flex-wrap gap-2">
-					{techs.slice(0, 6).map((tech) => (
-						<span
-							key={tech}
-							className="rounded-full bg-gray-100 px-4 py-2 text-sm text-gray-600 dark:bg-white/10 dark:text-gray-300"
-						>
-							{tech}
-						</span>
-					))}
-				</div>
+			<p className="notice-project-description">{shortDescription}</p>
+
+			<div className="notice-project-impact">
+				<strong>{metric}</strong>
+				<span>{note}</span>
 			</div>
 
-			<div className="flex flex-wrap gap-3">
+			<div className="notice-tech-list">
+				{techs.slice(0, 5).map((tech) => (
+					<span key={tech}>{tech}</span>
+				))}
+			</div>
+
+			<div className="notice-project-actions">
 				<Link
 					href={`/projects/${url}`}
-					className="font-general-medium inline-flex w-fit items-center rounded-full border border-gray-200 bg-white/70 px-5 py-3 text-base text-primary-dark transition-all duration-300 hover:border-indigo-400 hover:text-indigo-500 dark:border-white/10 dark:bg-white/10 dark:text-primary-light dark:hover:text-indigo-300"
+					className="notice-link-btn"
 					aria-label={`View details for ${title}`}
 				>
 					View Details →
@@ -47,14 +86,14 @@ function ProjectSingle({ title, url, githubUrl, category, ProjectInfo }) {
 						href={githubUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="font-general-medium inline-flex w-fit items-center rounded-full bg-indigo-500 px-5 py-3 text-base text-white transition-all duration-300 hover:bg-indigo-600"
+						className="notice-link-btn notice-link-outline"
 						aria-label={`View GitHub repository for ${title}`}
 					>
 						GitHub →
 					</a>
 				)}
 			</div>
-		</div>
+		</article>
 	);
 }
 

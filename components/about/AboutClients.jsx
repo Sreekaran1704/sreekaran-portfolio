@@ -7,7 +7,7 @@ function AboutClients() {
 	const [clients, setClients] = useState(clientsData);
 	return (
 		<div className="mt-10 sm:mt-20">
-			<p className="font-general-medium text-2xl sm:text-3xl  text-center text-primary-dark dark:text-primary-light">
+			<p className="paper-clients-heading text-2xl sm:text-3xl text-center">
 				{clientsHeading}
 			</p>
 			<div className="grid grid-cols-2 sm:grid-cols-4 mt-10 sm:mt-14 gap-2">

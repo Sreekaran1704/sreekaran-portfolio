@@ -65,77 +65,113 @@ const experienceGroups = [
 ];
 
 function Experience() {
-	return (
-		<section className="py-10 sm:py-16">
-			<div className="container mx-auto">
-				<div className="mb-10 max-w-3xl">
-					<h1 className="font-general-semibold text-4xl tracking-tight text-primary-dark dark:text-primary-light sm:text-5xl">
-						Experience
-					</h1>
+	const displayOrder = [3, 1, 2];
 
-					<p className="mt-4 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+	const allExperienceItems = displayOrder
+		.map((id) => {
+			for (const group of experienceGroups) {
+				const foundItem = group.items.find((item) => item.id === id);
+
+				if (foundItem) {
+					return {
+						...foundItem,
+						category: group.category,
+					};
+				}
+			}
+
+			return null;
+		})
+		.filter(Boolean);
+
+	return (
+		<section className="experience-tower-section px-6 py-16 sm:px-10 lg:px-16">
+			<div className="mx-auto max-w-7xl">
+				<div className="experience-tower-heading-wrap">
+					<h1 className="experience-tower-heading">Experience</h1>
+
+					<p className="experience-tower-intro">
 						A combined view of my analytics, data science, machine learning,
 						applied AI, MLOps, reporting, and technical support experience.
 					</p>
 				</div>
 
-				<div className="space-y-12">
-					{experienceGroups.map((group) => (
-						<div key={group.id}>
-							<div className="mb-6">
-								<div className="mb-4 flex items-center gap-4">
-									<h2 className="font-general-semibold text-2xl tracking-tight text-primary-dark dark:text-primary-light sm:text-3xl">
-										{group.category}
-									</h2>
+				<div className="experience-tower-stage">
+					<div className="experience-tower-building" aria-hidden="true">
+						<div className="experience-tower-roof" />
 
-									<div className="h-px flex-1 bg-gradient-to-r from-indigo-400/60 to-transparent" />
-								</div>
-
-								<p className="max-w-3xl text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg">
-									{group.description}
-								</p>
-							</div>
-
-							<div className="grid grid-cols-1 gap-6">
-								{group.items.map((experience) => (
-									<div
-										key={experience.id}
-										className="glass-card rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-8"
-									>
-										<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-											<div>
-												<p className="mb-3 inline-flex rounded-full bg-gray-100 px-4 py-1.5 text-sm font-medium text-gray-600 dark:bg-white/10 dark:text-gray-300">
-													{experience.type}
-												</p>
-
-												<h3 className="font-general-semibold text-2xl text-primary-dark dark:text-primary-light sm:text-3xl">
-													{experience.role}
-												</h3>
-
-												<p className="font-general-medium mt-2 text-lg text-indigo-500">
-													{experience.company}
-												</p>
-											</div>
-
-											<p className="w-fit rounded-full border border-gray-200 bg-white/70 px-4 py-2 text-sm text-gray-500 dark:border-white/10 dark:bg-white/10 dark:text-gray-300">
-												{experience.period}
-											</p>
-										</div>
-
-										<ul className="mt-6 space-y-4">
-											{experience.points.map((point) => (
-												<li
-													key={point}
-													className="flex gap-3 text-base leading-relaxed text-ternary-dark dark:text-ternary-light sm:text-lg"
-												>
-													<span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-indigo-500" />
-													<span>{point}</span>
-												</li>
-											))}
-										</ul>
-									</div>
+						<div className="experience-tower-core">
+							<div className="experience-tower-window-grid">
+								{Array.from({ length: 14 }).map((_, index) => (
+									<span
+										key={index}
+										className="experience-tower-window"
+									/>
 								))}
 							</div>
+						</div>
+
+						<div className="tower-landing tower-landing-1">
+							<span />
+							<span />
+							<span />
+							<span />
+						</div>
+
+						<div className="tower-landing tower-landing-2">
+							<span />
+							<span />
+							<span />
+							<span />
+						</div>
+
+						<div className="tower-landing tower-landing-3">
+							<span />
+							<span />
+							<span />
+							<span />
+						</div>
+					</div>
+
+					{allExperienceItems.map((experience, index) => (
+						<div
+							key={experience.id}
+							className={`experience-tower-card-wrap experience-tower-card-wrap-${index + 1}`}
+						>
+							<article className="experience-tower-card">
+								<div className="experience-card-top">
+									<span className="experience-card-category">
+										{experience.category}
+									</span>
+
+									<span className="experience-card-period">
+										{experience.period}
+									</span>
+								</div>
+
+								<p className="experience-card-type">
+									{experience.type}
+								</p>
+
+								<h3 className="experience-card-role">
+									{experience.role}
+								</h3>
+
+								<p className="experience-card-company">
+									{experience.company}
+								</p>
+
+								<ul className="experience-card-points">
+									{experience.points.map((point) => (
+										<li key={point}>
+											<span className="experience-card-bullet">
+												✦
+											</span>
+											<p>{point}</p>
+										</li>
+									))}
+								</ul>
+							</article>
 						</div>
 					))}
 				</div>

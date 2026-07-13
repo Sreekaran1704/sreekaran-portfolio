@@ -1,5 +1,5 @@
 function Button({ title }) {
-	return <button>{title}</button>;
+	return <button className="paper-btn">{title}</button>;
 }
 
 export default Button;

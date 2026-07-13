@@ -17,9 +17,9 @@ function PagesMetaHead({ title, keywords, description }) {
 }
 
 PagesMetaHead.defaultProps = {
-	title: 'Next.js & TailwindCSS Portfolio Project',
-	keywords: 'next.js, react, web, ui',
-	keywords: 'Simple and multi-page next.js and react application',
+	title: 'Sreekaran Reddy — Data Analyst & Applied AI Builder',
+	keywords: 'data analyst, applied AI, machine learning, SQL, Python, Tableau, portfolio',
+	description: 'Portfolio of Sreekaran Reddy — Data Analyst, Applied AI Builder, and MS Computer Science graduate at UMKC.',
 };
 
 export default PagesMetaHead;

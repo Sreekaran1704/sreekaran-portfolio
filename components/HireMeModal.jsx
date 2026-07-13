@@ -15,22 +15,23 @@ function HireMeModal({ onClose, onRequest }) {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
-			className="font-general-medium fixed inset-0 z-30 transition-all duration-500"
+			className="fixed inset-0 z-30 transition-all duration-500"
 		>
 			{/* Modal Backdrop */}
-			<div className="bg-filter bg-black bg-opacity-50 fixed inset-0 w-full h-full z-20"></div>
+			<div className="bg-black bg-opacity-50 fixed inset-0 w-full h-full z-20"></div>
 
 			{/* Modal Content */}
 			<main className="flex flex-col items-center justify-center h-full w-full">
 				<div className="modal-wrapper flex items-center z-30">
-					<div className="modal max-w-md mx-5 xl:max-w-xl lg:max-w-xl md:max-w-xl bg-secondary-light dark:bg-primary-dark max-h-screen shadow-lg flex-row rounded-lg relative">
-						<div className="modal-header flex justify-between gap-10 p-5 border-b border-ternary-light dark:border-ternary-dark">
-							<h5 className=" text-primary-dark dark:text-primary-light text-xl">
+					<div className="paper-modal max-w-md mx-5 xl:max-w-xl lg:max-w-xl md:max-w-xl max-h-screen flex-row rounded-lg relative">
+						<div className="paper-modal-header flex justify-between gap-10 p-5">
+							<h5 className="paper-modal-title text-xl">
 								What project are you looking for?
 							</h5>
 							<button
 								onClick={onClose}
-								className="px-4 font-bold text-primary-dark dark:text-primary-light"
+								className="px-4 paper-modal-close"
+								aria-label="Close Modal"
 							>
 								<FiX className="text-3xl" />
 							</button>
@@ -44,7 +45,7 @@ function HireMeModal({ onClose, onRequest }) {
 							>
 								<div className="">
 									<input
-										className="w-full px-5 py-2 border dark:border-secondary-dark rounded-md text-md bg-secondary-light dark:bg-ternary-dark text-primary-dark dark:text-ternary-light"
+										className="paper-form-input w-full px-5 py-2 rounded-md text-md"
 										id="name"
 										name="name"
 										type="text"
@@ -55,7 +56,7 @@ function HireMeModal({ onClose, onRequest }) {
 								</div>
 								<div className="mt-6">
 									<input
-										className="w-full px-5 py-2 border dark:border-secondary-dark rounded-md text-md bg-secondary-light dark:bg-ternary-dark text-primary-dark dark:text-ternary-light"
+										className="paper-form-input w-full px-5 py-2 rounded-md text-md"
 										id="email"
 										name="email"
 										type="text"
@@ -66,7 +67,7 @@ function HireMeModal({ onClose, onRequest }) {
 								</div>
 								<div className="mt-6">
 									<select
-										className="w-full px-5 py-2 border dark:border-secondary-dark rounded-md text-md bg-secondary-light dark:bg-ternary-dark text-primary-dark dark:text-ternary-light"
+										className="paper-select w-full px-5 py-2 rounded-md text-md"
 										id="subject"
 										name="subject"
 										type="text"
@@ -86,7 +87,7 @@ function HireMeModal({ onClose, onRequest }) {
 
 								<div className="mt-6">
 									<textarea
-										className="w-full px-5 py-2 border dark:border-secondary-dark rounded-md text-md bg-secondary-light dark:bg-ternary-dark text-primary-dark dark:text-ternary-light"
+										className="paper-form-input w-full px-5 py-2 rounded-md text-md"
 										id="message"
 										name="message"
 										cols="14"
@@ -100,15 +101,7 @@ function HireMeModal({ onClose, onRequest }) {
 									<span
 										onClick={onRequest}
 										type="submit"
-										className="px-4
-											sm:px-6
-											py-2
-											sm:py-2.5
-											text-white
-											bg-indigo-500
-											hover:bg-indigo-600
-											rounded-md
-											focus:ring-1 focus:ring-indigo-900 duration-500"
+										className="notice-link-btn px-4 sm:px-6 py-2 sm:py-2.5 rounded-md"
 										aria-label="Submit Request"
 									>
 										<Button title="Send Request" />
@@ -116,15 +109,11 @@ function HireMeModal({ onClose, onRequest }) {
 								</div>
 							</form>
 						</div>
-						<div className="modal-footer mt-2 sm:mt-0 py-5 px-8 border0-t text-right">
+						<div className="modal-footer mt-2 sm:mt-0 py-5 px-8 text-right">
 							<span
 								onClick={onClose}
 								type="button"
-								className="px-4
-									sm:px-6
-									py-2 bg-gray-600 text-primary-light hover:bg-ternary-dark dark:bg-gray-200 dark:text-secondary-dark dark:hover:bg-primary-light
-									rounded-md
-									focus:ring-1 focus:ring-indigo-900 duration-500"
+								className="notice-link-btn notice-link-outline px-4 sm:px-6 py-2 rounded-md"
 								aria-label="Close Modal"
 							>
 								<Button title="Close" />
