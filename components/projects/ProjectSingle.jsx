@@ -3,29 +3,29 @@ import Link from 'next/link';
 function getProjectMetric(title, category) {
 	if (title.includes('Story')) {
 		return {
-			metric: 'QLoRA',
-			note: 'genre-controlled story generation',
+			metric: '39.8%',
+			note: 'Perplexity Reduction with QLoRA',
 		};
 	}
 
 	if (title.includes('Readmission')) {
 		return {
-			metric: '100K+',
-			note: 'hospital records studied',
+			metric: 'XGBoost + RAG',
+			note: 'Explainable readmission forecasting',
 		};
 	}
 
 	if (title.includes('Vehicle')) {
 		return {
 			metric: 'MLOps',
-			note: 'DVC, FastAPI, AWS pipeline',
+			note: 'Vehicle Insurance Prediction API',
 		};
 	}
 
 	if (title.includes('RecommenderX')) {
 		return {
-			metric: 'Cloud',
-			note: 'movie SaaS with AI support',
+			metric: 'Cloud SaaS',
+			note: 'Personalized Movie Recommendation App',
 		};
 	}
 
@@ -37,8 +37,8 @@ function getProjectMetric(title, category) {
 	}
 
 	return {
-		metric: category,
-		note: 'applied analytics project',
+		metric: 'LogReg',
+		note: 'Best Student Outcome Classifier',
 	};
 }
 

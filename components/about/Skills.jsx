@@ -1,47 +1,59 @@
 const skillGroups = [
 	{
 		id: 1,
-		title: 'Languages & Analytics',
-		description: 'Core tools I use to query, analyze, and structure data.',
-		skills: ['Python', 'SQL', 'R', 'Excel'],
+		title: 'Analytics & BI',
+		description: 'Tools I use to turn messy business data into decision-ready reporting.',
+		skills: [
+			'SQL',
+			'Python',
+			'Excel',
+			'Tableau',
+			'Tableau Stories',
+			'KPI Reporting',
+			'Dashboard Design',
+			'Stakeholder Reporting',
+		],
 	},
 	{
 		id: 2,
-		title: 'Data & Visualization',
-		description: 'Turning raw datasets into dashboards, KPIs, and insights.',
+		title: 'Data Engineering & Quality',
+		description: 'Cleaning, validating, reconciling, and preparing reliable datasets.',
 		skills: [
 			'Pandas',
 			'NumPy',
-			'Power BI',
-			'Tableau',
 			'Data Cleaning',
-			'EDA',
-			'KPI Reporting',
+			'Data Validation',
+			'Source-to-Report QA',
+			'ETL Workflows',
+			'Schema Standardization',
+			'Reconciliation Checks',
 		],
 	},
 	{
 		id: 3,
 		title: 'Machine Learning',
-		description: 'Building, evaluating, and explaining predictive models.',
+		description: 'Building predictive models for risk, pricing, operations, and outcomes.',
 		skills: [
-			'scikit-learn',
-			'PyTorch',
+			'Scikit-learn',
 			'XGBoost',
-			'Hugging Face',
+			'CatBoost',
+			'Regression',
+			'Classification',
 			'Feature Engineering',
 			'Model Evaluation',
+			'Error Analysis',
 		],
 	},
 	{
 		id: 4,
 		title: 'Applied AI & LLMs',
-		description: 'Fine-tuning, evaluating, and building around language models.',
+		description: 'Fine-tuning, evaluating, and building AI-assisted decision systems.',
 		skills: [
+			'Hugging Face',
+			'PyTorch',
 			'PEFT',
 			'LoRA',
 			'QLoRA',
-			'BitsAndBytes',
-			'Groq API',
 			'RAG',
 			'LLM-as-Judge',
 			'Prompt Engineering',
@@ -49,8 +61,8 @@ const skillGroups = [
 	},
 	{
 		id: 5,
-		title: 'Cloud & MLOps',
-		description: 'Deploying models, tracking experiments, and automating workflows.',
+		title: 'MLOps & Deployment',
+		description: 'Moving models from notebooks into reproducible and deployable systems.',
 		skills: [
 			'MLflow',
 			'DVC',
@@ -60,19 +72,21 @@ const skillGroups = [
 			'AWS S3',
 			'AWS ECR',
 			'GitHub Actions',
-			'Google Cloud Storage',
 		],
 	},
 	{
 		id: 6,
-		title: 'Web & Apps',
-		description: 'Building usable interfaces and backend systems for data products.',
+		title: 'Cloud & Data Products',
+		description: 'Building full-stack data products, apps, and cloud-backed ML systems.',
 		skills: [
 			'Django',
 			'PostgreSQL',
 			'MongoDB',
 			'Streamlit',
+			'Google Cloud SQL',
+			'Google Cloud Storage',
 			'Clerk Authentication',
+			'Groq API',
 		],
 	},
 ];
@@ -85,8 +99,8 @@ function Skills() {
 					<h1 className="skills-wall-heading">Skills</h1>
 
 					<p className="skills-wall-intro">
-						A practical toolkit across analytics, machine learning, applied AI,
-						cloud deployment, and data product development.
+						A practical toolkit across analytics, BI reporting, machine learning,
+						applied AI, MLOps, cloud deployment, and data product development.
 					</p>
 				</div>
 

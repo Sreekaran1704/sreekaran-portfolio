@@ -27,8 +27,7 @@ function AboutMe() {
 							<div className="photo-sticky-note">
 								<div className="note-pin" />
 								<p>
-									“The hard part is not just finding the number — it is knowing
-									what decision the number should support.”
+									“The real value of data is not in the dashboard or the number, it is in the decision it improves.”
 								</p>
 							</div>
 
@@ -75,33 +74,15 @@ function AboutMe() {
 					>
 						<div className="about-story">
 							<p>
-								<span className="about-dropcap">I’m</span> a Data Analyst and
-								Applied AI builder focused on SQL, Python, Tableau, machine
-								learning, and decision-support analytics. My work usually starts
-								with messy real-world records: construction costs, school fee
-								collections, budgets, expenses, project progress, pricing, and
-								operational risk.
+								<span className="about-dropcap">I’m</span> a Data Analyst and Applied AI practitioner with a strong foundation in business analytics, data visualization, and machine learning. My work focuses on turning fragmented operational data into validated datasets, Tableau dashboards, predictive models, and decision-support tools using SQL, Python, Tableau, and Excel.
 							</p>
 
 							<p>
-								At Sree Nirman, I worked across 50K+ construction, cost, labor,
-								material, and progress records, converting fragmented files into
-								validated reporting datasets, Tableau dashboards, variance
-								analysis, and pricing recommendations.
+								At Sree Nirman, I worked with 50,000+ construction, cost, labor, material, budget, and project-progress records. I built SQL and Python workflows to improve data quality and reporting reliability, developed Tableau dashboards for cost variance, resource utilization, timeline risk, and project performance, and created an ML-supported tender estimation workflow to identify cost drivers and pricing risks. At Avanthi High School, I analyzed student financial and institutional expense data, built reconciliation workflows and Tableau reporting, and developed decision-support logic for fee concessions, collection gaps, and budget monitoring.
 							</p>
 
 							<p>
-								At Avanthi High School, I analyzed student financial records, fee
-								collections, expenses, and budget variance. I built quality
-								checks, recurring reports, dashboards, and concession-support
-								logic that helped the school make clearer financial decisions.
-							</p>
-
-							<p>
-								Right now, I am focused on data analyst, business analyst, BI
-								analyst, analytics engineering, and applied AI roles where I can
-								combine clean data workflows, dashboards, validation, and
-								practical machine learning.
+								Alongside analytics, I have hands-on experience with regression, classification, feature engineering, model evaluation, MLOps, and LLM fine-tuning using LoRA and QLoRA. I am currently pursuing opportunities as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI, where I can leverage robust data workflows, Tableau reporting, machine learning, and effective stakeholder communication to enable informed, data-driven decision-making.
 							</p>
 						</div>
 					</motion.div>

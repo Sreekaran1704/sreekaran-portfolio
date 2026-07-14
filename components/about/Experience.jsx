@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+
 const experienceGroups = [
 	{
 		id: 1,
@@ -7,17 +10,26 @@ const experienceGroups = [
 		items: [
 			{
 				id: 1,
-				role: 'Analyst Tech Intern',
+				role: 'Data Analyst and ML Intern',
 				company: 'Sree Nirman',
 				period: 'May 2023 - Apr 2024',
-				type: 'Data Analytics • Machine Learning • MLOps',
+				type: 'Construction Analytics • Machine Learning • Growth Analytics • MLOps Decision Support',
 				points: [
-					'At Sree Nirman, the problem was not a lack of data. The problem was that construction cost, labor, material, and project records were scattered, inconsistent, and difficult to trust for planning decisions.',
-					'I started by working with 50K+ construction cost and operations records, cleaning missing values, schema mismatches, outliers, duplicate entries, and inconsistent cost fields using SQL, Python, Pandas, and NumPy. Before building dashboards or models, I focused on making the data usable, structured, and analysis-ready.',
-					'Once the data foundation was stronger, I analyzed material costs, labor utilization, timeline delays, budget variance, and project-level performance patterns to understand why costs were drifting and where operational inefficiencies were showing up.',
-					'I built regression-based construction cost estimation models using historical project, labor, material, location, budget, and progress data. I engineered features, compared model performance using RMSE and R², and tracked 10+ MLflow experiments to evaluate which cost drivers actually improved prediction quality.',
-					'To make the analysis useful beyond the model, I developed Tableau dashboards and reporting views that translated raw construction records into cost trends, budget variance insights, productivity gaps, and operational risk indicators, improving reporting reliability by 30%.',
-					'I also helped connect the analytics work to deployment by packaging the trained model as a FastAPI inference service, containerizing it with Docker, deploying it on AWS EC2, and supporting CI/CD workflows with GitHub Actions. The project gave me end-to-end exposure across data cleaning, analysis, modeling, reporting, and production-style model serving.',
+					'Inherited a 50K+ record construction operations portfolio across cost, labor, material, budget, sales, outreach, and project-progress data, where scattered files, inconsistent schemas, duplicate records, and unreliable KPI logic made tender pricing, budget tracking, outreach planning, and execution decisions difficult to trust.',
+
+					'Built a reusable analytics foundation using SQL, Python, Pandas, NumPy, Excel, and Tableau by standardizing schemas, cleaning missing values, reconciling cost fields, resolving duplicate entries, and converting fragmented construction, sales, outreach, and progress records into validated reporting-ready and model-ready datasets.',
+
+					'Improved recurring reporting reliability by 30% by creating source-to-report validation checks, standardized KPI definitions, reusable ETL workflows, and documented business logic for cost variance, budget drift, labor productivity, resource utilization, zone-wise progress, sales outreach, and progress-vs-target tracking.',
+
+					'Engineered 20+ predictive and operational features across 7+ project dimensions, including material cost, labor usage, budget variance, progress velocity, location, duration, plot size, work type, and project stage, to connect execution patterns with tender pricing, cost-risk analysis, and project planning decisions.',
+
+					'Trained and benchmarked regression models, including Linear Regression, Ridge Regression, and Gradient Boosting, using RMSE, MAE, residual analysis, cross-validation, hyperparameter tuning, and error slicing across cost-range segments to estimate tender pricing ranges within roughly 10–20% variation on held-out bids.',
+
+					'Created Tableau dashboards, Excel scorecards, and executive reporting packs that surfaced ranked cost drivers, budget variance, timeline risk, workforce allocation gaps, material usage patterns, zone-wise completion, pricing-risk signals, and high-risk estimation cases for leadership review.',
+
+					'Partnered with stakeholders in bi-weekly reviews to translate dashboard trends, model outputs, variance drivers, and pricing-risk signals into recommendations for cost control, workforce planning, bid pricing, resource allocation, sales prioritization, and project execution, improving operational efficiency by 15%.',
+
+					'Extended the analytics work into growth strategy by helping the co-founder structure YouTube content around construction education, pricing transparency, and consultation-led trust building, supporting channel growth from roughly 100 to 60K subscribers and contributing to 12 house-construction deals and 80+ consultation engagements.',
 				],
 			},
 			{
@@ -25,18 +37,23 @@ const experienceGroups = [
 				role: 'Data Analyst Intern',
 				company: 'Avanthi High School',
 				period: 'Apr 2022 - Jan 2023',
-				type: 'Financial Analytics • Data Science • Applied AI',
+				type: 'Financial Analytics • Education Data • ML Decision Support',
 				points: [
-					'At Avanthi High School, I inherited a familiar institutional data problem: the school had years of financial, academic, and operational records, but no clean structure to turn those records into reliable decisions.',
-					'I worked with 12K+ fragmented student financial records and 50K+ institutional expense records across fee collections, scholarships, hostel, dining, academics, activities, and administration. The data had duplicate entries, inconsistent fee formats, missing values, subjective scholarship records, and no standardized schema.',
-					'I built the school’s analytics foundation from scratch using SQL, Python, Excel, and Tableau, cleaning, normalizing, deduplicating, reconciling, and validating fee, scholarship, and expense records. This improved financial reporting accuracy and consistency by 30%.',
-					'Once the data became reliable, I analyzed fee collections, department spending, budget variance, category-level costs, collection gaps, scholarship patterns, and monthly financial performance to understand where money was leaking and where spending was drifting beyond plan.',
-					'I performed variance analysis, anomaly detection, spend-pattern analysis, trend analysis, and distribution checks across 50K+ expense records, identifying over-budget categories, abnormal spending behavior, collection gaps, and 10–15% cost-saving opportunities for leadership review.',
-					'I built recurring Excel reports, Tableau dashboards, and leadership summaries that gave administrators a clearer view of fee collections, department expenses, budget variance, and category-level financial performance, helping move the school from operating loss to break-even within four months.',
-					'I also worked on the school’s scholarship decision problem, where manual fee scholarships were inconsistent and sometimes influenced by counter-level bias. I validated historical concession labels with principal-approved records before using them for downstream modeling.',
-					'I engineered academic and financial features from admission test scores, prior-grade performance, fee category, and a 70/30 academic weighting structure, then built a regression-based scholarship estimation workflow to support more consistent and data-informed scholarship decisions.',
-					'To strengthen the AI-assisted decision workflow, I fine-tuned a GPT-2 model on historical admission and student-response samples with scoring labels, combining model outputs with structured scholarship logic to create a more stable recommendation signal for leadership review.',
-					'I documented preprocessing steps, label validation logic, model assumptions, dashboard definitions, and reporting workflows so the school could review, repeat, and explain the analytics process instead of depending on scattered manual judgment.',
+					'Inherited 12K+ fragmented student financial records and 50K+ institutional expense records with duplicate entries, inconsistent fee formats, missing fields, subjective concession decisions, and no standardized reporting schema, making leadership decisions difficult to trust.',
+
+					'Built the school’s analytics foundation from scratch using SQL, Python, Excel, and Tableau to clean, normalize, deduplicate, reconcile, and validate fee, scholarship, concession, and expense records into repeatable reporting-ready datasets.',
+
+					'Improved recurring financial reporting accuracy by 30% by implementing reusable ETL workflows, source-to-report validation checks, KPI definitions, reconciliation logic, Excel variance models, Tableau dashboards, and monthly leadership reporting packs.',
+
+					'Analyzed 50K+ expense transactions across dining, hostel, administration, academics, activities, and student-service operations to identify over-budget categories, abnormal spending behavior, cost drift, collection gaps, and delayed fee recovery patterns.',
+
+					'Built Tableau dashboards and Tableau stories to communicate fee collections, department-level expenses, budget variance, concession impact, scholarship distribution, collection gaps, and monthly financial performance in a format administrators could review and act on.',
+
+					'Presented dashboard findings, variance drivers, spending anomalies, and collection-gap insights to stakeholders with the reasoning behind each recommendation, helping convert analysis into action across budget control, procurement planning, dining-cost monitoring, staffing review, and fee-collection follow-up.',
+
+					'Identified 10–15% cost-saving opportunities and supported financial turnaround decisions that helped the institution reach its first break-even cycle within four months of joining the organization.',
+
+					'Built an AI-assisted scholarship decision-support workflow by validating concession labels against principal-approved records, engineering academic and financial features using a 70/30 weighting structure, and combining regression outputs with GPT-2 signals from 1K+ admission samples through a median decision rule.',
 				],
 			},
 		],
@@ -52,129 +69,168 @@ const experienceGroups = [
 				role: 'Information Services Lab Assistant',
 				company: 'University of Missouri-Kansas City',
 				period: 'Aug 2025 - May 2026',
-				type: 'Technical Support • Data Workflows • Student Mentoring',
+				type: 'Technical Support • Lab Operations • Student Data Support',
 				points: [
-					'At UMKC, my work starts when something does not behave the way a student expected: a dataset looks wrong, an output does not make sense, or a workflow is hard to reproduce.',
-					'I mentored undergraduate students on statistics, EDA, data validation, reproducibility, and structured data handling, helping them move from unclear outputs to cleaner workflows where assumptions, data quality, and analysis steps could be checked.',
-					'I reviewed datasets, assignments, and analytical outputs to identify inconsistencies, missing assumptions, reproducibility gaps, unclear documentation, and validation issues, helping students make their work easier to explain and repeat.',
-					'I also supported daily university lab operations by assisting users with hardware and software issues, maintaining lab system documentation, and helping keep student-facing technical support workflows consistent, reliable, and easy to follow.',
+					'Supported day-to-day Information Services lab operations for student-facing computer labs, troubleshooting hardware, software, login, access, printing, workstation, and application issues so students could continue coursework, assignments, and project work with minimal disruption.',
+
+					'Diagnosed and resolved recurring technical support requests by identifying user problems, testing fixes, documenting solutions, and escalating unresolved issues when needed, helping make common lab-support workflows faster, clearer, and more consistent.',
+
+					'Maintained lab documentation, troubleshooting notes, support procedures, and system-use guidance for recurring issues, reducing repeated confusion around common technical problems and improving consistency across student support interactions.',
+
+					'Assisted students across 20+ active academic and technical projects by helping them reproduce errors, organize files, validate outputs, review workflows, and understand why a tool, dataset, notebook, or analysis step was not behaving as expected.',
+
+					'Provided secondary data and analytics support by guiding students through EDA, statistics, data validation, assumptions, documentation, and reproducibility checks, helping them move from unclear outputs to cleaner and more explainable analytical workflows.',
+
+					'Reviewed student datasets, notebooks, assignments, and analytical outputs to identify missing assumptions, inconsistent data handling, unclear documentation, validation gaps, and reproducibility issues before final review or submission.',
 				],
 			},
 		],
 	},
 ];
 
+function chunkPoints(points, size = 4) {
+	const chunks = [];
+	for (let i = 0; i < points.length; i += size) {
+		chunks.push(points.slice(i, i + size));
+	}
+	return chunks;
+}
+
 function Experience() {
-	const displayOrder = [3, 1, 2];
+	const allExperienceItems = experienceGroups
+		.flatMap((group) =>
+			group.items.map((item) => ({
+				...item,
+				category: group.category,
+			}))
+		)
+		.sort((a, b) => {
+			const order = {
+				3: 1,
+				1: 2,
+				2: 3,
+			};
+			return order[a.id] - order[b.id];
+		});
 
-	const allExperienceItems = displayOrder
-		.map((id) => {
-			for (const group of experienceGroups) {
-				const foundItem = group.items.find((item) => item.id === id);
+	const [activeIndex, setActiveIndex] = useState(0);
+	const activeExperience = allExperienceItems[activeIndex];
+	const pointPages = chunkPoints(activeExperience.points, 4);
+	const leftPagePoints = pointPages[0] || [];
+	const rightPagePoints = pointPages[1] || [];
 
-				if (foundItem) {
-					return {
-						...foundItem,
-						category: group.category,
-					};
-				}
-			}
+	const goPrev = () => {
+		setActiveIndex((prev) =>
+			prev === 0 ? allExperienceItems.length - 1 : prev - 1
+		);
+	};
 
-			return null;
-		})
-		.filter(Boolean);
+	const goNext = () => {
+		setActiveIndex((prev) =>
+			prev === allExperienceItems.length - 1 ? 0 : prev + 1
+		);
+	};
 
 	return (
-		<section className="experience-tower-section px-6 py-16 sm:px-10 lg:px-16">
+		<section className="experience-book-section px-6 py-16 sm:px-10 lg:px-16">
 			<div className="mx-auto max-w-7xl">
-				<div className="experience-tower-heading-wrap">
-					<h1 className="experience-tower-heading">Experience</h1>
-
-					<p className="experience-tower-intro">
-						A combined view of my analytics, data science, machine learning,
-						applied AI, MLOps, reporting, and technical support experience.
+				<div className="experience-book-heading-wrap">
+					<h1 className="experience-book-heading">Experience</h1>
+					<p className="experience-book-intro">
+						A journey through my technical, analytical, operational, and
+						decision-support experience.
 					</p>
 				</div>
 
-				<div className="experience-tower-stage">
-					<div className="experience-tower-building" aria-hidden="true">
-						<div className="experience-tower-roof" />
+				<div className="experience-book-tabs">
+					{allExperienceItems.map((item, index) => (
+						<button
+							key={item.id}
+							type="button"
+							onClick={() => setActiveIndex(index)}
+							className={`experience-tab ${activeIndex === index ? 'experience-tab-active' : ''
+								}`}
+						>
+							<span className="experience-tab-company">{item.company}</span>
+							<span className="experience-tab-role">{item.role}</span>
+						</button>
+					))}
+				</div>
 
-						<div className="experience-tower-core">
-							<div className="experience-tower-window-grid">
-								{Array.from({ length: 14 }).map((_, index) => (
-									<span
-										key={index}
-										className="experience-tower-window"
-									/>
-								))}
-							</div>
+				<motion.div
+					key={activeExperience.id}
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.25, ease: 'easeOut' }}
+					className="open-book-shell"
+				>
+					<div className="open-book-topbar">
+						<div>
+							<p className="open-book-category">{activeExperience.category}</p>
+							<h2 className="open-book-role">{activeExperience.role}</h2>
+							<p className="open-book-company">{activeExperience.company}</p>
 						</div>
 
-						<div className="tower-landing tower-landing-1">
-							<span />
-							<span />
-							<span />
-							<span />
-						</div>
-
-						<div className="tower-landing tower-landing-2">
-							<span />
-							<span />
-							<span />
-							<span />
-						</div>
-
-						<div className="tower-landing tower-landing-3">
-							<span />
-							<span />
-							<span />
-							<span />
+						<div className="open-book-meta">
+							<p className="open-book-period">{activeExperience.period}</p>
+							<p className="open-book-type">{activeExperience.type}</p>
 						</div>
 					</div>
 
-					{allExperienceItems.map((experience, index) => (
-						<div
-							key={experience.id}
-							className={`experience-tower-card-wrap experience-tower-card-wrap-${index + 1}`}
-						>
-							<article className="experience-tower-card">
-								<div className="experience-card-top">
-									<span className="experience-card-category">
-										{experience.category}
-									</span>
+					<div className="open-book">
+						<div className="book-page book-page-left">
+							<div className="book-page-header">
+								<span>Page 1</span>
+							</div>
 
-									<span className="experience-card-period">
-										{experience.period}
-									</span>
-								</div>
+							<ul className="book-points">
+								{leftPagePoints.map((point, index) => (
+									<li key={index} className="book-point-item">
+										<span className="book-point-bullet">✦</span>
+										<p>{point}</p>
+									</li>
+								))}
+							</ul>
+						</div>
 
-								<p className="experience-card-type">
-									{experience.type}
-								</p>
+						<div className="book-center-crease" />
 
-								<h3 className="experience-card-role">
-									{experience.role}
-								</h3>
+						<div className="book-page book-page-right">
+							<div className="book-page-header">
+								<span>Page 2</span>
+							</div>
 
-								<p className="experience-card-company">
-									{experience.company}
-								</p>
-
-								<ul className="experience-card-points">
-									{experience.points.map((point) => (
-										<li key={point}>
-											<span className="experience-card-bullet">
-												✦
-											</span>
+							<ul className="book-points">
+								{rightPagePoints.length > 0 ? (
+									rightPagePoints.map((point, index) => (
+										<li key={index} className="book-point-item">
+											<span className="book-point-bullet">✦</span>
 											<p>{point}</p>
 										</li>
-									))}
-								</ul>
-							</article>
+									))
+								) : (
+									<li className="book-point-empty">
+										<p>End of notes for this role.</p>
+									</li>
+								)}
+							</ul>
 						</div>
-					))}
-				</div>
+					</div>
+
+					<div className="experience-book-controls">
+						<button type="button" onClick={goPrev} className="book-nav-btn">
+							← Previous
+						</button>
+
+						<p className="book-nav-status">
+							{activeIndex + 1} / {allExperienceItems.length}
+						</p>
+
+						<button type="button" onClick={goNext} className="book-nav-btn">
+							Next →
+						</button>
+					</div>
+				</motion.div>
 			</div>
 		</section>
 	);

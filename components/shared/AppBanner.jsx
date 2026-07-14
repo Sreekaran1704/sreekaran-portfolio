@@ -8,7 +8,7 @@ const workCards = [
 		title: 'Sree Nirman',
 		art: 'dashboard1',
 		metric: '50K+',
-		note: 'validated reporting records',
+		note: 'construction records standardized',
 	},
 	{
 		id: 'avanthi-dashboard',
@@ -23,8 +23,8 @@ const workCards = [
 		label: 'ML Pipeline',
 		title: 'Sree Nirman Pricing',
 		art: 'ml',
-		metric: '±20%',
-		note: 'tender bid-range guidance',
+		metric: '±10–20%',
+		note: 'tender cost-estimation range',
 	},
 	{
 		id: 'umkc',
@@ -184,7 +184,7 @@ function AppBanner() {
 						</h1>
 
 						<h2 className="hero-subtitle mb-7 max-w-xl text-xl font-semibold leading-snug text-stone-700 sm:text-2xl lg:text-[1.7rem]">
-							Data Analyst · Applied AI Builder · MS Computer Science at UMKC
+							Data Analyst . Business Analytics & Decision Support . Applied AI, LLM Fine-Tuning
 						</h2>
 
 						<div className="mb-8 border-l-4 border-[#b9b982] pl-5">
