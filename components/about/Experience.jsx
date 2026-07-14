@@ -23,7 +23,7 @@ const experienceGroups = [
 
 					'Engineered 20+ predictive and operational features across 7+ project dimensions, including material cost, labor usage, budget variance, progress velocity, location, duration, plot size, work type, and project stage, to connect execution patterns with tender pricing, cost-risk analysis, and project planning decisions.',
 
-					'Trained and benchmarked regression models, including Linear Regression, Ridge Regression, and Gradient Boosting, using RMSE, MAE, residual analysis, cross-validation, hyperparameter tuning, and error slicing across cost-range segments to estimate tender pricing ranges within roughly 10–20% variation on held-out bids.',
+					'Trained and benchmarked regression models, using RMSE, MAE, residual analysis, cross-validation, hyperparameter tuning, and error slicing across cost-range segments to estimate tender pricing ranges within roughly 10–20% variation on held-out bids.',
 
 					'Created Tableau dashboards, Excel scorecards, and executive reporting packs that surfaced ranked cost drivers, budget variance, timeline risk, workforce allocation gaps, material usage patterns, zone-wise completion, pricing-risk signals, and high-risk estimation cases for leadership review.',
 
