@@ -40,105 +40,84 @@ function ProjectSingle(props) {
 
 					<div className="flex flex-wrap gap-4 mt-8">
 						{props.project.liveUrl && props.project.liveUrl !== '#' && (
-
-							href = { props.project.liveUrl }
-								target="_blank"
-						rel="noopener noreferrer"
-						className="notice-link-btn inline-flex w-fit items-center"
-						aria-label={`View live site for ${props.project.title}`}
-							>
-						View Live Site →
-					</a>
+							<a href={props.project.liveUrl} target="_blank" rel="noopener noreferrer" className="notice-link-btn inline-flex w-fit items-center" aria-label={`View live site for ${props.project.title}`}>
+								View Live Site →
+							</a>
 						)}
 
-					{props.project.githubUrl && props.project.githubUrl !== '#' && (
-
-						href = { props.project.githubUrl }
-								target="_blank"
-					rel="noopener noreferrer"
-					className="notice-link-btn inline-flex w-fit items-center"
-					aria-label={`View GitHub repository for ${props.project.title}`}
-							>
-					View GitHub →
-				</a>
+						{props.project.githubUrl && props.project.githubUrl !== '#' && (
+							<a href={props.project.githubUrl} target="_blank" rel="noopener noreferrer" className="notice-link-btn inline-flex w-fit items-center" aria-label={`View GitHub repository for ${props.project.title}`}>
+								View GitHub →
+							</a>
 						)}
-			</div>
-		</div>
+					</div>
+				</div>
 
-				{/* Info */ }
-	<div className="block sm:flex gap-0 sm:gap-10 mt-14">
-		<div className="w-full sm:w-1/3 text-left">
-			{/* Project overview details */}
-			<div className="project-detail-card mb-7 p-6">
-				<p className="project-detail-card-heading text-2xl mb-4">
-					{props.project.ProjectInfo.ClientHeading}
-				</p>
+				{/* Info */}
+				<div className="block sm:flex gap-0 sm:gap-10 mt-14">
+					<div className="w-full sm:w-1/3 text-left">
+						{/* Project overview details */}
+						<div className="project-detail-card mb-7 p-6">
+							<p className="project-detail-card-heading text-2xl mb-4">
+								{props.project.ProjectInfo.ClientHeading}
+							</p>
 
-				<ul className="leading-loose">
-					{props.project.ProjectInfo.CompanyInfo.map((info) => (
-						<li
-							className="project-detail-info-item"
-							key={info.id}
-						>
-							<span className="font-semibold">{info.title}: </span>
-							<span>{info.details}</span>
-						</li>
-					))}
-				</ul>
-			</div>
+							<ul className="leading-loose">
+								{props.project.ProjectInfo.CompanyInfo.map((info) => (
+									<li className="project-detail-info-item" key={info.id}>
+										<span className="font-semibold">{info.title}: </span>
+										<span>{info.details}</span>
+									</li>
+								))}
+							</ul>
+						</div>
 
-			{/* Project objective */}
-			<div className="project-detail-card mb-7 p-6">
-				<p className="project-detail-card-heading text-2xl mb-4">
-					{props.project.ProjectInfo.ObjectivesHeading}
-				</p>
+						{/* Project objective */}
+						<div className="project-detail-card mb-7 p-6">
+							<p className="project-detail-card-heading text-2xl mb-4">
+								{props.project.ProjectInfo.ObjectivesHeading}
+							</p>
 
-				<p className="project-detail-body leading-relaxed">
-					{props.project.ProjectInfo.ObjectivesDetails}
-				</p>
-			</div>
+							<p className="project-detail-body leading-relaxed">
+								{props.project.ProjectInfo.ObjectivesDetails}
+							</p>
+						</div>
 
-			{/* Technologies */}
-			<div className="project-detail-card mb-7 p-6">
-				<p className="project-detail-card-heading text-2xl mb-4">
-					{props.project.ProjectInfo.Technologies[0].title}
-				</p>
+						{/* Technologies */}
+						<div className="project-detail-card mb-7 p-6">
+							<p className="project-detail-card-heading text-2xl mb-4">
+								{props.project.ProjectInfo.Technologies[0].title}
+							</p>
 
-				<div className="flex flex-wrap gap-2">
-					{props.project.ProjectInfo.Technologies[0].techs.map((tech) => (
-						<span
-							key={tech}
-							className="sticky-skill-chip"
-						>
-							{tech}
-						</span>
-					))}
+							<div className="flex flex-wrap gap-2">
+								{props.project.ProjectInfo.Technologies[0].techs.map((tech) => (
+									<span key={tech} className="sticky-skill-chip">
+										{tech}
+									</span>
+								))}
+							</div>
+						</div>
+					</div>
+
+					{/* Project details */}
+					<div className="w-full sm:w-2/3 text-left mt-10 sm:mt-0">
+						<div className="project-detail-card p-8">
+							<p className="project-detail-title text-2xl sm:text-3xl mb-7">
+								{props.project.ProjectInfo.ProjectDetailsHeading}
+							</p>
+
+							<div className="space-y-5">
+								{props.project.ProjectInfo.ProjectDetails.map((details) => (
+									<p key={details.id} className="project-detail-body text-lg leading-relaxed">
+										{details.details}
+									</p>
+								))}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-
-		{/* Project details */}
-		<div className="w-full sm:w-2/3 text-left mt-10 sm:mt-0">
-			<div className="project-detail-card p-8">
-				<p className="project-detail-title text-2xl sm:text-3xl mb-7">
-					{props.project.ProjectInfo.ProjectDetailsHeading}
-				</p>
-
-				<div className="space-y-5">
-					{props.project.ProjectInfo.ProjectDetails.map((details) => (
-						<p
-							key={details.id}
-							className="project-detail-body text-lg leading-relaxed"
-						>
-							{details.details}
-						</p>
-					))}
-				</div>
-			</div>
-		</div>
-	</div>
-			</div >
-		</div >
 	);
 }
 
