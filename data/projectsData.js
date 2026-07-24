@@ -1,5 +1,119 @@
 export const projectsData = [
 	{
+		id: 6,
+		title: 'Market Pulse: Live Job Market Intelligence Dashboard',
+		url: 'market-pulse-job-market-intelligence',
+		githubUrl: 'https://github.com/Sreekaran1704/market-pulse',
+		liveUrl: 'https://market-pulse-tp0p.onrender.com/',
+		category: 'Data Analytics',
+		ProjectHeader: {
+			title: 'Market Pulse: Live Job Market Intelligence Dashboard',
+			publishDate: '2026 - Present',
+			tags: 'Data Pipelines / SQL / Market Analytics / Live Deployment',
+		},
+		ProjectImages: [
+			{
+				id: 601,
+				title: 'Market Pulse Dashboard',
+				img: '/images/web-project-1.jpg',
+			},
+			{
+				id: 602,
+				title: 'Salary and Skill Demand Trends',
+				img: '/images/web-project-2.jpg',
+			},
+			{
+				id: 603,
+				title: 'Automated Ingestion Pipeline',
+				img: '/images/ui-project-1.jpg',
+			},
+		],
+		ProjectInfo: {
+			ClientHeading: 'Project Type',
+			CompanyInfo: [
+				{
+					id: 611,
+					title: 'Association',
+					details: 'Independent portfolio project',
+				},
+				{
+					id: 612,
+					title: 'Role',
+					details: 'Data Analyst / Data Engineer',
+				},
+				{
+					id: 613,
+					title: 'Focus',
+					details:
+						'Tracking real-time hiring trends for Data Analyst, BI Developer, Analytics Engineer, and Applied AI roles',
+				},
+				{
+					id: 614,
+					title: 'Data Sources',
+					details: 'Adzuna and RemoteOK job listing APIs, refreshed daily',
+				},
+				{
+					id: 615,
+					title: 'Status',
+					details: 'Fully built and live-deployed, running on a daily automated schedule',
+				},
+			],
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'Built and deployed a live job market intelligence dashboard that tracks salary trends, in-demand skills, and hiring velocity across Data Analyst, BI Developer, Analytics Engineer, and Applied AI roles by location. The project pulls real job posting data daily rather than relying on synthetic or scraped data, aggregates it into a PostgreSQL database, and surfaces the results through a live dashboard with a weekly plain-English market summary generated from the computed statistics. The dashboard also directly informs my own job search by surfacing where demand and compensation are strongest.',
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Python',
+						'FastAPI',
+						'PostgreSQL',
+						'SQLAlchemy',
+						'Docker',
+						'GitHub Actions',
+						'Chart.js',
+						'Groq API (Llama 3.3)',
+					],
+				},
+			],
+			ProjectDetailsHeading: 'Project Details',
+			ProjectDetails: [
+				{
+					title: 'Problem and Project Goal',
+					details:
+						'Problem: Job seekers in data-related roles typically rely on scattered, backward-looking sources to understand what the market actually wants, which skills are in demand, and what compensation looks like by role and location.\n\nGoal: Build a live, continuously updated dashboard that tracks Data Analyst, BI Developer, Analytics Engineer, and Applied AI hiring trends, using real job posting data rather than a static or synthetic dataset, to give an accurate and current view of the market.',
+				},
+				{
+					title: 'Data Ingestion and Sourcing',
+					details:
+						'Data Sources: Job postings are pulled from the Adzuna and RemoteOK APIs rather than scraping or synthetic generation, keeping the dataset grounded in real, current listings.\n\nScheduling: A GitHub Actions workflow runs daily ingestion and aggregation on a fixed schedule, writing results into a PostgreSQL database so the dashboard reflects up-to-date market conditions without manual intervention.',
+				},
+				{
+					title: 'Architecture',
+					details:
+						'Backend: Built with FastAPI and SQLAlchemy over PostgreSQL, with Jinja2 templates and Chart.js for the dashboard rendering instead of a separate frontend framework.\n\nDeployment: Containerized with Docker and deployed on Render, after evaluating and moving off Railway due to hosting-cost constraints for an always-on service.\n\nAutomation: GitHub Actions handles the scheduled ingestion pipeline, using repository secrets for the database connection and API keys so the pipeline runs unattended.',
+				},
+				{
+					title: 'AI-Generated Market Summaries',
+					details:
+						'Weekly Summary Layer: A weekly plain-English market summary is generated using the Groq API (Llama 3.3), strictly grounded in the computed statistics from the underlying data rather than open-ended generation, so the narrative stays accurate to what the numbers actually show.',
+				},
+				{
+					title: 'Design and Usability',
+					details:
+						'Visual Direction: The dashboard UI matches the visual identity of my portfolio site, using a light paper and sticky-note aesthetic with clear salary, skill-demand, and hiring-velocity visualizations.\n\nPurpose-Driven Design: Every view was designed to answer a specific job-search question directly: which skills are trending, which locations pay the most for a given role, and how hiring velocity is shifting over time.',
+				},
+				{
+					title: 'Outcome and Ongoing Use',
+					details:
+						'Outcome: Market Pulse is fully built and live-deployed, running on a daily ingestion schedule against real job market data.\n\nPractical Value: Beyond serving as a portfolio centerpiece, the dashboard is actively used to guide my own job search by identifying where demand and compensation are strongest for Data Analyst and related roles.',
+				},
+			],
+			SocialSharingHeading: '',
+		},
+	},
+
+	{
 		id: 1,
 		title: 'Genre-Controlled Story Generation using QLoRA',
 		url: 'genre-controlled-story-generation-qlora',

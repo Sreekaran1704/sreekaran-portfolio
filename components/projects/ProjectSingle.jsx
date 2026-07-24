@@ -36,13 +36,20 @@ function getProjectMetric(title, category) {
 		};
 	}
 
+	if (title.includes('Market Pulse')) {
+		return {
+			metric: 'Daily',
+			note: 'Automated live job market pipeline',
+		};
+	};
+
 	return {
 		metric: 'LogReg',
 		note: 'Best Student Outcome Classifier',
-	};
+	}
 }
 
-function ProjectSingle({ title, url, githubUrl, category, ProjectInfo, cardIndex = 0 }) {
+function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo, cardIndex = 0 }) {
 	const techs = ProjectInfo?.Technologies?.[0]?.techs || [];
 
 	const shortDescription =
@@ -80,6 +87,20 @@ function ProjectSingle({ title, url, githubUrl, category, ProjectInfo, cardIndex
 				>
 					View Details →
 				</Link>
+
+				{liveUrl && liveUrl !== '#' && (
+					<a
+						href={liveUrl}
+						target='_blank'
+						rel="noopener noreferrer"
+						className="notice-link-btn notice-link-outline"
+						aria-label={`View live site for ${title}`}
+					>
+						Live Site →
+					</a>
+
+				)
+				}
 
 				{githubUrl && githubUrl !== '#' && (
 					<a
