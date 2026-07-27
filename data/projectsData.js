@@ -1,15 +1,15 @@
 export const projectsData = [
 	{
 		id: 6,
-		title: 'Market Pulse: Live Job Market Intelligence Dashboard',
+		title: 'Market Pulse: Live Job Market Intelligence Platform',
 		url: 'market-pulse-job-market-intelligence',
 		githubUrl: 'https://github.com/Sreekaran1704/market-pulse',
 		liveUrl: 'https://market-pulse-tp0p.onrender.com/',
 		category: 'Data Analytics',
 		ProjectHeader: {
-			title: 'Market Pulse: Live Job Market Intelligence Dashboard',
+			title: 'Market Pulse: Live Job Market Intelligence Platform',
 			publishDate: '2026 - Present',
-			tags: 'Data Pipelines / SQL / Market Analytics / Live Deployment',
+			tags: 'Data Pipelines / MCP Server / SQL / Market Analytics / Live Deployment',
 		},
 		ProjectImages: [
 			{
@@ -60,7 +60,7 @@ export const projectsData = [
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Built and deployed a live job market intelligence dashboard that tracks salary trends, in-demand skills, and hiring velocity across Data Analyst, BI Developer, Analytics Engineer, and Applied AI roles by location. The project pulls real job posting data daily rather than relying on synthetic or scraped data, aggregates it into a PostgreSQL database, and surfaces the results through a live dashboard with a weekly plain-English market summary generated from the computed statistics. The dashboard also directly informs my own job search by surfacing where demand and compensation are strongest.',
+				'Built and deployed a live job market intelligence platform that combines a real-time data pipeline with a dual-transport MCP server layer. The pipeline classifies daily job postings from the Adzuna and RemoteOK APIs by role, seniority, and skills into a PostgreSQL and SQLAlchemy schema, running unattended via GitHub Actions and Docker on Render. On top of that foundation, a FastMCP-based MCP server exposes five job-market analytics tools over local stdio and remote streamable HTTP, secured with bearer-token authentication and per-IP rate limiting, with a Groq-powered LLM layered on top to translate the computed statistics into a plain-English market summary grounded strictly in the underlying data.',
 			Technologies: [
 				{
 					title: 'Tools & Technologies',
@@ -68,45 +68,33 @@ export const projectsData = [
 						'Python',
 						'FastAPI',
 						'PostgreSQL',
-						'SQLAlchemy',
 						'Docker',
-						'GitHub Actions',
-						'Chart.js',
-						'Groq API (Llama 3.3)',
+						'FastMCP',
+						'Groq API',
 					],
 				},
 			],
 			ProjectDetailsHeading: 'Project Details',
 			ProjectDetails: [
 				{
-					title: 'Problem and Project Goal',
+					title: 'Data Pipeline & Schema Design',
 					details:
-						'Problem: Job seekers in data-related roles typically rely on scattered, backward-looking sources to understand what the market actually wants, which skills are in demand, and what compensation looks like by role and location.\n\nGoal: Build a live, continuously updated dashboard that tracks Data Analyst, BI Developer, Analytics Engineer, and Applied AI hiring trends, using real job posting data rather than a static or synthetic dataset, to give an accurate and current view of the market.',
+						'Engineered a PostgreSQL and SQLAlchemy schema to classify daily job postings from the Adzuna and RemoteOK APIs by role, seniority, and skills, turning scattered real hiring data into a structured, queryable foundation.',
 				},
 				{
-					title: 'Data Ingestion and Sourcing',
+					title: 'Automation & Deployment',
 					details:
-						'Data Sources: Job postings are pulled from the Adzuna and RemoteOK APIs rather than scraping or synthetic generation, keeping the dataset grounded in real, current listings.\n\nScheduling: A GitHub Actions workflow runs daily ingestion and aggregation on a fixed schedule, writing results into a PostgreSQL database so the dashboard reflects up-to-date market conditions without manual intervention.',
+						'Automated the ingestion-to-aggregation cycle with GitHub Actions and containerized the service with Docker, deploying it on Render to run continuously without manual intervention.',
 				},
 				{
-					title: 'Architecture',
+					title: 'Dual-Transport MCP Server',
 					details:
-						'Backend: Built with FastAPI and SQLAlchemy over PostgreSQL, with Jinja2 templates and Chart.js for the dashboard rendering instead of a separate frontend framework.\n\nDeployment: Containerized with Docker and deployed on Render, after evaluating and moving off Railway due to hosting-cost constraints for an always-on service.\n\nAutomation: GitHub Actions handles the scheduled ingestion pipeline, using repository secrets for the database connection and API keys so the pipeline runs unattended.',
+						'Refactored shared query logic into a standalone module and built a dual-transport MCP server on top of it using FastMCP, exposing five job-market analytics tools over local stdio and remote streamable HTTP mounted on the existing FastAPI app.',
 				},
 				{
-					title: 'AI-Generated Market Summaries',
+					title: 'Security & AI-Powered Summaries',
 					details:
-						'Weekly Summary Layer: A weekly plain-English market summary is generated using the Groq API (Llama 3.3), strictly grounded in the computed statistics from the underlying data rather than open-ended generation, so the narrative stays accurate to what the numbers actually show.',
-				},
-				{
-					title: 'Design and Usability',
-					details:
-						'Visual Direction: The dashboard UI matches the visual identity of my portfolio site, using a light paper and sticky-note aesthetic with clear salary, skill-demand, and hiring-velocity visualizations.\n\nPurpose-Driven Design: Every view was designed to answer a specific job-search question directly: which skills are trending, which locations pay the most for a given role, and how hiring velocity is shifting over time.',
-				},
-				{
-					title: 'Outcome and Ongoing Use',
-					details:
-						'Outcome: Market Pulse is fully built and live-deployed, running on a daily ingestion schedule against real job market data.\n\nPractical Value: Beyond serving as a portfolio centerpiece, the dashboard is actively used to guide my own job search by identifying where demand and compensation are strongest for Data Analyst and related roles.',
+						'Secured the remote HTTP transport with bearer-token authentication and a per-IP rate limiter, and layered a Groq-powered LLM summary on top of the computed statistics to translate raw hiring trends into a plain-English narrative grounded strictly in the underlying data.',
 				},
 			],
 			SocialSharingHeading: '',

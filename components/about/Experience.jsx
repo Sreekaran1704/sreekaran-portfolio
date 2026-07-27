@@ -10,9 +10,9 @@ const experienceGroups = [
 		items: [
 			{
 				id: 1,
-				role: 'Data Analyst and ML Intern',
-				company: 'Sree Nirman',
-				period: 'May 2023 - Apr 2024',
+				role: 'Data Analyst and ML Intern → Data Analyst',
+				company: 'Sree Nirman, Hyderabad, India',
+				period: 'May 2023 – Jun 2024',
 				type: 'Construction Analytics • Machine Learning • Growth Analytics • MLOps Decision Support',
 				points: [
 					'Inherited a 50K+ record construction operations portfolio across cost, labor, material, budget, sales, outreach, and project-progress data, where scattered files, inconsistent schemas, duplicate records, and unreliable KPI logic made tender pricing, budget tracking, outreach planning, and execution decisions difficult to trust.',
