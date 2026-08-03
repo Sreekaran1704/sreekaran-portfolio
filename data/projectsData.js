@@ -1,11 +1,130 @@
 export const projectsData = [
 	{
+		id: 7,
+		title: 'FanHouse: Does Membership Pay for Itself?',
+		url: 'fanhouse-membership-analysis',
+		githubUrl: 'https://github.com/Sreekaran1704/Fanhouse-Casestudy',
+		category: 'Causal Inference',
+		type: 'Case Study',
+		ProjectHeader: {
+			title: 'FanHouse: Does Membership Pay for Itself?',
+			publishDate: '2026',
+			tags: 'A/B Testing / Propensity Matching / Difference-in-Differences',
+		},
+		ProjectImages: [
+			{
+				id: 701,
+				title: 'Randomized Experiment Results',
+				img: '/images/web-project-1.jpg',
+			},
+			{
+				id: 702,
+				title: 'Propensity Matching & Diff-in-Diff',
+				img: '/images/web-project-2.jpg',
+			},
+			{
+				id: 703,
+				title: 'Membership Revenue Verdict',
+				img: '/images/ui-project-2.jpg',
+			},
+		],
+		ProjectInfo: {
+			ClientHeading: 'Project Type',
+			CompanyInfo: [
+				{
+					id: 711,
+					title: 'Association',
+					details: 'Independent portfolio project',
+				},
+				{
+					id: 712,
+					title: 'Role',
+					details: 'Data Analyst / Causal Inference',
+				},
+				{
+					id: 713,
+					title: 'Focus',
+					details:
+						'Whether a paid membership program actually increases net revenue, once discounts, supercoins, and self-selection are accounted for',
+				},
+				{
+					id: 714,
+					title: 'Data',
+					details: 'Fully synthetic, with a known ground-truth effect built in, across 50,000 online customers and 325 stores',
+				},
+				{
+					id: 715,
+					title: 'Read the full write-up',
+					details: 'Two dedicated pages: a plain-language walkthrough and a full technical methodology',
+				},
+			],
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'A naive comparison of members against non-members shows membership tripling revenue — a $42.41 gap per customer per quarter. A randomized controlled experiment (50,000 online customers, 325 stores) shows the true causal lift is only $3.73–$5.94, about 8x smaller, because spendier customers simply self-select into membership. Two independent observational methods, propensity score matching and difference-in-differences, deliberately run on confounded data, converge on a separate ~$32–33 treatment-on-the-treated effect, reconciling with the randomized estimate as an answer to a different, equally valid question. Scaled to FanHouse’s full footprint, the honest rollout estimate is worth $11.6M–$19.9M a year, net of every discount and coin issued.',
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Python',
+						'Pandas',
+						'NumPy',
+						'scikit-learn',
+						'Randomized Experiments',
+						'Propensity Score Matching',
+						'Difference-in-Differences',
+					],
+				},
+			],
+			ProjectDetailsHeading: 'Project Details',
+			ProjectDetails: [
+				{
+					title: 'Problem and Project Goal',
+					details:
+						'Problem: FanHouse, a fan-apparel retailer, was considering a paid membership program with a per-item discount, cashback-style supercoins, and early access to drops. The program has real costs, so "sales went up" is not an answer on its own — the only metric that matters is net revenue after every discount, coin liability, and return is accounted for.\n\nGoal: Measure the program’s true causal effect on net revenue, using both a randomized controlled experiment and, deliberately, an observational analysis on confounded data — to show how far a naive comparison can drift from the truth, and why.',
+				},
+				{
+					title: 'Metric Design',
+					details:
+						'Overall Evaluation Criterion: Net Revenue = Gross Purchase Revenue − Discount Given − Supercoins Issued − Returned Value + Prorated Membership Fee. Supercoins are booked as a liability the moment they are issued, not when redeemed, so the metric never overstates the company’s true position.\n\nGuardrails tracked cost of returns and late-window purchase activity; diagnostics tracked purchase frequency and coin redemption rate.',
+				},
+				{
+					title: 'Phase 1: Randomized Controlled Experiment',
+					details:
+						'Online, 50% of active customers were randomly offered membership (15% adopted) versus not offered (2.5% organic adoption). Offline, since a cashier cannot selectively withhold a public offer, 325 stores were randomized at the store level instead, stratified by AOV tier.\n\nResult: net revenue lifted by $3.73–$5.00 per customer per quarter online (t = 13.52, p ≈ 1.5×10⁻⁴¹) and $3.40–$5.94 offline (t = 7.23, p ≈ 3.6×10⁻¹²) — real and statistically unambiguous in both channels, though the offline interval is wider due to far less statistical power from 325 store-level observations.',
+				},
+				{
+					title: 'Guardrails and Decomposition',
+					details:
+						'The elevated member return rate (10.2% vs. 8.0%) is already priced into the net revenue formula, not a hidden red flag. Late-window engagement looked like a null effect when pooled (t = 0.61, p = 0.54) — decomposing by plan revealed two real, opposite-signed effects instead: annual members sit significantly above the non-member baseline (20.1% vs. 12.9%), while monthly members sit significantly below it (9.0%), because the monthly plan functions as a one-time discount pass rather than a subscription.',
+				},
+				{
+					title: 'Phase 2: Observational Causal Inference',
+					details:
+						'A second, harder case was built deliberately: a fresh population where a hidden trait, historical purchase rate, drives both natural spend and the probability of self-selecting into membership. The naive member-vs-non-member gap ($42.41) inflates the true randomized effect by roughly 8x purely from this self-selection.\n\nA logistic-regression propensity model matched each member to the nearest comparable non-member one-to-one without replacement, cutting the purchase-rate covariate gap by about 98% and landing on a $33.51 matched gap. An independent difference-in-differences estimate, using a simulated pre-period, converged separately at $32.47 — close agreement between two independent methods.',
+				},
+				{
+					title: 'Reconciling Two Correct Numbers',
+					details:
+						'The randomized ~$5 figure and the observational ~$32–33 figure are not competing answers to the same question. The $5 is an intent-to-treat estimate: the diluted, company-wide effect of rolling the offer out broadly, already accounting for the fact that most people decline. The $32–33 is a treatment-on-the-treated estimate: how much more a customer who actually joins and uses the program spends, versus a similar non-member. A finance team modeling rollout revenue should use the ITT figure; a product team asking whether membership changes behavior for adopters should use the TOT figure.',
+				},
+				{
+					title: 'Final Verdict and Recommendation',
+					details:
+						'Scaled to FanHouse’s full footprint using the randomized ITT estimate, the honest, diluted net revenue uplift is worth roughly $11.6M–$19.9M a year, already net of every discount and coin issued. The one open thread: the monthly plan, where roughly 9 in 10 subscribers cancel after month one, behaving like a one-time coupon rather than a subscriber, while annual members show meaningfully stronger long-term engagement. Recommendation: launch the program, and redesign or re-test the monthly tier rather than the program itself.',
+				},
+			],
+			SocialSharingHeading: '',
+		},
+	},
+
+	{
 		id: 6,
 		title: 'Market Pulse: Live Job Market Intelligence Platform',
 		url: 'market-pulse-job-market-intelligence',
 		githubUrl: 'https://github.com/Sreekaran1704/market-pulse',
 		liveUrl: 'https://market-pulse-tp0p.onrender.com/',
 		category: 'Data Analytics',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'Market Pulse: Live Job Market Intelligence Platform',
 			publishDate: '2026 - Present',
@@ -108,6 +227,7 @@ export const projectsData = [
 		githubUrl:
 			'https://github.com/Sreekaran1704/Genre-Controlled-Story-Generation-using-LoRA-Gemma-Fine-Tuning-',
 		category: 'Applied AI',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'Genre-Controlled Story Generation using QLoRA',
 			publishDate: 'Feb 2026 - May 2026',
@@ -249,6 +369,7 @@ export const projectsData = [
 		url: 'medpredicts-hospital-readmission-forecasting',
 		githubUrl: 'https://github.com/Sreekaran1704/PDS_Final_Project',
 		category: 'Data Science',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'MedPredicts: Hospital Readmission Forecasting',
 			publishDate: 'Oct 2025 - Nov 2025',
@@ -389,6 +510,7 @@ export const projectsData = [
 		url: 'vehicle-insurance-eligibility-mlops-pipeline',
 		githubUrl: '#',
 		category: 'MLOps',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'Vehicle Insurance Eligibility Prediction & MLOps Pipeline',
 			publishDate: 'May 2025 - Jul 2025',
@@ -516,6 +638,7 @@ export const projectsData = [
 		url: 'recommenderx-cloud-movie-recommendation-saas',
 		githubUrl: 'https://github.com/Sreekaran1704/recommenderx',
 		category: 'Cloud Application',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'RecommenderX: Cloud-Based Movie Rating and Recommendation SaaS',
 			publishDate: 'Mar 2025 - May 2025',
@@ -657,6 +780,7 @@ export const projectsData = [
 		url: 'student-success-prediction',
 		githubUrl: 'https://github.com/Sreekaran1704/Student_Success_prediction',
 		category: 'Data Analytics',
+		type: 'Project',
 		ProjectHeader: {
 			title: 'Student Success Prediction',
 			publishDate: 'Nov 2024 - Dec 2024',

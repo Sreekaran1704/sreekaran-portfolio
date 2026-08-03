@@ -1384,6 +1384,50 @@ a {
 	color: #565b3f;
 }
 
+/* Filter tabs above the notice board */
+.projects-filter-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-bottom: 2rem;
+}
+
+.projects-filter-btn {
+	padding: 0.5rem 1.1rem;
+	background: rgba(255, 250, 240, 0.55);
+	border: 1.5px dashed rgba(86, 91, 63, 0.35);
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: #565b3f;
+	cursor: pointer;
+	transition:
+		transform 0.2s ease,
+		background 0.2s ease,
+		box-shadow 0.2s ease,
+		color 0.2s ease;
+}
+
+.projects-filter-btn:hover {
+	transform: translateY(-2px);
+	background: rgba(255, 250, 240, 0.85);
+	box-shadow: 2px 2px 0 rgba(86, 91, 63, 0.12);
+}
+
+.projects-filter-btn-active {
+	background: #565b3f;
+	border-style: solid;
+	border-color: #565b3f;
+	color: #fffaf0;
+	box-shadow: 2px 2px 0 rgba(86, 91, 63, 0.22);
+}
+
+.projects-filter-btn-active:hover {
+	background: #474c34;
+	color: #fffaf0;
+}
+
 /* Light old-paper notice board */
 .notice-board {
 	position: relative;
@@ -3633,5 +3677,646 @@ a {
 		transform: scale(1);
 		margin-top: 0;
 		margin-bottom: 0;
+	}
+}
+
+/* ================================================================
+   FanHouse case study — scrapbook-themed long-form pages
+   ================================================================ */
+
+.fh-page {
+	background: #fffaf0;
+	min-height: 100vh;
+	position: relative;
+}
+
+.fh-page::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(96, 85, 55, 0.08) 0.7px, transparent 0.7px);
+	background-size: 18px 18px;
+	opacity: 0.22;
+}
+
+.fh-page>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Version toggle strip */
+.fh-version-switch {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem;
+	padding: 0.85rem 1.1rem;
+	background: #efe7b8;
+	border: 1px solid rgba(120, 88, 55, 0.18);
+	box-shadow: 2px 2px 0 rgba(86, 91, 63, 0.08);
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.98rem;
+	color: #565b3f;
+	transform: rotate(-0.4deg);
+}
+
+.fh-version-switch strong {
+	color: #4e4931;
+}
+
+.fh-version-switch a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	color: #312e81;
+	transition: transform 0.2s ease;
+}
+
+.fh-version-switch a:hover {
+	transform: translateX(2px);
+	color: #23205f;
+}
+
+/* Hero */
+.fh-hero {
+	position: relative;
+	background:
+		radial-gradient(rgba(96, 85, 55, 0.05) 0.65px, transparent 0.65px),
+		#fffaf0;
+	background-size: 14px 14px;
+	border: 1px solid rgba(120, 88, 55, 0.14);
+	box-shadow:
+		0 14px 28px rgba(80, 60, 35, 0.08),
+		2px 2px 0 rgba(86, 91, 63, 0.04);
+	padding: 2.4rem 2rem;
+}
+
+.fh-hero>* {
+	position: relative;
+	z-index: 1;
+}
+
+.fh-eyebrow {
+	display: inline-flex;
+	margin-bottom: 1rem;
+	padding: 0.28rem 0.75rem;
+	background: rgba(244, 234, 216, 0.62);
+	border: 1px dashed rgba(86, 91, 63, 0.32);
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.85rem;
+	letter-spacing: 0.03em;
+	color: #565b3f;
+}
+
+.fh-hero-title {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.9rem, 4vw, 3rem);
+	line-height: 1.12;
+	color: #4e4931;
+	margin-bottom: 1.1rem;
+}
+
+.fh-hero-lede {
+	max-width: 62ch;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: clamp(1rem, 1.4vw, 1.15rem);
+	line-height: 1.6;
+	color: #565b3f;
+}
+
+.fh-hero-byline {
+	margin-top: 1.4rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.9rem;
+	color: rgba(86, 91, 63, 0.75);
+}
+
+.fh-hero-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 1rem;
+	margin-top: 1.6rem;
+}
+
+.fh-hero-stat {
+	padding: 0.9rem 1rem;
+	background: rgba(244, 234, 216, 0.55);
+	border: 1px dashed rgba(86, 91, 63, 0.28);
+}
+
+.fh-hero-stat-value {
+	display: block;
+	font-family: 'GeneralSans-Bold';
+	font-size: 1.7rem;
+	line-height: 1.1;
+	color: #565b3f;
+}
+
+.fh-hero-stat-unit {
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.95rem;
+	color: rgba(86, 91, 63, 0.75);
+}
+
+.fh-hero-stat-label {
+	display: block;
+	margin-top: 0.3rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.85rem;
+	line-height: 1.25;
+	color: rgba(86, 91, 63, 0.8);
+}
+
+/* Section cards */
+.fh-section {
+	position: relative;
+	background:
+		radial-gradient(rgba(96, 85, 55, 0.05) 0.65px, transparent 0.65px),
+		#fffaf0;
+	background-size: 14px 14px;
+	border: 1px solid rgba(120, 88, 55, 0.14);
+	box-shadow:
+		0 10px 22px rgba(80, 60, 35, 0.08),
+		2px 2px 0 rgba(86, 91, 63, 0.04);
+	padding: 2rem;
+	margin-top: 2rem;
+}
+
+.fh-section>* {
+	position: relative;
+	z-index: 1;
+}
+
+.fh-section h2 {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+	line-height: 1.2;
+	color: #4e4931;
+	margin-bottom: 1rem;
+}
+
+.fh-section h3 {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.2rem;
+	color: #56523a;
+	margin-top: 1.6rem;
+	margin-bottom: 0.7rem;
+}
+
+.fh-section p {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.02rem;
+	line-height: 1.65;
+	color: #565b3f;
+	margin-bottom: 1rem;
+}
+
+.fh-section p.fh-lede {
+	font-weight: 700;
+	font-size: 1.12rem;
+	color: #4e4931;
+}
+
+.fh-section p:last-child {
+	margin-bottom: 0;
+}
+
+.fh-section em {
+	color: #4e4931;
+}
+
+.fh-section strong {
+	color: #4e4931;
+}
+
+/* Verdict grid */
+.fh-verdict-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.1rem;
+	margin: 1.3rem 0;
+}
+
+.fh-verdict-card {
+	padding: 1.1rem 1.2rem;
+	background: rgba(244, 234, 216, 0.5);
+	border: 1px dashed rgba(86, 91, 63, 0.3);
+	text-align: left;
+}
+
+.fh-verdict-card-total {
+	background: linear-gradient(180deg, rgba(86, 91, 63, 0.14) 0%, rgba(86, 91, 63, 0.08) 100%);
+	border: 1px solid rgba(86, 91, 63, 0.4);
+}
+
+.fh-verdict-card-label {
+	display: block;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.85rem;
+	color: rgba(86, 91, 63, 0.75);
+	margin-bottom: 0.35rem;
+}
+
+.fh-verdict-card-value {
+	display: block;
+	font-family: 'GeneralSans-Bold';
+	font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+	line-height: 1.15;
+	color: #4e4931;
+}
+
+.fh-verdict-card-sub {
+	display: block;
+	margin-top: 0.35rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.86rem;
+	color: #565b3f;
+}
+
+/* Insight callouts */
+.fh-insight {
+	position: relative;
+	margin: 1.4rem 0;
+	padding: 1rem 1.2rem 1rem 1.35rem;
+	background: #efe7b8;
+	border: 1px dashed rgba(86, 91, 63, 0.34);
+	box-shadow: 2px 2px 0 rgba(86, 91, 63, 0.06);
+}
+
+.fh-insight-final {
+	background: linear-gradient(180deg, rgba(86, 91, 63, 0.14) 0%, rgba(86, 91, 63, 0.09) 100%);
+	border: 1px solid rgba(86, 91, 63, 0.4);
+}
+
+.fh-insight-tag {
+	display: inline-block;
+	margin-bottom: 0.45rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.8rem;
+	letter-spacing: 0.03em;
+	color: #312e81;
+}
+
+.fh-insight p {
+	margin: 0;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.98rem;
+	line-height: 1.55;
+	color: #4e4931;
+}
+
+/* Finding / plain lists */
+.fh-finding-list,
+.fh-plain-list {
+	margin: 1rem 0;
+	padding-left: 0;
+	list-style: none;
+	counter-reset: fh-finding;
+}
+
+.fh-finding-list li,
+.fh-plain-list li {
+	position: relative;
+	padding-left: 2rem;
+	margin-bottom: 0.9rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.02rem;
+	line-height: 1.6;
+	color: #565b3f;
+}
+
+.fh-finding-list li {
+	counter-increment: fh-finding;
+}
+
+.fh-finding-list li::before {
+	content: counter(fh-finding);
+	position: absolute;
+	left: 0;
+	top: 0.05rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.4rem;
+	height: 1.4rem;
+	font-family: 'GeneralSans-Semibold';
+	font-size: 0.78rem;
+	color: #fffaf0;
+	background: #565b3f;
+	border-radius: 999px;
+}
+
+.fh-plain-list li::before {
+	content: '';
+	position: absolute;
+	left: 0.15rem;
+	top: 0.7rem;
+	width: 6px;
+	height: 6px;
+	background: #565b3f;
+	border-radius: 999px;
+}
+
+.fh-finding-list li strong,
+.fh-plain-list li strong {
+	color: #4e4931;
+}
+
+/* Spec / metric list (definition-list style rows) */
+.fh-spec-list {
+	margin: 1rem 0;
+	border-top: 1px dashed rgba(86, 91, 63, 0.24);
+}
+
+.fh-spec-row {
+	display: grid;
+	grid-template-columns: minmax(110px, 160px) 1fr;
+	gap: 1rem;
+	padding: 0.7rem 0;
+	border-bottom: 1px dashed rgba(86, 91, 63, 0.24);
+}
+
+.fh-spec-row dt {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: #4e4931;
+}
+
+.fh-spec-row dd {
+	margin: 0;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	color: #565b3f;
+}
+
+/* Metric columns (guardrails / diagnostics side by side) */
+.fh-metric-columns {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 1.3rem;
+	margin: 1.2rem 0;
+}
+
+.fh-metric-col-title {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.05rem;
+	color: #4e4931;
+	margin-bottom: 0.6rem;
+}
+
+/* Tables */
+.fh-table-wrap {
+	overflow-x: auto;
+	margin: 1.2rem 0;
+	border: 1px dashed rgba(86, 91, 63, 0.28);
+	background: rgba(255, 250, 240, 0.5);
+}
+
+.fh-table {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 420px;
+}
+
+.fh-table th,
+.fh-table td {
+	padding: 0.65rem 0.9rem;
+	text-align: left;
+	border-bottom: 1px dashed rgba(86, 91, 63, 0.2);
+	font-size: 0.92rem;
+	line-height: 1.4;
+}
+
+.fh-table thead th {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	color: #4e4931;
+	background: rgba(244, 234, 216, 0.55);
+}
+
+.fh-table tbody td {
+	font-family: 'GeneralSans-Medium';
+	color: #565b3f;
+}
+
+.fh-table tbody td:first-child {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	color: #4e4931;
+}
+
+.fh-table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.fh-table .fh-num {
+	font-family: 'GeneralSans-Semibold';
+	color: #4e4931;
+}
+
+/* Formula blocks */
+.fh-formula-block {
+	margin: 1.2rem 0;
+	padding: 1rem 1.2rem;
+	background: rgba(244, 234, 216, 0.45);
+	border: 1px dashed rgba(86, 91, 63, 0.3);
+}
+
+.fh-formula-label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.85rem;
+	color: #312e81;
+}
+
+.fh-formula {
+	margin: 0;
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+	font-size: 0.94rem;
+	line-height: 1.6;
+	color: #4e4931;
+	overflow-x: auto;
+}
+
+.fh-formula-op {
+	color: #565b3f;
+	margin: 0 0.15em;
+}
+
+.fh-formula-sub {
+	font-size: 0.72em;
+	vertical-align: sub;
+}
+
+.fh-formula-sep {
+	color: rgba(86, 91, 63, 0.7);
+}
+
+.fh-result-line {
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+	font-size: 0.94rem;
+	color: #4e4931;
+	background: rgba(244, 234, 216, 0.4);
+	border-left: 3px solid #565b3f;
+	padding: 0.6rem 0.9rem;
+	margin: 1rem 0;
+}
+
+.fh-result-line-warn {
+	border-left-color: #9f6138;
+}
+
+.fh-synthetic-note {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.92rem;
+	color: rgba(86, 91, 63, 0.85);
+	border-top: 1px dashed rgba(86, 91, 63, 0.24);
+	padding-top: 1rem;
+	margin-top: 1.4rem;
+}
+
+/* Chart figures */
+.fh-chart-figure {
+	margin: 1.4rem 0;
+	padding: 1.2rem;
+	background: rgba(255, 250, 240, 0.55);
+	border: 1px dashed rgba(86, 91, 63, 0.28);
+}
+
+.fh-chart-figure .fh-chart {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.fh-chart-figure figcaption {
+	margin-top: 0.8rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.88rem;
+	line-height: 1.5;
+	color: rgba(86, 91, 63, 0.85);
+}
+
+.fh-chart-axis {
+	stroke: rgba(86, 91, 63, 0.45);
+	stroke-width: 1.5;
+}
+
+.fh-chart-grid {
+	stroke: rgba(86, 91, 63, 0.14);
+	stroke-width: 1;
+}
+
+.fh-chart-baseline-dash {
+	stroke: rgba(159, 97, 56, 0.55);
+	stroke-width: 1.5;
+}
+
+.fh-chart-errorbar {
+	stroke: rgba(78, 73, 49, 0.6);
+	stroke-width: 2;
+}
+
+.fh-chart-tick,
+.fh-chart-label,
+.fh-chart-group-label {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	fill: #565b3f;
+	font-size: 12px;
+}
+
+.fh-chart-group-label {
+	font-size: 11px;
+	fill: rgba(86, 91, 63, 0.75);
+}
+
+.fh-chart-value {
+	font-family: 'GeneralSans-Bold';
+	fill: #4e4931;
+	font-size: 13px;
+}
+
+.fh-bar-control {
+	fill: #cbb98f;
+}
+
+.fh-bar-treatment {
+	fill: #6a7b4d;
+}
+
+.fh-bar-good {
+	fill: #565b3f;
+}
+
+.fh-bar-warn {
+	fill: #9f6138;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+	.fh-hero {
+		padding: 1.6rem 1.3rem;
+	}
+
+	.fh-section {
+		padding: 1.4rem;
+	}
+
+	.fh-spec-row {
+		grid-template-columns: 1fr;
+		gap: 0.3rem;
+	}
+
+	.fh-version-switch {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 }

@@ -1,6 +1,13 @@
 import Link from 'next/link';
 
 function getProjectMetric(title, category) {
+	if (title.includes('FanHouse')) {
+		return {
+			metric: '$5 vs $42',
+			note: 'True causal lift vs. naive comparison',
+		};
+	}
+
 	if (title.includes('Story')) {
 		return {
 			metric: '39.8%',
