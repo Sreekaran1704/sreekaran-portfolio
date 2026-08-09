@@ -110,6 +110,87 @@ function Bird({ config, containerWidth }) {
 	);
 }
 
+function quadPoint(t, p0, p1, p2) {
+	const mt = 1 - t;
+	return {
+		x: mt * mt * p0.x + 2 * mt * t * p1.x + t * t * p2.x,
+		y: mt * mt * p0.y + 2 * mt * t * p1.y + t * t * p2.y,
+	};
+}
+
+function quadTangent(t, p0, p1, p2) {
+	const mt = 1 - t;
+	return {
+		x: 2 * mt * (p1.x - p0.x) + 2 * t * (p2.x - p1.x),
+		y: 2 * mt * (p1.y - p0.y) + 2 * t * (p2.y - p1.y),
+	};
+}
+
+// The clothesline stays a plain, clean sag (a real rope doesn't spiral);
+// the vine is a separate, gentle wave draped along it — a wide, shallow
+// wavelength reads as a relaxed climbing vine, where a tight one looks like
+// a coiled wire instead of a plant.
+const VINE_WAVELENGTH = 110; // px
+const VINE_AMPLITUDE = 9; // px
+// Leaves are sampled every quarter-wavelength along the vine (not just at
+// its peaks), so twigs branch off between turns too, not only at the top
+// and bottom of each wave.
+const VINE_LEAF_SPACING = VINE_WAVELENGTH / 4; // px
+
+// For this curve's control points (x = 0, width / 2, width) the x-component
+// of the quadratic Bezier is exactly linear in t (x(t) = width * t), so the
+// vine's wave can add a pure vertical offset — keeping x strictly increasing
+// — and the existing arc-length note-pinning logic keeps working untouched.
+function vineOffset(x, wavelength, amplitude) {
+	// Rounded to avoid a hydration mismatch: Math.sin can differ in its last
+	// floating-point digit between server and client JS engines.
+	const raw = amplitude * Math.sin((2 * Math.PI * x) / wavelength);
+	return Math.round(raw * 1000) / 1000;
+}
+
+function vinePoint(t, p0, p1, p2, wavelength, amplitude) {
+	const base = quadPoint(t, p0, p1, p2);
+	return { x: base.x, y: base.y + vineOffset(base.x, wavelength, amplitude) };
+}
+
+function vinePathD(p0, p1, p2, width, wavelength, amplitude) {
+	const steps = Math.max(140, Math.round(width / 3));
+	let d = '';
+	for (let i = 0; i <= steps; i++) {
+		const t = i / steps;
+		const pt = vinePoint(t, p0, p1, p2, wavelength, amplitude);
+		d += i === 0 ? `M ${pt.x} ${pt.y}` : ` L ${pt.x} ${pt.y}`;
+	}
+	return d;
+}
+
+const LEAF_COLORS = ['#6f8161', '#7c8d6a', '#5f7355'];
+
+// One small leaf sprig. Many of these, strung along the whole string, read
+// as a single vine tangled on it from end to end. The outer <g> handles
+// static positioning via the SVG transform attribute; framer-motion fully
+// owns the transform on the inner <motion.g> once it's animating scale, so
+// the two must not share one element.
+function LeafSprig({ point, angle, side, colorIndex, delay }) {
+	if (!point) return null;
+
+	const sideAngle = side === 1 ? 30 : -30;
+	const color = LEAF_COLORS[colorIndex % LEAF_COLORS.length];
+
+	return (
+		<g transform={`translate(${point.x}, ${point.y}) rotate(${angle + sideAngle})`}>
+			<motion.g
+				initial={{ opacity: 0, scale: 0.5 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+			>
+				<path d="M 0,0 L 0,6" stroke="#6b6448" strokeWidth={1} strokeLinecap="round" />
+				<path d="M 0,0 Q -3.6,-7 0,-13 Q 3.6,-7 0,0 Z" fill={color} opacity={0.85} />
+			</motion.g>
+		</g>
+	);
+}
+
 function ClotheslineNote({ card, index, point }) {
 	const tilt = index % 2 === 0 ? -4 : 4;
 	const pinGripOffset = 4; // distance from the note's top anchor to where the pin visually grips the string (centers the crossbar, which is 8 tall, on the curve)
@@ -256,9 +337,36 @@ function ClotheslineDeck() {
 	const bottomY = height - 20;
 
 	// Simple U-shaped parabola: top-left corner down to a single smooth dip, back up to top-right corner.
-	const stringPath = `M 0 ${topY} Q ${width / 2} ${bottomY} ${width} ${topY}`;
+	const stringStart = { x: 0, y: topY };
+	const stringControl = { x: width / 2, y: bottomY };
+	const stringEnd = { x: width, y: topY };
+	const stringPath = `M ${stringStart.x} ${stringStart.y} Q ${stringControl.x} ${stringControl.y} ${stringEnd.x} ${stringEnd.y}`;
+	const vinePath = vinePathD(stringStart, stringControl, stringEnd, width, VINE_WAVELENGTH, VINE_AMPLITUDE);
 
 	const points = useCurvePoints(stringPath, width, width > 0 && height > 0);
+
+	// Leaf sprigs are sampled densely along the vine's wave, so the whole
+	// thing reads as a leafy vine draped along the string rather than a
+	// scatter of separate leaves.
+	const totalLeaves = width > 0 ? Math.floor(width / VINE_LEAF_SPACING) : 0;
+	const sprigs = [];
+	for (let i = 0; i <= totalLeaves; i++) {
+		const x = VINE_LEAF_SPACING * (i + 0.5);
+		if (x > width) break;
+		const t = x / width; // exact, since x(t) = width * t for this curve
+		const point = vinePoint(t, stringStart, stringControl, stringEnd, VINE_WAVELENGTH, VINE_AMPLITUDE);
+		const tangent = quadTangent(t, stringStart, stringControl, stringEnd);
+		// Rounded to avoid a hydration mismatch: atan2 can differ in its last
+		// floating-point digit between server and client JS engines.
+		const angle = Math.round(((Math.atan2(tangent.y, tangent.x) * 180) / Math.PI) * 100) / 100;
+		sprigs.push({
+			point,
+			angle,
+			side: i % 2,
+			colorIndex: i,
+			delay: 0.6 + t * 0.8,
+		});
+	}
 
 	return (
 		<div ref={containerRef} style={{ position: 'relative', height: '100%', minHeight: 620, width: '100%' }}>
@@ -282,6 +390,28 @@ function ClotheslineDeck() {
 					animate={{ pathLength: 1 }}
 					transition={{ duration: 1.1, ease: 'easeOut' }}
 				/>
+
+				<motion.path
+					d={vinePath}
+					stroke="#5f7355"
+					strokeWidth={1.6}
+					fill="none"
+					opacity={0.85}
+					initial={{ pathLength: 0 }}
+					animate={{ pathLength: 1 }}
+					transition={{ duration: 1.1, delay: 0.15, ease: 'easeOut' }}
+				/>
+
+				{sprigs.map((sprig, i) => (
+					<LeafSprig
+						key={i}
+						point={sprig.point}
+						angle={sprig.angle}
+						side={sprig.side}
+						colorIndex={sprig.colorIndex}
+						delay={sprig.delay}
+					/>
+				))}
 			</svg>
 
 			{points &&

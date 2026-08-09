@@ -54,7 +54,7 @@ function AboutMe() {
 
 							<div className="info-row">
 								<p>Focus</p>
-								<strong>Analytics · BI · Applied AI</strong>
+								<strong>Data Analyst · Causal Inference · LLMs</strong>
 							</div>
 
 							<div className="info-row">

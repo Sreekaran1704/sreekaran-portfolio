@@ -1848,33 +1848,49 @@ a {
 	display: flex;
 	gap: 2rem;
 	width: max-content;
-	padding: 1.8rem 0.2rem 1rem;
+	padding: 2rem 0.2rem 1rem;
 	align-items: flex-start;
 }
 
-.hanging-articles-track::before {
+/* Wavy string across the full horizontal track */
+.hanging-articles-track::after {
 	content: '';
 	position: absolute;
 	left: -4rem;
 	right: -4rem;
-	top: 1.05rem;
-	height: 3px;
-	background:
-		linear-gradient(180deg,
-			rgba(131, 109, 79, 0.72) 0%,
-			rgba(106, 86, 60, 0.95) 100%);
-	border-radius: 999px;
-	box-shadow:
-		0 1px 0 rgba(255, 250, 240, 0.35),
-		0 2px 5px rgba(80, 60, 35, 0.08);
-	z-index: 1;
+	top: 0.95rem;
+	height: 16px;
+	pointer-events: none;
+	z-index: 2;
+
+	background-image: url("data:image/svg+xml,%3Csvg width='160' height='16' viewBox='0 0 160 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 8 C 20 2, 40 14, 60 8 S 100 2, 120 8 S 145 14, 160 8' fill='none' stroke='%23715f45' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-repeat: repeat-x;
+	background-size: 160px 16px;
+	opacity: 0.95;
+}
+
+/* Climbing vine — a winding stem threaded through every leaf sprig, tangled
+   along the whole string from end to end */
+.hanging-vine-stem {
+	position: absolute;
+	top: calc(0.95rem + 8px);
+	transform: translateY(-50%);
+	z-index: 3;
+	pointer-events: none;
+}
+
+.hanging-twig {
+	position: absolute;
+	top: calc(0.95rem + 8px);
+	z-index: 4;
+	pointer-events: none;
 }
 
 /* Each hanging article block */
 .hanging-article {
 	position: relative;
 	width: 340px;
-	padding-top: 1.95rem;
+	padding-top: 2.1rem;
 	flex: 0 0 auto;
 	scroll-snap-align: start;
 }
@@ -1882,7 +1898,7 @@ a {
 /* Clip sits directly on the string */
 .hanger-clip {
 	position: absolute;
-	top: -0.38rem;
+	top: -0.42rem;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 34px;
@@ -1894,7 +1910,7 @@ a {
 	box-shadow:
 		0 3px 8px rgba(80, 60, 35, 0.16),
 		inset 0 1px 0 rgba(255, 250, 240, 0.28);
-	z-index: 4;
+	z-index: 5;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
@@ -1910,7 +1926,7 @@ a {
 	width: 46px;
 	height: 12px;
 	transform: translate(-50%, -50%);
-	border-top: 3px solid rgba(90, 68, 45, 0.58);
+	border-top: 3px solid rgba(90, 68, 45, 0.62);
 	border-bottom: 2px solid rgba(90, 68, 45, 0.16);
 	border-radius: 999px;
 	z-index: 1;
@@ -1929,13 +1945,13 @@ a {
 /* Small connector from clip to paper */
 .hanger-connector {
 	position: absolute;
-	top: 1.35rem;
+	top: 1.36rem;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 2px;
-	height: 0.72rem;
+	height: 0.75rem;
 	background: rgba(114, 90, 62, 0.42);
-	z-index: 2;
+	z-index: 3;
 }
 
 /* Paper card attached under the clip */
@@ -2011,6 +2027,7 @@ a {
 .hanging-article:hover.hanging-article-4 .hanging-article-card,
 .hanging-article:hover.hanging-article-5 .hanging-article-card {
 	transform: translateY(-6px) rotate(0deg);
+	transform-origin: top center;
 }
 
 .hanging-article-meta {
@@ -2144,103 +2161,6 @@ a {
 		font-size: 1.18rem;
 	}
 }
-
-/* Force clip-string alignment */
-.hanging-articles-track {
-	padding-top: 1.8rem !important;
-}
-
-.hanging-articles-track::before {
-	top: 1.05rem !important;
-}
-
-.hanging-article {
-	padding-top: 1.95rem !important;
-}
-
-.hanger-clip {
-	top: -0.38rem !important;
-}
-
-.hanger-connector {
-	top: 1.35rem !important;
-	height: 0.72rem !important;
-}
-
-/* ---------- Natural wavy article string override ---------- */
-
-/* Give the hanging row enough top room for the wave */
-.hanging-articles-track {
-	position: relative !important;
-	padding-top: 2rem !important;
-}
-
-/* Hide the old straight string */
-.hanging-articles-track::before {
-	display: none !important;
-	content: none !important;
-}
-
-/* Wavy string across the full horizontal track */
-.hanging-articles-track::after {
-	content: '' !important;
-	position: absolute !important;
-	left: -4rem !important;
-	right: -4rem !important;
-	top: 0.95rem !important;
-	height: 16px !important;
-	pointer-events: none !important;
-	z-index: 2 !important;
-
-	background-image: url("data:image/svg+xml,%3Csvg width='160' height='16' viewBox='0 0 160 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 8 C 20 2, 40 14, 60 8 S 100 2, 120 8 S 145 14, 160 8' fill='none' stroke='%23715f45' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
-	background-repeat: repeat-x !important;
-	background-size: 160px 16px !important;
-	opacity: 0.95 !important;
-}
-
-/* Put each article close to the string */
-.hanging-article {
-	padding-top: 2.1rem !important;
-}
-
-/* Clip sits on top of the wavy string */
-.hanger-clip {
-	top: -0.42rem !important;
-	z-index: 5 !important;
-}
-
-/* Make the string visible inside/through the clip area */
-.hanger-clip::before {
-	content: '' !important;
-	position: absolute !important;
-	left: 50% !important;
-	top: 50% !important;
-	width: 48px !important;
-	height: 12px !important;
-	transform: translate(-50%, -50%) !important;
-	border-top: 3px solid rgba(90, 68, 45, 0.62) !important;
-	border-bottom: 2px solid rgba(90, 68, 45, 0.16) !important;
-	border-radius: 999px !important;
-	z-index: 1 !important;
-}
-
-/* Short connector from clip to article */
-.hanger-connector {
-	top: 1.36rem !important;
-	height: 0.75rem !important;
-	z-index: 3 !important;
-}
-
-/* Keep the paper attached close to the clip */
-.hanging-article-card {
-	margin-top: 0 !important;
-}
-
-/* Optional: tiny swing feel on hover */
-.hanging-article:hover .hanging-article-card {
-	transform-origin: top center !important;
-}
-
 
 /* ---------- Experience Film Reel Section ---------- */
 
