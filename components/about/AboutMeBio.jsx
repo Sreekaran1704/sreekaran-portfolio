@@ -27,7 +27,7 @@ function AboutMe() {
 							<div className="photo-sticky-note">
 								<div className="note-pin" />
 								<p>
-									“The real value of data is not in the dashboard or the number, it is in the decision it improves.”
+									&ldquo;The real value of data is not in the dashboard or the number, it is in the decision it improves.&rdquo;
 								</p>
 							</div>
 
@@ -82,11 +82,11 @@ function AboutMe() {
 							</p>
 
 							<p>
-								The project that changed how I think about analysis was FanHouse. I ran a randomized experiment across 50,000 customers to measure a membership program's real impact on revenue. The naive comparison, people who joined versus people who didn't, said the effect was huge. It was wrong, by a factor of 8, because people who join loyalty programs are already a company's best customers. I caught that with a placebo test, then rebuilt the estimate using propensity score matching and difference-in-differences, two independent methods that converged on the same number once the bias was gone. That was when I stopped reporting what the data says and started checking whether the data is saying what it looks like it's saying.
+								The project that changed how I think about analysis was FanHouse. I ran a randomized experiment across 50,000 customers to measure a membership program&apos;s real impact on revenue. The naive comparison, people who joined versus people who didn&apos;t, said the effect was huge. It was wrong, by a factor of 8, because people who join loyalty programs are already a company&apos;s best customers. I caught that with a placebo test, then rebuilt the estimate using propensity score matching and difference-in-differences, two independent methods that converged on the same number once the bias was gone. That was when I stopped reporting what the data says and started checking whether the data is saying what it looks like it&apos;s saying.
 							</p>
 
 							<p>
-								That's the thread through everything I do now: SQL and Python to make data trustworthy, Tableau to make it legible, and causal inference to make it actionable. I'm currently looking for my next place to do that, as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI.
+								That&apos;s the thread through everything I do now: SQL and Python to make data trustworthy, Tableau to make it legible, and causal inference to make it actionable. I&apos;m currently looking for my next place to do that, as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI.
 							</p>
 						</div>
 					</motion.div>
