@@ -2242,444 +2242,12 @@ a {
 }
 
 
-/* ---------- Experience Open Book Section ---------- */
+/* ---------- Experience Film Reel Section ---------- */
 
 .experience-page {
 	background: #fffaf0;
 	min-height: 100vh;
 }
-
-.experience-book-section {
-	position: relative;
-	background: #fffaf0;
-	color: #292524;
-	overflow: hidden;
-}
-
-.experience-book-section::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	background:
-		linear-gradient(rgba(120, 88, 55, 0.025) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(120, 88, 55, 0.025) 1px, transparent 1px),
-		radial-gradient(rgba(96, 85, 55, 0.075) 0.7px, transparent 0.7px);
-	background-size: 32px 32px, 32px 32px, 18px 18px;
-	opacity: 0.34;
-}
-
-.experience-book-section>* {
-	position: relative;
-	z-index: 1;
-}
-
-.experience-book-heading-wrap {
-	max-width: 56rem;
-	margin-bottom: 2rem;
-}
-
-.experience-book-heading {
-	position: relative;
-	display: inline-block;
-	margin: 0;
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-weight: 700;
-	font-size: clamp(2.1rem, 4vw, 3.4rem);
-	line-height: 1;
-	color: #565b3f;
-}
-
-.experience-book-heading::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -0.42rem;
-	height: 0.14rem;
-	background: rgba(86, 91, 63, 0.42);
-	transform: rotate(-1deg);
-}
-
-.experience-book-intro {
-	max-width: 52rem;
-	margin-top: 1.15rem;
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-weight: 600;
-	font-size: 1.08rem;
-	line-height: 1.6;
-	color: #565b3f;
-}
-
-.experience-book-tabs {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.9rem;
-	margin-bottom: 2rem;
-}
-
-.experience-tab {
-	display: flex;
-	flex-direction: column;
-	gap: 0.12rem;
-	padding: 0.85rem 1rem;
-	border: 1px solid rgba(120, 88, 55, 0.15);
-	background: #f7efdf;
-	box-shadow: 0 6px 14px rgba(80, 60, 35, 0.06);
-	border-radius: 0.75rem;
-	transition:
-		transform 0.22s ease,
-		background 0.22s ease,
-		box-shadow 0.22s ease;
-	text-align: left;
-	cursor: pointer;
-}
-
-.experience-tab:hover {
-	transform: translateY(-2px);
-	background: #fbf4e7;
-}
-
-.experience-tab-active {
-	background: #e8edd5;
-	border-color: rgba(86, 91, 63, 0.24);
-	box-shadow: 0 10px 20px rgba(80, 60, 35, 0.08);
-}
-
-.experience-tab-company {
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-weight: 700;
-	font-size: 1.02rem;
-	color: #4f5138;
-}
-
-.experience-tab-role {
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.78rem;
-	line-height: 1.45;
-	color: #6a6558;
-}
-
-.open-book-shell {
-	position: relative;
-	width: 100%;
-	margin-top: 0;
-	transform-origin: center top;
-}
-
-.open-book-topbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: 2rem;
-	min-height: 128px;
-	margin-bottom: 1.1rem;
-	flex-wrap: wrap;
-}
-
-.open-book-category {
-	display: inline-block;
-	margin-bottom: 0.55rem;
-	padding: 0.3rem 0.8rem;
-	border-radius: 999px;
-	background: #e7ecd3;
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.72rem;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: #59623d;
-}
-
-.open-book-role {
-	margin: 0 0 0.25rem;
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-weight: 700;
-	font-size: clamp(1.8rem, 3vw, 2.5rem);
-	line-height: 1.06;
-	color: #4a4b34;
-}
-
-.open-book-company {
-	margin: 0;
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.95rem;
-	color: #6a6558;
-}
-
-.open-book-meta {
-	max-width: 25rem;
-	text-align: right;
-}
-
-.open-book-period {
-	margin: 0 0 0.35rem;
-	font-family: 'GeneralSans-Medium';
-	font-size: 0.88rem;
-	color: #565b3f;
-}
-
-.open-book-type {
-	margin: 0;
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.82rem;
-	line-height: 1.6;
-	color: #746f60;
-}
-
-.open-book {
-	position: relative;
-	display: grid;
-	grid-template-columns: 1fr 28px 1fr;
-	align-items: stretch;
-	height: 680px;
-	min-height: 680px;
-	max-height: 680px;
-	background: linear-gradient(180deg, #f7efdf 0%, #f3ead8 100%);
-	border: 1px solid rgba(120, 88, 55, 0.14);
-	border-radius: 1.2rem;
-	box-shadow:
-		0 18px 40px rgba(80, 60, 35, 0.08),
-		inset 0 1px 0 rgba(255, 255, 255, 0.5);
-	overflow: hidden;
-}
-
-.book-page {
-	position: relative;
-	height: 680px;
-	max-height: 680px;
-	padding: 1.6rem 1.45rem 1.6rem;
-	overflow-y: auto;
-	background:
-		repeating-linear-gradient(to bottom,
-			transparent 0,
-			transparent 30px,
-			rgba(120, 88, 55, 0.08) 30px,
-			rgba(120, 88, 55, 0.08) 31px),
-		#fffaf0;
-}
-
-.book-page::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	background-image: radial-gradient(rgba(96, 85, 55, 0.08) 0.7px, transparent 0.7px);
-	background-size: 18px 18px;
-	opacity: 0.15;
-}
-
-.book-page-left {
-	border-right: 1px solid rgba(120, 88, 55, 0.1);
-}
-
-.book-page-right {
-	border-left: 1px solid rgba(120, 88, 55, 0.06);
-}
-
-.book-center-crease {
-	position: relative;
-	background: linear-gradient(90deg,
-			rgba(120, 88, 55, 0.16) 0%,
-			rgba(255, 250, 240, 0.92) 45%,
-			rgba(255, 250, 240, 0.92) 55%,
-			rgba(120, 88, 55, 0.16) 100%);
-	box-shadow:
-		inset 0 0 8px rgba(80, 60, 35, 0.08),
-		0 0 10px rgba(80, 60, 35, 0.03);
-}
-
-.book-page-header {
-	position: relative;
-	z-index: 1;
-	display: flex;
-	justify-content: flex-end;
-	margin-bottom: 1rem;
-}
-
-.book-page-header span {
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.72rem;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: #8a826f;
-}
-
-.book-points {
-	position: relative;
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.book-point-item {
-	display: grid;
-	grid-template-columns: 18px 1fr;
-	gap: 0.7rem;
-	align-items: flex-start;
-}
-
-.book-point-bullet {
-	font-size: 0.9rem;
-	line-height: 1.7;
-	color: #69724b;
-}
-
-.book-point-item p {
-	margin: 0;
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.88rem;
-	line-height: 1.72;
-	color: #4f4a3f;
-	text-align: left;
-}
-
-.book-point-empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100%;
-	padding-top: 2rem;
-}
-
-.book-point-empty p {
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-size: 1.1rem;
-	color: #7b7567;
-}
-
-.experience-book-controls {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
-	min-height: 54px;
-	margin-top: 1.5rem;
-	flex-wrap: wrap;
-}
-
-.book-nav-btn {
-	border: 1px solid rgba(120, 88, 55, 0.16);
-	background: #fffaf0;
-	padding: 0.72rem 1.1rem;
-	border-radius: 999px;
-	font-family: 'GeneralSans-Regular';
-	font-size: 0.82rem;
-	color: #565b3f;
-	box-shadow: 0 6px 14px rgba(80, 60, 35, 0.05);
-	transition:
-		transform 0.22s ease,
-		background 0.22s ease;
-	cursor: pointer;
-}
-
-.book-nav-btn:hover {
-	transform: translateY(-2px);
-	background: #f6efde;
-}
-
-.book-nav-status {
-	min-width: 52px;
-	margin: 0;
-	font-family: 'Cormorant Garamond', serif;
-	font-style: italic;
-	font-size: 1.05rem;
-	color: #66604f;
-	text-align: center;
-}
-
-.book-page::-webkit-scrollbar {
-	width: 8px;
-}
-
-.book-page::-webkit-scrollbar-track {
-	background: rgba(216, 198, 167, 0.25);
-	border-radius: 999px;
-}
-
-.book-page::-webkit-scrollbar-thumb {
-	background: rgba(120, 88, 55, 0.32);
-	border-radius: 999px;
-}
-
-/* Hide old experience designs if stale markup remains anywhere */
-.growth-experience-section,
-.growth-path-board,
-.growth-path-arrow,
-.growth-step,
-.growth-experience-card,
-.experience-tower-section,
-.experience-paper-files-section,
-.experience-tower-stage,
-.experience-tower-building,
-.experience-tower-core,
-.experience-file-card,
-.experience-door-string,
-.door-string-line,
-.door-string-clip {
-	display: none !important;
-}
-
-@media (max-width: 1023px) {
-	.open-book {
-		grid-template-columns: 1fr;
-		height: auto;
-		min-height: auto;
-		max-height: none;
-	}
-
-	.book-center-crease {
-		display: none;
-	}
-
-	.book-page {
-		height: auto;
-		max-height: none;
-		overflow-y: visible;
-	}
-
-	.book-page-left {
-		border-right: none;
-		border-bottom: 1px solid rgba(120, 88, 55, 0.1);
-	}
-
-	.book-page-right {
-		border-left: none;
-	}
-}
-
-@media (max-width: 640px) {
-	.experience-book-tabs {
-		flex-direction: column;
-	}
-
-	.open-book-topbar {
-		gap: 1rem;
-		min-height: auto;
-	}
-
-	.open-book-meta {
-		text-align: left;
-	}
-
-	.book-page {
-		padding: 1.2rem 1rem 1.25rem;
-	}
-
-	.book-point-item p {
-		font-size: 0.83rem;
-		line-height: 1.65;
-	}
-}
-
 
 /* ---------- Skills : sticky notes attached on wall ---------- */
 
@@ -4318,5 +3886,1027 @@ a {
 	.fh-version-switch {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+}
+
+/* ---------- Experience: pinned index-card fan ---------- */
+
+.experience-fan-section {
+	position: relative;
+	background: #fffaf0;
+	color: #292524;
+	overflow: hidden;
+}
+
+.experience-fan-section::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(96, 85, 55, 0.08) 0.7px, transparent 0.7px);
+	background-size: 18px 18px;
+	opacity: 0.24;
+}
+
+.experience-fan-section>* {
+	position: relative;
+	z-index: 1;
+}
+
+.experience-fan-heading-wrap {
+	max-width: 54rem;
+	margin-bottom: 3rem;
+}
+
+.experience-fan-heading {
+	position: relative;
+	display: inline-block;
+	margin: 0 0 0.9rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(2rem, 3.8vw, 3.2rem);
+	line-height: 1;
+	color: #565b3f;
+}
+
+.experience-fan-heading::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -0.42rem;
+	height: 0.14rem;
+	background: rgba(86, 91, 63, 0.42);
+	transform: rotate(-1deg);
+}
+
+.experience-fan-intro {
+	max-width: 42rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.08rem;
+	line-height: 1.6;
+	color: #565b3f;
+}
+
+/* Layout: fan on the left, detail panel on the right */
+.experience-fan-layout {
+	display: grid;
+	grid-template-columns: 280px 1fr;
+	gap: 3rem;
+	align-items: start;
+}
+
+/* ---- Card fan stack ---- */
+
+.exp-card-fan {
+	position: relative;
+	height: 260px;
+	width: 100%;
+}
+
+.exp-fan-card {
+	position: absolute;
+	top: 40px;
+	left: 20px;
+	width: 210px;
+	min-height: 150px;
+	padding: 1.1rem 1.15rem 1rem;
+	border: 1px solid rgba(120, 88, 55, 0.16);
+	border-radius: 2px;
+	box-shadow:
+		0 12px 22px rgba(80, 60, 35, 0.14),
+		2px 2px 0 rgba(86, 91, 63, 0.06);
+	cursor: pointer;
+	text-align: left;
+	font-family: inherit;
+	transform-origin: bottom center;
+}
+
+.exp-fan-card::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(96, 85, 55, 0.1) 0.65px, transparent 0.65px);
+	background-size: 13px 13px;
+	opacity: 0.18;
+	z-index: 0;
+}
+
+/* Pin at the top of each card */
+.exp-fan-card::after {
+	content: '';
+	position: absolute;
+	top: -0.7rem;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 20px;
+	height: 20px;
+	border-radius: 999px;
+	background: radial-gradient(circle at 35% 35%, #cf9b68 0%, #b77441 58%, #8b582f 100%);
+	border: 2px solid rgba(112, 70, 42, 0.22);
+	box-shadow:
+		inset 0 0 0 3px rgba(255, 250, 240, 0.16),
+		0 4px 8px rgba(80, 60, 35, 0.18);
+	z-index: 3;
+}
+
+.exp-fan-card-period {
+	position: relative;
+	z-index: 1;
+	margin: 0 0 0.35rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.74rem;
+	color: #6a6558;
+}
+
+.exp-fan-card-role {
+	position: relative;
+	z-index: 1;
+	margin: 0 0 0.3rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.05rem;
+	line-height: 1.22;
+	color: #4e4931;
+}
+
+.exp-fan-card-company {
+	position: relative;
+	z-index: 1;
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.82rem;
+	color: #565b3f;
+}
+
+/* ---- Detail panel ---- */
+
+.exp-detail-panel {
+	background: linear-gradient(180deg, #f7efdf 0%, #f3ead8 100%);
+	border: 1px solid rgba(120, 88, 55, 0.14);
+	border-radius: 4px;
+	box-shadow:
+		0 18px 40px rgba(80, 60, 35, 0.08),
+		inset 0 1px 0 rgba(255, 255, 255, 0.5);
+	padding: 1.8rem 1.9rem 2rem;
+	min-height: 260px;
+}
+
+.exp-detail-category {
+	display: inline-block;
+	margin-bottom: 0.55rem;
+	padding: 0.3rem 0.8rem;
+	border-radius: 999px;
+	background: #e7ecd3;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.72rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #59623d;
+}
+
+.exp-detail-role {
+	margin: 0 0 0.3rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+	line-height: 1.1;
+	color: #4a4b34;
+}
+
+.exp-detail-company {
+	margin: 0 0 0.35rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.92rem;
+	color: #6a6558;
+}
+
+.exp-detail-type {
+	margin: 0 0 0.3rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.8rem;
+	line-height: 1.5;
+	color: #746f60;
+}
+
+.exp-detail-period {
+	margin: 0 0 1.3rem;
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.85rem;
+	color: #565b3f;
+}
+
+.exp-detail-points {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.exp-detail-point {
+	display: grid;
+	grid-template-columns: 18px 1fr;
+	gap: 0.7rem;
+	align-items: flex-start;
+}
+
+.exp-detail-bullet {
+	font-size: 0.9rem;
+	line-height: 1.7;
+	color: #69724b;
+}
+
+.exp-detail-point p {
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.88rem;
+	line-height: 1.68;
+	color: #4f4a3f;
+	text-align: left;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 900px) {
+	.experience-fan-layout {
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+
+	.exp-card-fan {
+		height: 220px;
+		max-width: 320px;
+		margin: 0 auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.experience-fan-heading {
+		font-size: 2.2rem;
+	}
+
+	.exp-detail-panel {
+		padding: 1.4rem 1.25rem 1.6rem;
+	}
+
+	.exp-detail-point p {
+		font-size: 0.83rem;
+		line-height: 1.6;
+	}
+
+	.exp-fan-card {
+		width: 180px;
+		min-height: 130px;
+		padding: 0.9rem 0.95rem 0.85rem;
+	}
+}
+
+/* ---------- Experience: library due-date cards in a pocket ---------- */
+
+.experience-library-section {
+	position: relative;
+	background: #fffaf0;
+	color: #292524;
+	overflow: hidden;
+}
+
+.experience-library-section::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(96, 85, 55, 0.08) 0.7px, transparent 0.7px);
+	background-size: 18px 18px;
+	opacity: 0.24;
+}
+
+.experience-library-section>* {
+	position: relative;
+	z-index: 1;
+}
+
+.experience-library-heading-wrap {
+	max-width: 54rem;
+	margin-bottom: 3rem;
+}
+
+.experience-library-heading {
+	position: relative;
+	display: inline-block;
+	margin: 0 0 0.9rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(2rem, 3.8vw, 3.2rem);
+	line-height: 1;
+	color: #565b3f;
+}
+
+.experience-library-heading::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -0.42rem;
+	height: 0.14rem;
+	background: rgba(86, 91, 63, 0.42);
+	transform: rotate(-1deg);
+}
+
+.experience-library-intro {
+	max-width: 42rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.08rem;
+	line-height: 1.6;
+	color: #565b3f;
+}
+
+.experience-library-layout {
+	display: grid;
+	grid-template-columns: 340px 1fr;
+	gap: 3.5rem;
+	align-items: start;
+}
+
+/* ---- The pocket holding the cards ---- */
+
+.library-pocket-wrap {
+	position: relative;
+	height: 400px;
+	padding-top: 20px;
+}
+
+.library-card-stack {
+	position: relative;
+	height: 300px;
+	width: 100%;
+}
+
+/* Due-date card */
+.library-card {
+	position: absolute;
+	left: 12px;
+	width: 268px;
+	min-height: 250px;
+	padding: 0.95rem 1rem 1.1rem;
+	background:
+		repeating-linear-gradient(180deg,
+			transparent 0,
+			transparent 25px,
+			rgba(120, 88, 55, 0.13) 25px,
+			rgba(120, 88, 55, 0.13) 26px),
+		#faf3e2;
+	border: 1px solid rgba(120, 88, 55, 0.22);
+	border-radius: 1px;
+	box-shadow:
+		0 6px 14px rgba(80, 60, 35, 0.16),
+		1px 1px 0 rgba(86, 91, 63, 0.06);
+	cursor: pointer;
+	text-align: left;
+	font-family: inherit;
+	transform-origin: bottom center;
+}
+
+/* Vertical red margin rule, like a real due-date card */
+.library-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 46px;
+	width: 1px;
+	background: rgba(159, 97, 56, 0.42);
+	pointer-events: none;
+	z-index: 1;
+}
+
+/* Punch hole at the bottom of the card */
+.library-card::after {
+	content: '';
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 13px;
+	height: 13px;
+	border-radius: 999px;
+	background: #efe4cd;
+	box-shadow: inset 0 1px 3px rgba(80, 60, 35, 0.32);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.library-card-header {
+	position: relative;
+	z-index: 2;
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.55rem;
+	border-bottom: 1.5px solid rgba(86, 91, 63, 0.38);
+}
+
+.library-card-label {
+	display: block;
+	margin-bottom: 0.2rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.6rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgba(86, 91, 63, 0.72);
+}
+
+.library-card-role {
+	margin: 0 0 0.15rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.02rem;
+	line-height: 1.18;
+	color: #4e4931;
+}
+
+.library-card-company {
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.76rem;
+	color: #6a6558;
+}
+
+/* Column headers: DATE DUE style */
+.library-card-columns {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: 46px 1fr;
+	padding-bottom: 0.3rem;
+	margin-bottom: 0.4rem;
+	border-bottom: 1px solid rgba(86, 91, 63, 0.28);
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.56rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: rgba(86, 91, 63, 0.6);
+}
+
+/* Rubber-stamped date rows */
+.library-stamp-row {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: 46px 1fr;
+	align-items: baseline;
+	height: 26px;
+}
+
+.library-stamp {
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.74rem;
+	letter-spacing: 0.04em;
+	color: rgba(120, 60, 45, 0.68);
+	text-transform: uppercase;
+}
+
+.library-stamp-1 {
+	transform: rotate(-1.5deg);
+}
+
+.library-stamp-2 {
+	transform: rotate(1deg);
+}
+
+.library-stamp-3 {
+	transform: rotate(-0.6deg);
+}
+
+.library-stamp-note {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.74rem;
+	color: rgba(86, 91, 63, 0.78);
+}
+
+/* ---- The glued-in pocket sleeve ---- */
+
+.library-pocket {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 120px;
+	z-index: 10;
+	background:
+		radial-gradient(rgba(96, 85, 55, 0.07) 0.7px, transparent 0.7px),
+		linear-gradient(180deg, #e8dcc0 0%, #dfd0ae 100%);
+	background-size: 15px 15px, 100% 100%;
+	border: 1px solid rgba(120, 88, 55, 0.3);
+	border-radius: 2px 2px 4px 4px;
+	box-shadow:
+		0 -2px 6px rgba(80, 60, 35, 0.08),
+		0 10px 20px rgba(80, 60, 35, 0.14),
+		inset 0 1px 0 rgba(255, 250, 240, 0.4);
+	clip-path: polygon(0 14%, 22% 0, 78% 0, 100% 14%, 100% 100%, 0 100%);
+	pointer-events: none;
+}
+
+.library-pocket::before {
+	content: '';
+	position: absolute;
+	top: 22px;
+	left: 12px;
+	right: 12px;
+	bottom: 12px;
+	border: 1px dashed rgba(86, 91, 63, 0.28);
+	pointer-events: none;
+}
+
+.library-pocket-label {
+	position: absolute;
+	bottom: 26px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.82rem;
+	letter-spacing: 0.06em;
+	color: rgba(86, 91, 63, 0.62);
+	pointer-events: none;
+}
+
+.library-pocket-hint {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.6rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: rgba(86, 91, 63, 0.42);
+	pointer-events: none;
+}
+
+/* ---- Detail panel ---- */
+
+.library-detail-panel {
+	background: linear-gradient(180deg, #f7efdf 0%, #f3ead8 100%);
+	border: 1px solid rgba(120, 88, 55, 0.14);
+	border-radius: 4px;
+	box-shadow:
+		0 18px 40px rgba(80, 60, 35, 0.08),
+		inset 0 1px 0 rgba(255, 255, 255, 0.5);
+	padding: 1.8rem 1.9rem 2rem;
+	min-height: 400px;
+}
+
+.library-detail-stamp {
+	display: inline-block;
+	margin-bottom: 1rem;
+	padding: 0.4rem 0.9rem;
+	border: 2px solid rgba(120, 60, 45, 0.42);
+	border-radius: 3px;
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.68rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: rgba(120, 60, 45, 0.72);
+	transform: rotate(-2deg);
+}
+
+.library-detail-role {
+	margin: 0 0 0.3rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+	line-height: 1.1;
+	color: #4a4b34;
+}
+
+.library-detail-company {
+	margin: 0 0 0.35rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.92rem;
+	color: #6a6558;
+}
+
+.library-detail-type {
+	margin: 0 0 0.3rem;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.8rem;
+	line-height: 1.5;
+	color: #746f60;
+}
+
+.library-detail-period {
+	margin: 0 0 1.4rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px dashed rgba(86, 91, 63, 0.28);
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.85rem;
+	color: #565b3f;
+}
+
+.library-detail-points {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.library-detail-point {
+	display: grid;
+	grid-template-columns: 18px 1fr;
+	gap: 0.7rem;
+	align-items: flex-start;
+}
+
+.library-detail-bullet {
+	font-size: 0.9rem;
+	line-height: 1.7;
+	color: #69724b;
+}
+
+.library-detail-point p {
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.88rem;
+	line-height: 1.68;
+	color: #4f4a3f;
+	text-align: left;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 980px) {
+	.experience-library-layout {
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+
+	.library-pocket-wrap {
+		max-width: 340px;
+		margin: 0 auto;
+	}
+}
+
+@media (max-width: 640px) {
+	.experience-library-heading {
+		font-size: 2.2rem;
+	}
+
+	.library-detail-panel {
+		padding: 1.4rem 1.25rem 1.6rem;
+		min-height: auto;
+	}
+
+	.library-detail-point p {
+		font-size: 0.83rem;
+		line-height: 1.6;
+	}
+
+	.library-card {
+		width: 240px;
+		min-height: 230px;
+	}
+}
+
+/* ---------- Experience: vertical film reel ---------- */
+
+.experience-reel-section {
+	position: relative;
+	background: #fffaf0;
+	color: #292524;
+	overflow: hidden;
+}
+
+.experience-reel-section::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(96, 85, 55, 0.08) 0.7px, transparent 0.7px);
+	background-size: 18px 18px;
+	opacity: 0.24;
+}
+
+.experience-reel-section>* {
+	position: relative;
+	z-index: 1;
+}
+
+.experience-reel-heading-wrap {
+	max-width: 54rem;
+	margin-bottom: 3rem;
+}
+
+.experience-reel-heading {
+	position: relative;
+	display: inline-block;
+	margin: 0 0 0.9rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(2rem, 3.8vw, 3.2rem);
+	line-height: 1;
+	color: #565b3f;
+}
+
+.experience-reel-heading::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -0.42rem;
+	height: 0.14rem;
+	background: rgba(86, 91, 63, 0.42);
+	transform: rotate(-1deg);
+}
+
+.experience-reel-intro {
+	max-width: 42rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.08rem;
+	line-height: 1.6;
+	color: #565b3f;
+}
+
+/* ---- The reel strip ---- */
+
+.reel-strip {
+	position: relative;
+	max-width: 68rem;
+	margin: 0 auto;
+	padding-left: 58px;
+	background: linear-gradient(180deg, #cbb185 0%, #bea273 50%, #cbb185 100%);
+	border-radius: 3px;
+	overflow: hidden;
+	box-shadow:
+		0 18px 40px rgba(60, 45, 28, 0.16),
+		inset 0 0 0 1px rgba(255, 250, 240, 0.25);
+}
+
+/* Perforated sprocket rail down the left edge */
+.reel-sprockets {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 58px;
+	background-image:
+		repeating-linear-gradient(180deg,
+			transparent 0,
+			transparent 22px,
+			rgba(250, 243, 226, 0.92) 22px,
+			rgba(250, 243, 226, 0.92) 46px,
+			transparent 46px,
+			transparent 68px);
+	background-position: 0 18px;
+	pointer-events: none;
+}
+
+/* Rounded look for the sprocket holes */
+.reel-sprocket-hole {
+	position: absolute;
+	left: 17px;
+	width: 24px;
+	height: 24px;
+	border-radius: 4px;
+	background: #faf3e2;
+	box-shadow: inset 0 1px 3px rgba(60, 45, 28, 0.35);
+}
+
+/* Thin guide line separating sprockets from frames */
+.reel-strip::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 58px;
+	width: 2px;
+	background: rgba(250, 243, 226, 0.28);
+	pointer-events: none;
+	z-index: 2;
+}
+
+/* ---- Individual film frame ---- */
+
+.reel-frame {
+	position: relative;
+	margin: 14px 14px 14px 0;
+	padding: 1.6rem 1.8rem 1.7rem;
+	background:
+		radial-gradient(rgba(96, 85, 55, 0.05) 0.65px, transparent 0.65px),
+		linear-gradient(180deg, #fdf8ec 0%, #f7ecd6 100%);
+	background-size: 14px 14px, 100% 100%;
+	border: 1px solid rgba(120, 88, 55, 0.16);
+	border-radius: 2px;
+	box-shadow: 0 4px 10px rgba(60, 45, 28, 0.1);
+}
+
+/* Sepia vignette on each frame, like aged film */
+.reel-frame::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(ellipse at center, transparent 62%, rgba(110, 80, 50, 0.1) 100%);
+}
+
+.reel-frame>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Frame number in the corner, like a film edge marking */
+.reel-frame-number {
+	position: absolute;
+	top: 0.7rem;
+	right: 0.9rem;
+	z-index: 2;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.62rem;
+	letter-spacing: 0.16em;
+	color: rgba(120, 88, 55, 0.48);
+}
+
+/* ---- Frame header ---- */
+
+.reel-frame-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+	padding-bottom: 0.8rem;
+	margin-bottom: 1.1rem;
+	border-bottom: 1px solid rgba(86, 91, 63, 0.24);
+}
+
+.reel-frame-role {
+	margin: 0 0 0.2rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+	line-height: 1.12;
+	color: #4a4b34;
+}
+
+.reel-frame-company {
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.86rem;
+	color: #6a6558;
+}
+
+.reel-frame-meta {
+	text-align: right;
+	flex-shrink: 0;
+}
+
+.reel-frame-period {
+	margin: 0 0 0.2rem;
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+	color: #565b3f;
+}
+
+.reel-frame-category {
+	display: inline-block;
+	padding: 0.22rem 0.65rem;
+	background: rgba(231, 236, 211, 0.85);
+	border: 1px dashed rgba(86, 91, 63, 0.3);
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.62rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #59623d;
+}
+
+.reel-frame-type {
+	width: 100%;
+	margin: 0.35rem 0 0;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.84rem;
+	color: rgba(86, 91, 63, 0.72);
+}
+
+/* ---- Two-column bullets ---- */
+
+.reel-frame-points {
+	column-count: 2;
+	column-gap: 2.2rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reel-point {
+	display: grid;
+	grid-template-columns: 15px 1fr;
+	gap: 0.6rem;
+	align-items: flex-start;
+	margin-bottom: 0.85rem;
+	break-inside: avoid;
+}
+
+.reel-point-bullet {
+	font-size: 0.82rem;
+	line-height: 1.65;
+	color: #8a6a3a;
+}
+
+.reel-point p {
+	margin: 0;
+	font-family: 'GeneralSans-Regular';
+	font-size: 0.85rem;
+	line-height: 1.62;
+	color: #4f4a3f;
+}
+
+/* Emphasized metrics inside bullets */
+.reel-point strong {
+	font-family: 'GeneralSans-Semibold';
+	color: #3f3a2a;
+}
+
+/* Single column for short frames */
+.reel-frame-points-single {
+	column-count: 1;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 900px) {
+	.reel-frame-points {
+		column-count: 1;
+	}
+
+	.reel-frame-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.reel-frame-meta {
+		text-align: left;
+	}
+}
+
+@media (max-width: 640px) {
+	.experience-reel-heading {
+		font-size: 2.2rem;
+	}
+
+	.reel-strip {
+		padding-left: 38px;
+	}
+
+	.reel-sprockets {
+		width: 38px;
+	}
+
+	.reel-strip::before {
+		left: 38px;
+	}
+
+	.reel-sprocket-hole {
+		left: 10px;
+		width: 18px;
+		height: 18px;
+	}
+
+	.reel-frame {
+		margin: 10px 10px 10px 0;
+		padding: 1.2rem 1.1rem 1.3rem;
+	}
+
+	.reel-frame-role {
+		font-size: 1.25rem;
+	}
+
+	.reel-point p {
+		font-size: 0.82rem;
+		line-height: 1.58;
 	}
 }

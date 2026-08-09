@@ -25,8 +25,9 @@ const skillGroups = [
 			'Data Validation',
 			'Source-to-Report QA',
 			'ETL Workflows',
-			'Schema Standardization',
-			'Reconciliation Checks',
+			'dbt Core',
+			'BigQuery',
+			'DuckDB',
 		],
 	},
 	{
@@ -41,26 +42,41 @@ const skillGroups = [
 			'Classification',
 			'Feature Engineering',
 			'Model Evaluation',
+			'Computer Vision',
 			'Error Analysis',
 		],
 	},
 	{
 		id: 4,
+		title: 'Experimentation & Causal Inference',
+		description: 'Testing whether an observed effect is real before trusting it.',
+		skills: [
+			'Causal Inference',
+			'A/B Testing',
+			'Hypothesis Testing',
+			'Propensity Score Matching',
+			'Difference-in-Differences',
+			'OEC & Guardrail Metrics',
+		],
+	},
+	{
+		id: 5,
 		title: 'Applied AI & LLMs',
 		description: 'Fine-tuning, evaluating, and building AI-assisted decision systems.',
 		skills: [
 			'Hugging Face',
 			'PyTorch',
-			'PEFT',
 			'LoRA',
 			'QLoRA',
 			'RAG',
+			'FAISS',
 			'LLM-as-Judge',
 			'Prompt Engineering',
+			'Model Context Protocol (MCP)',
 		],
 	},
 	{
-		id: 5,
+		id: 6,
 		title: 'MLOps & Deployment',
 		description: 'Moving models from notebooks into reproducible and deployable systems.',
 		skills: [
@@ -68,14 +84,16 @@ const skillGroups = [
 			'DVC',
 			'FastAPI',
 			'Docker',
+			'Kubernetes',
+			'AWS EKS',
 			'AWS EC2',
 			'AWS S3',
-			'AWS ECR',
 			'GitHub Actions',
+			'Prometheus / Grafana',
 		],
 	},
 	{
-		id: 6,
+		id: 7,
 		title: 'Cloud & Data Products',
 		description: 'Building full-stack data products, apps, and cloud-backed ML systems.',
 		skills: [
@@ -99,8 +117,9 @@ function Skills() {
 					<h1 className="skills-wall-heading">Skills</h1>
 
 					<p className="skills-wall-intro">
-						A practical toolkit across analytics, BI reporting, machine learning,
-						applied AI, MLOps, cloud deployment, and data product development.
+						A practical toolkit across analytics, BI reporting, causal inference,
+						machine learning, applied AI, MLOps, cloud deployment, and data
+						product development.
 					</p>
 				</div>
 
@@ -109,7 +128,7 @@ function Skills() {
 						{skillGroups.map((group, index) => (
 							<article
 								key={group.id}
-								className={`sticky-skill-note sticky-skill-note-${(index % 6) + 1}`}
+								className={`sticky-skill-note sticky-skill-note-${(index % 7) + 1}`}
 							>
 								<div className="sticky-note-pin" aria-hidden="true" />
 

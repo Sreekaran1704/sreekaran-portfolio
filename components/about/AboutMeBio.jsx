@@ -74,15 +74,19 @@ function AboutMe() {
 					>
 						<div className="about-story">
 							<p>
-								<span className="about-dropcap">I’m</span> a Data Analyst and Applied AI practitioner with a strong foundation in business analytics, data visualization, and machine learning. My work focuses on turning fragmented operational data into validated datasets, Tableau dashboards, predictive models, and decision-support tools using SQL, Python, Tableau, and Excel.
+								I started out doing data analysis in places that had no data analyst. At Sree Nirman, 50,000+ construction records lived across scattered files and inconsistent formats. Pricing decisions were made on gut feel because nobody trusted the numbers enough to use them. At Avanthi High School, it was the same problem in a different shape: 12,000+ financial records and 50,000+ expense records with no standardized schema, and a scholarship process nobody could fully explain. In both places, my first job was earning the right to be trusted with the data at all, building the SQL and Python pipelines, validation checks, and Tableau dashboards before I could say anything interesting about what the numbers meant.
 							</p>
 
 							<p>
-								At Sree Nirman, I worked with 50,000+ construction, cost, labor, material, budget, and project-progress records. I built SQL and Python workflows to improve data quality and reporting reliability, developed Tableau dashboards for cost variance, resource utilization, timeline risk, and project performance, and created an ML-supported tender estimation workflow to identify cost drivers and pricing risks. At Avanthi High School, I analyzed student financial and institutional expense data, built reconciliation workflows and Tableau reporting, and developed decision-support logic for fee concessions, collection gaps, and budget monitoring.
+								Once that foundation existed, the real work started. At Sree Nirman, I built a tender estimation model to flag pricing risk before bids went out. At Avanthi, I replaced the scholarship process with a system combining regression and a fine-tuned language model, then ran a two-channel A/B test to confirm a new admissions initiative was actually working. It was.
 							</p>
 
 							<p>
-								Alongside analytics, I have hands-on experience with regression, classification, feature engineering, model evaluation, MLOps, and LLM fine-tuning using LoRA and QLoRA. I am currently pursuing opportunities as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI, where I can leverage robust data workflows, Tableau reporting, machine learning, and effective stakeholder communication to enable informed, data-driven decision-making.
+								The project that changed how I think about analysis was FanHouse. I ran a randomized experiment across 50,000 customers to measure a membership program's real impact on revenue. The naive comparison, people who joined versus people who didn't, said the effect was huge. It was wrong, by a factor of 8, because people who join loyalty programs are already a company's best customers. I caught that with a placebo test, then rebuilt the estimate using propensity score matching and difference-in-differences, two independent methods that converged on the same number once the bias was gone. That was when I stopped reporting what the data says and started checking whether the data is saying what it looks like it's saying.
+							</p>
+
+							<p>
+								That's the thread through everything I do now: SQL and Python to make data trustworthy, Tableau to make it legible, and causal inference to make it actionable. I'm currently looking for my next place to do that, as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI.
 							</p>
 						</div>
 					</motion.div>
