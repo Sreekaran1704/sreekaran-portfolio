@@ -1,41 +1,16 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { useAskMe } from '../home/useAskMe';
+import {
+	AskBar,
+	ErrorNotice,
+	FollowUps,
+	Suggestions,
+	Thread,
+} from '../home/AskMeParts';
+import GardenRow from './GardenRow';
 
-const workCards = [
-	{
-		id: 'sree-dashboard',
-		label: 'Dashboard',
-		title: 'Sree Nirman',
-		metric: '50K+',
-		note: 'construction records standardized',
-		bg: '#f7e9b8',
-	},
-	{
-		id: 'avanthi-dashboard',
-		label: 'Dashboard',
-		title: 'Avanthi High School',
-		metric: '30%',
-		note: 'reporting accuracy improved',
-		bg: '#c9e3d8',
-	},
-	{
-		id: 'umkc',
-		label: 'Academics',
-		title: 'UMKC',
-		metric: '3.97',
-		note: 'M.S. Computer Science GPA',
-		bg: '#d3ddf0',
-	},
-	{
-		id: 'fanhouse',
-		label: 'Causal Inference',
-		title: 'FanHouse',
-		metric: '8x',
-		note: 'naive overstatement caught and corrected',
-		bg: '#f7c9c9',
-	},
-];
 
 const birdConfigs = [
 	{ y: 20, dur: 7.5, delay: 0, scale: 1, flip: false, color: '#6b6448' },
@@ -153,6 +128,19 @@ function vinePoint(t, p0, p1, p2, wavelength, amplitude) {
 	return { x: base.x, y: base.y + vineOffset(base.x, wavelength, amplitude) };
 }
 
+// Rounded to 2dp for the same reason as the angles above: this feeds a leaf
+// count that must match between the server and client renders.
+function quadArcLength(p0, p1, p2, steps = 48) {
+	let len = 0;
+	let prev = quadPoint(0, p0, p1, p2);
+	for (let i = 1; i <= steps; i++) {
+		const pt = quadPoint(i / steps, p0, p1, p2);
+		len += Math.hypot(pt.x - prev.x, pt.y - prev.y);
+		prev = pt;
+	}
+	return Math.round(len * 100) / 100;
+}
+
 function vinePathD(p0, p1, p2, width, wavelength, amplitude) {
 	const steps = Math.max(140, Math.round(width / 3));
 	let d = '';
@@ -191,185 +179,141 @@ function LeafSprig({ point, angle, side, colorIndex, delay }) {
 	);
 }
 
-function ClotheslineNote({ card, index, point }) {
-	const tilt = index % 2 === 0 ? -4 : 4;
-	const pinGripOffset = 4; // distance from the note's top anchor to where the pin visually grips the string (centers the crossbar, which is 8 tall, on the curve)
-	const cardWidth = 148;
-
-	if (!point) return null;
-
-	const noteX = point.x;
-	const targetY = point.y - pinGripOffset;
-
-	return (
-		<motion.div
-			initial={{ opacity: 0, left: noteX, top: targetY - 30 }}
-			animate={{ opacity: 1, left: noteX, top: targetY }}
-			transition={{ duration: 0.5, delay: 0.3 + index * 0.14, ease: [0.34, 1.2, 0.64, 1] }}
-			style={{
-				position: 'absolute',
-				width: cardWidth,
-				transform: 'translateX(-50%)',
-			}}
-		>
-			{/* Pin sits directly above the card, both moving together */}
-			<div style={{ width: 28, margin: '0 auto', position: 'relative' }}>
-				<div style={{ width: 28, height: 16, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-					<div style={{ width: 3, height: 16, background: '#8a5a3a', margin: '0 auto' }} />
-					<div
-						style={{
-							position: 'absolute',
-							top: 0,
-							left: 4,
-							width: 20,
-							height: 8,
-							background: '#c99a6a',
-							borderRadius: 2,
-							transform: 'rotate(-2deg)',
-						}}
-					/>
-				</div>
-			</div>
-
-			<motion.div
-				whileHover={{ scale: 1.05, rotate: 0 }}
-				animate={{ rotate: [tilt - 1, tilt + 1, tilt - 1] }}
-				transition={{ duration: 4, delay: index * 0.3, repeat: Infinity, ease: 'easeInOut' }}
-				tabIndex={0}
-				style={{
-					width: cardWidth,
-				}}
-			>
-				<div
-					style={{
-						background: card.bg,
-						width: 148,
-						minHeight: 156,
-						padding: 14,
-						boxShadow: '1px 3px 8px rgba(0,0,0,0.15)',
-					}}
-				>
-					<p style={{ fontSize: 12, color: '#5a5238', margin: '0 0 5px' }}>{card.label}</p>
-					<h4 style={{ fontSize: 15, fontWeight: 500, color: '#2e2a1c', margin: '0 0 12px' }}>
-						{card.title}
-					</h4>
-					<div style={{ fontSize: 23, fontWeight: 600, color: '#2e2a1c', marginBottom: 8 }}>
-						{card.metric}
-					</div>
-					<p style={{ fontSize: 10.5, color: '#5a5238', margin: 0, lineHeight: 1.4 }}>{card.note}</p>
-				</div>
-			</motion.div>
-		</motion.div>
-	);
-}
-
-// Notes are inset from the true edges so their pins stay on-panel; this must
-// match the pin's actual displayed x exactly, since the curve is steep near
-// the corners and even a small x error there produces a large y error.
-const EDGE_INSET = 70;
-
-function useCurvePoints(pathD, width, ready) {
-	const [points, setPoints] = useState(null);
-
-	useEffect(() => {
-		if (!ready) return;
-		const ns = 'http://www.w3.org/2000/svg';
-		const svg = document.createElementNS(ns, 'svg');
-		const path = document.createElementNS(ns, 'path');
-		path.setAttribute('d', pathD);
-		svg.appendChild(path);
-		svg.style.position = 'absolute';
-		svg.style.width = '0';
-		svg.style.height = '0';
-		svg.style.overflow = 'hidden';
-		document.body.appendChild(svg);
-
-		const len = path.getTotalLength();
-		const n = workCards.length;
-		const targetXs =
-			n === 1
-				? [width / 2]
-				: Array.from({ length: n }, (_, i) => EDGE_INSET + (i / (n - 1)) * (width - 2 * EDGE_INSET));
-
-		// Binary-search along arc-length to find the point whose x matches each note's actual displayed x.
-		const pts = targetXs.map((targetX) => {
-			let lo = 0;
-			let hi = len;
-			for (let i = 0; i < 25; i++) {
-				const mid = (lo + hi) / 2;
-				const p = path.getPointAtLength(mid);
-				if (p.x < targetX) {
-					lo = mid;
-				} else {
-					hi = mid;
-				}
-			}
-			return path.getPointAtLength((lo + hi) / 2);
-		});
-
-		document.body.removeChild(svg);
-		setPoints(pts);
-	}, [pathD, width, ready]);
-
-	return points;
-}
-
 function ClotheslineDeck() {
 	const containerRef = useRef(null);
 	const [size, setSize] = useState({ width: 660, height: 620 });
 
+	const askMe = useAskMe();
+	const { hasThread, showRecommended, error } = askMe;
+
+	// A ResizeObserver, not a window listener: the deck's own minHeight depends on
+	// the width measured here, so switching to the narrow layout changes the
+	// element's height without the window ever resizing. A listener would keep
+	// serving the pre-switch height and every position derived from it.
 	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return undefined;
+
 		const update = () => {
-			if (containerRef.current) {
-				setSize({
-					width: containerRef.current.offsetWidth,
-					height: containerRef.current.offsetHeight,
-				});
-			}
+			setSize((prev) =>
+				prev.width === el.offsetWidth && prev.height === el.offsetHeight
+					? prev
+					: { width: el.offsetWidth, height: el.offsetHeight }
+			);
 		};
 		update();
-		window.addEventListener('resize', update);
-		return () => window.removeEventListener('resize', update);
+
+		if (typeof ResizeObserver === 'undefined') {
+			window.addEventListener('resize', update);
+			return () => window.removeEventListener('resize', update);
+		}
+
+		const observer = new ResizeObserver(update);
+		observer.observe(el);
+		return () => observer.disconnect();
 	}, []);
 
 	const { width, height } = size;
-	const topY = 30;
-	const bottomY = height - 20;
 
-	// Simple U-shaped parabola: top-left corner down to a single smooth dip, back up to top-right corner.
-	const stringStart = { x: 0, y: topY };
-	const stringControl = { x: width / 2, y: bottomY };
-	const stringEnd = { x: width, y: topY };
-	const stringPath = `M ${stringStart.x} ${stringStart.y} Q ${stringControl.x} ${stringControl.y} ${stringEnd.x} ${stringEnd.y}`;
-	const vinePath = vinePathD(stringStart, stringControl, stringEnd, width, VINE_WAVELENGTH, VINE_AMPLITUDE);
+	// Stacked on one column, the deck is as wide as the phone and the bar eats
+	// most of it, so the string has barely any sideways run. Starting it lower
+	// and sitting the bar higher keeps the drop short enough to still read as a
+	// slack line rather than two vertical cables.
+	const isNarrow = width < 640;
+	const topY = isNarrow ? 60 : 30;
 
-	const points = useCurvePoints(stringPath, width, width > 0 && height > 0);
+	// The bar replaces the low point of the old single U-curve: the string now
+	// runs from each top corner down to one end of the bar, so the bar reads as
+	// the thing the line is tied to rather than something floating over it.
+	const barWidth = Math.max(isNarrow ? 210 : 260, Math.min(width * 0.62, 430));
+	const barHeight = 54;
+	const barLeft = (width - barWidth) / 2;
+	const barRight = barLeft + barWidth;
+	const barY = isNarrow ? Math.max(120, height * 0.24) : Math.max(170, height * 0.38);
 
-	// Leaf sprigs are sampled densely along the vine's wave, so the whole
-	// thing reads as a leafy vine draped along the string rather than a
-	// scatter of separate leaves.
-	const totalLeaves = width > 0 ? Math.floor(width / VINE_LEAF_SPACING) : 0;
-	const sprigs = [];
-	for (let i = 0; i <= totalLeaves; i++) {
-		const x = VINE_LEAF_SPACING * (i + 0.5);
-		if (x > width) break;
-		const t = x / width; // exact, since x(t) = width * t for this curve
-		const point = vinePoint(t, stringStart, stringControl, stringEnd, VINE_WAVELENGTH, VINE_AMPLITUDE);
-		const tangent = quadTangent(t, stringStart, stringControl, stringEnd);
-		// Rounded to avoid a hydration mismatch: atan2 can differ in its last
-		// floating-point digit between server and client JS engines.
-		const angle = Math.round(((Math.atan2(tangent.y, tangent.x) * 180) / Math.PI) * 100) / 100;
-		sprigs.push({
-			point,
-			angle,
-			side: i % 2,
-			colorIndex: i,
-			delay: 0.6 + t * 0.8,
-		});
-	}
+	const leftAnchor = { x: barLeft, y: barY };
+	const rightAnchor = { x: barRight, y: barY };
+	const leftStart = { x: 0, y: topY };
+	const rightEnd = { x: width, y: topY };
+
+	// Control x must be the midpoint of the segment's endpoints: the rest of the
+	// maths (and the vine's wave) relies on x being linear in t, which only holds
+	// for that choice. The extra y is what makes the line sag like rope.
+	const SAG = isNarrow ? 30 : 46;
+	const leftControl = { x: (leftStart.x + leftAnchor.x) / 2, y: barY + SAG };
+	const rightControl = { x: (rightAnchor.x + rightEnd.x) / 2, y: barY + SAG };
+
+	const leftPath = `M ${leftStart.x} ${leftStart.y} Q ${leftControl.x} ${leftControl.y} ${leftAnchor.x} ${leftAnchor.y}`;
+	const rightPath = `M ${rightAnchor.x} ${rightAnchor.y} Q ${rightControl.x} ${rightControl.y} ${rightEnd.x} ${rightEnd.y}`;
+
+	const leftSpan = Math.abs(leftAnchor.x - leftStart.x);
+	const rightSpan = Math.abs(rightEnd.x - rightAnchor.x);
+
+	const leftVine = vinePathD(leftStart, leftControl, leftAnchor, leftSpan, VINE_WAVELENGTH, VINE_AMPLITUDE);
+	const rightVine = vinePathD(rightAnchor, rightControl, rightEnd, rightSpan, VINE_WAVELENGTH, VINE_AMPLITUDE);
+
+	const ready = width > 0 && height > 0;
+
+	// Leaf sprigs sampled along each segment, so the vine still reads as one
+	// plant draped over the whole line rather than two disconnected pieces.
+	// Count comes from the curve's own length, not its horizontal span: these
+	// segments now fall much further than they travel sideways, and spacing by x
+	// would scatter four lonely leaves down a long drop.
+	const sprigsFor = (p0, p1, p2, indexOffset) => {
+		const out = [];
+		const total = Math.floor(quadArcLength(p0, p1, p2) / VINE_LEAF_SPACING);
+		for (let i = 0; i < total; i++) {
+			const t = (i + 0.5) / total;
+			const point = vinePoint(t, p0, p1, p2, VINE_WAVELENGTH, VINE_AMPLITUDE);
+			const tangent = quadTangent(t, p0, p1, p2);
+			// Rounded to avoid a hydration mismatch: atan2 can differ in its last
+			// floating-point digit between server and client JS engines.
+			const angle = Math.round(((Math.atan2(tangent.y, tangent.x) * 180) / Math.PI) * 100) / 100;
+			out.push({
+				point,
+				angle,
+				side: (i + indexOffset) % 2,
+				colorIndex: i + indexOffset,
+				delay: 0.6 + t * 0.8,
+			});
+		}
+		return out;
+	};
+
+	const sprigs = ready
+		? [
+				...sprigsFor(leftStart, leftControl, leftAnchor, 0),
+				...sprigsFor(rightAnchor, rightControl, rightEnd, 7),
+		  ]
+		: [];
+
+	// The garden fills the gap under the bar. It's anchored to the bottom of the
+	// deck and the panel is painted over it, so a conversation covers the plants
+	// instead of displacing them.
+	const gardenHeight = Math.min(isNarrow ? 130 : 168, Math.max(0, height - barY - 70));
+
+	// The panel hangs below the bar and takes over the space the cards occupied.
+	const panelTop = barY + barHeight / 2 + 18;
+	const panelWidth = Math.min(width - 32, Math.max(barWidth, 460));
+	const panelLeft = (width - panelWidth) / 2;
+	// box-sizing is border-box globally, so max-height has to cover the panel's
+	// own padding too — without the extra allowance it spills past the hero's
+	// background and onto the section below.
+	const panelMaxHeight = Math.max(170, height - panelTop - 26);
 
 	return (
-		<div ref={containerRef} style={{ position: 'relative', height: '100%', minHeight: 620, width: '100%' }}>
+		<div
+			ref={containerRef}
+			style={{
+				position: 'relative',
+				height: '100%',
+				// The 620 was sized for four hanging cards. Without them a phone is
+				// left staring at a tall empty panel, so it only needs enough room
+				// for the bar plus the answer beneath it.
+				minHeight: isNarrow ? 470 : 620,
+				width: '100%',
+			}}
+		>
 			<svg
 				width="100%"
 				height={height}
@@ -381,26 +325,32 @@ function ClotheslineDeck() {
 					<Bird key={i} config={cfg} containerWidth={width} />
 				))}
 
-				<motion.path
-					d={stringPath}
-					stroke="#8a7a5a"
-					strokeWidth={1.5}
-					fill="none"
-					initial={{ pathLength: 0 }}
-					animate={{ pathLength: 1 }}
-					transition={{ duration: 1.1, ease: 'easeOut' }}
-				/>
+				{[leftPath, rightPath].map((d, i) => (
+					<motion.path
+						key={`string-${i}`}
+						d={d}
+						stroke="#8a7a5a"
+						strokeWidth={1.5}
+						fill="none"
+						initial={{ pathLength: 0 }}
+						animate={{ pathLength: 1 }}
+						transition={{ duration: 1.1, ease: 'easeOut' }}
+					/>
+				))}
 
-				<motion.path
-					d={vinePath}
-					stroke="#5f7355"
-					strokeWidth={1.6}
-					fill="none"
-					opacity={0.85}
-					initial={{ pathLength: 0 }}
-					animate={{ pathLength: 1 }}
-					transition={{ duration: 1.1, delay: 0.15, ease: 'easeOut' }}
-				/>
+				{[leftVine, rightVine].map((d, i) => (
+					<motion.path
+						key={`vine-${i}`}
+						d={d}
+						stroke="#5f7355"
+						strokeWidth={1.6}
+						fill="none"
+						opacity={0.85}
+						initial={{ pathLength: 0 }}
+						animate={{ pathLength: 1 }}
+						transition={{ duration: 1.1, delay: 0.15, ease: 'easeOut' }}
+					/>
+				))}
 
 				{sprigs.map((sprig, i) => (
 					<LeafSprig
@@ -412,12 +362,110 @@ function ClotheslineDeck() {
 						delay={sprig.delay}
 					/>
 				))}
+
+				{/* Knots where the line is tied off to each end of the bar. */}
+				{[leftAnchor, rightAnchor].map((a, i) => (
+					<motion.circle
+						key={`knot-${i}`}
+						cx={a.x}
+						cy={a.y}
+						r={4}
+						fill="#8a7a5a"
+						initial={{ scale: 0, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ duration: 0.3, delay: 1, ease: 'easeOut' }}
+					/>
+				))}
 			</svg>
 
-			{points &&
-				workCards.map((card, i) => (
-					<ClotheslineNote key={card.id} card={card} index={i} point={points[i]} />
-				))}
+			{ready && gardenHeight > 40 && (
+				<div
+					style={{
+						position: 'absolute',
+						left: 0,
+						bottom: 0,
+						width: '100%',
+						height: gardenHeight,
+						pointerEvents: 'none',
+					}}
+				>
+					<GardenRow width={width} height={gardenHeight} />
+				</div>
+			)}
+
+			<div
+				className="hero-askme"
+				onFocus={() => askMe.setFocused(true)}
+				onBlur={askMe.handleWrapperBlur}
+				style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+			>
+				<div
+					style={{
+						position: 'absolute',
+						left: barLeft,
+						top: barY - barHeight / 2,
+						width: barWidth,
+						height: barHeight,
+						pointerEvents: 'auto',
+					}}
+				>
+					<AskBar
+						inputRef={askMe.inputRef}
+						input={askMe.input}
+						setInput={askMe.setInput}
+						setFocused={askMe.setFocused}
+						hasThread={hasThread}
+						loading={askMe.loading}
+						onSubmit={() => askMe.ask(askMe.input)}
+					/>
+				</div>
+
+				{(showRecommended || hasThread || error) && (
+					<div
+						className="hero-askme-panel"
+						style={{
+							position: 'absolute',
+							left: panelLeft,
+							top: panelTop,
+							width: panelWidth,
+							maxHeight: panelMaxHeight,
+							pointerEvents: 'auto',
+						}}
+					>
+						{showRecommended && (
+							<Suggestions suggestions={askMe.suggestions} onPick={askMe.ask} />
+						)}
+
+						{hasThread && (
+							<Thread
+								messages={askMe.messages}
+								loading={askMe.loading}
+								threadEndRef={askMe.threadEndRef}
+							/>
+						)}
+
+						{error && (
+							<ErrorNotice
+								error={error}
+								onDismiss={() => {
+									askMe.setError('');
+									if (askMe.inputRef.current) askMe.inputRef.current.focus();
+								}}
+							/>
+						)}
+
+						{hasThread && askMe.followUps.length > 0 && !askMe.loading && (
+							<FollowUps followUps={askMe.followUps} onPick={askMe.ask} />
+						)}
+
+						{hasThread && (
+							<button type="button" className="hero-askme-reset" onClick={askMe.reset}>
+								Clear conversation
+							</button>
+						)}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
@@ -428,11 +476,11 @@ function AppBanner() {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ ease: 'easeInOut', duration: 0.8 }}
-			className="hero-notebook mt-0 min-h-[calc(100vh-72px)] w-full"
+			className="hero-notebook mt-0 min-h-screen w-full"
 		>
-			<div className="grid min-h-[calc(100vh-72px)] grid-cols-1 lg:grid-cols-2">
+			<div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
 				{/* Left: text column, light tone */}
-				<div className="hero-left-paper flex items-start border-r border-stone-500/40 px-6 pb-14 pt-24 sm:px-10 lg:px-16 lg:pt-28">
+				<div className="hero-left-paper flex items-start border-r border-stone-500/40 px-6 pb-14 pt-16 sm:px-10 lg:px-16 lg:pt-20">
 					<motion.div
 						initial={{ opacity: 0, y: 24 }}
 						animate={{ opacity: 1, y: 0 }}

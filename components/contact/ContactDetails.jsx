@@ -4,7 +4,7 @@ const contacts = [
 	{
 		id: 1,
 		title: 'LinkedIn',
-		link: 'https://www.linkedin.com/in/sreekaranreddy1704',
+		link: 'https://www.linkedin.com/in/sree1704',
 		icon: <FiLinkedin />,
 	},
 	{
