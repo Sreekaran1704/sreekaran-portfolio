@@ -91,18 +91,18 @@ Focus: construction analytics, machine learning, growth analytics.
 	},
 	{
 		id: 'avanthi',
-		match: /avanthi|school|scholarship|\badmission|gpt-2|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
+		match: /avanthi|school|scholarship|\badmission|gpt-2|\bocr\b|quantile|confidence interval|\bmae\b|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
 		text: `--- EXPERIENCE: Avanthi High School — Warangal, India — Apr 2022 – Jan 2023 ---
 Data Analyst Intern, education finance and operations analytics.
 • Built the school's analytics foundation from scratch, structuring 12K+ student financial records and 50K+ institutional expense records into validated, reporting-ready datasets in SQL, Python, and Tableau — across fee collections, scholarships, hostel, dining, academics, activities, concessions, and administration.
 • Designed SQL, Python, Excel, and Tableau data-quality workflows to clean, normalize, deduplicate, reconcile, and validate inconsistent fee (payment, scholarship) and expense records, improving financial reporting accuracy by 30%.
 • Delivered recurring Excel reports, Tableau dashboards, and leadership summaries tracking fee collections, department spending, budget variance, category-level costs, concession patterns, collection gaps, and monthly financial performance.
 • Analyzed 50K+ expense transactions across dining, hostel, and academics, identifying 10–15% in cost-saving opportunities that supported the institution's first break-even cycle within four months.
-• Tuned an XGBoost classifier on engineered academic features via grid search and cross-validation, predicting 10th-grade performance from prior records, with SHAP-based feature importance validating model behaviour.
-• Built an OCR pipeline to extract text from scanned admission answer sheets, then fine-tuned GPT-2 on rubric-conditioned records to score descriptive responses, replacing manual grading.
-• Validated model-driven scholarship outputs against 1K+ principal-approved records before rollout, informing a merit-based scoring redesign that replaced an inconsistent allocation process.
-• Launched admission-test fees as a new revenue stream alongside the scoring redesign, contributing to a 50% rise in school revenue.
-• Designed a two-channel A/B comparison isolating the admission test's marketing impact, driving an 18% rise in admissions.`,
+• Replaced an inconsistent scholarship-allocation process with an XGBoost model predicting final marks at 0.8 MAE, tuned via grid search and cross-validation, engineering per-grade snapshot features so students with partial academic history could still be scored, with SHAP-based feature importance validating model behaviour.
+• Fit quantile models attaching a 95% confidence interval to each prediction, which consolidated a four-person review panel into a single reviewer.
+• Built an OCR pipeline to extract text from scanned admission answer sheets, then fine-tuned GPT-2 on rubric-conditioned records to score descriptive responses, measuring agreement against teacher grading before rollout.
+• Paired the redesigned allocation formula with a new admission-test fee stream, together driving a 50% rise in school revenue.
+• Designed a two-channel A/B comparison isolating the admission test's marketing impact specifically, accounting for 15 of those 50 percentage points and driving an 18% rise in admissions.`,
 	},
 	{
 		id: 'umkcLab',
