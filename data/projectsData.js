@@ -55,7 +55,7 @@ export const projectsData = [
 				{
 					id: 715,
 					title: 'Read the full write-up',
-					details: 'Two dedicated pages: a plain-language walkthrough and a full technical methodology',
+					details: 'Three dedicated pages: a plain-language walkthrough, a narrative data story, and a full technical methodology',
 				},
 			],
 			ObjectivesHeading: 'Objective',

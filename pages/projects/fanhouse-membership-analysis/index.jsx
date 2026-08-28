@@ -15,12 +15,20 @@ function FanHouseNonTechnical() {
 					← Back to Projects
 				</Link>
 
-				<div className="fh-version-switch mt-6">
-					<span>Reading the <strong>plain-language</strong> version</span>
-					<Link href="/projects/fanhouse-membership-analysis/technical">
-						Switch to the technical write-up →
-					</Link>
-				</div>
+				<nav className="fh-version-switch mt-6" aria-label="Versions of this write-up">
+					<span className="fh-version-switch-label">Three ways to read this</span>
+					<span className="fh-version-switch-options">
+						<span className="fh-version-pill fh-version-pill-current" aria-current="page">
+							Plain language
+						</span>
+						<Link href="/projects/fanhouse-membership-analysis/data-story" className="fh-version-pill">
+							Data story
+						</Link>
+						<Link href="/projects/fanhouse-membership-analysis/technical" className="fh-version-pill">
+							Technical
+						</Link>
+					</span>
+				</nav>
 
 				<header className="fh-hero mt-6">
 					<span className="fh-eyebrow">Hypothetical Case Study On A Membership Program</span>

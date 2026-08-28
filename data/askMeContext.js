@@ -129,7 +129,7 @@ Question: does a paid membership program (per-item discount, cashback-style supe
 • Reconciling the two: the randomized ~$5 is an intent-to-treat estimate, the diluted company-wide effect of rolling the offer out broadly. The observational ~$32–33 is a treatment-on-the-treated estimate, how much more a customer who actually joins spends versus a similar non-member. Finance modeling rollout revenue should use ITT; a product team asking whether membership changes adopter behavior should use TOT.
 • Verdict: scaled to FanHouse's full footprint on the ITT estimate, the honest uplift is roughly $11.6M–$19.9M a year, net of every discount and coin issued. Open thread: roughly 9 in 10 monthly subscribers cancel after month one, behaving like a one-time coupon, while annual members show meaningfully stronger long-term engagement. Recommendation: launch the program, and redesign or re-test the monthly tier rather than the program itself.
 Tools: Python, Pandas, NumPy, scikit-learn, randomized experiments, propensity score matching, difference-in-differences.
-Links: github.com/Sreekaran1704/Fanhouse-Casestudy. Two write-ups on this site: a plain-language walkthrough and a full technical methodology.`,
+Links: github.com/Sreekaran1704/Fanhouse-Casestudy. Three write-ups on this site: a plain-language walkthrough, a narrative data story ("The $42 Illusion"), and a full technical methodology.`,
 	},
 	{
 		id: 'marketPulse',

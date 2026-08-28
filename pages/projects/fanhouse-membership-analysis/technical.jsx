@@ -15,12 +15,20 @@ function FanHouseTechnical() {
 					← Back to Projects
 				</Link>
 
-				<div className="fh-version-switch mt-6">
-					<span>Reading the <strong>technical</strong> write-up</span>
-					<Link href="/projects/fanhouse-membership-analysis">
-						Switch to the plain-language version →
-					</Link>
-				</div>
+				<nav className="fh-version-switch mt-6" aria-label="Versions of this write-up">
+					<span className="fh-version-switch-label">Three ways to read this</span>
+					<span className="fh-version-switch-options">
+						<Link href="/projects/fanhouse-membership-analysis" className="fh-version-pill">
+							Plain language
+						</Link>
+						<Link href="/projects/fanhouse-membership-analysis/data-story" className="fh-version-pill">
+							Data story
+						</Link>
+						<span className="fh-version-pill fh-version-pill-current" aria-current="page">
+							Technical
+						</span>
+					</span>
+				</nav>
 
 				<header className="fh-hero mt-6">
 					<span className="fh-eyebrow">Causal Inference Case Study · Technical</span>
