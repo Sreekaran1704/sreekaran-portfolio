@@ -1,5 +1,114 @@
 export const projectsData = [
 	{
+		id: 8,
+		title: 'The Forecast That Was Too Good To Be True',
+		url: 'loan-default-forecasting',
+		githubUrl: 'https://github.com/Sreekaran1704/Loan-Default',
+		category: 'Time-Series Forecasting',
+		type: 'Case Study',
+		ProjectHeader: {
+			title: 'The Forecast That Was Too Good To Be True',
+			publishDate: '2026',
+			tags: 'ARIMA / XGBoost / LightGBM / Walk-Forward Backtesting',
+		},
+		ProjectImages: [
+			{
+				id: 801,
+				title: 'Loan Delinquency Rate by Category, 1991–2026',
+				img: '/images/loan-forecast-1.jpg',
+			},
+			{
+				id: 802,
+				title: 'Walk-Forward Backtest with 95% Prediction Interval: ARIMA vs. XGBoost',
+				img: '/images/loan-forecast-3.jpg',
+			},
+		],
+		ProjectInfo: {
+			ClientHeading: 'Project Type',
+			CompanyInfo: [
+				{
+					id: 811,
+					title: 'Association',
+					details: 'Independent portfolio project',
+				},
+				{
+					id: 812,
+					title: 'Role',
+					details: 'Data Analyst / Time-Series &amp; Applied ML',
+				},
+				{
+					id: 813,
+					title: 'Focus',
+					details:
+						'Whether machine learning (XGBoost/LightGBM) can out-forecast a classical ARIMA baseline on real quarterly loan delinquency data, tested honestly, not assumed',
+				},
+				{
+					id: 814,
+					title: 'Data',
+					details: 'FRED, five U.S. loan-delinquency categories, quarterly, 1991–2026 (142 observations each)',
+				},
+				{
+					id: 815,
+					title: 'Read the full write-up',
+					details: 'A narrative walkthrough above; full methodology, code, and results in the linked repository',
+				},
+			],
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'Forecast five FRED loan-delinquency series (All Loans, Credit Card, Business, Mortgage, CRE) four quarters ahead, using an identical walk-forward backtest (min_train_size=80, h=4, 59 graded folds per series) to fairly compare a classical ARIMA baseline against XGBoost and LightGBM. A data-leakage bug in the first ML implementation was caught (via a suspiciously good tuning result) and fixed before any result was trusted. Post-fix, ARIMA beat both ML models on every one of the five series, significantly so in 27 of 40 Diebold-Mariano comparisons, and SHAP interpretability showed why: both approaches leaned overwhelmingly on the same single lag, with ARIMA simply expressing that relationship more efficiently on a ~140-row-per-series dataset than a tree ensemble could.',
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Python',
+						'statsmodels (ARIMA)',
+						'XGBoost',
+						'LightGBM',
+						'Optuna',
+						'SHAP',
+						'Walk-Forward Backtesting',
+						'Diebold-Mariano Testing',
+						'Conformal Prediction',
+					],
+				},
+			],
+			ProjectDetailsHeading: 'Project Details',
+			ProjectDetails: [
+				{
+					title: 'Problem and Project Goal',
+					details:
+						'Problem: it\'s tempting to assume a modern ML model automatically beats a decades-old classical method. Goal: actually test that assumption, honestly, on quarterly FRED loan-delinquency data, with the same walk-forward evaluation for every model, real significance testing, and no result trusted until it survived scrutiny.',
+				},
+				{
+					title: 'Phase 1–2: EDA and the ARIMA Baseline',
+					details:
+						'ADF/KPSS stationarity testing and ACF/PACF analysis per series informed a per-series AIC/BIC ARIMA order search (best orders ranged from (1,1,0) for CRE to (2,1,0) for Business/Credit Card/Mortgage, (2,0,0) for All Loans). Walk-forward backtested (min_train_size=80, h=4), every series passed Ljung-Box comfortably and beat both seasonal-naive and simple-naive benchmarks, with MASE-vs-seasonal-naive ranging from 0.135 (CRE) to 0.348 (Mortgage).',
+				},
+				{
+					title: 'Phase 3: The ML Pipeline and a Caught Leakage Bug',
+					details:
+						'XGBoost and LightGBM were built as direct per-horizon models (one model per forecast step, not recursive), using only lagged/rolling features of each series itself, no exogenous data, for a fair like-for-like comparison with ARIMA. The first implementation had a real bug: rows near each walk-forward fold\'s cutoff had targets landing inside that same fold\'s own test window, leaking the answer into training. It was caught because an early tuning result was implausibly good (MASE 0.18 → 0.025 after 5 trials), traced to the exact off-by-boundary error, and fixed with an explicit guard, verified with a dedicated regression test.',
+				},
+				{
+					title: 'Honest Results, Post-Fix',
+					details:
+						'ARIMA beat XGBoost and LightGBM on every one of the five series. A Diebold-Mariano significance test (Harvey-Leybourne-Newbold corrected) found ARIMA significantly more accurate in 27 of 40 series/model/horizon comparisons, universal at 1-quarter-ahead (10/10), fading at longer horizons. Pooling all five series into one global model helped the ML side but didn\'t close the gap; a nested Optuna hyperparameter search helped in only 4 of 10 cases.',
+				},
+				{
+					title: 'Why: SHAP Interpretability and Prediction Intervals',
+					details:
+						'SHAP analysis on the final models showed the single most-recent lag carrying 47–59% of total feature importance in all 10 of 10 series/model combinations, with both ARIMA and the ML models relying on essentially the same signal, and ARIMA simply expressing it more efficiently given the small sample. A second honest finding: ARIMA\'s native 95% confidence intervals achieved 98–100% empirical coverage, while the ML models\' conformal intervals under-covered at 75–83%, a real limitation worth naming, not hiding, especially for a use case (loan-loss provisioning) where interval reliability matters as much as the point forecast.',
+				},
+				{
+					title: 'Final Verdict and Recommendation',
+					details:
+						'For this problem (univariate, ~140-quarter macro series, direct-horizon forecasting), classical ARIMA is the stronger model, and the gap is statistically real on the majority of series. The takeaway isn\'t "machine learning is bad," it\'s that model complexity has to match data size: a 3-parameter model can be estimated reliably on 140 rows where a tree ensemble needs more to find structure ARIMA doesn\'t already capture. The one lever that could plausibly change this result is genuinely new information (an exogenous macro regressor), not further feature engineering on the same short series.',
+				},
+			],
+			SocialSharingHeading: '',
+		},
+	},
+	{
 		id: 7,
 		title: 'FanHouse: Does Membership Pay for Itself?',
 		url: 'fanhouse-membership-analysis',

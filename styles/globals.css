@@ -3767,6 +3767,32 @@ a {
 	color: rgba(86, 91, 63, 0.85);
 }
 
+/* Rendered chart images (as opposed to hand-drawn fh-chart-figure SVGs) —
+   same frame treatment, for charts too data-dense to hand-author precisely
+   (continuous time series, prediction bands). */
+.fh-image-figure {
+	margin: 1.4rem 0;
+	padding: 0.9rem;
+	background: rgba(255, 250, 240, 0.55);
+	border: 1px dashed rgba(86, 91, 63, 0.28);
+}
+
+.fh-image-figure img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.fh-image-figure figcaption {
+	margin-top: 0.8rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.88rem;
+	line-height: 1.5;
+	color: rgba(86, 91, 63, 0.85);
+}
+
 .fh-chart-axis {
 	stroke: rgba(86, 91, 63, 0.45);
 	stroke-width: 1.5;
