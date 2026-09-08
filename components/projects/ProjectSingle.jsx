@@ -1,92 +1,44 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { projectNotes } from '../../data/projectNotes';
+import ProjectPreview from './ProjectPreview';
 
-function getProjectMetric(title, category) {
-	if (title.includes('FanHouse')) {
-		return {
-			metric: '$5 vs $42',
-			note: 'True causal lift vs. naive comparison',
-		};
-	}
-
-	if (title.includes('Story')) {
-		return {
-			metric: '39.8%',
-			note: 'Perplexity Reduction with QLoRA',
-		};
-	}
-
-	if (title.includes('Readmission')) {
-		return {
-			metric: 'XGBoost + RAG',
-			note: 'Explainable readmission forecasting',
-		};
-	}
-
-	if (title.includes('Vehicle')) {
-		return {
-			metric: 'MLOps',
-			note: 'Vehicle Insurance Prediction API',
-		};
-	}
-
-	if (title.includes('RecommenderX')) {
-		return {
-			metric: 'Cloud SaaS',
-			note: 'Personalized Movie Recommendation App',
-		};
-	}
-
-	if (title.includes('Student')) {
-		return {
-			metric: 'EDA',
-			note: 'student performance insights',
-		};
-	}
-
-	if (title.includes('Market Pulse')) {
-		return {
-			metric: 'Daily',
-			note: 'Automated live job market pipeline',
-		};
-	};
-
-	return {
-		metric: 'LogReg',
-		note: 'Best Student Outcome Classifier',
-	}
-}
-
-function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo, cardIndex = 0 }) {
+function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo }) {
 	const techs = ProjectInfo?.Technologies?.[0]?.techs || [];
 
-	const shortDescription =
-		ProjectInfo?.ObjectivesDetails ||
-		'A selected project focused on data, machine learning, applied AI, or cloud systems.';
-
-	const { metric, note } = getProjectMetric(title, category);
+	const note = projectNotes[url] || { summary: ProjectInfo?.ObjectivesDetails, metric: category, finding: 'Explore the project for methods and results.', annotation: 'Notes from the process.' };
 
 	return (
-		<article className={`notice-project-card notice-project-card-${(cardIndex % 5) + 1}`}>
-			<div className="notice-pin" />
+		<motion.article
+			initial={false}
+			whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.08 }}
+			transition={{ duration: 0.4 }}
+			className={[
+				'projects-card',
+				note.featured ? 'projects-card-featured' : 'projects-card-brief',
+			].join(' ')}>
+			<div className="projects-card-tag">{category}</div>
 
-			<div className="notice-category-tag">{category}</div>
+			<h3 className="projects-card-title">{note.displayTitle || title}</h3>
 
-			<h3 className="notice-project-title">{title}</h3>
+			<p className="projects-card-summary">{note.summary}</p>
 
-			<p className="notice-project-description">{shortDescription}</p>
+			{note.featured && <ProjectPreview note={note} />}
 
-			<div className="notice-project-impact">
-				<strong>{metric}</strong>
-				<span>{note}</span>
-			</div>
+			{note.finding && (
+				<p className="projects-card-finding">
+					<span className="projects-finding-leaf" aria-hidden="true" />
+					<span>{note.finding}</span>
+				</p>
+			)}
 
-			<div className="notice-tech-list">
+			<div className="projects-card-tech">
 				{techs.slice(0, 5).map((tech) => (
 					<span key={tech}>{tech}</span>
 				))}
 			</div>
 
-			<div className="notice-project-actions">
+			<div className="projects-card-actions">
 				<Link
 					href={`/projects/${url}`}
 					className="notice-link-btn"
@@ -121,7 +73,7 @@ function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo, 
 					</a>
 				)}
 			</div>
-		</article>
+		</motion.article>
 	);
 }
 

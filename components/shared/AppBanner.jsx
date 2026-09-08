@@ -473,7 +473,7 @@ function ClotheslineDeck() {
 function AppBanner() {
 	return (
 		<motion.section
-			initial={{ opacity: 0 }}
+			initial={false}
 			animate={{ opacity: 1 }}
 			transition={{ ease: 'easeInOut', duration: 0.8 }}
 			className="hero-notebook mt-0 min-h-screen w-full"
@@ -482,7 +482,7 @@ function AppBanner() {
 				{/* Left: text column, light tone */}
 				<div className="hero-left-paper flex items-start border-r border-stone-500/40 px-6 pb-14 pt-16 sm:px-10 lg:px-16 lg:pt-20">
 					<motion.div
-						initial={{ opacity: 0, y: 24 }}
+						initial={false}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.65, ease: 'easeOut', delay: 0.1 }}
 						className="max-w-2xl"

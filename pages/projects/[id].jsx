@@ -10,7 +10,7 @@ function ProjectSingle(props) {
 				<PagesMetaHead title={props.project.title} />
 
 				<Link
-					href="/projects"
+					href="/#projects"
 					className="project-detail-back-btn mt-8"
 				>
 					← Back to Projects

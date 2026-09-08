@@ -273,7 +273,7 @@ function Experience() {
 								className={`trellis-item ${index % 2 === 0 ? 'side-left' : 'side-right'}`}
 							>
 								<motion.article
-									initial={{ opacity: 0, y: 20 }}
+									initial={false}
 									whileInView={{ opacity: 1, y: 0 }}
 									viewport={{ once: true, margin: '-70px' }}
 									transition={{ duration: 0.5, ease: 'easeOut' }}

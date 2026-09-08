@@ -20,14 +20,18 @@ function ProjectsGrid() {
 		<section className="projects-notice-section px-6 py-16 sm:px-10 lg:px-16">
 			<div className="mx-auto max-w-7xl">
 				<div className="projects-heading-wrap">
-					<h1 className="projects-heading">A few projects I did</h1>
+					<h2 className="projects-heading">A few projects I did</h2>
 
 					<p className="projects-intro">
-						A small collection of analytics, applied AI, cloud, and machine learning work.
+						Questions I explored, things I built, and what the evidence taught me.
 					</p>
 				</div>
 
-				<div className="projects-filter-row">
+				<div
+					className="projects-filter-row"
+					role="group"
+					aria-label="Filter projects"
+				>
 					{FILTERS.map(({ value, label }) => (
 						<button
 							key={value}
@@ -41,16 +45,10 @@ function ProjectsGrid() {
 					))}
 				</div>
 
-				<div className="notice-board">
-					<div className="notice-board-inner">
-						{filteredProjects.map((project, index) => (
-							<ProjectSingle
-								key={project.id}
-								{...project}
-								cardIndex={index}
-							/>
-						))}
-					</div>
+				<div className="projects-grid">
+					{filteredProjects.map((project) => (
+						<ProjectSingle key={project.id} {...project} />
+					))}
 				</div>
 			</div>
 		</section>

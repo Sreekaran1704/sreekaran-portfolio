@@ -5,7 +5,7 @@ function AboutMe() {
 		<section className="about-paper-section px-6 py-20 sm:px-10 lg:px-16">
 			<div className="mx-auto max-w-7xl">
 				<motion.div
-					initial={{ opacity: 0, y: 18 }}
+					initial={false}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.55, ease: 'easeOut' }}
@@ -17,7 +17,7 @@ function AboutMe() {
 				<div className="grid grid-cols-1 gap-12 lg:grid-cols-[320px_1fr]">
 					{/* Left scrapbook column */}
 					<motion.div
-						initial={{ opacity: 0, x: -24 }}
+						initial={false}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -66,7 +66,7 @@ function AboutMe() {
 
 					{/* Main about text */}
 					<motion.div
-						initial={{ opacity: 0, x: 24 }}
+						initial={false}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, ease: 'easeOut', delay: 0.08 }}

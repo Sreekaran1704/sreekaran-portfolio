@@ -14,6 +14,9 @@ export default function Home() {
 
 			<section id="home">
 				<AppBanner />
+			</section>
+
+			<section id="about">
 				<AboutMe />
 			</section>
 

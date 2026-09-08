@@ -11,7 +11,7 @@ function FanHouseTechnical() {
 			/>
 
 			<div className="mx-auto max-w-4xl">
-				<Link href="/projects" className="project-detail-back-btn mt-8">
+				<Link href="/#projects" className="project-detail-back-btn mt-8">
 					← Back to Projects
 				</Link>
 
