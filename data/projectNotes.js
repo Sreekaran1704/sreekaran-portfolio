@@ -8,11 +8,16 @@ export const projectNotes = {
     annotation: 'A simpler model. A more honest answer.', visual: 'forecast',
   },
   'fanhouse-membership-analysis': {
-    displayTitle: 'FanHouse membership analysis',
+    displayTitle: 'FanHouse: more product value, more payments?',
     featured: true, label: '02 / Look beyond the obvious',
-    summary: 'Does a membership program actually increase spending, or do bigger spenders simply join?',
-    metric: '+$0.1367/day', finding: 'Higher estimated pre-discount product value; no demonstrated increase in net payments.',
-    annotation: 'More product value. What did the business keep?', visual: 'causal',
+    summary: 'I followed 40,000 synthetic customers to separate who joins a membership from what the program changes.',
+    metric: '+$0.1367/day', finding: 'Net-payment 95% interval: −$0.0232 to +$0.0027 per customer/day. Higher payments were not established.',
+    annotation: 'More product value. What did the business keep?', visual: 'estimates', detailsLabel: 'Read case study', liveLabel: 'Explore dashboard',
+    estimates: [
+      { label: 'Product value', sub: 'before discounts', value: '+$0.1367', tone: 'up' },
+      { label: 'Net payments', sub: 'after discounts & coins', value: '−$0.0103', tone: 'down' },
+    ],
+    estimatesNote: 'per customer / day · Matched DiD · Profit not estimated',
   },
   'market-pulse-job-market-intelligence': {
     displayTitle: 'Market Pulse',

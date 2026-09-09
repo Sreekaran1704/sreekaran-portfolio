@@ -1,7 +1,24 @@
+import Image from 'next/image';
 export default function ProjectPreview({ note }) {
   return (
     <figure className={`projects-preview projects-preview-${note.visual || 'workflow'}`}>
-      {note.visual === 'causal' ? (
+      {note.cover ? (
+        <Image src={note.cover} alt={note.coverAlt} width={720} height={420} className="projects-card-cover" />
+      ) : note.visual === 'estimates' ? (
+        <div className="preview-estimates" role="img" aria-label={`${note.estimates.map((e) => `${e.label} ${e.sub}: ${e.value}`).join('; ')}. ${note.estimatesNote}.`}>
+          <span className="preview-mini-label">What the matched comparison showed</span>
+          <div className="preview-estimates-pair">
+            {note.estimates.map((estimate) => (
+              <div key={estimate.label} className={`preview-estimate preview-estimate-${estimate.tone}`}>
+                <small>{estimate.label}</small>
+                <strong>{estimate.value}</strong>
+                <em>{estimate.sub}</em>
+              </div>
+            ))}
+          </div>
+          <span className="preview-estimates-note">{note.estimatesNote}</span>
+        </div>
+      ) : note.visual === 'causal' ? (
         <div className="preview-bars" role="img" aria-label="Eventual members spent 40.6% more before launch; members spent 22.3% more after launch. These descriptive gaps are not causal effects.">
           <div><span>Before launch</span><i style={{width:'81.2%'}} /><strong>+40.6%</strong></div>
           <div><span>After launch</span><i style={{width:'44.6%'}} /><strong>+22.3%</strong></div>

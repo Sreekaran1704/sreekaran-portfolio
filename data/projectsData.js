@@ -124,8 +124,8 @@ export const projectsData = [
   "ProjectImages": [
     {
       "id": 701,
-      "title": "Audited synthetic membership study summary",
-      "img": "/images/fanhouse-study-preview.svg"
+      "title": "FanHouse: product value versus net payments",
+      "img": "/images/fanhouse-card-cover.svg"
     }
   ],
   "ProjectInfo": {

@@ -10,9 +10,9 @@ function Interval({ rows, min, max, unit }) {
   const x = value => 150 + (value - min) / (max - min) * 490;
   const h = 80 + rows.length * 65;
   return <><div className="fh-chart-scroll"><svg viewBox={`0 0 700 ${h}`} role="img" aria-label={`Point estimates and 95% confidence intervals in ${unit}. Exact values follow in the table.`}>
-    <line x1={x(0)} x2={x(0)} y1="15" y2={h-40} stroke="#787666" strokeDasharray="4 4" />
-    {rows.map((row,i) => <g key={row.label}><text x="8" y={42+i*65} fill="#414431" fontSize="15">{row.label}</text><line x1={x(row.ci_low)} x2={x(row.ci_high)} y1={38+i*65} y2={38+i*65} stroke="#536b62" strokeWidth="5" strokeLinecap="round"/><circle cx={x(row.estimate)} cy={38+i*65} r="7" fill="#312e81"/><title>{row.label}: {money(row.estimate)}, interval {money(row.ci_low)} to {money(row.ci_high)}</title></g>)}
-    {[min,0,max].map(value => <text key={value} x={x(value)} y={h-15} textAnchor="middle" fill="#414431" fontSize="14">{money(value)}</text>)}
+    <line className="fh-chart-baseline-dash" x1={x(0)} x2={x(0)} y1="15" y2={h-40} strokeDasharray="4 4" />
+    {rows.map((row,i) => <g key={row.label}><text className="fh-chart-label" x="8" y={42+i*65}>{row.label}</text><line className="fh-chart-errorbar" x1={x(row.ci_low)} x2={x(row.ci_high)} y1={38+i*65} y2={38+i*65} strokeWidth="4" strokeLinecap="round"/><circle cx={x(row.estimate)} cy={38+i*65} r="6" fill="#4e4931"/><title>{row.label}: {money(row.estimate)}, interval {money(row.ci_low)} to {money(row.ci_high)}</title></g>)}
+    {[min,0,max].map(value => <text className="fh-chart-tick" key={value} x={x(value)} y={h-15} textAnchor="middle">{money(value)}</text>)}
   </svg></div><div className="fh-chart-scroll"><table className="fh-chart-table"><caption>Exact estimates ({unit})</caption><thead><tr><th scope="col">Outcome</th><th scope="col">Estimate</th><th scope="col">95% interval</th></tr></thead><tbody>{rows.map(row => <tr key={row.label}><th scope="row">{row.label}</th><td>{money(row.estimate)}</td><td>{money(row.ci_low)} to {money(row.ci_high)}</td></tr>)}</tbody></table></div></>;
 }
 export function SelectionChart() {

@@ -21,14 +21,22 @@ export default function FanhouseStudy({ view }) {
         <p className="fh-hero-lede">{story.lede}</p>
         <p className="fh-hero-byline">By Sreekaran · September 2026 · {story.label}</p>
         <div className="fh-study-links">
-          <a href={fanhouseLinks.dashboard}>Explore live dashboard ↗</a>
-          <a href={fanhouseLinks.caseStudy}>Full case study ↗</a>
-          <a href={fanhouseLinks.github}>Code &amp; validation ↗</a>
+          <a className="notice-link-btn" href={fanhouseLinks.dashboard} target="_blank" rel="noopener noreferrer">Explore live dashboard →</a>
+          <a className="notice-link-btn notice-link-outline" href={fanhouseLinks.caseStudy} target="_blank" rel="noopener noreferrer">Full case study →</a>
+          <a className="notice-link-btn notice-link-outline" href={fanhouseLinks.github} target="_blank" rel="noopener noreferrer">Code &amp; validation →</a>
         </div>
       </header>
       <aside className="fh-study-snapshot" aria-label="Study results at a glance">
-        <div><span>Pre-discount product value</span><strong>+$0.1367/day</strong><small>95% CI: +$0.1226 to +$0.1509</small></div>
-        <div><span>Net product payments</span><strong>−$0.0103/day</strong><small>95% CI: −$0.0232 to +$0.0027</small></div>
+        <div className="fh-hero-stat">
+          <strong className="fh-hero-stat-value">+$0.1367<span className="fh-hero-stat-unit">/day</span></strong>
+          <span className="fh-hero-stat-label">Pre-discount product value</span>
+          <small>95% CI: +$0.1226 to +$0.1509</small>
+        </div>
+        <div className="fh-hero-stat">
+          <strong className="fh-hero-stat-value">−$0.0103<span className="fh-hero-stat-unit">/day</span></strong>
+          <span className="fh-hero-stat-label">Net product payments</span>
+          <small>95% CI: −$0.0232 to +$0.0027</small>
+        </div>
         <p>Matched estimates per customer. Synthetic data. Fees tracked separately; profit not estimated.</p>
       </aside>
       {story.sections.map(([title, paragraphs], index) => <section className="fh-section" key={title}>
@@ -40,7 +48,11 @@ export default function FanhouseStudy({ view }) {
         {((view === 0 && index === 4) || (view === 1 && index === 4) || (view === 2 && index === 4)) && <SensitivityChart />}
       </section>)}
       <footer className="fh-section"><h2>Follow the evidence</h2><p>The dashboard, complete case study, and reproducible analysis are available together.</p>
-        <div className="fh-study-links"><a href={fanhouseLinks.dashboard}>Open dashboard ↗</a><a href={fanhouseLinks.caseStudy}>Read complete study ↗</a><a href={fanhouseLinks.github}>Inspect source ↗</a></div>
+        <div className="fh-study-links">
+          <a className="notice-link-btn" href={fanhouseLinks.dashboard} target="_blank" rel="noopener noreferrer">Open dashboard →</a>
+          <a className="notice-link-btn notice-link-outline" href={fanhouseLinks.caseStudy} target="_blank" rel="noopener noreferrer">Read complete study →</a>
+          <a className="notice-link-btn notice-link-outline" href={fanhouseLinks.github} target="_blank" rel="noopener noreferrer">Inspect source →</a>
+        </div>
       </footer>
     </div>
   </div>;

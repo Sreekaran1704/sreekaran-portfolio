@@ -4854,6 +4854,65 @@ a {
 	color: rgba(107, 100, 72, 0.85);
 }
 
+/* Two matched estimates, written up as a pair of slips torn from the same
+   note — the same vocabulary as the forecast scorecard beside it. */
+.preview-estimates {
+	width: 100%;
+	text-align: center;
+}
+
+.preview-estimates-pair {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.9rem;
+	margin: 0.65rem 0 0.5rem;
+}
+
+.preview-estimate {
+	position: relative;
+	padding: 0.5rem 0.4rem;
+	background: rgba(244, 234, 216, 0.42);
+	border: 1px dashed rgba(120, 88, 55, 0.28);
+	border-radius: 3px;
+}
+
+.preview-estimate small {
+	display: block;
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-size: 0.68rem;
+	color: #6b6448;
+}
+
+.preview-estimate strong {
+	display: block;
+	margin: 0.1rem 0 0.05rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 1.1;
+	color: #64734f;
+}
+
+.preview-estimate-down strong {
+	color: #a5765f;
+}
+
+.preview-estimate em {
+	display: block;
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-style: normal;
+	font-size: 0.65rem;
+	color: rgba(107, 100, 72, 0.85);
+}
+
+.preview-estimates-note {
+	display: block;
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-size: 0.68rem;
+	color: rgba(107, 100, 72, 0.85);
+}
+
 /* Forecast scorecard: one ticked column per loan series. */
 .preview-forecast {
 	width: 100%;
@@ -5017,39 +5076,315 @@ a {
   .preview-forecast-categories { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 0.8rem; }
   .preview-bars span, .preview-bars strong { font-size: 0.63rem; }
 }
+/* ---------- Audited membership study ----------
+   Everything below borrows the same paper vocabulary as the rest of the site:
+   dashed rules, Cormorant italic for anything that reads as handwriting,
+   GeneralSans for measured numbers, and the olive/sage/clay palette. */
 
-/* Audited membership study: reuse the existing long-form palette and typography. */
-.fh-study-links { display:flex; flex-wrap:wrap; gap:0.75rem; margin:1.5rem 0; }
-.fh-study-links a { padding:0.65rem 0.9rem; border:1px solid #74764e; border-radius:0.35rem; color:#312e81; background:#fffdf6; font-size:1rem; text-decoration:underline; text-underline-offset:3px; }
-.fh-study-links a:hover { background:#efe7b8; }
-.fh-study-links a:focus-visible { outline:3px solid #312e81; outline-offset:3px; }
-.fh-study-snapshot { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; padding:1.5rem; margin:2rem 0; background:#efe7b8; border:1px solid #c2ba8d; }
-.fh-study-snapshot span, .fh-study-snapshot strong, .fh-study-snapshot small { display:block; }
-.fh-study-snapshot span { font-size:1rem; color:#414431; }
-.fh-study-snapshot strong { font-size:clamp(1.5rem,4vw,2.3rem); color:#312e81; overflow-wrap:anywhere; }
-.fh-study-snapshot small { font-size:0.875rem; color:#414431; }
-.fh-study-snapshot p { grid-column:1/-1; margin:0; font-size:0.9rem; color:#414431; }
-@media(max-width:540px) { .fh-study-snapshot { grid-template-columns:1fr; padding:1rem; } }
+/* The three destinations sit in the same row of paper buttons the project
+   cards use, so a reader arriving from the board sees one control style. */
+.fh-study-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin: 1.6rem 0 0;
+}
 
-/* Interactive evidence embedded within each narrative. */
-.fh-interactive { margin:2rem 0; padding:clamp(1rem,3vw,1.75rem); background:#fffdf6; border:1px solid #c2ba8d; border-radius:0.5rem; box-shadow:3px 3px 0 #e9e2ca; }
-.fh-interactive figcaption strong { display:block; font-size:1.4rem; color:#312e81; }
-.fh-interactive figcaption span { display:block; font-size:0.875rem; color:#5b5e45; margin:0.4rem 0 1.25rem; }
-.fh-interactive select,.fh-interactive button { padding:0.5rem; margin:0.3rem; border:1px solid #777a5e; border-radius:0.3rem; background:#fffaf0; color:#312e81; font-size:1rem; max-width:100%; }
-.fh-interactive button { cursor:pointer; }
-.fh-interactive :is(select,button,input):focus-visible { outline:3px solid #312e81; outline-offset:3px; }
-.fh-chart-controls { display:flex; flex-wrap:wrap; gap:0.75rem; }
-.fh-chart-scroll { overflow-x:auto; }
-.fh-chart-scroll svg { width:100%; min-width:500px; display:block; }
-.fh-chart-table { width:100%; border-collapse:collapse; font-size:0.95rem; text-align:left; }
-.fh-chart-table caption { text-align:left; padding:0.5rem 0; font-size:0.875rem; }
-.fh-chart-table th,.fh-chart-table td { padding:0.6rem; border-bottom:1px solid #e0dbc6; white-space:nowrap; }
-.fh-section .fh-chart-note { font-size:0.9rem; line-height:1.6; margin:1rem 0 0.5rem; }
-.fh-chart-source { font-size:0.875rem; color:#312e81; text-decoration:underline; }
-.fh-slider-label { display:block; margin-top:1rem; }
-.fh-interactive input[type=range] { display:block; width:100%; accent-color:#312e81; margin:1rem 0; }
-.fh-comparison { margin-top:1rem; }
-.fh-comparison>div { display:grid; grid-template-columns:1fr; gap:0.35rem; margin:1rem 0; }
-.fh-bar-track { height:1.25rem; background:#eee9d7; border-radius:3px; overflow:hidden; }
-.fh-bar-track>div { height:100%; background:#536b62; }
-.fh-comparison>div:first-child .fh-bar-track>div { background:#312e81; }
+.fh-section .fh-study-links {
+	margin: 1.3rem 0 0;
+}
+
+/* Results at a glance: the hero-stat slips, ruled off as one note. */
+.fh-study-snapshot {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.1rem;
+	padding: 1.5rem;
+	margin: 2rem 0 0;
+	background:
+		radial-gradient(rgba(96, 85, 55, 0.05) 0.65px, transparent 0.65px),
+		#fffaf0;
+	background-size: 14px 14px;
+	border: 1px solid rgba(120, 88, 55, 0.14);
+	box-shadow:
+		0 10px 22px rgba(80, 60, 35, 0.08),
+		2px 2px 0 rgba(86, 91, 63, 0.04);
+}
+
+.fh-study-snapshot .fh-hero-stat-value {
+	overflow-wrap: anywhere;
+}
+
+.fh-study-snapshot small {
+	display: block;
+	margin-top: 0.35rem;
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-size: 0.78rem;
+	line-height: 1.4;
+	color: rgba(107, 100, 72, 0.85);
+}
+
+.fh-study-snapshot p {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding-top: 0.9rem;
+	border-top: 1px dashed rgba(120, 88, 55, 0.26);
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	color: rgba(86, 91, 63, 0.9);
+}
+
+@media (max-width: 540px) {
+	.fh-study-snapshot {
+		grid-template-columns: 1fr;
+		padding: 1.1rem;
+	}
+}
+
+/* ---------- Interactive evidence inside a narrative ----------
+   Drawn as an inset slip on the section page: dashed rule, tinted paper,
+   never a second card with its own drop shadow. */
+.fh-interactive {
+	margin: 1.6rem 0 0;
+	padding: clamp(1rem, 3vw, 1.5rem);
+	background: rgba(244, 234, 216, 0.4);
+	border: 1px dashed rgba(120, 88, 55, 0.3);
+}
+
+.fh-interactive figcaption strong {
+	display: block;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: clamp(1.15rem, 2vw, 1.4rem);
+	line-height: 1.2;
+	color: #4e4931;
+}
+
+.fh-interactive figcaption span {
+	display: block;
+	margin: 0.3rem 0 1.1rem;
+	padding-bottom: 0.9rem;
+	border-bottom: 1px dashed rgba(120, 88, 55, 0.26);
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-size: 0.74rem;
+	color: rgba(107, 100, 72, 0.85);
+}
+
+/* Control labels are handwriting; the controls themselves are the same paper
+   chips the project filters use. */
+.fh-interactive label {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: #565b3f;
+}
+
+.fh-interactive select,
+.fh-interactive button {
+	padding: 0.32rem 0.6rem;
+	background: rgba(255, 250, 240, 0.75);
+	border: 1px dashed rgba(120, 88, 55, 0.34);
+	border-radius: 4px;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.88rem;
+	color: #565b3f;
+	max-width: 100%;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.fh-interactive select:hover,
+.fh-interactive button:hover {
+	background: #fffaf0;
+	border-color: rgba(86, 91, 63, 0.5);
+}
+
+.fh-interactive button {
+	cursor: pointer;
+	margin-top: 0.4rem;
+}
+
+/* One chart puts its select beside the label rather than inside it. */
+.fh-interactive label + select {
+	margin-left: 0.5rem;
+}
+
+/* @tailwindcss/forms puts a blue ring on these; swap it for a pencil outline. */
+.fh-interactive :is(select, button, input):focus {
+	outline: none;
+	box-shadow: none;
+	--tw-ring-shadow: 0 0 #0000;
+	--tw-ring-color: transparent;
+}
+
+.fh-interactive :is(select, button, input):focus-visible {
+	outline: 2px solid #565b3f;
+	outline-offset: 2px;
+}
+
+.fh-chart-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.9rem;
+	margin-bottom: 0.4rem;
+}
+
+.fh-chart-scroll {
+	overflow-x: auto;
+}
+
+.fh-chart-scroll svg {
+	width: 100%;
+	min-width: 500px;
+	display: block;
+}
+
+/* The exact-values table reads as the same object as every other table in
+   the write-up. */
+.fh-chart-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+	margin-top: 0.6rem;
+}
+
+.fh-chart-table caption {
+	text-align: left;
+	padding: 0.5rem 0;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.88rem;
+	color: rgba(86, 91, 63, 0.9);
+}
+
+.fh-chart-table th,
+.fh-chart-table td {
+	padding: 0.55rem 0.75rem;
+	border-bottom: 1px dashed rgba(86, 91, 63, 0.2);
+	font-size: 0.85rem;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.fh-chart-table thead th {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	color: #4e4931;
+	background: rgba(244, 234, 216, 0.55);
+}
+
+.fh-chart-table tbody th {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 600;
+	color: #4e4931;
+}
+
+.fh-chart-table tbody td {
+	font-family: 'GeneralSans-Medium';
+	color: #565b3f;
+}
+
+.fh-chart-table tbody tr:last-child :is(th, td) {
+	border-bottom: none;
+}
+
+.fh-section .fh-chart-note {
+	margin: 1rem 0 0.5rem;
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: rgba(86, 91, 63, 0.9);
+}
+
+/* Pencilled underline rather than a browser link rule. */
+.fh-chart-source {
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-weight: 700;
+	font-size: 0.9rem;
+	color: #565b3f;
+	border-bottom: 1px dashed rgba(86, 91, 63, 0.45);
+	text-decoration: none;
+}
+
+.fh-chart-source:hover {
+	color: #4e4931;
+	border-bottom-color: rgba(86, 91, 63, 0.8);
+}
+
+.fh-interactive .fh-slider-label {
+	display: flex;
+	margin-top: 1rem;
+}
+
+.fh-interactive input[type=range] {
+	display: block;
+	width: 100%;
+	accent-color: #7c8d6a;
+	margin: 0.8rem 0 0;
+}
+
+/* Two measured bars, drawn with the same crayon stroke as the project-card
+   previews. */
+.fh-comparison {
+	margin-top: 1rem;
+}
+
+.fh-comparison > div {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.3rem;
+	margin: 1rem 0;
+}
+
+.fh-comparison > div > span {
+	font-family: 'GeneralSans-Variable', sans-serif;
+	font-size: 0.78rem;
+	color: #6b6448;
+}
+
+.fh-comparison > div > strong {
+	font-family: 'GeneralSans-Medium';
+	font-size: 0.85rem;
+	color: #4b4f38;
+}
+
+.fh-bar-track {
+	height: 12px;
+	background: rgba(244, 234, 216, 0.75);
+	border: 1px solid rgba(86, 91, 63, 0.14);
+	border-radius: 1px 5px 3px 1px;
+	overflow: hidden;
+}
+
+.fh-bar-track > div {
+	height: 100%;
+	background: repeating-linear-gradient(-2deg, #7c8d6a 0, #7c8d6a 2px, rgba(124, 141, 106, 0.7) 2px, rgba(124, 141, 106, 0.7) 3px);
+}
+
+.fh-comparison > div:first-child .fh-bar-track > div {
+	background: repeating-linear-gradient(2deg, #ba9484 0, #ba9484 2px, rgba(186, 148, 132, 0.7) 2px, rgba(186, 148, 132, 0.7) 3px);
+}
+
+.fh-comparison > p {
+	margin-bottom: 0;
+}
+
+.projects-card-cover {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}

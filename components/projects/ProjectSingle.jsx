@@ -44,7 +44,7 @@ function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo }
 					className="notice-link-btn"
 					aria-label={`View details for ${title}`}
 				>
-					View Details →
+					{note.detailsLabel || 'View Details'} →
 				</Link>
 
 				{liveUrl && liveUrl !== '#' && (
@@ -55,7 +55,7 @@ function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo }
 						className="notice-link-btn notice-link-outline"
 						aria-label={`View live site for ${title}`}
 					>
-						Live Site →
+						{note.liveLabel || 'Live Site'} →
 					</a>
 
 				)
