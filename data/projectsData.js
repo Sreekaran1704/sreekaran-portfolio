@@ -108,123 +108,95 @@ export const projectsData = [
 			SocialSharingHeading: '',
 		},
 	},
-	{
-		id: 7,
-		title: 'FanHouse: Does Membership Pay for Itself?',
-		url: 'fanhouse-membership-analysis',
-		githubUrl: 'https://github.com/Sreekaran1704/Fanhouse-Casestudy',
-		category: 'Causal Inference',
-		type: 'Case Study',
-		ProjectHeader: {
-			title: 'FanHouse: Does Membership Pay for Itself?',
-			publishDate: '2026',
-			tags: 'A/B Testing / Propensity Matching / Difference-in-Differences',
-		},
-		ProjectImages: [
-			{
-				id: 701,
-				title: 'Randomized Experiment Results',
-				img: '/images/web-project-1.jpg',
-			},
-			{
-				id: 702,
-				title: 'Propensity Matching & Diff-in-Diff',
-				img: '/images/web-project-2.jpg',
-			},
-			{
-				id: 703,
-				title: 'Membership Revenue Verdict',
-				img: '/images/ui-project-2.jpg',
-			},
-		],
-		ProjectInfo: {
-			ClientHeading: 'Project Type',
-			CompanyInfo: [
-				{
-					id: 711,
-					title: 'Association',
-					details: 'Independent portfolio project',
-				},
-				{
-					id: 712,
-					title: 'Role',
-					details: 'Data Analyst / Causal Inference',
-				},
-				{
-					id: 713,
-					title: 'Focus',
-					details:
-						'Whether a paid membership program actually increases net revenue, once discounts, supercoins, and self-selection are accounted for',
-				},
-				{
-					id: 714,
-					title: 'Data',
-					details: 'Fully synthetic, with a known ground-truth effect built in, across 50,000 online customers and 325 stores',
-				},
-				{
-					id: 715,
-					title: 'Read the full write-up',
-					details: 'Three dedicated pages: a plain-language walkthrough, a narrative data story, and a full technical methodology',
-				},
-			],
-			ObjectivesHeading: 'Objective',
-			ObjectivesDetails:
-				'A naive comparison of members against non-members shows membership tripling revenue — a $42.41 gap per customer per quarter. A randomized controlled experiment (50,000 online customers, 325 stores) shows the true causal lift is only $3.73–$5.94, about 8x smaller, because spendier customers simply self-select into membership. Two independent observational methods, propensity score matching and difference-in-differences, deliberately run on confounded data, converge on a separate ~$32–33 treatment-on-the-treated effect, reconciling with the randomized estimate as an answer to a different, equally valid question. Scaled to FanHouse’s full footprint, the honest rollout estimate is worth $11.6M–$19.9M a year, net of every discount and coin issued.',
-			Technologies: [
-				{
-					title: 'Tools & Technologies',
-					techs: [
-						'Python',
-						'Pandas',
-						'NumPy',
-						'scikit-learn',
-						'Randomized Experiments',
-						'Propensity Score Matching',
-						'Difference-in-Differences',
-					],
-				},
-			],
-			ProjectDetailsHeading: 'Project Details',
-			ProjectDetails: [
-				{
-					title: 'Problem and Project Goal',
-					details:
-						'Problem: FanHouse, a fan-apparel retailer, was considering a paid membership program with a per-item discount, cashback-style supercoins, and early access to drops. The program has real costs, so "sales went up" is not an answer on its own — the only metric that matters is net revenue after every discount, coin liability, and return is accounted for.\n\nGoal: Measure the program’s true causal effect on net revenue, using both a randomized controlled experiment and, deliberately, an observational analysis on confounded data — to show how far a naive comparison can drift from the truth, and why.',
-				},
-				{
-					title: 'Metric Design',
-					details:
-						'Overall Evaluation Criterion: Net Revenue = Gross Purchase Revenue − Discount Given − Supercoins Issued − Returned Value + Prorated Membership Fee. Supercoins are booked as a liability the moment they are issued, not when redeemed, so the metric never overstates the company’s true position.\n\nGuardrails tracked cost of returns and late-window purchase activity; diagnostics tracked purchase frequency and coin redemption rate.',
-				},
-				{
-					title: 'Phase 1: Randomized Controlled Experiment',
-					details:
-						'Online, 50% of active customers were randomly offered membership (15% adopted) versus not offered (2.5% organic adoption). Offline, since a cashier cannot selectively withhold a public offer, 325 stores were randomized at the store level instead, stratified by AOV tier.\n\nResult: net revenue lifted by $3.73–$5.00 per customer per quarter online (t = 13.52, p ≈ 1.5×10⁻⁴¹) and $3.40–$5.94 offline (t = 7.23, p ≈ 3.6×10⁻¹²) — real and statistically unambiguous in both channels, though the offline interval is wider due to far less statistical power from 325 store-level observations.',
-				},
-				{
-					title: 'Guardrails and Decomposition',
-					details:
-						'The elevated member return rate (10.2% vs. 8.0%) is already priced into the net revenue formula, not a hidden red flag. Late-window engagement looked like a null effect when pooled (t = 0.61, p = 0.54) — decomposing by plan revealed two real, opposite-signed effects instead: annual members sit significantly above the non-member baseline (20.1% vs. 12.9%), while monthly members sit significantly below it (9.0%), because the monthly plan functions as a one-time discount pass rather than a subscription.',
-				},
-				{
-					title: 'Phase 2: Observational Causal Inference',
-					details:
-						'A second, harder case was built deliberately: a fresh population where a hidden trait, historical purchase rate, drives both natural spend and the probability of self-selecting into membership. The naive member-vs-non-member gap ($42.41) inflates the true randomized effect by roughly 8x purely from this self-selection.\n\nA logistic-regression propensity model matched each member to the nearest comparable non-member one-to-one without replacement, cutting the purchase-rate covariate gap by about 98% and landing on a $33.51 matched gap. An independent difference-in-differences estimate, using a simulated pre-period, converged separately at $32.47 — close agreement between two independent methods.',
-				},
-				{
-					title: 'Reconciling Two Correct Numbers',
-					details:
-						'The randomized ~$5 figure and the observational ~$32–33 figure are not competing answers to the same question. The $5 is an intent-to-treat estimate: the diluted, company-wide effect of rolling the offer out broadly, already accounting for the fact that most people decline. The $32–33 is a treatment-on-the-treated estimate: how much more a customer who actually joins and uses the program spends, versus a similar non-member. A finance team modeling rollout revenue should use the ITT figure; a product team asking whether membership changes behavior for adopters should use the TOT figure.',
-				},
-				{
-					title: 'Final Verdict and Recommendation',
-					details:
-						'Scaled to FanHouse’s full footprint using the randomized ITT estimate, the honest, diluted net revenue uplift is worth roughly $11.6M–$19.9M a year, already net of every discount and coin issued. The one open thread: the monthly plan, where roughly 9 in 10 subscribers cancel after month one, behaving like a one-time coupon rather than a subscriber, while annual members show meaningfully stronger long-term engagement. Recommendation: launch the program, and redesign or re-test the monthly tier rather than the program itself.',
-				},
-			],
-			SocialSharingHeading: '',
-		},
-	},
+{
+  "id": 7,
+  "title": "FanHouse: More Product Value, But More Payments?",
+  "url": "fanhouse-membership-analysis",
+  "githubUrl": "https://github.com/Sreekaran1704/fanhouse-casestudy-membership-",
+  "liveUrl": "https://sreekaran1704.github.io/fanhouse-casestudy-membership-/",
+  "category": "Causal Inference",
+  "type": "Case Study",
+  "ProjectHeader": {
+    "title": "FanHouse Membership Impact Study",
+    "publishDate": "2026",
+    "tags": "Propensity Matching / Difference-in-Differences / Simulation Validation"
+  },
+  "ProjectImages": [
+    {
+      "id": 701,
+      "title": "Audited synthetic membership study summary",
+      "img": "/images/fanhouse-study-preview.svg"
+    }
+  ],
+  "ProjectInfo": {
+    "ClientHeading": "Project Type",
+    "CompanyInfo": [
+      {
+        "id": 711,
+        "title": "Association",
+        "details": "Independent portfolio project; synthetic data"
+      },
+      {
+        "id": 712,
+        "title": "Role",
+        "details": "Causal inference and decision analysis"
+      },
+      {
+        "id": 714,
+        "title": "Data",
+        "details": "40,000 synthetic customers, 573,352 transactions, 12,153 matched pairs"
+      }
+    ],
+    "ObjectivesHeading": "Question and finding",
+    "ObjectivesDetails": "Members spent 22.3% more after launch, but eventual members already spent 40.6% more beforehand. A matched difference-in-differences analysis estimated +$0.1367/day in pre-discount product value and −$0.0103/day in net product payments (95% CI −$0.0232 to +$0.0027). The contrast is consistent with purchasing responses being offset by discounts and redeemed rewards. Profit is not estimated.",
+    "Technologies": [
+      {
+        "title": "Tools & Methods",
+        "techs": [
+          "Python",
+          "pandas",
+          "NumPy",
+          "scikit-learn",
+          "Difference-in-Differences",
+          "Event Study",
+          "Simulation Validation"
+        ]
+      }
+    ],
+    "ProjectDetailsHeading": "Study design and evidence",
+    "ProjectDetails": [
+      {
+        "title": "Population, timing, and causal target",
+        "details": "The synthetic panel contains 40,000 customers and 573,352 transactions from January 1, 2024 through December 31, 2025. Program launch is October 1, 2024: 274 pre-period days and 457 post-period days. There are 12,408 adopters and 27,592 non-adopters.\n\nThe matched analysis retains 12,153 adopter-control pairs, about 97.94% of adopters. Its target is the full post-launch-window contrast for retained adopters under their observed adoption timing. It is not a randomized offer ITT or a uniform duration-since-adoption effect."
+      },
+      {
+        "title": "Outcome accounting",
+        "details": "The primary outcome is net product payments per customer per day, after discounts and redeemed reward coins. Membership fees are tracked separately. The secondary outcome is product value at modeled pre-discount prices.\n\nNeither is contribution profit. Issued but unredeemed rewards, costs, and fee revenue recognition need separate accounting before a financial rollout decision. Physical units and willingness to pay are not measured by pre-discount product value."
+      },
+      {
+        "title": "Matching and estimation",
+        "details": "A logistic propensity model uses pre-program covariates. Greedy one-to-one matching without replacement uses a default caliper of 0.03. Difference-in-differences is then computed within the matched pairs: (member post − member pre) − (control post − control pre).\n\nThe pre-spend standardized mean difference falls from 0.3961 to 0.00134. The largest absolute matched model-covariate SMD is approximately 0.0152. These are observed-balance diagnostics, not proof of exchangeability.\n\nThe net-payment estimate is −$0.0102538/day, paired SE $0.0066222, p = 0.1216, 95% CI [−$0.0232345, +$0.0027268]. The pre-discount estimate is +$0.1367276/day, 95% CI [+$0.1225555, +$0.1508997]."
+      },
+      {
+        "title": "Event study and identification limits",
+        "details": "Monthly specifications use pair-clustered covariance. Only 49.5% of adopters join in the launch month. Launch-aligned paths therefore mix cohorts and exposure durations; they should not be read as cohort-specific treatment dynamics.\n\nThe overall joint pretrend diagnostic has raw p = 0.0165 and Holm-adjusted p = 0.1154 across seven diagnostics. Report both: adjusted non-rejection does not establish parallel trends or practical equivalence.\n\nIdentification still requires assumptions about parallel counterfactual trends, selection, anticipation, and interference. Matching cannot remove unobserved confounding by itself."
+      },
+      {
+        "title": "Sensitivity and channel findings",
+        "details": "At caliper 0.10 the net-payment estimate becomes nominally significant (p = 0.0467), compared with p = 0.1216 at the default. Statistical significance is therefore not stable across all matching specifications.\n\nThe in-store net-payment contrast is −$0.01210/day (nominal p = 0.0131); online is +$0.00184/day (p = 0.7123). These channel results do not establish a profitable overall program. The interactive dashboard includes four monthly outcomes and an additive trend-violation sensitivity control."
+      },
+      {
+        "title": "Validation against known simulated outcomes",
+        "details": "The shared generator constructs coupled factual and no-benefit worlds and verifies the factual reconstruction before producing counterfactual output. The known full-window net-payment ATT is −$0.0112774/day. The estimate differs by about +$0.0010236/day and contains that truth in its interval.\n\nAll six outcome/channel comparisons contain their coupled truth, but they are correlated outcomes in one world, not a coverage study.\n\nA separate Monte Carlo exercise uses 20 configured-benefit and 20 zero-benefit worlds, each with 4,000 customers and matching refitted. Both scenarios cover truth in 20/20 intervals; each Wilson 95% interval is approximately 83.9% to 100%. Zero of 20 null worlds rejects at 5%. This is too small to establish precise coverage or Type I error, and it is not full-sample validation."
+      },
+      {
+        "title": "Reproducibility and decision",
+        "details": "The pipeline regenerates data, runs 14 regression tests, executes the analysis and assumption audit, builds the dashboard and preview, and validates artifact consistency. The manifest records completion, package versions, source/data hashes, and phase logs. Separate JavaScript checks exercise dashboard bindings and sensitivity updates.\n\nThe implementation checks support this simulation. They do not establish real-world identification. The next organizational study should randomize an appropriate offer or rollout and measure contribution profit before a launch recommendation."
+      }
+    ],
+    "SocialSharingHeading": ""
+  }
+},
 
 	{
 		id: 6,

@@ -66,8 +66,8 @@ const followUpTopics = [
 		id: 'fanhouse',
 		match: /fanhouse|causal|propensity|difference-in-differences|diff-in-diff|a\/b|experiment|membership/i,
 		questions: [
-			'Why was the naive estimate off by 8x?',
-			'How do the ITT and TOT numbers differ?',
+			'What did the pre-launch spending gap reveal?',
+			'Why did product value and net payments differ?',
 			'Was that real company data?',
 		],
 	},

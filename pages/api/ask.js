@@ -2,13 +2,8 @@ import { buildSystemPrompt } from '../../data/askMeContext';
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-// llama-3.1-8b-instant was the first choice, but it broke the grounding rules in
-// testing: asked about FanHouse it claimed the observational estimate "was
-// significantly lower" than the randomized one (it is higher — $32–33 vs
-// $3.73–$5.94), and it ran past the word limit, which is where inventions like
-// that get room to appear. The 70b model holds the limit and the rules, and on
-// Groq's free tier it also gets 12,000 TPM against the 8b's 6,000. Override with
-// GROQ_MODEL if you want to swap back.
+// Keep the answer grounded in the current project context.
+// Override the configured model with GROQ_MODEL when needed.
 const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 
 // Follow-ups only need enough thread to resolve "that project" / "how long

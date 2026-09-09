@@ -82,7 +82,7 @@ function AboutMe() {
 							</p>
 
 							<p>
-								The project that changed how I think about analysis was FanHouse. I ran a randomized experiment across 50,000 customers to measure a membership program&apos;s real impact on revenue. The naive comparison, people who joined versus people who didn&apos;t, said the effect was huge. It was wrong, by a factor of 8, because people who join loyalty programs are already a company&apos;s best customers. I caught that with a placebo test, then rebuilt the estimate using propensity score matching and difference-in-differences, two independent methods that converged on the same number once the bias was gone. That was when I stopped reporting what the data says and started checking whether the data is saying what it looks like it&apos;s saying.
+								The project that changed how I think about analysis was FanHouse, a study I built with synthetic retail data. Members spent 22.3% more after launch, but eventual members already spent 40.6% more before it. I used matching followed by difference-in-differences to make the comparison more useful. Estimated product value increased before discounts, while higher net payments were not established. I kept the pretrend warning and sensitivity results visible. That was when I started asking not just whether a number looked convincing, but what evidence would let me defend it.
 							</p>
 
 							<p>

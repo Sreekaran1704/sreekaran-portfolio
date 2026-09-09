@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="510" viewBox="0 0 1120 510" role="img" aria-labelledby="title desc">
+<title id="title">Fanhouse membership study: selection, estimate and uncertainty</title>
+<desc id="desc">Synthetic data. Pre-launch spending gap 40.6 percent. Matched net-payment effect -0.0103 dollars per customer per day, with a confidence interval including zero.</desc>
+<rect width="1120" height="510" fill="#f4f1e9"/>
+<g font-family="Arial, sans-serif" fill="#202d32">
+<text x="42" y="48" font-size="13" letter-spacing="2" fill="#156b61">FANHOUSE · SYNTHETIC CAUSAL INFERENCE STUDY</text>
+<text x="42" y="108" font-family="Georgia, serif" font-size="38">Higher member spending is not a causal effect.</text>
+<text x="42" y="148" font-size="17" fill="#52676d">40,000 customers · 573,352 transactions · 12,153 matched pairs</text>
+<g fill="#fffdf8" stroke="#c9d1cc"><rect x="42" y="184" width="325" height="168"/><rect x="397" y="184" width="325" height="168"/><rect x="752" y="184" width="326" height="168"/></g>
+<g font-size="12" fill="#52676d" letter-spacing="1"><text x="62" y="214">PRE-LAUNCH SPENDING GAP</text><text x="417" y="214">MATCHED NET PAYMENTS / DAY</text><text x="772" y="214">95% CONFIDENCE INTERVAL</text></g>
+<text x="62" y="275" font-size="39">+40.6%</text>
+<text x="417" y="275" font-size="36">−$0.0103</text>
+<text x="772" y="270" font-size="24">−$0.0232 to +$0.0027</text>
+<g font-size="14" fill="#52676d"><text x="62" y="318">Members already spent more.</text><text x="417" y="318">After propensity matching and DiD.</text><text x="772" y="318">Paired p = 0.1216</text></g>
+<rect x="42" y="381" width="1036" height="80" fill="#f4e6da"/>
+<rect x="42" y="381" width="4" height="80" fill="#9d442c"/>
+<text x="62" y="412" font-size="16">The interval includes zero. The overall pretrend warning remains visible.</text>
+<text x="62" y="440" font-size="15" fill="#52676d">No claim of real-world impact or proven profitability. Read the design, diagnostics and sensitivity analysis.</text>
+</g></svg>

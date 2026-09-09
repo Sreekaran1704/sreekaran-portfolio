@@ -11,8 +11,8 @@ export const projectNotes = {
     displayTitle: 'FanHouse membership analysis',
     featured: true, label: '02 / Look beyond the obvious',
     summary: 'Does a membership program actually increase spending, or do bigger spenders simply join?',
-    metric: '≈8×', finding: 'The naive revenue gap overstated the randomized causal lift.',
-    annotation: 'The obvious answer was 8× too large.', visual: 'causal',
+    metric: '+$0.1367/day', finding: 'Higher estimated pre-discount product value; no demonstrated increase in net payments.',
+    annotation: 'More product value. What did the business keep?', visual: 'causal',
   },
   'market-pulse-job-market-intelligence': {
     displayTitle: 'Market Pulse',

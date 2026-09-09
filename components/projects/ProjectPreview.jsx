@@ -2,10 +2,10 @@ export default function ProjectPreview({ note }) {
   return (
     <figure className={`projects-preview projects-preview-${note.visual || 'workflow'}`}>
       {note.visual === 'causal' ? (
-        <div className="preview-bars" role="img" aria-label="Naive comparison: $42.41 per customer per quarter. Randomized causal lift: $3.73 to $5.94.">
-          <div><span>Naive comparison</span><i style={{width:'88%'}} /><strong>$42.41</strong></div>
-          <div><span>Randomized estimate</span><i style={{width:'10%'}} /><strong>$3.73–$5.94</strong></div>
-          <small>Revenue lift / customer / quarter</small>
+        <div className="preview-bars" role="img" aria-label="Eventual members spent 40.6% more before launch; members spent 22.3% more after launch. These descriptive gaps are not causal effects.">
+          <div><span>Before launch</span><i style={{width:'81.2%'}} /><strong>+40.6%</strong></div>
+          <div><span>After launch</span><i style={{width:'44.6%'}} /><strong>+22.3%</strong></div>
+          <small>Member spending gaps · Synthetic data · Not causal effects</small>
         </div>
       ) : note.visual === 'forecast' ? (
         <div className="preview-forecast" role="img" aria-label="ARIMA outperformed XGBoost and LightGBM in all five loan categories: All loans, Credit card, Business, Mortgage, and Commercial real estate.">
