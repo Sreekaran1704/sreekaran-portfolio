@@ -282,9 +282,9 @@ function ClotheslineDeck() {
 
 	const sprigs = ready
 		? [
-				...sprigsFor(leftStart, leftControl, leftAnchor, 0),
-				...sprigsFor(rightAnchor, rightControl, rightEnd, 7),
-		  ]
+			...sprigsFor(leftStart, leftControl, leftAnchor, 0),
+			...sprigsFor(rightAnchor, rightControl, rightEnd, 7),
+		]
 		: [];
 
 	// The garden fills the gap under the bar. It's anchored to the bottom of the
@@ -510,7 +510,7 @@ function AppBanner() {
 
 						<div className="mb-8 flex flex-wrap items-center gap-5">
 							<a
-								href="https://drive.google.com/file/d/1P0yQdLi8op0JPZ703_cfAMLTnhYCtTTW/view?usp=sharing"
+								href="https://drive.google.com/file/d/1F5lB8PRJcaCCIswuf6FhhQbmYPLueXmE/view?usp=sharing"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="doodle-resume-btn inline-flex items-center gap-3 px-6 py-3 text-sm"

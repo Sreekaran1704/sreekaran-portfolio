@@ -21,7 +21,7 @@ const experienceItems = [
 	{
 		id: 2,
 		category: 'Internship → Full Time',
-		role: 'Data Analyst and ML Intern → Data Analyst',
+		role: 'Data Analyst and ML Intern → Data Scientist',
 		company: 'Sree Nirman, Hyderabad, India',
 		period: 'May 2023 – Jun 2024',
 		type: 'Construction Analytics • Machine Learning • Growth Analytics',
@@ -40,7 +40,7 @@ const experienceItems = [
 	{
 		id: 3,
 		category: 'Internship',
-		role: 'Data Analyst Intern',
+		role: 'Data Science Intern',
 		company: 'Avanthi High School',
 		period: 'Apr 2022 – Jan 2023',
 		type: 'Financial Analytics • Education Data • ML Decision Support',
