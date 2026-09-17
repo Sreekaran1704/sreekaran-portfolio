@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import SectionHead from '../shared/SectionHead';
+import Reveal from '../shared/Reveal';
 
 const skillGroups = [
 	{
@@ -111,47 +112,44 @@ const skillGroups = [
 	},
 ];
 
-const notebookEntries = [
-	{ capability: 'Turning numbers into decisions.', icon: 'M7 26V17M17 26V10M27 26V4M3 30H32' },
-	{ capability: 'Making messy data trustworthy.', icon: 'M5 8C5 1 29 1 29 8C29 15 5 15 5 8ZM5 8V25C5 32 29 32 29 25V8M5 17C5 24 29 24 29 17' },
-	{ capability: 'Finding patterns worth predicting.', icon: 'M17 3V12M6 28V20H28V28M17 12V28M5 3H29M3 30H9M14 30H20M25 30H31' },
-	{ capability: 'Checking what really caused the change.', icon: 'M7 3H14M10 3V14L3 27Q2 31 6 31H17Q21 31 19 27L13 14V3M21 6H28M24 6V17L20 25M27 6V17L32 29H24M6 23H17' },
-	{ capability: 'Giving models a useful voice.', icon: 'M4 5H30V24H15L7 31V24H4ZM10 11H24M10 17H20' },
-	{ capability: 'Taking experiments into production.', icon: 'M4 7H13V16H4ZM22 7H31V16H22ZM13 11H22M8 16V26H26V16M14 23H21V31H14Z' },
-	{ capability: 'Building products around the data.', icon: 'M6 18C-2 16 2 6 10 9C11-1 28 0 27 10C36 9 37 21 28 21H7M17 21V27M7 32V27H28V32' },
+// One line per group, in the same order as skillGroups.
+const capabilities = [
+	'Turning numbers into decisions.',
+	'Making messy data trustworthy.',
+	'Finding patterns worth predicting.',
+	'Checking what really caused the change.',
+	'Giving models a useful voice.',
+	'Taking experiments into production.',
+	'Building products around the data.',
 ];
 
 function Skills() {
 	return (
-		<section className="skills-wall-section px-6 py-16 sm:px-10 lg:px-16">
-			<div className="mx-auto max-w-7xl">
-				<div className="skills-wall-heading-wrap">
-					<h2 className="skills-wall-heading">Skills</h2>
-					<p className="skills-wall-intro">Tools and the things I used.</p>
-				</div>
-				<div className="tool-notebook">
-					<div className="notebook-pages">
-						{skillGroups.map((group, index) => {
-							const entry = notebookEntries[index];
-							return (
-								<motion.article key={group.id} className={`tool-page tool-page-${index % 4}`}
-									initial={false} whileInView={{ opacity: 1 }}
-									viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.4 }}>
-									<div className="tool-page-top"><span className="tool-tab">{group.title}</span><span className="tool-page-number">0{index + 1}</span></div>
-									<div className="tool-capability">
-										<svg viewBox="0 0 36 36" aria-hidden="true"><path d={entry.icon} /></svg>
-										<h3>{entry.capability}</h3>
-									</div>
-									<p className="tool-description">{group.description}</p>
-									<ul className="tool-list">{group.skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
-								</motion.article>
-							);
-						})}
-					</div>
-					<p className="notebook-endnote">Always learning.</p>
-				</div>
+		<div className="np-wrap np-section">
+			<SectionHead
+				section="Section E · Classifieds"
+				page="Page E1"
+				title="Skills"
+				dek="Tools and the things I used."
+			/>
+
+			<div className="np-classifieds">
+				{skillGroups.map((group, index) => (
+					<Reveal as="article" key={group.id} delay={(index % 4) * 0.05} className="np-classified">
+						<h3 className="np-classified-title">{group.title}</h3>
+						<p className="np-classified-lede">{capabilities[index]}</p>
+						<p className="np-classified-desc">{group.description}</p>
+						<ul className="np-classified-list">
+							{group.skills.map((skill) => (
+								<li key={skill}>{skill}</li>
+							))}
+						</ul>
+					</Reveal>
+				))}
+
+				<p className="np-classified np-classified-end">Always learning.</p>
 			</div>
-		</section>
+		</div>
 	);
 }
 

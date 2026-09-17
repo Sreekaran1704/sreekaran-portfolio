@@ -3,8 +3,15 @@ import { buildSystemPrompt } from '../../data/askMeContext';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // Keep the answer grounded in the current project context.
-// Override the configured model with GROQ_MODEL when needed.
-const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+// Override the configured model with GROQ_MODEL when needed. Groq retired its
+// Llama chat models (llama-3.3-70b-versatile now returns model_not_found), so
+// the default is OpenAI's open-weight gpt-oss-120b served on Groq.
+const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+
+// gpt-oss is a reasoning model: its hidden reasoning counts against the output
+// limit, so it needs more room than the ~90-word answer itself, and the
+// reasoning text must not be returned to visitors.
+const IS_REASONING_MODEL = /gpt-oss/.test(MODEL);
 
 // Follow-ups only need enough thread to resolve "that project" / "how long
 // there?" — past this, older turns just spend tokens.
@@ -61,10 +68,18 @@ export default async function handler(req, res) {
 			body: JSON.stringify({
 				model: MODEL,
 				temperature: 0.2,
-				// ~90 words of answer. A hard ceiling here does real work: the
-				// longer this model runs, the more it invents connective claims
-				// (which estimate was larger, why) that the context never stated.
-				max_tokens: 260,
+				...(IS_REASONING_MODEL
+					? {
+							reasoning_effort: 'low',
+							include_reasoning: false,
+							max_completion_tokens: 900,
+						}
+					: {
+							// ~90 words of answer. A hard ceiling here does real work:
+							// the longer a non-reasoning model runs, the more it invents
+							// connective claims the context never stated.
+							max_tokens: 260,
+						}),
 				messages: [
 					{
 						role: 'system',

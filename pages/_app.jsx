@@ -1,4 +1,6 @@
 import '../styles/globals.css';
+import '../styles/newspaper.css';
+import '../styles/reader.css';
 import { AnimatePresence } from 'framer-motion';
 import DefaultLayout from '../components/layout/DefaultLayout';
 import UseScrollToTop from '../hooks/useScrollToTop';

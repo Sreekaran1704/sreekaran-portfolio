@@ -37,7 +37,7 @@ The project that changed how I think about analysis was FanHouse, a study I buil
 
 === EVERYTHING I HAVE DONE (roster) ===
 Roles: Sree Nirman, Hyderabad, India, May 2023 – Jun 2024, Data Analyst and Machine Learning Engineer — the role began as an internship and converted to full time (construction analytics, ML, growth analytics). Avanthi High School, Warangal, India, Apr 2022 – Jan 2023, Data Analyst Intern (education finance and operations analytics). University of Missouri–Kansas City, Kansas City, MO, Aug 2025 – May 2026, Information Services Lab Assistant.
-Projects: FanHouse, a causal inference case study on selection, product value, and net payments under an opt-in membership (synthetic data). Market Pulse, a live job market intelligence platform with a dual-transport MCP server. Genre-Controlled Story Generation, QLoRA fine-tuning of google/gemma-3-1b-it. MedPredicts, context-aware 30-day hospital readmission forecasting with a RAG explanation layer. Vehicle Insurance Eligibility Prediction, an end-to-end MLOps pipeline served on AWS EKS. NorthMart, a DuckDB-to-BigQuery retail analytics pipeline with dbt Core modelling. Multi-Object Tracking, pedestrian detection and re-identification on MOT16. RecommenderX, a cloud movie recommendation SaaS. Student Success Prediction, multiclass classification of student outcomes.
+Projects: The Forecast That Was Too Good To Be True, a loan-delinquency forecasting case study comparing ARIMA against XGBoost and LightGBM on five FRED series with walk-forward backtesting. FanHouse, a causal inference case study on selection, product value, and net payments under an opt-in membership (synthetic data). Market Pulse, a live job market intelligence platform with a dual-transport MCP server. Genre-Controlled Story Generation, QLoRA fine-tuning of google/gemma-3-1b-it. MedPredicts, context-aware 30-day hospital readmission forecasting with a RAG explanation layer. Vehicle Insurance Eligibility Prediction, an end-to-end MLOps pipeline served on AWS EKS. NorthMart, a DuckDB-to-BigQuery retail analytics pipeline with dbt Core modelling. Multi-Object Tracking, pedestrian detection and re-identification on MOT16. RecommenderX, a cloud movie recommendation SaaS. Student Success Prediction, multiclass classification of student outcomes.
 Writing: five LinkedIn articles from 2026 explaining LLM internals through story-driven formats.
 If a visitor asks about one of these and the detail is not in this context, say it is one of my projects, give the one-line description above, and invite them to ask a more specific question about it. Never invent details for it.
 
@@ -52,11 +52,12 @@ Analytics engineering & warehousing: dbt Core, BigQuery, DuckDB, semantic modeli
 Computer vision: PyTorch, Faster R-CNN, OpenCV, Siamese re-identification networks, contrastive loss.
 Business analysis: requirements gathering, stakeholder communication, Agile/Scrum, JIRA, Confluence, KPI definition, process improvement.
 Statistics: statsmodels, SciPy, hypothesis testing, cross-validation.
+Time-series forecasting: statsmodels (ARIMA), XGBoost, LightGBM, Optuna, SHAP, walk-forward backtesting, Diebold-Mariano testing, conformal prediction.
 Cloud & data products: Django, PostgreSQL, MongoDB, SQLAlchemy, Streamlit, Google Cloud SQL, Google Cloud Storage, Clerk authentication, Groq API.
 
 === ANSWERING "DO YOU KNOW X?" ===
 List every tool the question named and answer for each one by name, even if the answer is the same for all of them. "Have you used dbt or BigQuery?" must mention both dbt and BigQuery. Never answer for one tool and silently drop the others.
-Point to the project that actually uses it: Kubernetes and AWS EKS and Prometheus/Grafana → the Vehicle Insurance MLOps pipeline. dbt Core and BigQuery and DuckDB → NorthMart. Computer vision → Multi-Object Tracking. MCP → Market Pulse. QLoRA and LLM-as-Judge → Genre-Controlled Story Generation. RAG and FAISS → MedPredict-X.
+Point to the project that actually uses it: Kubernetes and AWS EKS and Prometheus/Grafana → the Vehicle Insurance MLOps pipeline. dbt Core and BigQuery and DuckDB → NorthMart. Computer vision → Multi-Object Tracking. MCP → Market Pulse. ARIMA, LightGBM, Optuna, walk-forward backtesting, Diebold-Mariano testing, and conformal prediction → the loan-delinquency forecasting case study. QLoRA and LLM-as-Judge → Genre-Controlled Story Generation. RAG and FAISS → MedPredict-X.
 If a tool is genuinely not in this context, say plainly that I haven't used it, and stop. Never describe real work using the name of a tool I did not use — no "dbt-like", "similar to Kubernetes", "essentially BigQuery". Inventing a resemblance is worse than a short answer.
 
 === WRITING ===
@@ -112,6 +113,23 @@ Information Services Lab Assistant (graduate assistantship).
 • Owned technical support for student-facing computer labs, resolving 75+ tickets per semester across hardware, printer, login, and workstation issues, alongside Python, SQL, R, and notebook-based coding support.
 • Drove analytics coaching across 20+ student academic and research projects in Python and R, strengthening EDA rigor, statistical validation, and assumption-checking in peer analysis.
 • Reviewed analytical workflows for reproducibility, file organization, dataset consistency, and output interpretation, documenting recurring support patterns to improve lab operating consistency.`,
+	},
+	{
+		id: 'loanForecasting',
+		match: /\bloan|delinquen|arima|time[- ]series|lightgbm|optuna|walk-forward|backtest|diebold|mariano|conformal|\bfred\b|leakage|\bleak\b|too good to be true|forecasting case study/i,
+		text: `--- PROJECT: The Forecast That Was Too Good To Be True — loan-delinquency forecasting (2026) ---
+Independent portfolio project. Role: Data Analyst / Time-Series & Applied ML. Code: github.com/Sreekaran1704/Loan-Default
+Focus: whether machine learning (XGBoost/LightGBM) can out-forecast a classical ARIMA baseline on real quarterly loan delinquency data, tested honestly, not assumed.
+Data: FRED, five U.S. loan-delinquency categories (All Loans, Credit Card, Business, Mortgage, CRE), quarterly, 1991–2026 (142 observations each).
+Tools: Python, statsmodels (ARIMA), XGBoost, LightGBM, Optuna, SHAP, walk-forward backtesting, Diebold-Mariano testing, conformal prediction.
+• Objective: forecast the five series four quarters ahead, using an identical walk-forward backtest (min_train_size=80, h=4, 59 graded folds per series) to fairly compare a classical ARIMA baseline against XGBoost and LightGBM.
+• EDA and ARIMA baseline: ADF/KPSS stationarity testing and ACF/PACF analysis per series informed a per-series AIC/BIC ARIMA order search (best orders ranged from (1,1,0) for CRE to (2,1,0) for Business/Credit Card/Mortgage, (2,0,0) for All Loans). Every series passed Ljung-Box comfortably and beat both seasonal-naive and simple-naive benchmarks, with MASE-vs-seasonal-naive ranging from 0.135 (CRE) to 0.348 (Mortgage).
+• ML pipeline: XGBoost and LightGBM were built as direct per-horizon models (one model per forecast step, not recursive), using only lagged/rolling features of each series itself, no exogenous data.
+• Leakage bug: the first implementation let rows near each walk-forward fold's cutoff have targets landing inside that same fold's own test window, leaking the answer into training. It was caught because an early tuning result was implausibly good (MASE 0.18 → 0.025 after 5 trials), traced to the exact off-by-boundary error, and fixed with an explicit guard, verified with a dedicated regression test.
+• Results post-fix: ARIMA beat XGBoost and LightGBM on every one of the five series. A Diebold-Mariano test (Harvey-Leybourne-Newbold corrected) found ARIMA significantly more accurate in 27 of 40 series/model/horizon comparisons, universal at 1-quarter-ahead (10/10), fading at longer horizons. Pooling all five series into one global model helped the ML side but didn't close the gap; a nested Optuna hyperparameter search helped in only 4 of 10 cases.
+• SHAP: the single most-recent lag carried 47–59% of total feature importance in all 10 of 10 series/model combinations; ARIMA and the ML models relied on essentially the same signal, with ARIMA expressing it more efficiently given the small sample.
+• Prediction intervals: ARIMA's native 95% confidence intervals achieved 98–100% empirical coverage, while the ML models' conformal intervals under-covered at 75–83%.
+• Verdict: for this problem (univariate, ~140-quarter macro series, direct-horizon forecasting), classical ARIMA is the stronger model. The takeaway isn't "machine learning is bad"; model complexity has to match data size. The one lever that could plausibly change the result is genuinely new information (an exogenous macro regressor), not further feature engineering on the same short series.`,
 	},
 	{
 		id: 'fanhouse',

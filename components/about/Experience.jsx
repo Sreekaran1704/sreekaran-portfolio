@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { CrayonDefs } from '../shared/CrayonArt';
+import { useState } from 'react';
+import Reveal from '../shared/Reveal';
+import SectionHead from '../shared/SectionHead';
 
-// Newest first in the array, which puts the earliest role at the bottom of the
-// page — the vine grows upward from where the story started.
+// Newest first, the way a record of service reads.
 const experienceItems = [
 	{
 		id: 1,
@@ -12,7 +11,11 @@ const experienceItems = [
 		company: 'University of Missouri-Kansas City',
 		period: 'Aug 2025 – May 2026',
 		type: 'Technical Support • Lab Operations • Student Data Support',
-		bloom: '#b9c8e4',
+		tone: 'front',
+		metrics: [
+			{ value: '75+', label: 'tickets resolved per semester' },
+			{ value: '20+', label: 'student projects coached' },
+		],
 		points: [
 			'Owned technical support for student-facing computer labs, resolving <strong>75+ tickets</strong> per semester across hardware, printer, login, and workstation issues, alongside Python, SQL, R, and notebook-based coding support.',
 			'Drove analytics coaching across <strong>20+ student</strong> academic and research projects in Python and R, strengthening EDA rigor, statistical validation, and assumption-checking in peer analysis.',
@@ -25,7 +28,12 @@ const experienceItems = [
 		company: 'Sree Nirman, Hyderabad, India',
 		period: 'May 2023 – Jun 2024',
 		type: 'Construction Analytics • Machine Learning • Growth Analytics',
-		bloom: '#f2d99a',
+		tone: 'experience',
+		metrics: [
+			{ value: '50K+', label: 'records standardized' },
+			{ value: '30%', label: 'lift in reporting reliability' },
+			{ value: '15%', label: 'gain in operational efficiency' },
+		],
 		points: [
 			'Owned data quality across a <strong>50K+ record</strong> construction portfolio spanning cost, labor, budget, and sales, standardizing fragmented schemas to lift reporting reliability by <strong>30%</strong>.',
 			'Designed SQL logic using joins, CTEs, CASE expressions, and window functions to standardize cost, labor, and sales calculations enterprise-wide across variance, productivity, and progress-tracking metrics.',
@@ -44,7 +52,12 @@ const experienceItems = [
 		company: 'Avanthi High School',
 		period: 'Apr 2022 – Jan 2023',
 		type: 'Financial Analytics • Education Data • ML Decision Support',
-		bloom: '#f0b9b9',
+		tone: 'projects',
+		metrics: [
+			{ value: '50%', label: 'rise in school revenue' },
+			{ value: '18%', label: 'rise in admissions' },
+			{ value: '0.8', label: 'MAE predicting final marks' },
+		],
 		points: [
 			'Built the school’s analytics foundation from scratch, structuring <strong>12K+ student financial records</strong> and <strong>50K+ expense records</strong> into validated, reporting-ready datasets in SQL, Python, and Tableau.',
 			'Delivered recurring Tableau dashboards and reporting packs on fee collections and budget variance, giving leadership a consistent, standardized view of financial performance.',
@@ -58,250 +71,86 @@ const experienceItems = [
 	},
 ];
 
-const FILTER_ID = 'crayon-trellis';
+// Long records open on their first few highlights; the rest are a click away.
+const PREVIEW_POINTS = 3;
 
-// The stem is a gentle wave rather than a ruled line. Both the vine path and the
-// blooms are derived from this one function, so a bloom always sits exactly on
-// the stem instead of floating a few pixels off it.
-const WAVE_LENGTH = 210;
-const WAVE_AMPLITUDE = 9;
-
-function stemX(centerX, y) {
-	const raw = centerX + WAVE_AMPLITUDE * Math.sin((2 * Math.PI * y) / WAVE_LENGTH);
-	// Rounded so server and client agree to the last floating-point digit.
-	return Math.round(raw * 100) / 100;
-}
-
-function stemPath(centerX, top, bottom) {
-	let d = '';
-	for (let y = top; y <= bottom; y += 6) {
-		d += `${d ? ' L' : 'M'} ${stemX(centerX, y)} ${y}`;
-	}
-	return d;
-}
-
-function Leaf({ x, y, side, tone }) {
-	const colors = ['#6f8161', '#7c8d6a', '#5f7355'];
-	const dir = side ? 1 : -1;
+// Each role is set like a story on a newspaper's record page: a dateline
+// column on the left, and on the right a kicker, the role as the headline,
+// the company as the deck, a "by the numbers" strip and the highlights.
+function RecordItem({ item }) {
+	const [expanded, setExpanded] = useState(false);
+	const hidden = item.points.length - PREVIEW_POINTS;
+	const points = expanded ? item.points : item.points.slice(0, PREVIEW_POINTS);
+	const listId = `record-points-${item.id}`;
+	const focus = item.type.split('•').map((tag) => tag.trim());
 
 	return (
-		<g transform={`translate(${x}, ${y}) rotate(${dir * 34})`}>
-			<path d={`M 0,0 L ${dir * 7},0`} stroke="#6b7a55" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-			<path
-				d={`M ${dir * 7},0 q ${dir * 8},-6 ${dir * 17},-1 q ${dir * -8},7 ${dir * -17},1 Z`}
-				fill={colors[tone % colors.length]}
-				opacity="0.85"
-			/>
-		</g>
-	);
-}
+		<li className={`np-rec np-tone-${item.tone}`}>
+			<Reveal as="article" className="np-rec-grid">
+				<aside className="np-rec-dateline">
+					<p className="np-rec-period">{item.period}</p>
+					<p className="np-rec-type">{item.category}</p>
+				</aside>
 
-function Bloom({ x, y, color, delay }) {
-	return (
-		// Mount-based, not whileInView: these sit inside a filtered <g> whose
-		// bounding box spans the whole vine, so the intersection test fires
-		// unpredictably and blooms were being left stuck at opacity 0.
-		<motion.g
-			initial={{ opacity: 0, scale: 0.3 }}
-			animate={{ opacity: 1, scale: 1 }}
-			transition={{ duration: 0.5, delay, ease: [0.34, 1.3, 0.64, 1] }}
-			style={{ transformOrigin: `${x}px ${y}px` }}
-		>
-			{[0, 1, 2, 3, 4].map((p) => {
-				const a = (p / 5) * Math.PI * 2 - Math.PI / 2;
-				return (
-					<ellipse
-						key={p}
-						cx={x + Math.cos(a) * 8.5}
-						cy={y + Math.sin(a) * 8.5}
-						rx="7.5"
-						ry="6"
-						fill={color}
-						opacity="0.92"
-						transform={`rotate(${(a * 180) / Math.PI + 90} ${x + Math.cos(a) * 8.5} ${y + Math.sin(a) * 8.5})`}
-					/>
-				);
-			})}
-			<circle cx={x} cy={y} r="5" fill="#e0b356" />
-			<circle cx={x} cy={y} r="5" fill="none" stroke="#a9803a" strokeWidth="1" opacity="0.6" />
-		</motion.g>
+				<div className="np-rec-story">
+					<p className="np-rec-kicker">{focus.join(' · ')}</p>
+					<h3 className="np-rec-role">{item.role}</h3>
+					<p className="np-rec-company">{item.company}</p>
+
+					<dl className="np-rec-numbers" aria-label="By the numbers">
+						{item.metrics.map((metric) => (
+							<div key={metric.label}>
+								<dt>{metric.label}</dt>
+								<dd>{metric.value}</dd>
+							</div>
+						))}
+					</dl>
+
+					<ul id={listId} className="np-rec-points">
+						{points.map((point, i) => (
+							<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+						))}
+					</ul>
+
+					{hidden > 0 && (
+						<button
+							type="button"
+							className="np-rec-more"
+							aria-expanded={expanded}
+							aria-controls={listId}
+							onClick={() => setExpanded((open) => !open)}
+						>
+							<span className="np-rec-more-label">
+								{expanded ? 'That’s the full record' : 'More from this role'}
+							</span>
+							<span className="np-rec-more-title">
+								{expanded ? 'Show fewer highlights' : `Read ${hidden} more highlights`}{' '}
+								<span className="np-rec-more-arrow" aria-hidden="true">{expanded ? '↑' : '↓'}</span>
+							</span>
+						</button>
+					)}
+				</div>
+			</Reveal>
+		</li>
 	);
 }
 
 function Experience() {
-	const wrapRef = useRef(null);
-	const itemRefs = useRef([]);
-	// Nothing is drawn until the real geometry is known, so the server and the
-	// first client paint agree (both render an empty stage).
-	const [stage, setStage] = useState({ width: 0, height: 0, nodes: [] });
-
-	useEffect(() => {
-		const wrap = wrapRef.current;
-		if (!wrap) return undefined;
-
-		const measure = () => {
-			const nodes = itemRefs.current
-				.filter(Boolean)
-				.map((el) => el.offsetTop + el.offsetHeight / 2);
-			setStage((prev) => {
-				const next = { width: wrap.offsetWidth, height: wrap.offsetHeight, nodes };
-				const same =
-					prev.width === next.width &&
-					prev.height === next.height &&
-					prev.nodes.length === nodes.length &&
-					prev.nodes.every((v, i) => v === nodes[i]);
-				return same ? prev : next;
-			});
-		};
-		measure();
-
-		if (typeof ResizeObserver === 'undefined') {
-			window.addEventListener('resize', measure);
-			return () => window.removeEventListener('resize', measure);
-		}
-
-		// Observing the wrapper catches text reflow at any width, which is what
-		// actually moves the blooms — the window may never resize.
-		const observer = new ResizeObserver(measure);
-		observer.observe(wrap);
-		itemRefs.current.filter(Boolean).forEach((el) => observer.observe(el));
-		return () => observer.disconnect();
-	}, []);
-
-	const { width, height, nodes } = stage;
-	const isNarrow = width > 0 && width < 900;
-	// Kept tight on narrow screens — every pixel the stem column takes comes
-	// straight out of the card's text width.
-	const centerX = isNarrow ? 23 : width / 2;
-	const top = 6;
-	const bottom = Math.max(top, height - 6);
-	const ready = width > 0 && height > 0;
-
-	// Leaves every 68px, skipped near a bloom so the flowers stay uncluttered.
-	const leaves = [];
-	if (ready) {
-		let n = 0;
-		for (let y = top + 40; y < bottom - 30; y += 68) {
-			n += 1;
-			if (nodes.some((ny) => Math.abs(ny - y) < 46)) continue;
-			leaves.push({ x: stemX(centerX, y), y, side: n % 2, tone: n });
-		}
-	}
-
 	return (
-		<section className="trellis-section px-6 py-16 sm:px-10 lg:px-16">
-			<div className="mx-auto max-w-6xl">
-				<div className="trellis-heading-wrap">
-					<h1 className="trellis-heading">Experience</h1>
-					<p className="trellis-intro">
-						Where it started is at the bottom. Everything since has grown up from
-						there.
-					</p>
-				</div>
+		<div className="np-wrap np-section">
+			<SectionHead
+				section="Section D · The Record"
+				page="Page D1"
+				title="Experience"
+				dek="Roles, responsibilities, and results, most recent first."
+			/>
 
-				<div ref={wrapRef} className={`trellis-wrap ${isNarrow ? 'is-narrow' : ''}`}>
-					{ready && (
-						<svg
-							className="trellis-vine"
-							width={width}
-							height={height}
-							viewBox={`0 0 ${width} ${height}`}
-							aria-hidden="true"
-						>
-							<CrayonDefs id={FILTER_ID} />
-
-							<g filter={`url(#${FILTER_ID}-edge)`}>
-								<motion.path
-									d={stemPath(centerX, top, bottom)}
-									fill="none"
-									stroke="#6b7a55"
-									strokeWidth="2.6"
-									strokeLinecap="round"
-									initial={{ pathLength: 0 }}
-									whileInView={{ pathLength: 1 }}
-									viewport={{ once: true, margin: '-80px' }}
-									transition={{ duration: 1.6, ease: 'easeOut' }}
-								/>
-
-								{leaves.map((l, i) => (
-									<Leaf key={i} x={l.x} y={l.y} side={l.side} tone={l.tone} />
-								))}
-							</g>
-
-							{/* A bud at the top: the next role hasn't opened yet. */}
-							<g filter={`url(#${FILTER_ID}-edge)`}>
-								<path
-									d={`M ${stemX(centerX, top + 16)} ${top + 16} q -6 -10 0 -15 q 6 5 0 15 Z`}
-									fill="#a8cbb8"
-									opacity="0.9"
-								/>
-							</g>
-
-							<g filter={`url(#${FILTER_ID}-fill)`}>
-								{nodes.map((y, i) => (
-									<Bloom
-										key={i}
-										x={stemX(centerX, y)}
-										y={y}
-										color={experienceItems[i]?.bloom || '#f2d99a'}
-										delay={0.1 * i}
-									/>
-								))}
-							</g>
-
-							{/* Soil mound the vine grows out of. */}
-							<g filter={`url(#${FILTER_ID}-fill)`}>
-								<ellipse
-									cx={centerX}
-									cy={bottom}
-									rx="46"
-									ry="11"
-									fill="#a08a63"
-									opacity="0.5"
-								/>
-							</g>
-						</svg>
-					)}
-
-					<ol className="trellis-list">
-						{experienceItems.map((item, index) => (
-							<li
-								key={item.id}
-								ref={(el) => {
-									itemRefs.current[index] = el;
-								}}
-								className={`trellis-item ${index % 2 === 0 ? 'side-left' : 'side-right'}`}
-							>
-								<motion.article
-									initial={false}
-									whileInView={{ opacity: 1, y: 0 }}
-									viewport={{ once: true, margin: '-70px' }}
-									transition={{ duration: 0.5, ease: 'easeOut' }}
-									className="trellis-card"
-								>
-									<header className="trellis-card-header">
-										<p className="trellis-period">{item.period}</p>
-										<h2 className="trellis-role">{item.role}</h2>
-										<p className="trellis-company">{item.company}</p>
-										<span className="trellis-category">{item.category}</span>
-										<p className="trellis-type">{item.type}</p>
-									</header>
-
-									<ul className="trellis-points">
-										{item.points.map((point, i) => (
-											<li key={i} className="trellis-point">
-												<span className="trellis-point-leaf" aria-hidden="true" />
-												<p dangerouslySetInnerHTML={{ __html: point }} />
-											</li>
-										))}
-									</ul>
-								</motion.article>
-							</li>
-						))}
-					</ol>
-				</div>
-			</div>
-		</section>
+			<ol className="np-record-list">
+				{experienceItems.map((item) => (
+					<RecordItem key={item.id} item={item} />
+				))}
+			</ol>
+		</div>
 	);
 }
 

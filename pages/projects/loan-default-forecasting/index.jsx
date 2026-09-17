@@ -1,9 +1,18 @@
 import Link from 'next/link';
 import PagesMetaHead from '../../../components/PagesMetaHead';
+import { Cast, Say, Strip } from '../../../components/reading/StoryParts';
+import { ReadingSection, StoryContents } from '../../../components/reading/ReadingKit';
+
+const cast = [
+	{ name: 'ARIMA', role: 'The Veteran', bio: 'Three numbers. Thirty-five years on the desk.' },
+	{ name: 'Xander', role: 'XGBoost', bio: 'The rookie who builds thousands of trees.' },
+	{ name: 'Gigi', role: 'LightGBM', bio: 'The other rookie. Says little, builds fast.' },
+	{ name: 'Surya', role: 'Runs the desk', bio: 'Gives everyone the same fair test.' },
+];
 
 function LoanForecastingStory() {
 	return (
-		<div className="fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
+		<div className="reader fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
 			<PagesMetaHead
 				title="The Forecast That Was Too Good To Be True: Loan Delinquency Case Study"
 				description="A veteran ARIMA model, two eager ML rookies, a leak that almost fooled everyone, and the honest scoreboard that came after."
@@ -38,6 +47,26 @@ function LoanForecastingStory() {
 					<p className="fh-hero-byline">By Sreekaran · Time-Series Forecasting &amp; Applied ML Project</p>
 				</header>
 
+				<aside className="rd-tldr" aria-label="The short version">
+					<h2>The short version</h2>
+					<ul>
+						<li>
+							A data-leakage bug in the first ML implementation was caught (via a
+							suspiciously good tuning result) and fixed before any result was trusted.
+						</li>
+						<li>
+							Post-fix, ARIMA beat both ML models on every one of the five series,
+							significantly so in 27 of 40 Diebold-Mariano comparisons.
+						</li>
+						<li>
+							SHAP showed both approaches leaned overwhelmingly on the same single lag.
+						</li>
+					</ul>
+				</aside>
+
+				<StoryContents label="In this story" />
+
+
 				<section className="fh-section">
 					<p>
 						There&rsquo;s a desk at every bank that nobody throws a party for.
@@ -51,9 +80,9 @@ function LoanForecastingStory() {
 					<p>For years, that desk had one occupant. Everyone just called it ARIMA.</p>
 				</section>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 1</span>
-					<h2>The Veteran</h2>
+				<Cast members={cast} />
+
+				<ReadingSection eyebrow={<>Chapter 1</>} title={<>The Veteran</>}>
 					<p>
 						ARIMA was old. Not &ldquo;outdated&rdquo; old. <em>Reliable</em> old.
 						The kind of old that makes younger models nervous, because
@@ -64,12 +93,15 @@ function LoanForecastingStory() {
 						<code>p</code>, <code>d</code>, <code>q</code>. That&rsquo;s it.
 						That&rsquo;s the whole personality.
 					</p>
-					<p>&ldquo;That&rsquo;s <em>it</em>?&rdquo; someone always asked, the first time they saw it.</p>
-					<p>
-						&ldquo;That&rsquo;s it,&rdquo; ARIMA said. &ldquo;I look back a couple
-						of quarters. I check if the trend needs smoothing out. And I write
-						down what I see.&rdquo;
-					</p>
+					<Strip>
+						<Say who="A first-timer">
+							That&rsquo;s <em>it</em>?
+						</Say>
+						<Say who="ARIMA">
+							That&rsquo;s it. I look back a couple of quarters. I check if the
+							trend needs smoothing out. And I write down what I see.
+						</Say>
+					</Strip>
 					<p>ARIMA watched five accounts, quarter after quarter, for thirty-five years:</p>
 					<ul className="fh-plain-list">
 						<li><strong>All Loans</strong></li>
@@ -118,11 +150,9 @@ function LoanForecastingStory() {
 					</p>
 					<p>Nobody clapped. That&rsquo;s just what the job looked like, every quarter, for years.</p>
 					<p>Then, one Tuesday, two new hires arrived.</p>
-				</section>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 2</span>
-					<h2>The Rookies</h2>
+				<ReadingSection eyebrow={<>Chapter 2</>} title={<>The Rookies</>}>
 					<p>
 						Their names were <strong>Xander</strong> and <strong>Gigi</strong>.
 						Everyone had heard of them. Xander went by his full name when he
@@ -159,20 +189,19 @@ function LoanForecastingStory() {
 						checking for slower patterns too), and how choppy the last year had
 						been.
 					</p>
-					<p>
-						&ldquo;That&rsquo;s all you get,&rdquo; Surya said. &ldquo;No looking
-						anywhere else. Same information ARIMA has, just handed to you
-						differently.&rdquo;
-					</p>
+					<Strip>
+						<Say who="Surya">
+							That&rsquo;s all you get. No looking anywhere else. Same information
+							ARIMA has, just handed to you differently.
+						</Say>
+					</Strip>
 					<p>Xander cracked his knuckles. Gigi didn&rsquo;t say anything. She just started building trees.</p>
 					<p>The first results came back.</p>
 					<p>They were <em>stunning</em>. Numbers so good Surya actually sat back in the chair.</p>
 					<p>They were also, it would turn out, a lie.</p>
-				</section>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 3</span>
-					<h2>Too Good to Be True</h2>
+				<ReadingSection eyebrow={<>Chapter 3</>} title={<>Too Good to Be True</>}>
 					<p>
 						The tell came from somewhere small: a routine experiment to
 						see if Xander and Gigi could get <em>even better</em> with some
@@ -225,11 +254,9 @@ function LoanForecastingStory() {
 						leak backward, ever. Then ran everything again, from scratch.
 					</p>
 					<p>The stunning numbers disappeared. What was left was the truth.</p>
-				</section>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 4</span>
-					<h2>The Honest Scoreboard</h2>
+				<ReadingSection eyebrow={<>Chapter 4</>} title={<>The Honest Scoreboard</>}>
 
 					<div className="fh-table-wrap">
 						<table className="fh-table">
@@ -248,10 +275,12 @@ function LoanForecastingStory() {
 
 					<p>ARIMA won. Every account. Not close.</p>
 					<p>Xander didn&rsquo;t say anything for a while.</p>
-					<p>
-						&ldquo;Maybe it&rsquo;s just how the coin landed,&rdquo; he finally
-						said. &ldquo;Maybe on a different week, we&rsquo;d have taken one.&rdquo;
-					</p>
+					<Strip>
+						<Say who="Xander">
+							Maybe it&rsquo;s just how the coin landed. Maybe on a different week,
+							we&rsquo;d have taken one.
+						</Say>
+					</Strip>
 					<p>
 						So Surya brought in a referee whose entire job is answering exactly
 						that question: the <strong>Diebold-Mariano test</strong>,
@@ -272,11 +301,9 @@ function LoanForecastingStory() {
 						numbers leaned toward Xander or Gigi. Not once. Just some where the
 						lead wasn&rsquo;t big enough yet to call it, officially, beyond doubt.
 					</p>
-				</section>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 5</span>
-					<h2>Two Things the Rookies Tried</h2>
+				<ReadingSection eyebrow={<>Chapter 5</>} title={<>Two Things the Rookies Tried</>}>
 					<p>Xander and Gigi didn&rsquo;t quit. They tried two things.</p>
 					<p>
 						<strong>First, they stopped competing separately and pooled what
@@ -303,19 +330,20 @@ function LoanForecastingStory() {
 						The tutor helped Xander and Gigi in four of ten tries. In the other
 						six, tutoring actually made things <em>worse</em>.
 					</p>
-					<p>&ldquo;That&rsquo;s&hellip; not encouraging,&rdquo; Gigi said.</p>
-					<p>
-						&ldquo;It&rsquo;s honest, though,&rdquo; Surya said. &ldquo;You
-						don&rsquo;t have enough homework for a tutor to matter much.
-						You&rsquo;d need a lot more of it before fine-tuning starts paying
-						off reliably. That&rsquo;s not a flaw in you. It&rsquo;s
-						arithmetic.&rdquo;
-					</p>
-				</section>
+					<Strip>
+						<Say who="Gigi">
+							That&rsquo;s&hellip; not encouraging.
+						</Say>
+						<Say who="Surya">
+							It&rsquo;s honest, though. You don&rsquo;t have enough homework for a
+							tutor to matter much. You&rsquo;d need a lot more of it before
+							fine-tuning starts paying off reliably. That&rsquo;s not a flaw in
+							you. It&rsquo;s arithmetic.
+						</Say>
+					</Strip>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 6</span>
-					<h2>Asking Them What They Were Actually Looking At</h2>
+				<ReadingSection eyebrow={<>Chapter 6</>} title={<>Asking Them What They Were Actually Looking At</>}>
 					<p>
 						There was one more thing Surya wanted to know. Not <em>how well</em>{' '}
 						Xander and Gigi were guessing: <em>what they were even looking
@@ -340,16 +368,18 @@ function LoanForecastingStory() {
 							was just: <em>what was it last quarter.</em>
 						</p>
 					</div>
-					<p>
-						Xander looked almost embarrassed. &ldquo;That&rsquo;s&hellip; barely a
-						model. That&rsquo;s just looking at yesterday.&rdquo;
-					</p>
-					<p>
-						&ldquo;It&rsquo;s not <em>just</em> that,&rdquo; Surya said. &ldquo;You
-						also glanced at the quarter before, and the one before that, and a
-						two-year-back check, and the recent choppiness. But yes. Mostly, you
-						were looking at yesterday.&rdquo;
-					</p>
+					<p>Xander looked almost embarrassed.</p>
+					<Strip>
+						<Say who="Xander">
+							That&rsquo;s&hellip; barely a model. That&rsquo;s just looking at
+							yesterday.
+						</Say>
+						<Say who="Surya">
+							It&rsquo;s not <em>just</em> that. You also glanced at the quarter
+							before, and the one before that, and a two-year-back check, and the
+							recent choppiness. But yes. Mostly, you were looking at yesterday.
+						</Say>
+					</Strip>
 					<p>
 						Here&rsquo;s the quiet part nobody had said out loud yet:{' '}
 						<strong>that&rsquo;s what ARIMA does too.</strong> ARIMA&rsquo;s whole
@@ -363,11 +393,9 @@ function LoanForecastingStory() {
 						of machinery re-deriving something the veteran already had built into
 						its bones on day one.
 					</p>
-				</section>
+				</ReadingSection>
 
-				<section className="fh-section">
-					<span className="fh-eyebrow">Chapter 7</span>
-					<h2>The Verdict</h2>
+				<ReadingSection eyebrow={<>Chapter 7</>} title={<>The Verdict</>}>
 					<p>
 						One last thing needed checking: not who guessed{' '}
 						<em>closer</em>, but who was honest about <em>how sure</em> they
@@ -395,7 +423,7 @@ function LoanForecastingStory() {
 						one moment a &ldquo;95% confident&rdquo; range needs to actually mean
 						it. Xander and Gigi&rsquo;s didn&rsquo;t, not yet.
 					</p>
-				</section>
+				</ReadingSection>
 
 				<section className="fh-section">
 					<p className="fh-lede">
@@ -431,7 +459,7 @@ function LoanForecastingStory() {
 					leakage bug, Diebold-Mariano significance testing, conformal prediction
 					intervals, and SHAP interpretability. Full methodology, code, and
 					results in the technical write-up and on{' '}
-					<a href="https://github.com/Sreekaran1704/Loan-Default" target="_blank" rel="noopener noreferrer" style={{ color: '#312e81' }}>
+					<a href="https://github.com/Sreekaran1704/Loan-Default" target="_blank" rel="noopener noreferrer">
 						GitHub
 					</a>
 					.

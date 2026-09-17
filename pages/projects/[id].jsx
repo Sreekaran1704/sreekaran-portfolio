@@ -1,121 +1,117 @@
-import { FiClock, FiTag } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowUpRight } from 'react-icons/fi';
 import PagesMetaHead from '../../components/PagesMetaHead';
+import { ReadingSection, StoryContents } from '../../components/reading/ReadingKit';
 import { projectsData } from '../../data/projectsData';
+import { projectNotes } from '../../data/projectNotes';
 import Link from 'next/link';
 
-function ProjectSingle(props) {
-	return (
-		<div className="project-detail-page px-6 py-8 sm:px-10 lg:px-16">
-			<div className="mx-auto max-w-7xl">
-				<PagesMetaHead title={props.project.title} />
+// Some data strings carry a literal "&amp;".
+const decode = (text = '') => text.replace(/&amp;/g, '&');
 
-				<Link
-					href="/#projects"
-					className="project-detail-back-btn mt-8"
-				>
-					← Back to Projects
+// Details are written as "Label: text" blocks separated by blank lines. Each
+// block becomes its own paragraph with the label set in bold.
+function DetailText({ text }) {
+	return decode(text)
+		.split(/\n\s*\n/)
+		.filter(Boolean)
+		.map((block, i) => {
+			const match = block.match(/^([^:.\n]{2,48}):\s+([\s\S]+)$/);
+			return match ? (
+				<p key={i}>
+					<strong>{match[1]}:</strong> {match[2]}
+				</p>
+			) : (
+				<p key={i}>{block}</p>
+			);
+		});
+}
+
+function ProjectSingle({ project }) {
+	const info = project.ProjectInfo;
+	const tech = info.Technologies[0];
+	const note = projectNotes[project.url];
+	const links = [
+		project.liveUrl && project.liveUrl !== '#' && { href: project.liveUrl, label: 'Live site' },
+		project.githubUrl && project.githubUrl !== '#' && { href: project.githubUrl, label: 'GitHub' },
+	].filter(Boolean);
+
+	return (
+		<div className="reader project-detail-page px-6 py-8 sm:px-10 lg:px-16">
+			<PagesMetaHead title={project.title} />
+
+			<div className="mx-auto max-w-4xl">
+				<Link href="/#projects" className="project-detail-back-btn mt-8">
+					<FiArrowLeft aria-hidden="true" /> Back to Projects
 				</Link>
 
-				{/* Header */}
-				<div className="project-detail-header mt-14 sm:mt-20 p-8 sm:p-10">
-					<p className="project-detail-title text-3xl sm:text-5xl mb-7 tracking-tight leading-tight">
-						{props.project.ProjectHeader.title}
+				<header className="fh-hero">
+					<span className="fh-eyebrow">{project.category}</span>
+					<h1 className="fh-hero-title">{decode(project.ProjectHeader.title)}</h1>
+					<p className="fh-hero-byline">
+						{project.ProjectHeader.publishDate} · {decode(project.ProjectHeader.tags)}
 					</p>
 
-					<div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
-						<div className="flex items-center">
-							<FiClock className="text-xl project-detail-meta-icon" />
-							<span className="project-detail-meta-text ml-2 leading-none">
-								{props.project.ProjectHeader.publishDate}
-							</span>
+					{links.length > 0 && (
+						<div className="fh-study-links">
+							{links.map((link, i) => (
+								<a
+									key={link.href}
+									href={link.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className={`notice-link-btn ${i > 0 ? 'notice-link-outline' : ''}`}
+									aria-label={`${link.label} for ${project.title}`}
+								>
+									{link.label} <FiArrowUpRight aria-hidden="true" />
+								</a>
+							))}
+						</div>
+					)}
+				</header>
+
+				{/* Everything a skimming reader needs, before any section is opened. */}
+				<section className="rd-glance" aria-label="At a glance">
+					{note?.finding && (
+						<div className="rd-tldr">
+							<h2>Key finding</h2>
+							<p>{note.finding}</p>
+						</div>
+					)}
+
+					<div className="rd-glance-grid">
+						<div>
+							<h2 className="rd-glance-heading">{info.ObjectivesHeading}</h2>
+							<p className="rd-objective">{decode(info.ObjectivesDetails)}</p>
 						</div>
 
-						<div className="flex items-center">
-							<FiTag className="w-4 h-4 project-detail-meta-icon" />
-							<span className="project-detail-meta-text ml-2 leading-none">
-								{props.project.ProjectHeader.tags}
-							</span>
-						</div>
+						<dl className="rd-facts">
+							{info.CompanyInfo.map((item) => (
+								<div key={item.id}>
+									<dt>{item.title}</dt>
+									<dd>{decode(item.details)}</dd>
+								</div>
+							))}
+						</dl>
 					</div>
 
-					<div className="flex flex-wrap gap-4 mt-8">
-						{props.project.liveUrl && props.project.liveUrl !== '#' && (
-							<a href={props.project.liveUrl} target="_blank" rel="noopener noreferrer" className="notice-link-btn inline-flex w-fit items-center" aria-label={`View live site for ${props.project.title}`}>
-								View Live Site →
-							</a>
-						)}
+					<ul className="rd-tools" aria-label={tech.title}>
+						{tech.techs.map((name) => (
+							<li key={name}>{name}</li>
+						))}
+					</ul>
+				</section>
 
-						{props.project.githubUrl && props.project.githubUrl !== '#' && (
-							<a href={props.project.githubUrl} target="_blank" rel="noopener noreferrer" className="notice-link-btn inline-flex w-fit items-center" aria-label={`View GitHub repository for ${props.project.title}`}>
-								View GitHub →
-							</a>
-						)}
-					</div>
-				</div>
+				<StoryContents label={info.ProjectDetailsHeading || 'In this story'} />
 
-				{/* Info */}
-				<div className="block sm:flex gap-0 sm:gap-10 mt-14">
-					<div className="w-full sm:w-1/3 text-left">
-						{/* Project overview details */}
-						<div className="project-detail-card mb-7 p-6">
-							<p className="project-detail-card-heading text-2xl mb-4">
-								{props.project.ProjectInfo.ClientHeading}
-							</p>
-
-							<ul className="leading-loose">
-								{props.project.ProjectInfo.CompanyInfo.map((info) => (
-									<li className="project-detail-info-item" key={info.id}>
-										<span className="font-semibold">{info.title}: </span>
-										<span>{info.details}</span>
-									</li>
-								))}
-							</ul>
-						</div>
-
-						{/* Project objective */}
-						<div className="project-detail-card mb-7 p-6">
-							<p className="project-detail-card-heading text-2xl mb-4">
-								{props.project.ProjectInfo.ObjectivesHeading}
-							</p>
-
-							<p className="project-detail-body leading-relaxed">
-								{props.project.ProjectInfo.ObjectivesDetails}
-							</p>
-						</div>
-
-						{/* Technologies */}
-						<div className="project-detail-card mb-7 p-6">
-							<p className="project-detail-card-heading text-2xl mb-4">
-								{props.project.ProjectInfo.Technologies[0].title}
-							</p>
-
-							<div className="flex flex-wrap gap-2">
-								{props.project.ProjectInfo.Technologies[0].techs.map((tech) => (
-									<span key={tech} className="sticky-skill-chip">
-										{tech}
-									</span>
-								))}
-							</div>
-						</div>
-					</div>
-
-					{/* Project details */}
-					<div className="w-full sm:w-2/3 text-left mt-10 sm:mt-0">
-						<div className="project-detail-card p-8">
-							<p className="project-detail-title text-2xl sm:text-3xl mb-7">
-								{props.project.ProjectInfo.ProjectDetailsHeading}
-							</p>
-
-							<div className="space-y-5">
-								{props.project.ProjectInfo.ProjectDetails.map((details) => (
-									<p key={details.id} className="project-detail-body text-lg leading-relaxed">
-										{details.details}
-									</p>
-								))}
-							</div>
-						</div>
-					</div>
-				</div>
+				{info.ProjectDetails.map((detail, index) => (
+					<ReadingSection
+						key={detail.title || index}
+						eyebrow={`Part ${index + 1}`}
+						title={decode(detail.title || `Part ${index + 1}`)}
+					>
+						<DetailText text={detail.details} />
+					</ReadingSection>
+				))}
 			</div>
 		</div>
 	);

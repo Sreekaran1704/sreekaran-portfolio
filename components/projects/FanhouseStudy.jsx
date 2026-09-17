@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { SelectionChart, OutcomeChart, SensitivityChart } from './FanhouseCharts';
 import PagesMetaHead from '../PagesMetaHead';
 import { fanhouseLinks, fanhouseViews } from '../../data/fanhouseStudy';
+import { ReadingSection, StoryContents } from '../reading/ReadingKit';
 
 export default function FanhouseStudy({ view }) {
   const story = fanhouseViews[view];
-  return <div className="fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
+  return <div className="reader fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
     <PagesMetaHead title={`${story.title} | FanHouse`} description={story.lede} keywords="synthetic data, causal inference, matching, difference-in-differences" />
     <div className="mx-auto max-w-4xl">
       <Link href="/#projects" className="project-detail-back-btn mt-8">← Back to projects</Link>
@@ -39,14 +40,13 @@ export default function FanhouseStudy({ view }) {
         </div>
         <p>Matched estimates per customer. Synthetic data. Fees tracked separately; profit not estimated.</p>
       </aside>
-      {story.sections.map(([title, paragraphs], index) => <section className="fh-section" key={title}>
-        <span className="fh-eyebrow">{String(index + 1).padStart(2, '0')} / {story.label}</span>
-        <h2>{title}</h2>
+      <StoryContents label="In this story" />
+      {story.sections.map(([title, paragraphs], index) => <ReadingSection key={title} eyebrow={`Part ${index + 1}`} title={title}>
         {paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
         {((view === 0 && index === 1) || (view === 1 && index === 1)) && <SelectionChart />}
         {((view === 0 && index === 3) || (view === 1 && index === 3) || (view === 2 && index === 2)) && <OutcomeChart />}
         {((view === 0 && index === 4) || (view === 1 && index === 4) || (view === 2 && index === 4)) && <SensitivityChart />}
-      </section>)}
+      </ReadingSection>)}
       <footer className="fh-section"><h2>Follow the evidence</h2><p>The dashboard, complete case study, and reproducible analysis are available together.</p>
         <div className="fh-study-links">
           <a className="notice-link-btn" href={fanhouseLinks.dashboard} target="_blank" rel="noopener noreferrer">Open dashboard →</a>

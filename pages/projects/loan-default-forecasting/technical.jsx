@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import PagesMetaHead from '../../../components/PagesMetaHead';
+import { ReadingSection, StoryContents } from '../../../components/reading/ReadingKit';
 
 function LoanForecastingTechnical() {
 	return (
-		<div className="fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
+		<div className="reader fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
 			<PagesMetaHead
 				title="ARIMA vs. XGBoost vs. LightGBM: Technical Write-Up"
 				description="Full methodology: ARIMA order search, walk-forward backtesting, a caught-and-fixed data leakage bug, Diebold-Mariano significance testing, conformal prediction intervals, and SHAP interpretability."
@@ -55,6 +56,9 @@ function LoanForecastingTechnical() {
 					<p className="fh-hero-byline">By Sreekaran · Time-Series Forecasting &amp; Applied ML Project</p>
 				</header>
 
+				<StoryContents label="In this story" />
+
+
 				{/* Executive summary */}
 				<section className="fh-section">
 					<span className="fh-eyebrow">Where This Is Going</span>
@@ -96,9 +100,7 @@ function LoanForecastingTechnical() {
 				</section>
 
 				{/* Data & method */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Data &amp; Evaluation Protocol</span>
-					<h2>Five accounts, one evaluation rule for every model</h2>
+				<ReadingSection eyebrow={<>Data &amp; Evaluation Protocol</>} title={<>Five accounts, one evaluation rule for every model</>}>
 					<p>
 						Data: FRED, quarterly, 1991-01-01 through 2026-04-01 (142
 						observations per series), truncated to that range at pull time.
@@ -141,12 +143,10 @@ function LoanForecastingTechnical() {
 						<img src="/images/loan-forecast-1.jpg" alt="Loan delinquency rate by category, 1991 to 2026, with NBER recession bands" />
 						<figcaption>All five series, 1991–2026, with NBER recession windows shaded. Trend dominates over seasonality in every series; variance visibly expands during the 2008–2010 and 2020 windows.</figcaption>
 					</figure>
-				</section>
+				</ReadingSection>
 
 				{/* Phase 1 */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Phase 1 · Exploratory Analysis</span>
-					<h2>Stationarity, autocorrelation, decomposition</h2>
+				<ReadingSection eyebrow={<>Phase 1 · Exploratory Analysis</>} title={<>Stationarity, autocorrelation, decomposition</>}>
 					<p>
 						ADF (H<sub>0</sub>: unit root) and KPSS (H<sub>0</sub>: stationary)
 						were run on each raw series, at the conventional α = 0.05:
@@ -184,12 +184,10 @@ function LoanForecastingTechnical() {
 					<p className="fh-synthetic-note">
 						Full EDA write-up, all five ACF/PACF and STL plots: <code>docs/phase1_eda.md</code> in the project repository.
 					</p>
-				</section>
+				</ReadingSection>
 
 				{/* Phase 2 */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Phase 2 · Classical ARIMA Baseline</span>
-					<h2>Per-series order search, diagnostics, backtest</h2>
+				<ReadingSection eyebrow={<>Phase 2 · Classical ARIMA Baseline</>} title={<>Per-series order search, diagnostics, backtest</>}>
 					<p>
 						Per series: a 5-candidate order grid built around the AR guess:{' '}
 						<code>(p,0,0)</code>, <code>(p,1,0)</code>, <code>(p,0,1)</code>,{' '}
@@ -227,12 +225,10 @@ function LoanForecastingTechnical() {
 					<div className="fh-result-line">
 						ARIMA&rsquo;s native 95% confidence intervals, walk-forward backtested: 97.9%–100% empirical coverage across the five series.
 					</div>
-				</section>
+				</ReadingSection>
 
 				{/* Phase 3: features + leakage bug */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Phase 3 · ML Pipeline</span>
-					<h2>Feature construction and direct-horizon models</h2>
+				<ReadingSection eyebrow={<>Phase 3 · ML Pipeline</>} title={<>Feature construction and direct-horizon models</>}>
 					<p>
 						Univariate only: lags and rolling statistics of each target series
 						itself, no exogenous variables, for the cleanest possible
@@ -290,12 +286,10 @@ function LoanForecastingTechnical() {
 					<div className="fh-result-line fh-result-line-warn">
 						Every result below is post-fix. Nothing leakage-affected is reported anywhere in this write-up.
 					</div>
-				</section>
+				</ReadingSection>
 
 				{/* Results */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Results</span>
-					<h2>MASE vs. seasonal-naive, all five series</h2>
+				<ReadingSection eyebrow={<>Results</>} title={<>MASE vs. seasonal-naive, all five series</>}>
 
 					<figure className="fh-chart-figure">
 						<svg viewBox="0 0 720 400" className="fh-chart" role="img" aria-labelledby="chartA-title chartA-desc">
@@ -378,12 +372,10 @@ function LoanForecastingTechnical() {
 							</tbody>
 						</table>
 					</div>
-				</section>
+				</ReadingSection>
 
 				{/* Significance testing */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Statistical Significance</span>
-					<h2>Diebold-Mariano test: is ARIMA&rsquo;s edge real?</h2>
+				<ReadingSection eyebrow={<>Statistical Significance</>} title={<>Diebold-Mariano test: is ARIMA&rsquo;s edge real?</>}>
 					<p>
 						The Diebold-Mariano test compares two models&rsquo; forecast-loss
 						series and asks whether the difference is real or within sampling
@@ -456,12 +448,10 @@ function LoanForecastingTechnical() {
 						on both models; All Loans is the weakest of the five, with LightGBM
 						losing significance starting at h=2.
 					</p>
-				</section>
+				</ReadingSection>
 
 				{/* Intervals */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Prediction Intervals</span>
-					<h2>Native ARIMA intervals vs. walk-forward conformal</h2>
+				<ReadingSection eyebrow={<>Prediction Intervals</>} title={<>Native ARIMA intervals vs. walk-forward conformal</>}>
 					<p>
 						ARIMA gets calibrated intervals almost for free via{' '}
 						<code>get_forecast().conf_int()</code>. Tree models don&rsquo;t: a
@@ -492,12 +482,10 @@ function LoanForecastingTechnical() {
 					<div className="fh-result-line fh-result-line-warn">
 						An honest limitation, not a bug: the ML conformal intervals under-cover meaningfully against their 95% target, roughly 1-in-4 to 1-in-5 quarters land outside the stated band instead of 1-in-20. For a use case like loan-loss provisioning, that gap between stated and actual confidence is a real problem, independent of the point-forecast result above.
 					</div>
-				</section>
+				</ReadingSection>
 
 				{/* SHAP */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Interpretability</span>
-					<h2>SHAP: what are the models actually looking at?</h2>
+				<ReadingSection eyebrow={<>Interpretability</>} title={<>SHAP: what are the models actually looking at?</>}>
 					<p>
 						One final model per horizon, fit on all available history (there&rsquo;s
 						no future fold left to hold out for a model meant for actual
@@ -557,12 +545,10 @@ function LoanForecastingTechnical() {
 						few hundred splits and ~80–140 training rows rediscovering roughly
 						the same relationship.
 					</p>
-				</section>
+				</ReadingSection>
 
 				{/* Tuning */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Hyperparameter Tuning</span>
-					<h2>Nested Optuna search: does tuning actually help here?</h2>
+				<ReadingSection eyebrow={<>Hyperparameter Tuning</>} title={<>Nested Optuna search: does tuning actually help here?</>}>
 					<p>
 						The fold sequence for each series was split by time order (not
 						randomly) into the earliest ~70% (<strong>inner</strong>, 41 folds:
@@ -597,12 +583,10 @@ function LoanForecastingTechnical() {
 						result worse in 6 of 10, consistent with the small-N overfitting
 						risk that motivated trying fixed defaults first.
 					</p>
-				</section>
+				</ReadingSection>
 
 				{/* Final verdict */}
-				<section className="fh-section">
-					<span className="fh-eyebrow">Conclusion</span>
-					<h2>Model complexity has to match data size</h2>
+				<ReadingSection eyebrow={<>Conclusion</>} title={<>Model complexity has to match data size</>}>
 					<p className="fh-lede">
 						For this problem (univariate, ~140-quarter macro series,
 						direct-horizon forecasting), classical ARIMA is the stronger model,
@@ -621,7 +605,7 @@ function LoanForecastingTechnical() {
 						regressor ARIMA never had access to either), not further feature
 						engineering on the same short series.
 					</p>
-				</section>
+				</ReadingSection>
 
 				<p className="fh-synthetic-note mb-10">
 					Full code, tests (23 passing), and reproducible pipeline scripts in

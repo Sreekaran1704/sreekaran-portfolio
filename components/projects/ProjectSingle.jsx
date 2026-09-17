@@ -1,79 +1,100 @@
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { FiArrowRight, FiArrowUpRight } from 'react-icons/fi';
 import { projectNotes } from '../../data/projectNotes';
 import ProjectPreview from './ProjectPreview';
+import Reveal from '../shared/Reveal';
 
-function ProjectSingle({ title, url, githubUrl, liveUrl, category, ProjectInfo }) {
+// Cards cycle through the paper's desk colours by story number.
+const TONES = ['projects', 'about', 'front', 'writing', 'experience', 'skills', 'contact'];
+
+// Every card renders the same run of rows — even an empty one — so the grid
+// can line them up across a row: header, title, summary, (evidence), finding,
+// tools, links.
+function ProjectSingle({ index = 0, rowStart = false, number, title, url, githubUrl, liveUrl, category, ProjectInfo }) {
 	const techs = ProjectInfo?.Technologies?.[0]?.techs || [];
 
 	const note = projectNotes[url] || { summary: ProjectInfo?.ObjectivesDetails, metric: category, finding: 'Explore the project for methods and results.', annotation: 'Notes from the process.' };
 
+	const tone = TONES[(Number(number) - 1) % TONES.length] || TONES[0];
+
+	const external = [
+		liveUrl && liveUrl !== '#' && { href: liveUrl, label: note.liveLabel || 'Live site', aria: 'live site' },
+		githubUrl && githubUrl !== '#' && { href: githubUrl, label: 'GitHub', aria: 'GitHub repository' },
+	].filter(Boolean);
+
 	return (
-		<motion.article
-			initial={false}
-			whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.08 }}
-			transition={{ duration: 0.4 }}
+		<Reveal
+			as="article"
+			delay={(index % 3) * 0.07}
 			className={[
-				'projects-card',
-				note.featured ? 'projects-card-featured' : 'projects-card-brief',
-			].join(' ')}>
-			<div className="projects-card-tag">{category}</div>
+				'np-story',
+				'np-card',
+				`np-tone-${tone}`,
+				note.featured ? 'np-card-featured' : 'np-card-brief',
+				rowStart && 'is-row-start',
+			]
+				.filter(Boolean)
+				.join(' ')}
+		>
+			<header className="np-card-head">
+				<span className="np-card-label">
+					{number && <span className="np-card-no">No. {number}</span>}
+					<span className="np-card-cat">{category}</span>
+				</span>
+				{note.metric && <span className="np-card-metric">{note.metric}</span>}
+			</header>
 
-			<h3 className="projects-card-title">{note.displayTitle || title}</h3>
+			<h3 className="np-card-title">
+				<Link href={`/projects/${url}`}>{note.displayTitle || title}</Link>
+			</h3>
 
-			<p className="projects-card-summary">{note.summary}</p>
+			<p className="np-card-summary">{note.summary}</p>
 
-			{note.featured && <ProjectPreview note={note} />}
-
-			{note.finding && (
-				<p className="projects-card-finding">
-					<span className="projects-finding-leaf" aria-hidden="true" />
-					<span>{note.finding}</span>
-				</p>
+			{note.featured && (
+				<div className="np-card-evidence">
+					<ProjectPreview note={note} />
+				</div>
 			)}
 
-			<div className="projects-card-tech">
-				{techs.slice(0, 5).map((tech) => (
-					<span key={tech}>{tech}</span>
-				))}
-			</div>
-
-			<div className="projects-card-actions">
-				<Link
-					href={`/projects/${url}`}
-					className="notice-link-btn"
-					aria-label={`View details for ${title}`}
-				>
-					{note.detailsLabel || 'View Details'} →
-				</Link>
-
-				{liveUrl && liveUrl !== '#' && (
-					<a
-						href={liveUrl}
-						target='_blank'
-						rel="noopener noreferrer"
-						className="notice-link-btn notice-link-outline"
-						aria-label={`View live site for ${title}`}
-					>
-						{note.liveLabel || 'Live Site'} →
-					</a>
-
-				)
-				}
-
-				{githubUrl && githubUrl !== '#' && (
-					<a
-						href={githubUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="notice-link-btn notice-link-outline"
-						aria-label={`View GitHub repository for ${title}`}
-					>
-						GitHub →
-					</a>
+			<div className="np-card-finding">
+				{note.finding && (
+					<>
+						<span className="np-card-finding-label">Key finding</span>
+						<p>{note.finding}</p>
+					</>
 				)}
 			</div>
-		</motion.article>
+
+			<ul className="np-card-tools" aria-label="Tools">
+				{techs.slice(0, 4).map((tech) => (
+					<li key={tech}>{tech}</li>
+				))}
+			</ul>
+
+			<div className="np-card-links">
+				<Link
+					href={`/projects/${url}`}
+					className="np-card-primary"
+					aria-label={`View details for ${title}`}
+				>
+					{note.detailsLabel || 'View details'}
+					<FiArrowRight aria-hidden="true" />
+				</Link>
+
+				{external.map((link) => (
+					<a
+						key={link.href}
+						href={link.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`View ${link.aria} for ${title}`}
+					>
+						{link.label}
+						<FiArrowUpRight aria-hidden="true" />
+					</a>
+				))}
+			</div>
+		</Reveal>
 	);
 }
 

@@ -2,14 +2,12 @@ const COPYRIGHT_YEAR = 2026;
 
 function AppFooterCopyright() {
 	return (
-		<div className="flex justify-center items-center text-center">
-			<div className="footer-copyright-text">
-				&copy; {COPYRIGHT_YEAR}{' '}
-				<span className="footer-copyright-name">
-					Sreekaran Reddy
-				</span>
-				. Built to showcase data, machine learning, and applied AI work.
-			</div>
+		<div className="np-footer-inner">
+			<p className="np-footer-plate">The Sreekaran Reddy Portfolio</p>
+			<p className="np-footer-text">
+				&copy; {COPYRIGHT_YEAR} Sreekaran Reddy. Built to showcase data, machine
+				learning, and applied AI work.
+			</p>
 		</div>
 	);
 }
