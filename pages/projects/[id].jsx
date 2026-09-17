@@ -86,7 +86,7 @@ function ProjectSingle({ project }) {
 
 						<dl className="rd-facts">
 							{info.CompanyInfo.map((item) => (
-								<div key={item.id}>
+								<div key={item.id ?? item.title}>
 									<dt>{item.title}</dt>
 									<dd>{decode(item.details)}</dd>
 								</div>

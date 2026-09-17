@@ -10,26 +10,26 @@ import ContactDetails from '../components/contact/ContactDetails';
 export default function Home() {
 	return (
 		<div>
-			<PagesMetaHead title="Sreekaran Reddy Portfolio" />
+			<PagesMetaHead title="Sreekaran Reddy — Data Analyst & Data Scientist" />
 
 			<section id="home">
 				<AppBanner />
-			</section>
-
-			<section id="about">
-				<AboutMe />
 			</section>
 
 			<section id="projects">
 				<ProjectsGrid />
 			</section>
 
-			<section id="articles">
-				<ArticlesGrid />
-			</section>
-
 			<section id="experience">
 				<Experience />
+			</section>
+
+			<section id="about">
+				<AboutMe />
+			</section>
+
+			<section id="articles">
+				<ArticlesGrid />
 			</section>
 
 			<section id="skills">

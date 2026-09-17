@@ -117,7 +117,14 @@ function TypingIndicator() {
 
 export function Thread({ messages, loading, threadEndRef }) {
 	return (
-		<div className="askme-thread">
+		<div
+			className="askme-thread"
+			role="log"
+			aria-label="Conversation with Sreekaran's portfolio assistant"
+			aria-live="polite"
+			aria-atomic="false"
+			aria-relevant="additions text"
+		>
 			{messages.map((message, i) => (
 				<ThreadMessage key={i} message={message} />
 			))}

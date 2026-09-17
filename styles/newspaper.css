@@ -164,6 +164,23 @@ section[id] {
 	color: var(--np-ink);
 }
 
+.np-skip-link {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 1000;
+	transform: translateY(calc(-100% - 1rem));
+	padding: 0.75rem 1rem;
+	background: var(--np-paper);
+	color: var(--np-ink);
+	border: 2px solid currentColor;
+	font-weight: 700;
+}
+
+.np-skip-link:focus {
+	transform: translateY(0);
+}
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
@@ -366,6 +383,12 @@ input:focus-visible {
 @media (max-width: 900px) {
 	.np-sections ul {
 		justify-content: flex-start;
+	}
+
+	.np-sections li a {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
 	}
 
 	.np-sections.is-stuck .np-sections-mark {
@@ -791,6 +814,7 @@ input:focus-visible {
 
 	.np-filter button {
 		flex: 1 1 auto;
+		min-height: 44px;
 		justify-content: center;
 		gap: 0.35rem;
 		padding: 0.5rem 0.4rem;
@@ -1884,10 +1908,10 @@ input:focus-visible {
 
 /* Section bar: each link carries its desk colour. */
 .np-sections li:nth-child(1) { --c: var(--c-front); }
-.np-sections li:nth-child(2) { --c: var(--c-about); }
-.np-sections li:nth-child(3) { --c: var(--c-projects); }
-.np-sections li:nth-child(4) { --c: var(--c-writing); }
-.np-sections li:nth-child(5) { --c: var(--c-experience); }
+.np-sections li:nth-child(2) { --c: var(--c-projects); }
+.np-sections li:nth-child(3) { --c: var(--c-experience); }
+.np-sections li:nth-child(4) { --c: var(--c-about); }
+.np-sections li:nth-child(5) { --c: var(--c-writing); }
 .np-sections li:nth-child(6) { --c: var(--c-skills); }
 .np-sections li:nth-child(7) { --c: var(--c-contact); }
 
@@ -2635,6 +2659,14 @@ input:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Override the hero's inline motion styles before its first animation frame. */
+	.np-hero-copy > *,
+	.np-hero-photo,
+	.np-hero-photo .np-sticker {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
 	.np-ticker-track,
 	.np-ticker-label i {
 		animation: none;
@@ -3604,6 +3636,12 @@ input:focus-visible {
 	color: var(--np-ink);
 	cursor: pointer;
 	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+@media (pointer: coarse) {
+	.np-edition-btn {
+		min-height: 44px;
+	}
 }
 
 .np-edition-btn:hover {

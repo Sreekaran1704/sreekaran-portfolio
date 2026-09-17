@@ -59,7 +59,7 @@ function ProjectsGrid() {
 			/>
 
 			<div className="np-projects-bar">
-				<p className="np-projects-count" aria-live="polite">
+				<p className="np-projects-count" role="status" aria-live="polite" aria-atomic="true">
 					Showing {visible.length} of {ordered.length}
 				</p>
 

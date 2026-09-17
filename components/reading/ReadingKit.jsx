@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export function ReadingSection({ eyebrow, title, children }) {
 	return (
-		<section className="rd-section">
+		<section className="rd-section" tabIndex={-1}>
 			<header className="rd-section-head">
 				{eyebrow && <p className="rd-kicker">{eyebrow}</p>}
 				<h2 className="rd-headline">{title}</h2>
@@ -42,7 +42,14 @@ function ContinuedIn() {
 			{next && (
 				<button
 					type="button"
-					onClick={() => next.element.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+					onClick={() => {
+						const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+						next.element.focus({ preventScroll: true });
+						next.element.scrollIntoView({
+							behavior: reduceMotion ? 'auto' : 'smooth',
+							block: 'start',
+						});
+					}}
 				>
 					<span className="rd-continued-label">Continued in {next.kicker}</span>
 					<span className="rd-continued-title">
@@ -154,21 +161,28 @@ export function StoryContents({ label = 'In this story' }) {
 				{links}
 			</nav>
 
-			{/* Duplicate navigation for wide screens only; hidden from assistive tech
-			    so the page isn't announced as having two contents lists. */}
-			<aside className={`rd-rail ${showRail ? 'is-visible' : ''}`} aria-hidden="true">
+			{/* Wide-screen navigation becomes keyboard-accessible when visible. */}
+			<nav
+				className={`rd-rail ${showRail ? 'is-visible' : ''}`}
+				aria-label={`${label}: quick navigation`}
+				aria-hidden={!showRail}
+			>
 				<p className="rd-contents-label">{label}</p>
 				<ol>
 					{items.map((item, index) => (
 						<li key={item.id} className={active === item.id ? 'is-active' : ''}>
-							<a href={`#${item.id}`} tabIndex={-1}>
+							<a
+								href={`#${item.id}`}
+								tabIndex={showRail ? undefined : -1}
+								aria-current={active === item.id ? 'location' : undefined}
+							>
 								<span className="rd-contents-no">{String(index + 1).padStart(2, '0')}</span>
 								<span className="rd-contents-title">{item.title}</span>
 							</a>
 						</li>
 					))}
 				</ol>
-			</aside>
+			</nav>
 		</>
 	);
 }

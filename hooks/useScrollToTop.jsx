@@ -1,52 +1,49 @@
 import { useState, useEffect } from 'react';
 import { FiChevronUp } from 'react-icons/fi';
 
-function useScrollToTop() {
+function ScrollToTop() {
 	const [showScroll, setShowScroll] = useState(false);
 
 	useEffect(() => {
-		window.addEventListener('scroll', scrollToTop);
+		const updateVisibility = () => setShowScroll(window.scrollY > 400);
+		updateVisibility();
+		window.addEventListener('scroll', updateVisibility, { passive: true });
 		return function cleanup() {
-			window.removeEventListener('scroll', scrollToTop);
+			window.removeEventListener('scroll', updateVisibility);
 		};
-	});
-
-	const scrollToTop = () => {
-		if (!showScroll && window.pageYOffset > 400) {
-			setShowScroll(true);
-		} else if (showScroll && window.pageYOffset <= 400) {
-			setShowScroll(false);
-		}
-	};
+	}, []);
 
 	const backToTop = () => {
+		document.querySelector('.np-nameplate')?.focus({ preventScroll: true });
 		window.scrollTo({
 			top: 0,
-			behavior: 'smooth',
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
 		});
 	};
 
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', scrollToTop);
-	}
-
 	return (
 		<>
-			<FiChevronUp
+			<button
+				type="button"
+				aria-label="Back to top"
 				className="scrollToTop"
 				onClick={backToTop}
 				style={{
-					height: 40,
-					width: 40,
+					height: 44,
+					width: 44,
 					padding: 7,
 					borderRadius: 50,
 					right: 50,
 					bottom: 50,
 					display: showScroll ? 'flex' : 'none',
+					alignItems: 'center',
+					justifyContent: 'center',
 				}}
-			/>
+			>
+				<FiChevronUp aria-hidden="true" size={26} />
+			</button>
 		</>
 	);
 }
 
-export default useScrollToTop;
+export default ScrollToTop;

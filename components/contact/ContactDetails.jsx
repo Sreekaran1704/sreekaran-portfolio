@@ -45,6 +45,7 @@ function ContactDetails() {
 							target={external ? '_blank' : undefined}
 							rel={external ? 'noopener noreferrer' : undefined}
 							className="np-letter"
+							aria-label={external ? `${contact.title}: ${contact.detail} (opens in a new tab)` : undefined}
 						>
 							<span className="np-letter-icon" aria-hidden="true">
 								{contact.icon}

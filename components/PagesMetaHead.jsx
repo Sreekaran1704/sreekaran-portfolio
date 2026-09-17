@@ -17,9 +17,9 @@ function PagesMetaHead({ title, keywords, description }) {
 }
 
 PagesMetaHead.defaultProps = {
-	title: 'Sreekaran Reddy — Data Analyst & Applied AI Builder',
-	keywords: 'data analyst, applied AI, machine learning, SQL, Python, Tableau, portfolio',
-	description: 'Portfolio of Sreekaran Reddy — Data Analyst, Applied AI Builder, and MS Computer Science graduate at UMKC.',
+	title: 'Sreekaran Reddy — Data Analyst & Data Scientist',
+	keywords: 'data analyst, data scientist, SQL, Python, Tableau, causal inference, forecasting, machine learning, portfolio',
+	description: 'Sreekaran Reddy — Data Analyst and Data Scientist. Explore SQL, Python, and Tableau work, plus case studies in causal inference, forecasting, and machine learning.',
 };
 
 export default PagesMetaHead;

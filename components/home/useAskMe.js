@@ -21,6 +21,12 @@ export function useAskMe() {
 	const threadEndRef = useRef(null);
 	// Guards against a stale in-flight response overwriting a newer one.
 	const requestIdRef = useRef(0);
+	const requestControllerRef = useRef(null);
+
+	useEffect(() => () => {
+		requestIdRef.current += 1;
+		requestControllerRef.current?.abort();
+	}, []);
 
 	const hasThread = messages.length > 0;
 
@@ -31,17 +37,24 @@ export function useAskMe() {
 
 	useEffect(() => {
 		if (hasThread && threadEndRef.current) {
-			threadEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			threadEndRef.current.scrollIntoView({
+				behavior: reduceMotion ? 'auto' : 'smooth',
+				block: 'nearest',
+			});
 		}
 	}, [messages, loading, hasThread]);
 
 	const ask = useCallback(
 		async (rawQuestion) => {
 			const question = rawQuestion.trim();
-			if (!question || loading) return;
+			if (!question || loading || requestControllerRef.current) return;
 
 			const requestId = requestIdRef.current + 1;
 			requestIdRef.current = requestId;
+			const controller = new AbortController();
+			requestControllerRef.current = controller;
+			const timeoutId = setTimeout(() => controller.abort(), 30000);
 
 			const history = messages.map((m) => ({ role: m.role, content: m.content }));
 
@@ -54,6 +67,7 @@ export function useAskMe() {
 
 			try {
 				const res = await fetch('/api/ask', {
+					signal: controller.signal,
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ question, history }),
@@ -75,10 +89,16 @@ export function useAskMe() {
 			} catch (err) {
 				if (requestIdRef.current !== requestId) return;
 				setError(
-					'Something went wrong reaching the assistant. Please check your connection and try again.'
+					controller.signal.aborted
+						? 'The assistant took too long to respond. Please try again.'
+						: 'Something went wrong reaching the assistant. Please check your connection and try again.'
 				);
 			} finally {
-				if (requestIdRef.current === requestId) setLoading(false);
+				clearTimeout(timeoutId);
+				if (requestIdRef.current === requestId) {
+					requestControllerRef.current = null;
+					setLoading(false);
+				}
 			}
 		},
 		[loading, messages]
@@ -86,6 +106,8 @@ export function useAskMe() {
 
 	const reset = useCallback(() => {
 		requestIdRef.current += 1;
+		requestControllerRef.current?.abort();
+		requestControllerRef.current = null;
 		setMessages([]);
 		setFollowUps([]);
 		setError('');

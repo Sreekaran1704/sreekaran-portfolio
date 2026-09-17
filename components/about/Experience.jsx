@@ -116,6 +116,9 @@ function RecordItem({ item }) {
 						<button
 							type="button"
 							className="np-rec-more"
+							aria-label={expanded
+								? `That’s the full record. Show fewer highlights for ${item.company}`
+								: `More from this role. Read ${hidden} more highlights for ${item.company}`}
 							aria-expanded={expanded}
 							aria-controls={listId}
 							onClick={() => setExpanded((open) => !open)}

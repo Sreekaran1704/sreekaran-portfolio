@@ -22,19 +22,19 @@ export const projectNotes = {
   'market-pulse-job-market-intelligence': {
     displayTitle: 'Market Pulse',
     summary: 'Turn scattered daily job postings into searchable, explainable market intelligence.',
-    metric: 'Daily', finding: 'An automated pipeline connects live postings to grounded AI summaries.',
+    metric: 'Daily', finding: 'An automated pipeline turns job postings into computed statistics and AI summaries; generated text needs verification.',
     annotation: 'From job listings to a clearer picture.', stages: ['Job feeds', 'Clean + store', 'Ask + explore'],
   },
   'genre-controlled-story-generation-qlora': {
     displayTitle: 'Genre-controlled story generation',
     summary: 'Adapt a small language model to write fantasy, romance, and science-fiction stories.',
-    metric: '39.8%', finding: 'Lower held-out perplexity after QLoRA adaptation.',
+    metric: '39.8%', finding: 'Validation perplexity fell 39.8%, but the adapted model scored lower than the base model on a small LLM-judged writing sample.',
     annotation: 'A small model, finding its voice.', visual: 'language',
   },
   'medpredicts-hospital-readmission-forecasting': {
     displayTitle: 'MedPredicts',
-    summary: 'Combine clinical records and environmental context to forecast 30-day hospital readmission.',
-    metric: 'XGBoost + RAG', finding: 'Risk predictions paired with contextual explanations and follow-up actions.',
+    summary: 'An academic prototype combining hospital records and environmental context to predict 30-day readmission.',
+    metric: 'XGBoost + RAG', finding: 'Risk predictions paired with generated explanations and example follow-up rules. Clinical validation and real-world use are not documented here.',
     annotation: 'Prediction, with a little more context.', stages: ['Patient + context', 'Predict risk', 'Explain'],
   },
   'vehicle-insurance-eligibility-mlops-pipeline': {

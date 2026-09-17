@@ -4,7 +4,7 @@ import { Cast, Say, Strip } from '../../../components/reading/StoryParts';
 import { ReadingSection, StoryContents } from '../../../components/reading/ReadingKit';
 
 const cast = [
-	{ name: 'ARIMA', role: 'The Veteran', bio: 'Three numbers. Thirty-five years on the desk.' },
+	{ name: 'ARIMA', role: 'The Veteran', bio: 'A classical model. Thirty-five years on the desk.' },
 	{ name: 'Xander', role: 'XGBoost', bio: 'The rookie who builds thousands of trees.' },
 	{ name: 'Gigi', role: 'LightGBM', bio: 'The other rookie. Says little, builds fast.' },
 	{ name: 'Surya', role: 'Runs the desk', bio: 'Gives everyone the same fair test.' },
@@ -56,10 +56,10 @@ function LoanForecastingStory() {
 						</li>
 						<li>
 							Post-fix, ARIMA beat both ML models on every one of the five series,
-							significantly so in 27 of 40 Diebold-Mariano comparisons.
+							with reported p&lt;0.05 in 27 of 40 Diebold-Mariano comparisons. No adjustment across the 40 tests is documented here.
 						</li>
 						<li>
-							SHAP showed both approaches leaned overwhelmingly on the same single lag.
+							SHAP attributed the largest share of importance to the most recent lag in both tree models; it does not establish why ARIMA performed better.
 						</li>
 					</ul>
 				</aside>
@@ -89,17 +89,18 @@ function LoanForecastingStory() {
 						it&rsquo;s still right more often than they&rsquo;d like.
 					</p>
 					<p>
-						ARIMA didn&rsquo;t need much. Three numbers, actually.{' '}
-						<code>p</code>, <code>d</code>, <code>q</code>. That&rsquo;s it.
-						That&rsquo;s the whole personality.
+						ARIMA starts with three order choices.{' '}
+						<code>p</code>, <code>d</code>, <code>q</code>: autoregressive order,
+						differencing order, and moving-average order. These define the model
+						structure; its coefficients still have to be fitted to the data.
 					</p>
 					<Strip>
 						<Say who="A first-timer">
 							That&rsquo;s <em>it</em>?
 						</Say>
 						<Say who="ARIMA">
-							That&rsquo;s it. I look back a couple of quarters. I check if the
-							trend needs smoothing out. And I write down what I see.
+							That sets my structure. I use past values and forecast errors,
+							difference the series when needed, and fit the coefficients.
 						</Say>
 					</Strip>
 					<p>ARIMA watched five accounts, quarter after quarter, for thirty-five years:</p>
@@ -126,15 +127,15 @@ function LoanForecastingStory() {
 						this time last year</em> (seasonal-naive). Beating a lazy guess
 						isn&rsquo;t supposed to be hard.
 					</p>
-					<p>ARIMA didn&rsquo;t just beat them. It embarrassed them.</p>
+					<p>The reported seasonal-naive-scaled scores were below 1 for all five series. The simple-naive comparison was mixed: only Business and CRE had scores below 1. ARIMA did not lead both benchmark comparisons across every series.</p>
 
 					<div className="fh-table-wrap">
 						<table className="fh-table">
 							<thead>
-								<tr><th>Account</th><th>ARIMA&rsquo;s error, as a fraction of the lazy guess&rsquo;s error</th></tr>
+								<tr><th>Account</th><th>Reported seasonal-naive-scaled error</th></tr>
 							</thead>
 							<tbody>
-								<tr><td>CRE</td><td><strong>0.135</strong> (errors 87% smaller)</td></tr>
+								<tr><td>CRE</td><td><strong>0.135</strong></td></tr>
 								<tr><td>Business</td><td><strong>0.236</strong></td></tr>
 								<tr><td>All Loans</td><td><strong>0.269</strong></td></tr>
 								<tr><td>Credit Card</td><td><strong>0.325</strong></td></tr>
@@ -144,9 +145,9 @@ function LoanForecastingStory() {
 					</div>
 
 					<p>
-						A number below 1.0 means &ldquo;better than the lazy guess.&rdquo;
-						Every single account, every single quarter for thirty-five years, ARIMA
-						was comfortably below 1.0.
+						These are aggregate backtest scores for each loan category. All five
+						were below 1.0 on the reported seasonal-naive scale; that does not
+						mean ARIMA beat the benchmark in every individual quarter.
 					</p>
 					<p>Nobody clapped. That&rsquo;s just what the job looked like, every quarter, for years.</p>
 					<p>Then, one Tuesday, two new hires arrived.</p>
@@ -288,13 +289,7 @@ function LoanForecastingStory() {
 						<em>is this gap real, or did ARIMA just get lucky?</em>
 					</p>
 					<p>
-						The referee&rsquo;s verdict, across every account, every forecast
-						horizon, both rookies: <strong>27 out of 40 times, not a
-						coincidence.</strong> Real. Statistically real, at the strictest
-						quarter-ahead call, every single time: ten out of ten. The
-						verdict got a little less certain the further out they were asked to
-						guess, which made sense; further out, everyone&rsquo;s guesses get
-						noisier, ARIMA&rsquo;s included.
+						Across the series, models, and horizons, <strong>27 of 40 comparisons had reported p&lt;0.05</strong>, including all ten one-quarter-ahead comparisons. Fewer crossed that threshold at longer horizons. These are individual test results; an adjustment across the 40 tests is not documented here, so the count should not be read as proof that chance has been ruled out.
 					</p>
 					<p>
 						But there wasn&rsquo;t a single one of the forty match-ups where the
@@ -350,11 +345,7 @@ function LoanForecastingStory() {
 						at</em> when they guessed.
 					</p>
 					<p>
-						There&rsquo;s a technique for this. You don&rsquo;t ask the model. You
-						watch it, very carefully, across every decision it makes, and add up
-						which piece of information it leaned on the hardest. It&rsquo;s
-						called <strong>SHAP</strong>, and it doesn&rsquo;t let a model lie
-						about its own reasoning.
+						Surya used <strong>SHAP</strong> to attribute the tree models&rsquo; predictions to input features relative to a reference. This describes model behavior, not human-like reasoning or causal effects.
 					</p>
 					<p>
 						The answer came back the same way, ten times out of ten, every
@@ -363,9 +354,9 @@ function LoanForecastingStory() {
 					<div className="fh-insight">
 						<span className="fh-insight-tag">What they were looking at</span>
 						<p>
-							<strong>Last quarter&rsquo;s number.</strong> Just that. Somewhere
-							between 47% and 59% of their entire decision, every single time,
-							was just: <em>what was it last quarter.</em>
+							<strong>Last quarter&rsquo;s number.</strong> It accounted for
+							47–59% of the reported aggregate SHAP importance across the ten
+							model/series combinations, not that share of every individual prediction.
 						</p>
 					</div>
 					<p>Xander looked almost embarrassed.</p>
@@ -381,17 +372,10 @@ function LoanForecastingStory() {
 						</Say>
 					</Strip>
 					<p>
-						Here&rsquo;s the quiet part nobody had said out loud yet:{' '}
-						<strong>that&rsquo;s what ARIMA does too.</strong> ARIMA&rsquo;s whole
-						equation <em>is</em> mostly &ldquo;yesterday, weighted
-						correctly.&rdquo; It just writes that down directly, in three
-						numbers, instead of discovering it the hard way across a few hundred
-						trees and eighty training rows.
+						ARIMA also uses past observations, but these SHAP results describe Xander and Gigi. They do not measure ARIMA&rsquo;s feature contributions or prove that all three models learned the same relationship.
 					</p>
 					<p>
-						Xander and Gigi hadn&rsquo;t been wrong. They&rsquo;d just spent a lot
-						of machinery re-deriving something the veteran already had built into
-						its bones on day one.
+						The attribution gave Surya a useful clue about the tree models: the most recent quarter mattered most in this summary. Explaining the accuracy gap would require additional controlled comparisons.
 					</p>
 				</ReadingSection>
 
@@ -415,7 +399,7 @@ function LoanForecastingStory() {
 						<strong>75% to 83%</strong> of the time.
 					</p>
 					<p>
-						That&rsquo;s not a small gap. That&rsquo;s a confidence interval that
+						That&rsquo;s not a small gap. That&rsquo;s a prediction interval that
 						lies about itself, and it lies <em>hardest</em> exactly when a bank
 						can least afford it. The two-decade run of data made clear
 						that both the mess and the model&rsquo;s uncertainty about it get
@@ -431,26 +415,13 @@ function LoanForecastingStory() {
 						doesn&rsquo;t flatter anybody on purpose.
 					</p>
 					<p>
-						Classical ARIMA beat machine learning on this project, and it
-						wasn&rsquo;t close. Significantly so on most accounts. Not
-						because Xander and Gigi were bad at their jobs. Because with only
-						about 140 quarters of history per account, a three-number model can
-						be estimated reliably, while a model built from hundreds of
-						tree-splits needs more life experience than that to find anything
-						ARIMA hadn&rsquo;t already found. SHAP just made it official: both of
-						them, veteran and rookies alike, were leaning on the same one thing.
+						ARIMA outperformed the two tree models in the reported comparison. A small dataset may favor a simpler model, but that is a possible explanation, not something the SHAP analysis proves. Feature attribution cannot rule out training, tuning, or feature-design limitations.
 					</p>
 					<div className="fh-insight fh-insight-final">
 						<span className="fh-insight-tag">Bottom line</span>
 						<p>
-							The honest takeaway isn&rsquo;t &ldquo;machine learning is
-							bad.&rdquo; It&rsquo;s &ldquo;the tool has to match the size of the
-							job.&rdquo; Xander and Gigi didn&rsquo;t need a better trick. They
-							needed more to learn from, not more clever ways to slice the
-							same 140 quarters. Real, new information. A regressor ARIMA never
-							had access to either. Unemployment, maybe. A rate curve. Something
-							the veteran couldn&rsquo;t see coming from three numbers alone.
-						</p>
+						The takeaway is to judge a model by its backtest, then treat explanations for its performance as hypotheses. New macroeconomic inputs, different features, or different model choices are candidates for further tests, not guaranteed improvements.
+					</p>
 					</div>
 				</section>
 

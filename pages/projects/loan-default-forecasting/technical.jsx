@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import PagesMetaHead from '../../../components/PagesMetaHead';
 import { ReadingSection, StoryContents } from '../../../components/reading/ReadingKit';
 
@@ -45,7 +46,7 @@ function LoanForecastingTechnical() {
 						</div>
 						<div className="fh-hero-stat">
 							<span className="fh-hero-stat-value">27<span className="fh-hero-stat-unit">/40</span></span>
-							<span className="fh-hero-stat-label">statistically significant (Diebold-Mariano, p&lt;0.05)</span>
+							<span className="fh-hero-stat-label">reported p&lt;0.05 (Diebold-Mariano; 40 comparisons)</span>
 						</div>
 						<div className="fh-hero-stat">
 							<span className="fh-hero-stat-value">142</span>
@@ -68,7 +69,7 @@ function LoanForecastingTechnical() {
 						evaluation for every model, real significance testing, and no result
 						trusted until it survived scrutiny. A leakage bug in the first ML
 						implementation produced an implausibly good early result; once fixed,
-						ARIMA won every comparison, and SHAP explains why.
+						ARIMA led the reported aggregate comparison across all five series; SHAP separately describes feature attribution within the tree models.
 					</p>
 
 					<ol className="fh-finding-list">
@@ -90,11 +91,7 @@ function LoanForecastingTechnical() {
 							horizon and fading at longer horizons.
 						</li>
 						<li>
-							<strong>SHAP interpretability shows why</strong>: in all 10 of 10
-							series/model combinations, the single most recent lag carries
-							47–59% of total feature importance: both approaches lean on
-							essentially the same signal, and ARIMA simply expresses it more
-							efficiently on ~140 rows than a tree ensemble can.
+							<strong>SHAP describes tree-model predictions</strong>: the most recent lag carries 47–59% of reported aggregate SHAP importance across ten series/model combinations. This does not explain ARIMA or establish the cause of the performance gap.
 						</li>
 					</ol>
 				</section>
@@ -140,7 +137,13 @@ function LoanForecastingTechnical() {
 					</p>
 
 					<figure className="fh-image-figure">
-						<img src="/images/loan-forecast-1.jpg" alt="Loan delinquency rate by category, 1991 to 2026, with NBER recession bands" />
+						<Image
+							src="/images/loan-forecast-1.jpg"
+							alt="Loan delinquency rate by category, 1991 to 2026, with NBER recession bands"
+							width={2200}
+							height={1240}
+							sizes="(min-width: 1024px) 896px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 48px)"
+						/>
 						<figcaption>All five series, 1991–2026, with NBER recession windows shaded. Trend dominates over seasonality in every series; variance visibly expands during the 2008–2010 and 2020 windows.</figcaption>
 					</figure>
 				</ReadingSection>
@@ -223,7 +226,7 @@ function LoanForecastingTechnical() {
 					</p>
 
 					<div className="fh-result-line">
-						ARIMA&rsquo;s native 95% confidence intervals, walk-forward backtested: 97.9%–100% empirical coverage across the five series.
+						ARIMA&rsquo;s native 95% prediction intervals, walk-forward backtested: 97.9%–100% empirical coverage across the five series.
 					</div>
 				</ReadingSection>
 
@@ -400,6 +403,7 @@ function LoanForecastingTechnical() {
 						the non-significant cells are &ldquo;not proven at 5%,&rdquo; never
 						reversed.
 					</p>
+					<p>No multiple-comparison adjustment across these 40 tests is documented in this write-up. Interpret the count as results at the per-comparison 5% threshold, not as a family-wide error guarantee.</p>
 
 					<figure className="fh-chart-figure">
 						<svg viewBox="0 0 720 360" className="fh-chart" role="img" aria-labelledby="chartC-title chartC-desc">
@@ -464,7 +468,13 @@ function LoanForecastingTechnical() {
 					</p>
 
 					<figure className="fh-image-figure">
-						<img src="/images/loan-forecast-3.jpg" alt="All Loans one-quarter-ahead backtest with 95 percent prediction interval, ARIMA versus XGBoost conformal" />
+						<Image
+							src="/images/loan-forecast-3.jpg"
+							alt="All Loans one-quarter-ahead backtest with 95 percent prediction interval, ARIMA versus XGBoost conformal"
+							width={2600}
+							height={1120}
+							sizes="(min-width: 1024px) 896px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 48px)"
+						/>
 						<figcaption>All Loans, 1-quarter-ahead backtest. ARIMA&rsquo;s native interval (left) visibly brackets the actual series more consistently than XGBoost&rsquo;s conformal interval (right).</figcaption>
 					</figure>
 
@@ -535,15 +545,11 @@ function LoanForecastingTechnical() {
 							<text x="651.0" y="104.1" className="fh-chart-value" textAnchor="middle">57%</text>
 							<text x="636.0" y="352" className="fh-chart-tick" textAnchor="middle">CRE</text>
 						</svg>
-						<figcaption><code>value_lag1</code>&rsquo;s share of total SHAP importance: the single most recent quarter, nothing else, at 47–59% of the entire decision, in all 10 of 10 series/model combinations.</figcaption>
+						<figcaption><code>value_lag1</code>&rsquo;s share of total SHAP importance: 47–59% of reported aggregate attribution across ten series/model combinations. This is not a percentage of each prediction or a causal effect.</figcaption>
 					</figure>
 
 					<p>
-						This is the mechanism behind the significance results above: ARIMA
-						and the ML models converge on the same signal, but ARIMA writes it
-						down directly in its coefficients while the tree ensembles spend a
-						few hundred splits and ~80–140 training rows rediscovering roughly
-						the same relationship.
+						The most recent lag has the largest reported attribution in the tree models. These values depend on the fitted models, reference data, and explainer assumptions; correlated lag features can complicate interpretation. They do not establish the mechanism behind ARIMA&rsquo;s accuracy advantage.
 					</p>
 				</ReadingSection>
 
@@ -595,15 +601,7 @@ function LoanForecastingTechnical() {
 						somewhat but don&rsquo;t close the gap.
 					</p>
 					<p>
-						With only ~140 observations per account, a 3-parameter model can be
-						estimated reliably; a model built from hundreds of tree splits needs
-						more data than that to find structure ARIMA doesn&rsquo;t already
-						capture. SHAP confirms it isn&rsquo;t a training or tuning problem:
-						both approaches are extracting the same signal, one just does it more
-						efficiently at this sample size. The one lever that could plausibly
-						change this result is genuinely new information (an exogenous macro
-						regressor ARIMA never had access to either), not further feature
-						engineering on the same short series.
+						With roughly 140 observations per series, model complexity is a plausible contributor to the performance gap. SHAP does not test that hypothesis or rule out training and tuning limitations. Additional controlled comparisons would be needed to distinguish those explanations; new inputs, features, or model choices could change the result.
 					</p>
 				</ReadingSection>
 

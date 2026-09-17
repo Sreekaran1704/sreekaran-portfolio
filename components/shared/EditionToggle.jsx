@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 // Switches the whole paper between the colour edition and a black & white
 // print edition. The choice lives on <html data-edition>, set before first
@@ -11,6 +12,7 @@ const EDITIONS = [
 ];
 
 function EditionToggle() {
+	const router = useRouter();
 	const [edition, setEdition] = useState('colour');
 
 	useEffect(() => {
@@ -28,6 +30,15 @@ function EditionToggle() {
 			window.localStorage.setItem(EDITION_KEY, value);
 		} catch (err) {
 			// Storage can be blocked; the switch still works for this visit.
+		}
+		// Keep shared edition links in sync so a reload preserves this choice.
+		const url = new URL(window.location.href);
+		if (url.searchParams.has('edition')) {
+			url.searchParams.set('edition', value);
+			router.replace(`${url.pathname}${url.search}${url.hash}`, undefined, {
+				shallow: true,
+				scroll: false,
+			});
 		}
 	};
 

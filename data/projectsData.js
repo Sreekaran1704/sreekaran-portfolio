@@ -55,7 +55,7 @@ export const projectsData = [
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Forecast five FRED loan-delinquency series (All Loans, Credit Card, Business, Mortgage, CRE) four quarters ahead, using an identical walk-forward backtest (min_train_size=80, h=4, 59 graded folds per series) to fairly compare a classical ARIMA baseline against XGBoost and LightGBM. A data-leakage bug in the first ML implementation was caught (via a suspiciously good tuning result) and fixed before any result was trusted. Post-fix, ARIMA beat both ML models on every one of the five series, significantly so in 27 of 40 Diebold-Mariano comparisons, and SHAP interpretability showed why: both approaches leaned overwhelmingly on the same single lag, with ARIMA simply expressing that relationship more efficiently on a ~140-row-per-series dataset than a tree ensemble could.',
+				'Forecast five FRED loan-delinquency series (All Loans, Credit Card, Business, Mortgage, CRE) four quarters ahead, using an identical walk-forward backtest (min_train_size=80, h=4, 59 graded folds per series) to fairly compare a classical ARIMA baseline against XGBoost and LightGBM. A data-leakage bug in the first ML implementation was caught (via a suspiciously good tuning result) and fixed before any result was trusted. Post-fix, ARIMA beat both ML models on every one of the five series, with reported p<0.05 in 27 of 40 Diebold-Mariano comparisons. No adjustment across the 40 tests is documented in this portfolio. SHAP attributed the largest share of importance to the most recent lag in the tree models; it does not establish why ARIMA performed better.',
 			Technologies: [
 				{
 					title: 'Tools & Technologies',
@@ -82,7 +82,7 @@ export const projectsData = [
 				{
 					title: 'Phase 1–2: EDA and the ARIMA Baseline',
 					details:
-						'ADF/KPSS stationarity testing and ACF/PACF analysis per series informed a per-series AIC/BIC ARIMA order search (best orders ranged from (1,1,0) for CRE to (2,1,0) for Business/Credit Card/Mortgage, (2,0,0) for All Loans). Walk-forward backtested (min_train_size=80, h=4), every series passed Ljung-Box comfortably and beat both seasonal-naive and simple-naive benchmarks, with MASE-vs-seasonal-naive ranging from 0.135 (CRE) to 0.348 (Mortgage).',
+						'ADF/KPSS stationarity testing and ACF/PACF analysis per series informed a per-series AIC/BIC ARIMA order search (best orders ranged from (1,1,0) for CRE to (2,1,0) for Business/Credit Card/Mortgage, (2,0,0) for All Loans). Walk-forward backtested (min_train_size=80, h=4), every series passed Ljung-Box comfortably with reported seasonal-naive-scaled scores below 1 for all five series, ranging from 0.135 (CRE) to 0.348 (Mortgage). The simple-naive-scaled scores were below 1 only for Business (0.866) and CRE (0.524); All Loans (1.022), Credit Card (1.001), and Mortgage (1.148) were above 1. The table does not support claiming that ARIMA beat both benchmarks on every series.',
 				},
 				{
 					title: 'Phase 3: The ML Pipeline and a Caught Leakage Bug',
@@ -92,17 +92,17 @@ export const projectsData = [
 				{
 					title: 'Honest Results, Post-Fix',
 					details:
-						'ARIMA beat XGBoost and LightGBM on every one of the five series. A Diebold-Mariano significance test (Harvey-Leybourne-Newbold corrected) found ARIMA significantly more accurate in 27 of 40 series/model/horizon comparisons, universal at 1-quarter-ahead (10/10), fading at longer horizons. Pooling all five series into one global model helped the ML side but didn\'t close the gap; a nested Optuna hyperparameter search helped in only 4 of 10 cases.',
+						'ARIMA beat XGBoost and LightGBM on every one of the five series. A Diebold-Mariano significance test (Harvey-Leybourne-Newbold corrected) reported p<0.05 favoring ARIMA in 27 of 40 series/model/horizon comparisons, including all ten at one quarter ahead, with fewer below that threshold at longer horizons. No multiple-comparison adjustment across these 40 tests is documented in this portfolio; do not interpret the count as a family-wide error guarantee. Pooling all five series into one global model helped the ML side but didn\'t close the gap; a nested Optuna hyperparameter search helped in only 4 of 10 cases.',
 				},
 				{
-					title: 'Why: SHAP Interpretability and Prediction Intervals',
+					title: 'SHAP Attribution and Prediction Intervals',
 					details:
-						'SHAP analysis on the final models showed the single most-recent lag carrying 47–59% of total feature importance in all 10 of 10 series/model combinations, with both ARIMA and the ML models relying on essentially the same signal, and ARIMA simply expressing it more efficiently given the small sample. A second honest finding: ARIMA\'s native 95% confidence intervals achieved 98–100% empirical coverage, while the ML models\' conformal intervals under-covered at 75–83%, a real limitation worth naming, not hiding, especially for a use case (loan-loss provisioning) where interval reliability matters as much as the point forecast.',
+						'SHAP analysis on the final models showed the single most-recent lag carrying 47–59% of reported aggregate SHAP importance across ten tree-model/series combinations. These are model attributions, not causal effects or an explanation of the accuracy gap with ARIMA. A second honest finding: ARIMA\'s native 95% prediction intervals achieved 98–100% empirical coverage, while the ML models\' conformal intervals under-covered at 75–83%, a real limitation worth naming, not hiding, especially for a use case (loan-loss provisioning) where interval reliability matters as much as the point forecast.',
 				},
 				{
 					title: 'Final Verdict and Recommendation',
 					details:
-						'For this problem (univariate, ~140-quarter macro series, direct-horizon forecasting), classical ARIMA is the stronger model, and the gap is statistically real on the majority of series. The takeaway isn\'t "machine learning is bad," it\'s that model complexity has to match data size: a 3-parameter model can be estimated reliably on 140 rows where a tree ensemble needs more to find structure ARIMA doesn\'t already capture. The one lever that could plausibly change this result is genuinely new information (an exogenous macro regressor), not further feature engineering on the same short series.',
+						'For this problem (univariate, ~140-quarter macro series, direct-horizon forecasting), classical ARIMA is the stronger model, and the gap is statistically real on the majority of series. The takeaway isn\'t "machine learning is bad," it\'s that model complexity has to match data size: a low-order ARIMA model can be estimated reliably on 140 rows where a tree ensemble needs more to find structure ARIMA doesn\'t already capture. The one lever that could plausibly change this result is genuinely new information (an exogenous macro regressor), not further feature engineering on the same short series.',
 				},
 			],
 			SocialSharingHeading: '',
@@ -245,7 +245,7 @@ export const projectsData = [
 					id: 613,
 					title: 'Focus',
 					details:
-						'Tracking real-time hiring trends for Data Analyst, BI Developer, Analytics Engineer, and Applied AI roles',
+						'Tracking trends in daily job postings for Data Analyst, BI Developer, Analytics Engineer, and Applied AI roles',
 				},
 				{
 					id: 614,
@@ -260,7 +260,7 @@ export const projectsData = [
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Built and deployed a live job market intelligence platform that combines a real-time data pipeline with a dual-transport MCP server layer. The pipeline classifies daily job postings from the Adzuna and RemoteOK APIs by role, seniority, and skills into a PostgreSQL and SQLAlchemy schema, running unattended via GitHub Actions and Docker on Render. On top of that foundation, a FastMCP-based MCP server exposes five job-market analytics tools over local stdio and remote streamable HTTP, secured with bearer-token authentication and per-IP rate limiting, with a Groq-powered LLM layered on top to translate the computed statistics into a plain-English market summary grounded strictly in the underlying data.',
+				'Built and deployed a live job market intelligence platform that combines a scheduled daily data pipeline with a dual-transport MCP server layer. The pipeline classifies daily job postings from the Adzuna and RemoteOK APIs by role, seniority, and skills into a PostgreSQL and SQLAlchemy schema, running unattended via GitHub Actions and Docker on Render. On top of that foundation, a FastMCP-based MCP server exposes five job-market analytics tools over local stdio and remote streamable HTTP, secured with bearer-token authentication and per-IP rate limiting, with a Groq-powered LLM layered on top to translate the computed statistics into a plain-English market summary based on those statistics. Generated summaries can contain errors and should be checked against the underlying results.',
 			Technologies: [
 				{
 					title: 'Tools & Technologies',
@@ -282,6 +282,11 @@ export const projectsData = [
 						'Engineered a PostgreSQL and SQLAlchemy schema to classify daily job postings from the Adzuna and RemoteOK APIs by role, seniority, and skills, turning scattered real hiring data into a structured, queryable foundation.',
 				},
 				{
+					title: 'Data Coverage & Interpretation',
+					details:
+						'The analysis describes postings collected from Adzuna and RemoteOK, not a representative census of the hiring market. Counts refer to listings, not confirmed hires or necessarily distinct vacancies. Source coverage, duplicate listings, missing salary fields, and collection timing can affect comparisons. Salary and skill summaries should be interpreted within the collected sample and its time window.',
+				},
+				{
 					title: 'Automation & Deployment',
 					details:
 						'Automated the ingestion-to-aggregation cycle with GitHub Actions and containerized the service with Docker, deploying it on Render to run continuously without manual intervention.',
@@ -294,7 +299,7 @@ export const projectsData = [
 				{
 					title: 'Security & AI-Powered Summaries',
 					details:
-						'Secured the remote HTTP transport with bearer-token authentication and a per-IP rate limiter, and layered a Groq-powered LLM summary on top of the computed statistics to translate raw hiring trends into a plain-English narrative grounded strictly in the underlying data.',
+						'Secured the remote HTTP transport with bearer-token authentication and a per-IP rate limiter, and layered a Groq-powered LLM summary on top of the computed statistics to translate raw hiring trends into a plain-English narrative based on those statistics. Generated summaries can contain errors and should be checked against the underlying results.',
 				},
 			],
 			SocialSharingHeading: '',
@@ -482,6 +487,11 @@ export const projectsData = [
 					details: 'University of Missouri-Kansas City',
 				},
 				{
+					id: 215,
+					title: 'Status',
+					details: 'Academic prototype; clinical validation and real-world use are not documented in this portfolio',
+				},
+				{
 					id: 212,
 					title: 'Role',
 					details: 'Data Scientist / Healthcare ML Developer',
@@ -503,7 +513,7 @@ export const projectsData = [
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Built a context-aware clinical decision-support system for 30-day hospital readmission forecasting. The system enriches 100K+ diabetic hospital encounter records with weather, PM2.5 air quality, and holiday context, predicts patient readmission risk using XGBoost, assigns follow-up actions by risk tier, and uses a RAG-powered LLM reasoning layer to explain why each patient may be at risk. The project focuses on making readmission prediction more actionable, interpretable, and useful for care coordination and operational planning.',
+				'Built an academic prototype for context-aware 30-day hospital readmission prediction. The system enriches 100K+ diabetic hospital encounter records with weather, PM2.5 air quality, and holiday context, predicts patient readmission risk using XGBoost, assigns follow-up actions by risk tier, and uses a RAG-powered LLM reasoning layer to explain why each patient may be at risk. The project focuses on making readmission prediction more actionable, interpretable, and useful for care coordination and operational planning.',
 			Technologies: [
 				{
 					title: 'Tools & Technologies',

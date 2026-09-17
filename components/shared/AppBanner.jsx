@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -20,7 +21,7 @@ import {
 
 // Every line here is taken from the About, Projects or Experience content.
 const tickerItems = [
-	'Open to work: Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, Applied AI',
+	'Open to work: Data Analyst & Data Scientist',
 	'ARIMA beat XGBoost and LightGBM on 5 of 5 loan-delinquency series',
 	'FanHouse study: 40,000 synthetic customers, 12,153 matched pairs',
 	'50% rise in school revenue at Avanthi High School',
@@ -41,14 +42,14 @@ const topStories = [
 		figure: '5/5',
 		tone: 'projects',
 		kicker: 'Forecasting',
-		headline: 'Classical ARIMA beat machine learning on every loan series',
+		headline: 'ARIMA outperformed XGBoost and LightGBM across five loan series in this backtest',
 		href: '/projects/loan-default-forecasting',
 		cta: 'Read the story',
 	},
 	{
 		figure: '40.6%',
 		tone: 'about',
-		kicker: 'Causal inference',
+		kicker: 'Causal inference · Synthetic data',
 		headline: 'Members already spent more before the membership existed',
 		href: '/projects/fanhouse-membership-analysis',
 		cta: 'Read the case study',
@@ -221,17 +222,18 @@ function AppBanner() {
 							target="_blank"
 							rel="noopener noreferrer"
 							className="np-cta np-cta-primary"
+							aria-label="View Resume (opens in a new tab)"
 						>
 							View Resume <FiArrowUpRight aria-hidden="true" />
 						</a>
-						<Link href="#about" className="np-cta">
-							Read my story <FiArrowRight aria-hidden="true" />
+						<Link href="#projects" className="np-cta">
+							Explore Projects <FiArrowRight aria-hidden="true" />
 						</Link>
 						<span className="np-hero-socials">
-							<a href="https://github.com/Sreekaran1704" target="_blank" rel="noreferrer" aria-label="GitHub">
+							<a href="https://github.com/Sreekaran1704" target="_blank" rel="noreferrer" aria-label="GitHub (opens in a new tab)">
 								<FiGithub />
 							</a>
-							<a href="https://www.linkedin.com/in/sree1704" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+							<a href="https://www.linkedin.com/in/sree1704" target="_blank" rel="noreferrer" aria-label="LinkedIn (opens in a new tab)">
 								<FiLinkedin />
 							</a>
 							<a href="mailto:sreekaran.2021@gmail.com" aria-label="Email">
@@ -248,9 +250,17 @@ function AppBanner() {
 					transition={{ duration: 0.7, ease: [0.34, 1.3, 0.64, 1], delay: 0.15 }}
 				>
 					<div className="np-hero-photo-frame">
-						<img src="/images/sreekaran_profile.jpg" alt="Sreekaran Reddy" />
+						<Image
+							src="/images/sreekaran_profile.jpg"
+							alt="Sreekaran Reddy"
+							width={2251}
+							height={2503}
+							sizes="(max-width: 400px) 80vw, 314px"
+							priority
+							style={{ height: 'auto' }}
+						/>
 						<figcaption>
-							&ldquo;Every data has a story it isn&apos;t telling yet. I enjoy the
+							&ldquo;Every dataset has a story it isn&apos;t telling yet. I enjoy the
 							process of finding it.&rdquo;
 						</figcaption>
 					</div>

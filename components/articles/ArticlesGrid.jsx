@@ -34,6 +34,7 @@ function ArticlesGrid() {
 							<div className="np-story-links">
 								<a
 									href={article.url}
+									aria-label={`Read on LinkedIn: ${article.title}${external ? ' (opens in a new tab)' : ''}`}
 									target={external ? '_blank' : undefined}
 									rel={external ? 'noopener noreferrer' : undefined}
 								>

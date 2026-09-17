@@ -5,10 +5,10 @@ import EditionToggle from './EditionToggle';
 
 const navLinks = [
 	{ name: 'Front Page', href: '/#home' },
-	{ name: 'About', href: '/#about' },
 	{ name: 'Projects', href: '/#projects' },
-	{ name: 'Writing', href: '/#articles' },
 	{ name: 'Experience', href: '/#experience' },
+	{ name: 'About', href: '/#about' },
+	{ name: 'Writing', href: '/#articles' },
 	{ name: 'Skills', href: '/#skills' },
 	{ name: 'Contact', href: '/#contact' },
 ];
