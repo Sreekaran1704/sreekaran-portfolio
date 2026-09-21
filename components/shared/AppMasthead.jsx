@@ -68,10 +68,6 @@ function AppMasthead() {
 				<div className="np-wrap">
 					{/* One strip above the nameplate: ear, edition switch, ear. */}
 					<div className="np-earline">
-						<span className="np-ear">
-							<strong>Open to Work</strong>
-							Data · Analytics · Applied AI
-						</span>
 						<div className="np-edition-bar">
 							<EditionToggle />
 						</div>
