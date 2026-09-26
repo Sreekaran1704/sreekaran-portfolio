@@ -13,10 +13,51 @@ const navLinks = [
 	{ name: 'Contact', href: '/#contact' },
 ];
 
+// The resume is its own edition of the paper, with its own sections. Each
+// link keeps the desk colour its section uses on the page.
+const resumeLinks = [
+	{ name: 'Summary', href: '/resume#summary', tone: 'front' },
+	{ name: 'Experience', href: '/resume#experience', tone: 'experience' },
+	{ name: 'Projects', href: '/resume#projects', tone: 'projects' },
+	{ name: 'Education', href: '/resume#education', tone: 'about' },
+	{ name: 'Skills', href: '/resume#skills', tone: 'skills' },
+	{ name: '← Portfolio', href: '/', tone: 'contact' },
+];
+
+const editions = {
+	portfolio: {
+		links: navLinks,
+		home: '/',
+		nameplate: 'The Sreekaran Reddy Portfolio',
+		mark: 'The S.R. Portfolio',
+		ear: 'Late Edition',
+		earNote: 'M.S. Computer Science · 3.97 GPA',
+	},
+	resume: {
+		links: resumeLinks,
+		home: '/resume',
+		nameplate: 'The Sreekaran Résumé',
+		mark: 'The S.R. Résumé',
+		ear: 'Special Edition',
+		earNote: 'Data Scientist · 3.97 GPA',
+	},
+};
+
 const sectionId = (href) => href.split('#')[1];
 
 function AppMasthead() {
 	const router = useRouter();
+	const edition = router.pathname === '/resume' ? editions.resume : editions.portfolio;
+	const { links } = edition;
+
+	// The nameplate goes to the edition's clean URL. Already there, it just
+	// scrolls back to the top and drops any #section from the address bar.
+	const goHome = (event) => {
+		if (router.pathname !== edition.home) return;
+		event.preventDefault();
+		window.history.replaceState(window.history.state, '', edition.home);
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	};
 	const mastRef = useRef(null);
 	const [activeSection, setActiveSection] = useState('');
 	const [stuck, setStuck] = useState(false);
@@ -30,11 +71,11 @@ function AppMasthead() {
 	}, []);
 
 	useEffect(() => {
-		if (router.pathname !== '/') return undefined;
+		if (router.pathname !== '/' && router.pathname !== '/resume') return undefined;
 
 		let frame;
 		const updateActiveSection = () => {
-			const sections = navLinks
+			const sections = links
 				.map((link) => document.getElementById(sectionId(link.href)))
 				.filter(Boolean)
 				.sort((a, b) => a.offsetTop - b.offsetTop);
@@ -60,7 +101,7 @@ function AppMasthead() {
 			window.removeEventListener('scroll', onScroll);
 			window.removeEventListener('resize', onScroll);
 		};
-	}, [router.pathname]);
+	}, [router.pathname, links]);
 
 	return (
 		<>
@@ -72,13 +113,13 @@ function AppMasthead() {
 							<EditionToggle />
 						</div>
 						<span className="np-ear np-ear-right">
-							<strong>Late Edition</strong>
-							M.S. Computer Science · 3.97 GPA
+							<strong>{edition.ear}</strong>
+							{edition.earNote}
 						</span>
 					</div>
 
-					<Link href="/#home" className="np-nameplate">
-						The Sreekaran Reddy Portfolio
+					<Link href={edition.home} className="np-nameplate" onClick={goHome}>
+						{edition.nameplate}
 					</Link>
 
 					<div className="np-mast-rule" aria-hidden="true" />
@@ -87,15 +128,15 @@ function AppMasthead() {
 
 			<nav className={`np-sections ${stuck ? 'is-stuck' : ''}`} aria-label="Sections">
 				<div className="np-wrap np-sections-inner">
-					<Link href="/#home" className="np-sections-mark" aria-hidden={!stuck} tabIndex={stuck ? 0 : -1}>
-						The S.R. Portfolio
+					<Link href={edition.home} className="np-sections-mark" aria-hidden={!stuck} tabIndex={stuck ? 0 : -1} onClick={goHome}>
+						{edition.mark}
 					</Link>
 					<ul>
-						{navLinks.map((link) => {
+						{links.map((link) => {
 							const id = sectionId(link.href);
-							const isActive = router.pathname === '/' && activeSection === id;
+							const isActive = Boolean(id) && activeSection === id;
 							return (
-								<li key={link.name}>
+								<li key={link.name} style={link.tone ? { '--c': `var(--c-${link.tone})` } : undefined}>
 									<Link
 										href={link.href}
 										className={isActive ? 'is-active' : ''}

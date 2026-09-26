@@ -218,9 +218,9 @@ function AppBanner() {
 
 					<motion.div className="np-hero-actions" {...rise(0.36)}>
 						<a
-							href="https://drive.google.com/file/d/1F5lB8PRJcaCCIswuf6FhhQbmYPLueXmE/view?usp=sharing"
+							href="/resume"
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="noopener"
 							className="np-cta np-cta-primary"
 							aria-label="View Resume (opens in a new tab)"
 						>
