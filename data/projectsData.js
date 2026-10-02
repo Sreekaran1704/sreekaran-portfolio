@@ -1,5 +1,67 @@
 export const projectsData = [
 	{
+		id: 9,
+		title: 'PhotoCull: Privacy-First Camera Roll Intelligence',
+		url: 'photocull',
+		githubUrl: 'https://github.com/Sreekaran1704/CameraAI',
+		liveUrl: 'https://cameraai-sree.streamlit.app/',
+		category: 'Computer Vision',
+		type: 'Project',
+		ProjectHeader: {
+			title: 'PhotoCull: Privacy-First Camera Roll Intelligence',
+			publishDate: '2026',
+			tags: 'Computer Vision / Ranking / Clustering / Local ML',
+		},
+		ProjectImages: [],
+		ProjectInfo: {
+			ClientHeading: 'Project Type',
+			CompanyInfo: [
+				{
+					id: 911,
+					title: 'Association',
+					details: 'Independent portfolio project',
+				},
+				{
+					id: 912,
+					title: 'Editions',
+					details: 'Local Edition keeps photos on-device; the public Web Demo processes uploads temporarily for the session',
+				},
+				{
+					id: 913,
+					title: 'Evaluation',
+					details: 'Near-duplicate metrics from a synthetic held-out benchmark; 155 automated tests',
+				},
+			],
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'A local-first computer-vision system for detecting redundant photos, organizing events, and building explainable photo shortlists without paid inference APIs.',
+			Technologies: [
+				{
+					title: 'Tools & Methods',
+					techs: [
+						'Computer Vision',
+						'Ranking',
+						'Clustering',
+						'Local ML',
+						'Python',
+						'Streamlit',
+						'OpenCV',
+						'SQLite',
+					],
+				},
+			],
+			ProjectDetailsHeading: 'Project Details',
+			ProjectDetails: [
+				{
+					title: 'Evaluation',
+					details:
+						'On a synthetic held-out benchmark, near-duplicate detection reached 98.36% precision, 71.43% recall, and 82.76% F1. These are not real-world accuracy figures.\n\nEmbedding hybrids improved recall on standard pairs but introduced more hard-negative false positives, so the conservative hash-based system remained the production default.',
+				},
+			],
+			SocialSharingHeading: '',
+		},
+	},
+	{
 		id: 8,
 		title: 'The Forecast That Was Too Good To Be True',
 		url: 'loan-default-forecasting',

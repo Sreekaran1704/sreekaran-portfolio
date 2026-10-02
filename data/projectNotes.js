@@ -19,6 +19,13 @@ export const projectNotes = {
     ],
     estimatesNote: 'per customer / day · Matched DiD · Profit not estimated',
   },
+  photocull: {
+    displayTitle: 'PhotoCull',
+    summary: 'Privacy-first computer vision for duplicate detection, event grouping, and explainable photo curation.',
+    metric: '82.76% F1', finding: 'Near-duplicate F1 on a synthetic held-out benchmark (98.36% precision, 71.43% recall). Embedding hybrids added hard-negative false positives, so hashing stayed the default.',
+    annotation: 'Fewer duplicates. Better shortlists. Photos stay local.', stages: ['Scan + hash', 'Group + rank', 'Shortlist'],
+    detailsLabel: 'View project', liveLabel: 'Live demo',
+  },
   'market-pulse-job-market-intelligence': {
     displayTitle: 'Market Pulse',
     summary: 'Turn scattered daily job postings into searchable, explainable market intelligence.',

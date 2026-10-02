@@ -1466,3 +1466,687 @@
 	background: none;
 	color: var(--rd-accent);
 }
+
+/* ==========================================================================
+   PhotoCull project page: embedded demo, pipeline, ideas and editions.
+   Same flat print vocabulary as the rest of the write-ups — hairline boxes
+   with a coloured top rule, square corners, label/display type tokens.
+   ========================================================================== */
+
+.reader .pc-subtitle {
+	margin: -0.3rem 0 0.9rem;
+	font-family: var(--np-display);
+	font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+	font-style: italic;
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--rd-ink);
+}
+
+/* ---------- Embedded demo ---------- */
+
+.reader .pc-demo {
+	margin: 0 0 2.6rem;
+}
+
+.reader .pc-demo-note h2 {
+	margin: 0 0 0.3rem;
+	font-family: var(--np-display);
+	font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--rd-ink);
+}
+
+.reader .pc-demo-note p,
+.reader .pc-demo-foot p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.95rem;
+	line-height: 1.55;
+	color: var(--rd-text);
+}
+
+/* The stage holds the step guide and the live frame. Stacked on phones and
+   tablets; side by side from 1024px, where it also widens past the reading
+   column (by margin, not transform, so the fixed PiP state still works). */
+.reader .pc-stage-slot {
+	position: relative;
+	margin: 1rem 0;
+}
+
+.reader .pc-stage {
+	--pc-stage-h: clamp(560px, 80vh, 860px);
+	display: grid;
+	gap: 1rem;
+	min-width: 0;
+}
+
+.reader .pc-demo-frame {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-line);
+	border-top: 4px solid var(--c-front);
+}
+
+.reader .pc-stage.is-embedded .pc-demo-frame {
+	height: var(--pc-stage-h);
+}
+
+.reader .pc-demo-frame iframe {
+	display: block;
+	flex: 1 1 auto;
+	width: 100%;
+	min-height: 0;
+	border: 0;
+}
+
+.reader .pc-demo-bar {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.4rem 0.6rem 0.4rem 0.8rem;
+	border-bottom: 1px solid var(--rd-line);
+	font-family: var(--np-label);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rd-muted);
+}
+
+.reader .pc-demo-bar-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	white-space: nowrap;
+}
+
+.reader .pc-demo-bar-label i {
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 50%;
+	background: var(--c-experience);
+}
+
+.reader .pc-demo-bar-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.reader .pc-demo-bar-actions a,
+.reader .pc-demo-bar-actions button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.55rem;
+	background: transparent;
+	border: 1px solid transparent;
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	text-decoration: none;
+	color: var(--rd-ink);
+	cursor: pointer;
+}
+
+.reader .pc-demo-bar-actions a:hover,
+.reader .pc-demo-bar-actions button:hover,
+.reader .pc-demo-bar-actions a:focus-visible,
+.reader .pc-demo-bar-actions button:focus-visible {
+	border-color: var(--rd-ink);
+	background: var(--np-paper-deep);
+}
+
+/* ---------- Step guide ---------- */
+
+.reader .pc-guide {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-line);
+	border-top: 4px solid var(--rd-accent);
+}
+
+.reader .pc-guide-head {
+	display: grid;
+	gap: 0.45rem;
+	padding: 0.8rem 1rem 0.6rem;
+}
+
+.reader .pc-guide-count {
+	font-family: var(--np-label);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--rd-accent);
+}
+
+.reader .pc-guide-head select {
+	width: 100%;
+	padding: 0.35rem 2rem 0.35rem 0.5rem;
+	background-color: transparent;
+	border: 1px solid var(--rd-line);
+	border-radius: 0;
+	font-family: var(--np-label);
+	font-size: 0.82rem;
+	color: var(--rd-ink);
+}
+
+.reader .pc-guide-progress {
+	height: 3px;
+	margin: 0 1rem;
+	background: var(--rd-line);
+}
+
+.reader .pc-guide-progress i {
+	display: block;
+	height: 100%;
+	background: var(--rd-ink);
+	transform-origin: 0 50%;
+	transition: transform 0.2s ease;
+}
+
+.reader .pc-guide-body {
+	flex: 1 1 auto;
+	min-height: 11rem;
+	padding: 0.9rem 1rem 0.6rem;
+	overflow-y: auto;
+}
+
+.reader .pc-guide-body h3 {
+	margin: 0 0 0.5rem;
+	font-size: 1.25rem;
+	line-height: 1.25;
+}
+
+.reader .pc-guide-body p,
+.reader .rd-body .pc-guide-body p {
+	margin: 0 0 0.6rem;
+	font-family: var(--np-label);
+	font-size: 0.92rem;
+	line-height: 1.55;
+	color: var(--rd-text);
+}
+
+.reader .pc-guide-body ul {
+	margin: 0 0 0.6rem;
+	padding: 0;
+	list-style: none;
+}
+
+.reader .pc-guide-body li {
+	position: relative;
+	padding: 0.2rem 0 0.2rem 0.95rem;
+	font-family: var(--np-label);
+	font-size: 0.9rem;
+	line-height: 1.45;
+	color: var(--rd-text);
+}
+
+.reader .pc-guide-body li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.75rem;
+	width: 0.4rem;
+	height: 2px;
+	background: var(--rd-accent);
+}
+
+.reader .pc-guide-body .pc-guide-tip {
+	padding: 0.55rem 0.7rem;
+	border-left: 3px solid var(--c-front);
+	background: var(--np-paper-deep);
+	font-size: 0.86rem;
+}
+
+.reader .pc-guide-tag {
+	display: inline-block;
+	margin-bottom: 0.45rem;
+	padding: 0.15rem 0.45rem;
+	border: 1px solid var(--rd-ink);
+	font-family: var(--np-label);
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rd-ink);
+}
+
+.reader .pc-guide-nav {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.6rem;
+	padding: 0.7rem 1rem 0.9rem;
+	border-top: 1px solid var(--rd-line);
+}
+
+.reader .pc-guide-nav button {
+	padding: 0.5rem 0.9rem;
+	background: transparent;
+	border: 1.5px solid var(--rd-ink);
+	border-radius: 0;
+	font-family: var(--np-label);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--rd-ink);
+	cursor: pointer;
+}
+
+.reader .pc-guide-nav button:last-child {
+	background: var(--rd-ink);
+	color: #fff;
+}
+
+.reader .pc-guide-nav button:hover:not(:disabled) {
+	background: var(--rd-accent);
+	border-color: var(--rd-accent);
+	color: #fff;
+}
+
+.reader .pc-guide-nav button:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+@media (min-width: 1024px) {
+	.reader .pc-stage-slot {
+		--pc-wide: min(76rem, calc(100vw - 4rem));
+		width: var(--pc-wide);
+		margin-left: calc((100% - var(--pc-wide)) / 2);
+	}
+
+	.reader .pc-stage {
+		grid-template-columns: 19rem minmax(0, 1fr);
+	}
+
+	.reader .pc-stage.is-embedded .pc-guide {
+		height: var(--pc-stage-h);
+	}
+}
+
+/* ---------- Picture-in-picture ---------- */
+
+.reader .pc-stage-placeholder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.8rem;
+	min-height: inherit;
+	padding: 2rem 1rem;
+	border: 1.5px dashed var(--rd-line);
+	text-align: center;
+}
+
+.reader .pc-stage-placeholder p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.95rem;
+	color: var(--rd-muted);
+}
+
+.reader .pc-stage-slot.is-holding .pc-stage-placeholder {
+	position: absolute;
+	inset: 0;
+}
+
+.reader .pc-stage.is-pip {
+	--pc-stage-h: 100%;
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	z-index: 55;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 0;
+	width: min(27rem, calc(100vw - 2rem));
+	height: min(36rem, calc(100vh - var(--np-sticky-h, 46px) - 2rem));
+	background: var(--np-sheet, #fffdf8);
+	border: 1.5px solid var(--rd-ink);
+	box-shadow: var(--np-soft-shadow, 0 10px 24px -18px rgba(22, 20, 18, 0.35)), 0 18px 40px -20px rgba(22, 20, 18, 0.5);
+	animation: pc-pip-in 0.18s ease-out;
+}
+
+.reader .pc-stage.is-pip .pc-guide,
+.reader .pc-stage.is-pip .pc-demo-frame {
+	height: auto;
+	border: 0;
+}
+
+.reader .pc-stage.is-pip .pc-guide {
+	border-bottom: 1px solid var(--rd-line);
+}
+
+.reader .pc-stage.is-pip .pc-guide-head {
+	padding: 0.55rem 0.8rem 0.4rem;
+}
+
+.reader .pc-stage.is-pip .pc-guide-head select {
+	display: none;
+}
+
+.reader .pc-stage.is-pip .pc-guide-body {
+	min-height: 0;
+	max-height: 9.5rem;
+	padding: 0.6rem 0.8rem 0.3rem;
+}
+
+.reader .pc-stage.is-pip .pc-guide-body h3 {
+	font-size: 1.05rem;
+}
+
+.reader .pc-stage.is-pip .pc-guide-nav {
+	padding: 0.45rem 0.8rem 0.55rem;
+}
+
+.reader .pc-stage.is-pip .pc-guide-nav button {
+	padding: 0.35rem 0.7rem;
+}
+
+/* Wide screens: guide beside the demo, like the inline layout. */
+@media (min-width: 1100px) {
+	.reader .pc-stage.is-pip {
+		grid-template-columns: 15rem minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr);
+		width: min(50rem, calc(100vw - 2rem));
+		height: min(30rem, calc(100vh - var(--np-sticky-h, 46px) - 2rem));
+	}
+
+	.reader .pc-stage.is-pip .pc-guide {
+		border-bottom: 0;
+		border-right: 1px solid var(--rd-line);
+	}
+
+	.reader .pc-stage.is-pip .pc-guide-body {
+		max-height: none;
+	}
+}
+
+@keyframes pc-pip-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+}
+
+/* The site's back-to-top button sits bottom-right; move it aside meanwhile. */
+html.pc-pip-open .scrollToTop {
+	right: auto !important;
+	left: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reader .pc-stage.is-pip {
+		animation: none;
+	}
+
+	.reader .pc-guide-progress i {
+		transition: none;
+	}
+}
+
+.reader .pc-demo-fallback {
+	padding: 1.4rem 1.3rem 1.5rem;
+}
+
+.reader .pc-demo-fallback p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.95rem;
+	color: var(--rd-text);
+}
+
+.reader .pc-demo-fallback .pc-demo-fallback-title {
+	margin-bottom: 0.3rem;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--c-front);
+}
+
+.reader .pc-demo-fallback .fh-study-links {
+	margin-top: 1rem;
+}
+
+.reader .pc-demo-fallback button.notice-link-btn {
+	cursor: pointer;
+}
+
+.reader .pc-demo-foot {
+	display: grid;
+	gap: 0.4rem;
+}
+
+.reader .pc-demo-small,
+.reader .rd-body p.pc-demo-small {
+	margin: 0.4rem 0 0;
+	font-family: var(--np-label);
+	font-size: 0.85rem;
+	line-height: 1.5;
+	color: var(--rd-muted);
+}
+
+/* ---------- Pipeline ---------- */
+
+.reader .pc-pipeline {
+	display: grid;
+	gap: 0;
+	margin: 1.4rem 0 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--rd-ink);
+}
+
+.reader .pc-pipeline li {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.4rem minmax(0, 1fr);
+	column-gap: 0.8rem;
+	padding: 0.85rem 0;
+	border-bottom: 1px solid var(--rd-line);
+}
+
+/* A thin rail joins the numbers, so the list reads as one flow. */
+.reader .pc-pipeline li:not(:last-child)::after {
+	content: '';
+	position: absolute;
+	left: 1.2rem;
+	top: 2.55rem;
+	bottom: -0.85rem;
+	width: 2px;
+	background: var(--rd-accent);
+	opacity: 0.35;
+}
+
+.reader .pc-pipeline-no {
+	grid-row: span 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	background: var(--rd-ink);
+	font-family: var(--np-label);
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: #fff;
+}
+
+.reader .pc-pipeline li.is-optional .pc-pipeline-no {
+	background: transparent;
+	border: 1.5px dashed var(--rd-ink);
+	color: var(--rd-ink);
+}
+
+.reader .pc-pipeline-step {
+	font-family: var(--np-display);
+	font-size: 1.1rem;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--rd-ink);
+}
+
+.reader .pc-pipeline-tag {
+	margin-left: 0.5rem;
+	padding: 0.1rem 0.45rem;
+	border: 1px solid var(--rd-line);
+	font-family: var(--np-label);
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	vertical-align: middle;
+	color: var(--rd-muted);
+}
+
+.reader .pc-pipeline-detail {
+	font-family: var(--np-label);
+	font-size: 0.92rem;
+	line-height: 1.5;
+	color: var(--rd-text);
+}
+
+/* ---------- Evaluation qualifier ---------- */
+
+.reader .rd-body p.pc-qualifier {
+	display: inline-block;
+	margin: 0 0 0.4rem;
+	padding: 0.25rem 0.6rem;
+	border: 1.5px solid var(--rd-ink);
+	font-family: var(--np-label);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	line-height: 1.3;
+	text-transform: uppercase;
+	color: var(--rd-ink);
+}
+
+.reader .rd-body p.pc-qualifier::first-letter {
+	float: none;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+}
+
+/* Two short columns fit any phone, so this table never needs to scroll. */
+.reader .fh-table.pc-runtime {
+	min-width: 0;
+	width: 100%;
+}
+
+/* ---------- Ideas and editions ---------- */
+
+.reader .pc-ideas {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+	gap: 0;
+	margin: 0.4rem 0 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--rd-ink);
+}
+
+.reader .pc-ideas li {
+	padding: 0.9rem 1rem 1rem 0;
+	border-bottom: 1px solid var(--rd-line);
+}
+
+.reader .pc-ideas h3 {
+	margin: 0 0 0.25rem;
+	font-size: 1.02rem;
+}
+
+.reader .pc-ideas p,
+.reader .rd-body .pc-ideas p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.9rem;
+	line-height: 1.45;
+	color: var(--rd-muted);
+}
+
+.reader .pc-editions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+	gap: 1rem;
+	margin: 0.4rem 0 0.6rem;
+}
+
+.reader .pc-edition {
+	padding: 1rem 1.2rem 1.1rem;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-line);
+	border-top: 4px solid var(--c-experience);
+}
+
+.reader .pc-edition + .pc-edition {
+	border-top-color: var(--c-front);
+}
+
+.reader .pc-edition h3 {
+	margin: 0;
+}
+
+.reader .rd-body .pc-edition p.pc-edition-tag {
+	margin: 0.15rem 0 0.7rem;
+	font-family: var(--np-label);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rd-muted);
+}
+
+.reader .pc-edition ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reader .pc-edition li {
+	padding: 0.35rem 0 0.35rem 1rem;
+	position: relative;
+	font-family: var(--np-label);
+	font-size: 0.92rem;
+	line-height: 1.45;
+	color: var(--rd-text);
+}
+
+.reader .pc-edition li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.85rem;
+	width: 0.4rem;
+	height: 2px;
+	background: var(--rd-ink);
+}
+
+@media (max-width: 640px) {
+	.reader .pc-stage {
+		--pc-stage-h: 78vh;
+	}
+
+	.reader .pc-ideas li {
+		padding-right: 0;
+	}
+}
+
+.reader .pc-never-title {
+	margin: 1.6rem 0 0.4rem;
+	font-size: 1.05rem;
+}
