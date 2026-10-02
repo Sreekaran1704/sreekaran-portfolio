@@ -1604,24 +1604,40 @@
 	background: var(--np-paper-deep);
 }
 
-/* ---------- Step guide ---------- */
+/* ---------- Guided walkthrough ---------- */
 
-.reader .pc-guide {
-	display: flex;
-	flex-direction: column;
+/* The stage is three areas: the current instruction across the top, the
+   expect / how / next notes, and the live frame. */
+.reader .pc-stage {
+	grid-template-areas: 'bar' 'frame' 'details';
+}
+
+.reader .pc-walk-bar { grid-area: bar; }
+.reader .pc-walk-details { grid-area: details; }
+.reader .pc-demo-frame { grid-area: frame; }
+
+.reader .pc-walk-bar {
 	min-width: 0;
+	padding: 0.85rem 1.1rem 1rem;
 	background: var(--np-sheet, #fffdf8);
 	border: 1px solid var(--rd-line);
 	border-top: 4px solid var(--rd-accent);
 }
 
-.reader .pc-guide-head {
-	display: grid;
-	gap: 0.45rem;
-	padding: 0.8rem 1rem 0.6rem;
+.reader .pc-walk-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem 1rem;
 }
 
-.reader .pc-guide-count {
+.reader .pc-walk-kicker {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0;
 	font-family: var(--np-label);
 	font-size: 0.75rem;
 	font-weight: 800;
@@ -1630,134 +1646,368 @@
 	color: var(--rd-accent);
 }
 
-.reader .pc-guide-head select {
-	width: 100%;
-	padding: 0.35rem 2rem 0.35rem 0.5rem;
+.reader .pc-walk-flag {
+	padding: 0.05rem 0.4rem;
+	border: 1px solid var(--rd-line);
+	font-size: 0.68rem;
+	color: var(--rd-muted);
+}
+
+.reader .pc-walk-flag.is-done {
+	border-color: var(--rd-ink);
+	background: var(--rd-ink);
+	color: #fff;
+}
+
+.reader .pc-walk-tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.35rem;
+	min-width: 0;
+}
+
+.reader .pc-walk-tools button,
+.reader .pc-walk-tools select {
+	min-height: 2rem;
+	padding: 0.25rem 0.6rem;
 	background-color: transparent;
 	border: 1px solid var(--rd-line);
 	border-radius: 0;
 	font-family: var(--np-label);
-	font-size: 0.82rem;
-	color: var(--rd-ink);
-}
-
-.reader .pc-guide-progress {
-	height: 3px;
-	margin: 0 1rem;
-	background: var(--rd-line);
-}
-
-.reader .pc-guide-progress i {
-	display: block;
-	height: 100%;
-	background: var(--rd-ink);
-	transform-origin: 0 50%;
-	transition: transform 0.2s ease;
-}
-
-.reader .pc-guide-body {
-	flex: 1 1 auto;
-	min-height: 11rem;
-	padding: 0.9rem 1rem 0.6rem;
-	overflow-y: auto;
-}
-
-.reader .pc-guide-body h3 {
-	margin: 0 0 0.5rem;
-	font-size: 1.25rem;
-	line-height: 1.25;
-}
-
-.reader .pc-guide-body p,
-.reader .rd-body .pc-guide-body p {
-	margin: 0 0 0.6rem;
-	font-family: var(--np-label);
-	font-size: 0.92rem;
-	line-height: 1.55;
-	color: var(--rd-text);
-}
-
-.reader .pc-guide-body ul {
-	margin: 0 0 0.6rem;
-	padding: 0;
-	list-style: none;
-}
-
-.reader .pc-guide-body li {
-	position: relative;
-	padding: 0.2rem 0 0.2rem 0.95rem;
-	font-family: var(--np-label);
-	font-size: 0.9rem;
-	line-height: 1.45;
-	color: var(--rd-text);
-}
-
-.reader .pc-guide-body li::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 0.75rem;
-	width: 0.4rem;
-	height: 2px;
-	background: var(--rd-accent);
-}
-
-.reader .pc-guide-body .pc-guide-tip {
-	padding: 0.55rem 0.7rem;
-	border-left: 3px solid var(--c-front);
-	background: var(--np-paper-deep);
-	font-size: 0.86rem;
-}
-
-.reader .pc-guide-tag {
-	display: inline-block;
-	margin-bottom: 0.45rem;
-	padding: 0.15rem 0.45rem;
-	border: 1px solid var(--rd-ink);
-	font-family: var(--np-label);
-	font-size: 0.7rem;
-	font-weight: 800;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--rd-ink);
-}
-
-.reader .pc-guide-nav {
-	display: flex;
-	justify-content: space-between;
-	gap: 0.6rem;
-	padding: 0.7rem 1rem 0.9rem;
-	border-top: 1px solid var(--rd-line);
-}
-
-.reader .pc-guide-nav button {
-	padding: 0.5rem 0.9rem;
-	background: transparent;
-	border: 1.5px solid var(--rd-ink);
-	border-radius: 0;
-	font-family: var(--np-label);
-	font-size: 0.8rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	text-transform: uppercase;
+	font-size: 0.78rem;
+	font-weight: 600;
 	color: var(--rd-ink);
 	cursor: pointer;
 }
 
-.reader .pc-guide-nav button:last-child {
+.reader .pc-walk-tools select {
+	max-width: 15rem;
+	padding-right: 2rem;
+}
+
+.reader .pc-walk-tools button:hover:not(:disabled) {
+	border-color: var(--rd-ink);
+	background: var(--np-paper-deep);
+}
+
+.reader .pc-walk-tools button:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+/* One segment per step on the current route. */
+.reader .pc-walk-progress {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin: 0.7rem 0 0.2rem;
+}
+
+.reader .pc-walk-progress ol {
+	display: flex;
+	flex: 1 1 auto;
+	gap: 3px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reader .pc-walk-progress li {
+	flex: 1 1 0;
+	height: 6px;
+	background: var(--rd-line);
+}
+
+.reader .pc-walk-progress li.is-optional {
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--rd-line);
+}
+
+.reader .pc-walk-progress li.is-done {
+	background: var(--rd-ink);
+	box-shadow: none;
+}
+
+.reader .pc-walk-progress li.is-skipped,
+.reader .pc-walk-progress li.is-unavailable {
+	background: repeating-linear-gradient(135deg, var(--rd-muted) 0 2px, transparent 2px 5px);
+	box-shadow: none;
+}
+
+.reader .pc-walk-progress li.is-current {
+	background: var(--rd-accent);
+	box-shadow: none;
+}
+
+.reader .pc-walk-tally {
+	flex: 0 0 auto;
+	font-family: var(--np-label);
+	font-size: 0.75rem;
+	color: var(--rd-muted);
+}
+
+.reader .pc-walk-main {
+	display: grid;
+	gap: 0.7rem;
+	margin-top: 0.6rem;
+}
+
+.reader .pc-walk-title {
+	margin: 0;
+	font-family: var(--np-display);
+	font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--rd-ink);
+}
+
+.reader .pc-walk-title:focus {
+	outline: none;
+}
+
+.reader .pc-walk-title:focus-visible {
+	outline: 2px solid var(--rd-accent);
+	outline-offset: 3px;
+}
+
+/* Branch choices: native radios, set as cards. */
+.reader .pc-walk-choice {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.reader .pc-walk-choice legend {
+	margin-bottom: 0.45rem;
+	padding: 0;
+	font-family: var(--np-label);
+	font-size: 0.88rem;
+	font-weight: 700;
+	color: var(--rd-text);
+}
+
+.reader .pc-walk-options {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+	gap: 0.5rem;
+}
+
+.reader .pc-walk-options label {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	column-gap: 0.6rem;
+	align-items: start;
+	padding: 0.6rem 0.75rem;
+	border: 1.5px solid var(--rd-line);
+	cursor: pointer;
+}
+
+.reader .pc-walk-options label:hover {
+	border-color: var(--rd-ink);
+}
+
+.reader .pc-walk-options label.is-chosen {
+	border-color: var(--rd-ink);
+	background: var(--np-paper-deep);
+	box-shadow: inset 4px 0 0 var(--rd-accent);
+}
+
+.reader .pc-walk-options input {
+	grid-row: span 2;
+	margin: 0.2rem 0 0;
+	accent-color: var(--rd-ink);
+}
+
+.reader .pc-walk-options label:focus-within {
+	outline: 2px solid var(--rd-accent);
+	outline-offset: 2px;
+}
+
+.reader .pc-walk-option-label {
+	font-family: var(--np-label);
+	font-size: 0.92rem;
+	font-weight: 700;
+	color: var(--rd-ink);
+}
+
+.reader .pc-walk-option-hint {
+	font-family: var(--np-label);
+	font-size: 0.8rem;
+	color: var(--rd-muted);
+}
+
+/* The instruction itself: the most prominent thing in the bar. */
+.reader .pc-walk-do {
+	padding: 0.7rem 0.9rem;
+	background: var(--np-paper-deep);
+	border-left: 4px solid var(--rd-ink);
+}
+
+.reader .pc-walk-label,
+.reader .pc-walk-details h4 {
+	display: block;
+	margin: 0 0 0.25rem;
+	font-family: var(--np-label);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--rd-muted);
+}
+
+.reader .pc-walk-do p,
+.reader .rd-body .pc-walk-do p,
+.reader p.pc-walk-do {
+	margin: 0;
+	font-family: var(--np-body);
+	font-size: 1.08rem;
+	line-height: 1.5;
+	color: var(--rd-ink);
+}
+
+/* An on-screen control in the demo, named exactly as it appears there. */
+.reader .pc-ctl {
+	padding: 0.02em 0.35em;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-ink);
+	font-family: var(--np-label);
+	font-size: 0.86em;
+	font-weight: 700;
+	color: var(--rd-ink);
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+.reader .pc-walk-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.reader .pc-walk-actions button {
+	min-height: 2.5rem;
+	padding: 0.55rem 0.95rem;
+	border: 1.5px solid var(--rd-ink);
+	border-radius: 0;
+	font-family: var(--np-label);
+	font-size: 0.85rem;
+	font-weight: 700;
+	line-height: 1.25;
+	text-align: left;
+	cursor: pointer;
+}
+
+.reader .pc-walk-actions .pc-walk-primary {
 	background: var(--rd-ink);
 	color: #fff;
 }
 
-.reader .pc-guide-nav button:hover:not(:disabled) {
+.reader .pc-walk-actions .pc-walk-primary:hover:not(:disabled) {
 	background: var(--rd-accent);
 	border-color: var(--rd-accent);
-	color: #fff;
 }
 
-.reader .pc-guide-nav button:disabled {
+.reader .pc-walk-actions .pc-walk-alt {
+	background: transparent;
+	color: var(--rd-ink);
+}
+
+.reader .pc-walk-actions .pc-walk-alt:hover {
+	background: var(--np-paper-deep);
+}
+
+.reader .pc-walk-actions .pc-walk-skip {
+	min-height: 2.5rem;
+	padding: 0.4rem 0.3rem;
+	background: none;
+	border-color: transparent;
+	font-weight: 600;
+	color: var(--rd-muted);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.reader .pc-walk-actions .pc-walk-skip:hover {
+	color: var(--rd-ink);
+}
+
+.reader .pc-walk-actions button:disabled {
 	opacity: 0.35;
-	cursor: default;
+	cursor: not-allowed;
+}
+
+.reader .pc-walk-actions button:focus-visible,
+.reader .pc-walk-tools button:focus-visible,
+.reader .pc-walk-tools select:focus-visible {
+	outline: 2px solid var(--rd-accent);
+	outline-offset: 2px;
+}
+
+.reader p.pc-walk-hint,
+.reader p.pc-walk-notice {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.82rem;
+	line-height: 1.5;
+	color: var(--rd-muted);
+}
+
+.reader p.pc-walk-notice {
+	padding: 0.4rem 0.6rem;
+	border: 1px dashed var(--rd-accent);
+	color: var(--rd-text);
+}
+
+/* Expect / How / Next */
+.reader .pc-walk-details {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+	gap: 0;
+	min-width: 0;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-line);
+}
+
+.reader .pc-walk-details section {
+	padding: 0.8rem 1rem;
+	border-bottom: 1px solid var(--rd-line);
+}
+
+.reader .pc-walk-details p,
+.reader .rd-body .pc-walk-details p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.88rem;
+	line-height: 1.55;
+	color: var(--rd-text);
+}
+
+.reader .pc-walk-details ul {
+	margin: 0.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reader .pc-walk-details li {
+	position: relative;
+	padding: 0.15rem 0 0.15rem 0.9rem;
+	font-family: var(--np-label);
+	font-size: 0.85rem;
+	color: var(--rd-text);
+}
+
+.reader .pc-walk-details li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.7rem;
+	width: 0.4rem;
+	height: 2px;
+	background: var(--rd-accent);
 }
 
 @media (min-width: 1024px) {
@@ -1768,11 +2018,18 @@
 	}
 
 	.reader .pc-stage {
-		grid-template-columns: 19rem minmax(0, 1fr);
+		grid-template-columns: 18rem minmax(0, 1fr);
+		grid-template-areas: 'bar bar' 'details frame';
 	}
 
-	.reader .pc-stage.is-embedded .pc-guide {
+	.reader .pc-walk-details {
+		grid-template-columns: minmax(0, 1fr);
+		align-content: start;
+	}
+
+	.reader .pc-stage.is-embedded .pc-walk-details {
 		height: var(--pc-stage-h);
+		overflow-y: auto;
 	}
 }
 
@@ -1802,6 +2059,7 @@
 	inset: 0;
 }
 
+/* Floating: the instruction on top, notes on request, demo below. */
 .reader .pc-stage.is-pip {
 	--pc-stage-h: 100%;
 	position: fixed;
@@ -1809,68 +2067,114 @@
 	bottom: 1rem;
 	z-index: 55;
 	grid-template-columns: minmax(0, 1fr);
-	grid-template-rows: auto minmax(0, 1fr);
+	grid-template-rows: auto auto auto minmax(0, 1fr);
+	grid-template-areas: 'handle' 'bar' 'details' 'frame';
 	gap: 0;
-	width: min(27rem, calc(100vw - 2rem));
-	height: min(36rem, calc(100vh - var(--np-sticky-h, 46px) - 2rem));
+	--pc-pip-h: min(40rem, calc(100vh - var(--np-sticky-h, 46px) - 2rem));
+	width: min(30rem, calc(100vw - 2rem));
+	height: var(--pc-pip-h);
 	background: var(--np-sheet, #fffdf8);
 	border: 1.5px solid var(--rd-ink);
 	box-shadow: var(--np-soft-shadow, 0 10px 24px -18px rgba(22, 20, 18, 0.35)), 0 18px 40px -20px rgba(22, 20, 18, 0.5);
 	animation: pc-pip-in 0.18s ease-out;
 }
 
-.reader .pc-stage.is-pip .pc-guide,
-.reader .pc-stage.is-pip .pc-demo-frame {
-	height: auto;
+.reader .pc-stage.is-pip .pc-walk-bar {
+	max-height: calc(var(--pc-pip-h) * 0.55);
+	overflow-y: auto;
+	padding: 0.6rem 0.8rem 0.7rem;
 	border: 0;
-}
-
-.reader .pc-stage.is-pip .pc-guide {
+	border-top: 4px solid var(--rd-accent);
 	border-bottom: 1px solid var(--rd-line);
 }
 
-.reader .pc-stage.is-pip .pc-guide-head {
-	padding: 0.55rem 0.8rem 0.4rem;
+.reader .pc-stage.is-pip .pc-walk-title {
+	font-size: 1.08rem;
 }
 
-.reader .pc-stage.is-pip .pc-guide-head select {
+/* Floating, the instruction and its button must stay in view: drop the
+   secondary text and tighten the choice cards. */
+.reader .pc-stage.is-pip .pc-walk-main,
+.reader .pc-stage.is-pip .pc-walk-lead,
+.reader .pc-stage.is-pip .pc-walk-side {
+	gap: 0.45rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-main {
+	margin-top: 0.4rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-tally,
+.reader .pc-stage.is-pip .pc-walk-option-hint,
+.reader .pc-stage.is-pip .pc-walk-label {
 	display: none;
 }
 
-.reader .pc-stage.is-pip .pc-guide-body {
+.reader .pc-stage.is-pip .pc-walk-choice legend {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.reader .pc-stage.is-pip .pc-walk-options {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.35rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-options label {
+	padding: 0.35rem 0.5rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-option-label {
+	font-size: 0.8rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-progress {
+	margin: 0.45rem 0 0;
+}
+
+.reader .pc-stage.is-pip p.pc-walk-hint {
+	font-size: 0.75rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-do {
+	padding: 0.5rem 0.7rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-do p {
+	font-size: 0.95rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-actions button {
+	min-height: 2.2rem;
+	padding: 0.4rem 0.7rem;
+	font-size: 0.8rem;
+}
+
+.reader .pc-stage.is-pip .pc-walk-details {
+	display: none;
+}
+
+.reader .pc-stage.is-pip.is-details-open .pc-walk-details {
+	display: block;
+	max-height: 8rem;
+	overflow-y: auto;
+	border: 0;
+	border-bottom: 1px solid var(--rd-line);
+}
+
+.reader .pc-stage.is-pip .pc-demo-frame {
+	height: auto;
 	min-height: 0;
-	max-height: 9.5rem;
-	padding: 0.6rem 0.8rem 0.3rem;
+	border: 0;
 }
 
-.reader .pc-stage.is-pip .pc-guide-body h3 {
-	font-size: 1.05rem;
-}
-
-.reader .pc-stage.is-pip .pc-guide-nav {
-	padding: 0.45rem 0.8rem 0.55rem;
-}
-
-.reader .pc-stage.is-pip .pc-guide-nav button {
-	padding: 0.35rem 0.7rem;
-}
-
-/* Wide screens: guide beside the demo, like the inline layout. */
 @media (min-width: 1100px) {
 	.reader .pc-stage.is-pip {
-		grid-template-columns: 15rem minmax(0, 1fr);
-		grid-template-rows: minmax(0, 1fr);
-		width: min(50rem, calc(100vw - 2rem));
-		height: min(30rem, calc(100vh - var(--np-sticky-h, 46px) - 2rem));
-	}
-
-	.reader .pc-stage.is-pip .pc-guide {
-		border-bottom: 0;
-		border-right: 1px solid var(--rd-line);
-	}
-
-	.reader .pc-stage.is-pip .pc-guide-body {
-		max-height: none;
+		width: min(40rem, calc(100vw - 2rem));
 	}
 }
 
@@ -1881,8 +2185,9 @@
 	}
 }
 
-/* The site's back-to-top button sits bottom-right; move it aside meanwhile. */
-html.pc-pip-open .scrollToTop {
+/* The site's back-to-top button sits bottom-right; move it aside while the
+   window is on the right-hand side. */
+html.pc-pip-open:not(.pc-pip-left) .scrollToTop {
 	right: auto !important;
 	left: 1.5rem;
 }
@@ -1890,10 +2195,6 @@ html.pc-pip-open .scrollToTop {
 @media (prefers-reduced-motion: reduce) {
 	.reader .pc-stage.is-pip {
 		animation: none;
-	}
-
-	.reader .pc-guide-progress i {
-		transition: none;
 	}
 }
 
@@ -2149,4 +2450,152 @@ html.pc-pip-open .scrollToTop {
 .reader .pc-never-title {
 	margin: 1.6rem 0 0.4rem;
 	font-size: 1.05rem;
+}
+
+/* Wide screens: instruction on the left, completion buttons beside it, so the
+   bar stays short and the demo stays in view. */
+.reader .pc-walk-lead,
+.reader .pc-walk-side {
+	display: grid;
+	gap: 0.7rem;
+	align-content: start;
+	min-width: 0;
+}
+
+@media (min-width: 1024px) {
+	.reader .pc-stage:not(.is-pip) .pc-walk-main {
+		grid-template-columns: minmax(0, 1fr) 17rem;
+		column-gap: 1.4rem;
+	}
+
+	.reader .pc-stage:not(.is-pip) .pc-walk-side {
+		padding-left: 1.4rem;
+		border-left: 1px solid var(--rd-line);
+	}
+
+	.reader .pc-stage:not(.is-pip) .pc-walk-side .pc-walk-actions {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+/* If a long step still overflows the floating bar, its buttons stay pinned. */
+.reader .pc-stage.is-pip .pc-walk-side {
+	position: sticky;
+	bottom: -0.7rem;
+	padding: 0.4rem 0 0.1rem;
+	background: var(--np-sheet, #fffdf8);
+}
+
+@media (max-width: 640px) {
+	.reader .pc-walk-tools {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		width: 100%;
+	}
+
+	.reader .pc-walk-tools select {
+		max-width: none;
+		min-width: 0;
+	}
+
+	.reader .pc-walk-bar {
+		padding: 0.75rem 0.85rem 0.9rem;
+	}
+}
+
+/* ---------- Movable, minimizable floating window ---------- */
+
+.reader .pc-pip-handle {
+	grid-area: handle;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+	padding: 0.3rem 0.35rem 0.3rem 0.3rem;
+	background: var(--rd-ink);
+	color: #fff;
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.reader .pc-stage.is-dragging .pc-pip-handle {
+	cursor: grabbing;
+}
+
+.reader .pc-pip-handle button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 0;
+	color: #fff;
+	cursor: pointer;
+}
+
+.reader .pc-pip-handle .pc-pip-grip {
+	cursor: grab;
+}
+
+.reader .pc-pip-handle button:hover,
+.reader .pc-pip-handle button:focus-visible {
+	border-color: rgba(255, 255, 255, 0.6);
+	outline: none;
+}
+
+.reader .pc-pip-title {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	font-family: var(--np-label);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.reader .pc-pip-actions {
+	display: inline-flex;
+	flex: 0 0 auto;
+}
+
+/* The demo's own header only holds inline controls; the strip replaces it. */
+.reader .pc-stage.is-pip .pc-demo-bar {
+	display: none;
+}
+
+/* While dragging, the cross-origin iframe must not swallow the pointer. */
+.reader .pc-stage.is-dragging {
+	user-select: none;
+}
+
+.reader .pc-stage.is-dragging iframe {
+	pointer-events: none;
+}
+
+/* Minimized: just the title strip. The iframe is hidden, never removed, so
+   the demo session survives. */
+.reader .pc-stage.is-pip.is-minimized {
+	grid-template-rows: auto;
+	height: auto;
+	width: min(22rem, calc(100vw - 2rem));
+}
+
+.reader .pc-stage.is-pip.is-minimized .pc-walk-bar,
+.reader .pc-stage.is-pip.is-minimized .pc-walk-details,
+.reader .pc-stage.is-pip.is-minimized .pc-demo-frame {
+	display: none;
+}
+
+html.pc-pip-dragging,
+html.pc-pip-dragging * {
+	user-select: none;
+	cursor: grabbing;
 }
