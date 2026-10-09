@@ -704,8 +704,7 @@
 }
 
 .reader h3,
-.reader .fh-section h3,
-.reader .fh-metric-col-title {
+.reader .fh-section h3 {
 	margin: 1.8rem 0 0.5rem;
 	font-family: var(--np-display);
 	font-size: 1.3rem;

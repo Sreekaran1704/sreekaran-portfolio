@@ -12,8 +12,10 @@ export const resumeContacts = [
 ];
 
 // The PDF recruiters were sent before this page existed.
-export const resumePdfUrl =
-	'https://drive.google.com/file/d/1F5lB8PRJcaCCIswuf6FhhQbmYPLueXmE/view?usp=sharing';
+const RESUME_PDF_ID = '1F5lB8PRJcaCCIswuf6FhhQbmYPLueXmE';
+export const resumePdfUrl = `https://drive.google.com/file/d/${RESUME_PDF_ID}/view?usp=sharing`;
+// Same file, served as a download instead of Drive's viewer.
+export const resumePdfDownloadUrl = `https://drive.google.com/uc?export=download&id=${RESUME_PDF_ID}`;
 
 export const resumeSummary =
 	'Data Scientist with an M.S. in Computer Science and experience applying predictive models to pricing and scholarship decisions. Uses Python and SQL for feature engineering, baseline comparisons, and model evaluation, with project work in causal inference and time-series forecasting. Deployed a bidding-support tool that reduced analysis time by <strong>50%</strong>.';

@@ -77,20 +77,6 @@ section[id] {
 	color: var(--np-accent);
 }
 
-.np-byline {
-	margin: 0 0 1rem;
-	font-family: var(--np-label);
-	font-size: 0.78rem;
-	letter-spacing: 0.07em;
-	text-transform: uppercase;
-	color: var(--np-muted);
-}
-
-.np-byline strong {
-	font-weight: 600;
-	color: var(--np-ink);
-}
-
 .np-story-headline {
 	margin: 0 0 0.55rem;
 	font-family: var(--np-display);
@@ -112,19 +98,6 @@ section[id] {
 .np-story-headline a:hover,
 .np-story-headline a:focus-visible {
 	background-size: 100% 1px;
-}
-
-.np-pullquote {
-	margin: 1.4rem 0;
-	padding: 0.9rem 0;
-	border-top: 3px solid var(--np-rule);
-	border-bottom: 1px solid var(--np-rule);
-	font-family: var(--np-display);
-	font-size: 1.45rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.3;
-	color: var(--np-ink);
 }
 
 .np-filed {
@@ -190,7 +163,6 @@ input:focus-visible {
 
 /* ---------- Buttons ---------- */
 
-.np-btn,
 .notice-link-btn,
 .project-detail-back-btn {
 	display: inline-flex;
@@ -211,7 +183,6 @@ input:focus-visible {
 	transition: background-color 0.18s ease, color 0.18s ease;
 }
 
-.np-btn:hover,
 .notice-link-btn:hover,
 .project-detail-back-btn:hover {
 	background: var(--np-ink);
@@ -220,13 +191,11 @@ input:focus-visible {
 	box-shadow: none;
 }
 
-.np-btn-solid,
 .notice-link-btn:not(.notice-link-outline) {
 	background: var(--np-ink);
 	color: var(--np-paper);
 }
 
-.np-btn-solid:hover,
 .notice-link-btn:not(.notice-link-outline):hover {
 	background: var(--np-accent);
 	border-color: var(--np-accent);
@@ -403,14 +372,6 @@ input:focus-visible {
 	border: 1px solid var(--np-ink);
 	box-shadow: inset 0 0 0 3px var(--np-paper), inset 0 0 0 4px var(--np-ink);
 	background: rgba(255, 255, 255, 0.18);
-}
-
-.np-box-title {
-	margin: 0 0 0.35rem;
-	font-family: var(--np-display);
-	font-size: 1.35rem;
-	font-weight: 700;
-	line-height: 1.15;
 }
 
 .np-box-note {
@@ -889,8 +850,6 @@ input:focus-visible {
 	box-shadow: 7px 7px 0 var(--tone);
 	transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-
-
 
 @supports (grid-template-rows: subgrid) {
 	.np-card {
@@ -1459,14 +1418,11 @@ input:focus-visible {
 }
 
 .project-detail-page::before,
-.fh-page::before,
-.project-detail-card::before {
+.fh-page::before {
 	display: none;
 }
 
 /* Surfaces: flat newsprint panels ruled in ink. */
-.project-detail-header,
-.project-detail-card,
 .fh-hero,
 .fh-section,
 .fh-study-snapshot {
@@ -1477,7 +1433,6 @@ input:focus-visible {
 	box-shadow: none;
 }
 
-.project-detail-header,
 .fh-hero {
 	border-top-width: 4px;
 	border-bottom: 1px solid var(--np-rule);
@@ -1486,8 +1441,6 @@ input:focus-visible {
 .fh-version-switch,
 .fh-insight,
 .fh-insight-final,
-.fh-verdict-card,
-.fh-verdict-card-total,
 .fh-hero-stat,
 .fh-table-wrap,
 .fh-formula-block,
@@ -1510,7 +1463,6 @@ input:focus-visible {
 }
 
 /* Headlines */
-.project-detail-title,
 .fh-hero-title,
 .fh-section h2 {
 	font-family: var(--np-display);
@@ -1520,9 +1472,7 @@ input:focus-visible {
 	color: var(--np-ink);
 }
 
-.project-detail-card-heading,
 .fh-section h3,
-.fh-metric-col-title,
 .fh-interactive figcaption strong {
 	font-family: var(--np-display);
 	font-style: normal;
@@ -1538,15 +1488,12 @@ input:focus-visible {
 }
 
 /* Body copy */
-.project-detail-info-item,
-.project-detail-body,
 .fh-section p,
 .fh-insight p,
 .fh-finding-list li,
 .fh-plain-list li,
 .fh-spec-row dd,
 .fh-study-snapshot p,
-.fh-verdict-card-sub,
 .fh-synthetic-note {
 	font-family: var(--np-body);
 	font-style: normal;
@@ -1554,7 +1501,6 @@ input:focus-visible {
 	color: var(--np-ink-soft);
 }
 
-.project-detail-info-item span:first-child,
 .fh-section em,
 .fh-section strong,
 .fh-finding-list li strong,
@@ -1575,9 +1521,7 @@ input:focus-visible {
 .fh-formula-label,
 .fh-hero-byline,
 .fh-hero-stat-label,
-.fh-verdict-card-label,
 .fh-version-switch,
-.project-detail-meta-text,
 .fh-interactive label,
 .fh-interactive figcaption span,
 .fh-study-snapshot small,
@@ -1599,10 +1543,6 @@ input:focus-visible {
 	color: var(--np-accent);
 }
 
-.project-detail-meta-icon {
-	color: var(--np-muted);
-}
-
 .fh-chart-figure figcaption,
 .fh-image-figure figcaption,
 .fh-chart-table caption,
@@ -1621,7 +1561,6 @@ input:focus-visible {
 
 /* Figures and numbers */
 .fh-hero-stat-value,
-.fh-verdict-card-value,
 .fh-chart-value,
 .fh-table .fh-num,
 .fh-comparison > div > strong {
@@ -1771,8 +1710,7 @@ input:focus-visible {
 .np-story-headline,
 .np-section-title,
 .np-story .preview-estimate strong,
-.fh-hero-stat-value,
-.fh-verdict-card-value {
+.fh-hero-stat-value {
 	font-variant-numeric: lining-nums;
 }
 
@@ -1908,19 +1846,6 @@ input:focus-visible {
 }
 
 /* Front page */
-.np-pullquote {
-	border-top-color: var(--np-accent);
-}
-
-.np-btn-solid {
-	background: var(--np-accent);
-	border-color: var(--np-accent);
-}
-
-.np-btn-solid:hover {
-	background: var(--np-ink);
-	border-color: var(--np-ink);
-}
 
 .np-ask {
 	border-color: var(--c-front);
@@ -2033,7 +1958,6 @@ input:focus-visible {
 	background: var(--np-accent);
 }
 
-.project-detail-header,
 .fh-hero {
 	border-top-color: var(--np-accent);
 }
@@ -2329,6 +2253,16 @@ input:focus-visible {
 	color: #fff;
 }
 
+/* View Resume and its PDF download read as one split button. */
+.np-cta-split {
+	display: inline-flex;
+}
+
+.np-cta-split .np-cta-pdf {
+	margin-left: -1.5px;
+	padding-inline: 1rem;
+}
+
 .np-hero-socials {
 	display: inline-flex;
 	gap: 0.55rem;
@@ -2567,9 +2501,14 @@ input:focus-visible {
 		grid-template-columns: 5.4rem minmax(0, 1fr);
 	}
 
-	.np-cta {
+	.np-cta,
+	.np-cta-split {
 		flex: 1 1 auto;
 		justify-content: center;
+	}
+
+	.np-cta-split .np-cta-pdf {
+		flex: 0 0 auto;
 	}
 }
 
@@ -2690,21 +2629,12 @@ input:focus-visible {
 		column-gap: 2rem;
 		row-gap: 1.8rem;
 	}
-
-	.np-ab-c1 { grid-area: c1; }
-	.np-ab-c2 { grid-area: c2; }
-	.np-ab-c3 { grid-area: c3; }
-	.np-ab-c4 { grid-area: c4; }
 	.np-ab-quote { grid-area: quote; }
 	.np-ab-glance { grid-area: glance; }
 }
 
 @media (max-width: 959px) {
-	.np-ab-c1 { order: 1; }
-	.np-ab-c2 { order: 2; }
 	.np-ab-quote { order: 3; }
-	.np-ab-c3 { order: 4; }
-	.np-ab-c4 { order: 5; }
 	.np-ab-glance { order: 6; }
 }
 
@@ -3189,8 +3119,6 @@ input:focus-visible {
 	border-top: 4px solid var(--tone);
 	box-shadow: none;
 }
-
-
 
 .np-card > .np-card-head {
 	background: transparent;
@@ -4293,8 +4221,6 @@ html[data-edition='bw'] .np-ab-stats {
 	background: transparent;
 }
 
-
-
 /* ---------- Contact ---------- */
 
 /* Set like the Writing columns: a black rule with a short bar of the desk
@@ -4778,7 +4704,6 @@ html[data-edition='bw'] .np-letter::before {
 		padding-left: 0;
 	}
 
-
 	.np-resume-lede::first-letter {
 		font-size: 2.6em;
 	}
@@ -4830,7 +4755,6 @@ html[data-edition='bw'] .np-letter::before {
 		width: 4px;
 		height: 4px;
 	}
-
 
 	/* Chips become a plain comma-separated line on paper, as in the PDF. */
 	.np-resume .np-classified-list {
@@ -4951,8 +4875,6 @@ html[data-edition='bw'] .np-letter::before {
 		letter-spacing: 0.07em;
 		color: var(--np-muted);
 	}
-
-
 
 	.np-resume-links a::after {
 		content: none;

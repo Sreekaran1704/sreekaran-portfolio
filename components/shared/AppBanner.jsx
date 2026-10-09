@@ -5,12 +5,14 @@ import { motion } from 'framer-motion';
 import {
 	FiArrowRight,
 	FiArrowUpRight,
+	FiDownload,
 	FiGithub,
 	FiLinkedin,
 	FiMail,
 	FiMessageSquare,
 } from 'react-icons/fi';
 import { useAskMe } from '../home/useAskMe';
+import { resumePdfDownloadUrl } from '../../data/resumeData';
 import {
 	AskBar,
 	ErrorNotice,
@@ -217,15 +219,26 @@ function AppBanner() {
 					</motion.ul>
 
 					<motion.div className="np-hero-actions" {...rise(0.36)}>
-						<a
-							href="/resume"
-							target="_blank"
-							rel="noopener"
-							className="np-cta np-cta-primary"
-							aria-label="View Resume (opens in a new tab)"
-						>
-							View Resume <FiArrowUpRight aria-hidden="true" />
-						</a>
+						{/* The resume page for reading, with the PDF one click away for
+						    recruiters who need a file to forward or upload. */}
+						<span className="np-cta-split">
+							<a
+								href="/resume"
+								target="_blank"
+								rel="noopener"
+								className="np-cta np-cta-primary"
+								aria-label="View Resume (opens in a new tab)"
+							>
+								View Resume <FiArrowUpRight aria-hidden="true" />
+							</a>
+							<a
+								href={resumePdfDownloadUrl}
+								className="np-cta np-cta-pdf"
+								aria-label="Download resume as PDF"
+							>
+								PDF <FiDownload aria-hidden="true" />
+							</a>
+						</span>
 						<Link href="#projects" className="np-cta">
 							Explore Projects <FiArrowRight aria-hidden="true" />
 						</Link>

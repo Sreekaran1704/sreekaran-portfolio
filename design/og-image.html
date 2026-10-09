@@ -1,0 +1,95 @@
+<!doctype html>
+<!-- Source of public/og-image.png (the link-preview card). Regenerate after editing:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot="$PWD/public/og-image.png" "file://$PWD/design/og-image.html"
+     (run from the nextjs-tailwindcss-portfolio folder) -->
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@600;700&display=block">
+<style>
+	:root {
+		--paper: #f7f3ea; --ink: #161412; --muted: #5b544a;
+		--front: #1a5aa6; --about: #0b7285; --projects: #c0262d; --writing: #6a3fa0;
+		--experience: #2b7a4b; --skills: #b35300; --contact: #a8326e;
+	}
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+	html, body { width: 1200px; height: 630px; overflow: hidden; }
+	body {
+		background: var(--paper);
+		color: var(--ink);
+		padding: 30px 56px 0;
+		font-family: 'Source Serif 4', Georgia, serif;
+	}
+	.ear {
+		display: flex; justify-content: space-between; align-items: baseline;
+		font: 700 15px/1 Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase;
+		color: var(--muted);
+	}
+	.ear b { color: var(--projects); }
+	.plate {
+		font-family: 'UnifrakturMaguntia', serif;
+		font-size: 78px; line-height: 1; text-align: center;
+		margin: 12px 0 14px; white-space: nowrap;
+	}
+	.rainbow {
+		height: 6px;
+		background: linear-gradient(90deg,
+			var(--front) 0 14.28%, var(--about) 0 28.57%, var(--projects) 0 42.85%,
+			var(--writing) 0 57.14%, var(--experience) 0 71.42%, var(--skills) 0 85.71%, var(--contact) 0);
+	}
+	.foot {
+		position: absolute; left: 56px; right: 56px; bottom: 26px;
+		padding-top: 12px; border-top: 3px double var(--ink);
+		display: flex; justify-content: space-between;
+		font: 700 14px/1 Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+	}
+	.main { display: grid; grid-template-columns: 1fr 300px; gap: 48px; margin-top: 30px; }
+	.kicker { font: 700 15px/1 Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--front); }
+	h1 {
+		font-family: 'Playfair Display', Georgia, serif; font-weight: 900;
+		font-size: 62px; line-height: 1.02; letter-spacing: -.01em; margin: 12px 0 14px;
+	}
+	h1 span { color: var(--projects); }
+	.dek { font-size: 23px; line-height: 1.35; color: #2b2824; max-width: 690px; }
+	.stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 28px; border-top: 1px solid var(--ink); }
+	.story { padding: 14px 18px 0 0; }
+	.story + .story { padding-left: 18px; border-left: 1px solid rgba(22,20,18,.25); }
+	.fig { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 44px; line-height: 1; }
+	.lbl { font: 700 13px/1.3 Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+	.s1 .fig { color: var(--projects); } .s2 .fig { color: var(--about); } .s3 .fig { color: var(--experience); }
+	.photo { position: relative; padding-top: 4px; }
+	.frame {
+		background: #fff; padding: 12px 12px 14px; border: 1px solid rgba(22,20,18,.2);
+		box-shadow: 0 10px 26px rgba(22,20,18,.16); transform: rotate(-2deg);
+	}
+	.frame img { display: block; width: 100%; height: 300px; object-fit: cover; object-position: 50% 22%; }
+	.sticker {
+		position: absolute; left: -26px; bottom: -14px; transform: rotate(-6deg);
+		background: #fff; border: 2px solid var(--experience); color: var(--experience);
+		font: 700 15px/1 Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; padding: 10px 14px;
+	}
+</style>
+</head>
+<body>
+	<div class="ear"><span><b>Late Edition</b> · M.S. Computer Science</span><span>sreekaran-portfolio.vercel.app</span></div>
+	<div class="plate">The Sreekaran Reddy Portfolio</div>
+	<div class="rainbow"></div>
+	<div class="main">
+		<div>
+			<p class="kicker">Front page</p>
+			<h1>Data Analyst <span>&amp;</span><br>Data Scientist</h1>
+			<p class="dek">SQL and Python to make data trustworthy, Tableau to make it legible, and causal inference to make it actionable.</p>
+			<div class="stories">
+				<div class="story s1"><div class="fig">5/5</div><div class="lbl">Forecasting</div></div>
+				<div class="story s2"><div class="fig">40.6%</div><div class="lbl">Causal inference</div></div>
+				<div class="story s3"><div class="fig">Live</div><div class="lbl">Data engineering</div></div>
+			</div>
+		</div>
+		<div class="photo">
+			<div class="frame"><img src="../public/images/sreekaran_profile.jpg" alt=""></div>
+			<span class="sticker">Open to work</span>
+		</div>
+	</div>
+	<div class="foot"><span>Causal inference · Forecasting · LLM fine-tuning</span><span>SQL · Python · Tableau</span></div>
+</body>
+</html>

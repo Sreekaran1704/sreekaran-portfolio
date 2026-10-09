@@ -55,7 +55,10 @@ function ResumeLink({ href, children, ...rest }) {
 export default function Resume() {
 	return (
 		<article className="np-wrap np-section np-resume">
-			<PagesMetaHead title="Resume | Sreekaran Reddy" />
+			<PagesMetaHead
+				title="Resume | Sreekaran Reddy"
+				description="Resume of Sreekaran Reddy, Data Scientist: experience, projects, education and skills, with the original PDF."
+			/>
 
 			<Reveal as="header" className="np-section-head np-resume-top">
 				<h1 className="np-section-title">{resumeName}</h1>
