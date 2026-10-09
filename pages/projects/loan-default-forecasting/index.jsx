@@ -17,6 +17,8 @@ function LoanForecastingStory() {
 				title="The Forecast That Was Too Good To Be True: Loan Delinquency Case Study"
 				description="A veteran ARIMA model, two eager ML rookies, a leak that almost fooled everyone, and the honest scoreboard that came after."
 				keywords="time series forecasting, ARIMA, XGBoost, LightGBM, walk-forward backtesting, portfolio project"
+				image="/og/loan.png"
+				imageAlt="Loan delinquency forecasting case study: ARIMA beat XGBoost and LightGBM on 5 of 5 series."
 			/>
 
 			<div className="mx-auto max-w-4xl">

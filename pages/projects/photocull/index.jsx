@@ -22,6 +22,8 @@ export default function PhotoCullProject() {
 				title="PhotoCull: Privacy-First Camera Roll Intelligence"
 				description="A local-first computer-vision system for detecting redundant photos, organizing events, and building explainable photo shortlists without paid inference APIs."
 				keywords="computer vision, perceptual hashing, near-duplicate detection, clustering, ranking, local ML, privacy, Streamlit, portfolio project"
+				image="/og/photocull.png"
+				imageAlt="PhotoCull case study: near-duplicate F1 of 82.76% with 98.36% precision and 71.43% recall."
 			/>
 
 			<div className="mx-auto max-w-4xl">

@@ -7,7 +7,7 @@ import { ReadingSection, StoryContents } from '../reading/ReadingKit';
 export default function FanhouseStudy({ view }) {
   const story = fanhouseViews[view];
   return <div className="reader fh-page project-detail-page px-6 py-8 sm:px-10 lg:px-16">
-    <PagesMetaHead title={`${story.title} | FanHouse`} description={story.lede} keywords="synthetic data, causal inference, matching, difference-in-differences" />
+    <PagesMetaHead title={`${story.title} | FanHouse`} description={story.lede} keywords="synthetic data, causal inference, matching, difference-in-differences" image="/og/fanhouse.png" imageAlt="FanHouse case study: product value rose $0.1367 per customer per day; net payments −$0.0103." />
     <div className="mx-auto max-w-4xl">
       <Link href="/#projects" className="project-detail-back-btn mt-8">← Back to projects</Link>
       <nav className="fh-version-switch mt-6" aria-label="Versions of this write-up">

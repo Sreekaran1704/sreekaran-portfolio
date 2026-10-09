@@ -10,6 +10,8 @@ function LoanForecastingTechnical() {
 				title="ARIMA vs. XGBoost vs. LightGBM: Technical Write-Up"
 				description="Full methodology: ARIMA order search, walk-forward backtesting, a caught-and-fixed data leakage bug, Diebold-Mariano significance testing, conformal prediction intervals, and SHAP interpretability."
 				keywords="time series forecasting, ARIMA, XGBoost, LightGBM, walk-forward backtesting, Diebold-Mariano, SHAP, portfolio project"
+				image="/og/loan.png"
+				imageAlt="Loan delinquency forecasting case study: ARIMA beat XGBoost and LightGBM on 5 of 5 series."
 			/>
 
 			<div className="mx-auto max-w-4xl">
