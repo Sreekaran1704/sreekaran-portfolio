@@ -15,11 +15,14 @@ export default function Document() {
 				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 				<link rel="stylesheet" href={FONTS_URL} />
 				{/* Applies the saved print edition before first paint (see EditionToggle).
-				    A ?edition=bw or ?edition=colour link sets it, so an edition can be shared. */}
+				    A ?edition=bw or ?edition=colour link sets it, so an edition can be shared.
+				    Also marks a reader's first visit, if it lands on the home page, for
+				    the delivery intro (see DeliveryIntro). A first visit anywhere else,
+				    to a #section, or with reduced motion preferred counts as seen. */}
 				<script
 					dangerouslySetInnerHTML={{
 						__html:
-							"(function(){try{var q=new URLSearchParams(location.search).get('edition');if(q==='bw'||q==='colour'){localStorage.setItem('np-edition',q);}if(localStorage.getItem('np-edition')==='bw'){document.documentElement.setAttribute('data-edition','bw');}}catch(e){}})();",
+							"(function(){try{var d=document.documentElement;var q=new URLSearchParams(location.search).get('edition');if(q==='bw'||q==='colour'){localStorage.setItem('np-edition',q);}if(localStorage.getItem('np-edition')==='bw'){d.setAttribute('data-edition','bw');}if(!localStorage.getItem('np-intro-seen')){if(location.pathname==='/'&&!location.hash&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.setAttribute('data-intro','play');}else{localStorage.setItem('np-intro-seen','1');}}}catch(e){}})();",
 					}}
 				/>
 			</Head>

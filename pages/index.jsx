@@ -6,11 +6,13 @@ import Experience from '../components/about/Experience';
 import PagesMetaHead from '../components/PagesMetaHead';
 import AboutMe from '../components/about/AboutMeBio';
 import ContactDetails from '../components/contact/ContactDetails';
+import DeliveryIntro from '../components/home/DeliveryIntro';
 
 export default function Home() {
 	return (
 		<div>
 			<PagesMetaHead title="Sreekaran Reddy — Data Analyst & Data Scientist" />
+			<DeliveryIntro />
 
 			<section id="home">
 				<AppBanner />
