@@ -1,5 +1,33 @@
 export const articlesData = [
 	{
+		id: 6,
+		title: 'The Unreasonable Effectiveness of Linear Regression',
+		subtitle: 'What Chapter 4 of Causal Inference in Python taught me about an old friend.',
+		description:
+			'I thought I knew linear regression until a bank dataset showed higher credit limits "causing" fewer defaults. The article walks through confounding, why comparing similar customers breaks down with too many variables, the Frisch-Waugh-Lovell theorem as debias-and-denoise, extrapolation, how regression weights effects by treatment variance, and why not every variable deserves a seat in the model.',
+		category: 'Causal Inference',
+		year: '2026',
+		readTime: '4 min read',
+		image:
+			'https://media.licdn.com/dms/image/v2/D5612AQFj70sHeFABaw/article-cover_image-shrink_720_1280/B56aFGpWDbHEAQ-/0/1792186606091?e=2147483647&v=beta&t=sHjgVsE17rZ7QwdE5LQgLPcaZEqM63vntV65YxKU8iE',
+		tags: ['Causal Inference', 'Linear Regression', 'Confounding'],
+		url: 'https://www.linkedin.com/pulse/unreasonable-effectiveness-linear-regression-ramasahayam-i3odc',
+	},
+	{
+		id: 7,
+		title: 'Propensity Score',
+		subtitle: 'Finding the hidden coin flip inside messy, non-random data.',
+		description:
+			'I used a corporate manager-training program, where people skip sessions and others sneak in, to explain why naive comparisons lie when attendance is not random. The article introduces the propensity score as the probability of getting treated, matching as a dating app for data and why it can be biased, and how adjusting for who showed up changes the story.',
+		category: 'Causal Inference',
+		year: '2026',
+		readTime: '7 min read',
+		image:
+			'https://media.licdn.com/dms/image/v2/D5612AQE0skjxKRtp2g/article-cover_image-shrink_720_1280/B56aFV4uNWHYAQ-/0/1792442295428?e=2147483647&v=beta&t=K1cN5VRAyfC5nVCFZxt-3EK3LRBaNBro_kRksqGpebI',
+		tags: ['Causal Inference', 'Propensity Score', 'Matching'],
+		url: 'https://www.linkedin.com/pulse/propensity-score-sreekaran-reddy-ramasahayam-huozc',
+	},
+	{
 		id: 1,
 		title: 'How I Slowly Understood What’s Really Happening Inside LLMs like ChatGPT',
 		subtitle: 'A personal journey into tokenization, probability, and next-token prediction.',

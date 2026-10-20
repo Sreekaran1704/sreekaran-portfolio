@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fi';
 import { useAskMe } from '../home/useAskMe';
 import { resumePdfDownloadUrl } from '../../data/resumeData';
+import { projectsData } from '../../data/projectsData';
 import {
 	AskBar,
 	ErrorNotice,
@@ -314,7 +315,7 @@ function AppBanner() {
 						</Link>
 					))}
 					<Link href="#projects" className="np-teaser-all">
-						All 8 projects <FiArrowRight aria-hidden="true" />
+						All {projectsData.length} projects <FiArrowRight aria-hidden="true" />
 					</Link>
 				</section>
 			</div>

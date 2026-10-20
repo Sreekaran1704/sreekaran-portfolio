@@ -19,6 +19,13 @@ export const projectNotes = {
     ],
     estimatesNote: 'per customer / day · Matched DiD · Profit not estimated',
   },
+  'dialhack-cmf-buds-dial': {
+    displayTitle: 'DialHack',
+    summary: 'Turn the Smart Dial on the CMF Buds Pro 2 case into a Mac input device, and learn how I fidget along the way.',
+    metric: '1/16 per click', finding: 'Measured before building: each click is one volume step, capped at about 3 steps per second; long and triple presses never reach the Mac.',
+    annotation: 'A volume knob, repurposed.', stages: ['Sniff the dial', 'Remap input', 'Analyze fidgets'],
+    liveLabel: 'Download for Mac',
+  },
   photocull: {
     displayTitle: 'PhotoCull',
     summary: 'Privacy-first computer vision for duplicate detection, event grouping, and explainable photo curation.',

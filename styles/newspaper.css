@@ -2629,11 +2629,19 @@ input:focus-visible {
 		column-gap: 2rem;
 		row-gap: 1.8rem;
 	}
+	.np-ab-c1 { grid-area: c1; }
+	.np-ab-c2 { grid-area: c2; }
+	.np-ab-c3 { grid-area: c3; }
+	.np-ab-c4 { grid-area: c4; }
 	.np-ab-quote { grid-area: quote; }
 	.np-ab-glance { grid-area: glance; }
 }
 
 @media (max-width: 959px) {
+	.np-ab-c1 { order: 1; }
+	.np-ab-c2 { order: 2; }
+	.np-ab-c3 { order: 4; }
+	.np-ab-c4 { order: 5; }
 	.np-ab-quote { order: 3; }
 	.np-ab-glance { order: 6; }
 }
@@ -5145,5 +5153,313 @@ html[data-edition='bw'] .np-intro-scene {
 
 	.np-intro-dateline span:nth-child(3) {
 		display: none;
+	}
+}
+
+/* ==========================================================================
+   Project page media: a launch video, then app screenshots. The video is
+   portrait, so it sits centred at phone width; the first screenshot runs
+   full width and the rest pair up below it.
+   ========================================================================== */
+
+.pj-media {
+	margin: 2.4rem 0 1rem;
+	padding-top: 1.4rem;
+	border-top: 1px solid var(--np-ink);
+}
+
+.pj-media-note,
+.pj-video figcaption {
+	margin-top: 0.6rem;
+	font-family: var(--np-body);
+	font-size: 0.88rem;
+	font-style: italic;
+	text-align: center;
+	color: var(--np-muted);
+}
+
+/* The video player: an ink-framed print, a stamped "Watch" button, and a
+   control strip set in the paper's label type. */
+.pj-video {
+	max-width: 24rem;
+	margin: 0 auto 1.8rem;
+}
+
+/* A window like PhotoCull's live demo: a coloured top rule and a title bar
+   with "Pop out" and "YouTube". The title bar and the floating strip reuse
+   PhotoCull's .pc-demo-bar and .pc-pip-handle styles (reader.css). */
+.pj-video-slot {
+	position: relative;
+}
+
+.pj-window {
+	overflow: hidden;
+	background: var(--np-sheet, #fffdf8);
+	border: 1px solid var(--rd-line, var(--np-hairline));
+	border-top: 4px solid var(--c-front);
+}
+
+.pj-video-frame {
+	position: relative;
+	background: var(--np-ink);
+}
+
+.pj-video-placeholder {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.8rem;
+	padding: 2rem 1rem;
+	border: 1.5px dashed var(--rd-line, var(--np-hairline));
+	text-align: center;
+}
+
+.pj-video-placeholder p {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.95rem;
+	color: var(--rd-muted, var(--np-muted));
+}
+
+/* Floating: sized so the portrait video, the strip and the controls all fit
+   below the sticky masthead. */
+.pj-window.is-pip {
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	z-index: 55;
+	width: min(17rem, calc(100vw - 2rem), calc((100vh - var(--np-sticky-h, 46px) - 2rem - 5.4rem) * 0.8));
+	border: 1.5px solid var(--rd-ink, var(--np-ink));
+	box-shadow: var(--np-soft-shadow, 0 10px 24px -18px rgba(22, 20, 18, 0.35)), 0 18px 40px -20px rgba(22, 20, 18, 0.5);
+	animation: pc-pip-in 0.18s ease-out;
+}
+
+/* Minimized: just the strip. The player is hidden, never removed, so the
+   video keeps its place (and keeps playing). */
+.pj-window.is-pip.is-minimized {
+	width: min(20rem, calc(100vw - 2rem));
+}
+
+.pj-window.is-pip.is-minimized .pj-video-frame {
+	display: none;
+}
+
+/* While dragging, the YouTube iframe must not swallow the pointer. */
+.pj-window.is-dragging iframe {
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pj-window.is-pip {
+		animation: none;
+	}
+}
+
+.pj-video-frame video,
+.pj-video-frame iframe {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1080 / 1350;
+	border: 0;
+	background: var(--np-ink);
+	cursor: pointer;
+}
+
+.pj-video-stage {
+	position: relative;
+}
+
+.pj-video-yt {
+	position: relative;
+	aspect-ratio: 1080 / 1350;
+	background: var(--np-ink);
+}
+
+.pj-video-yt iframe,
+.pj-video-shield,
+.pj-video-poster.is-cover {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.pj-video-shield {
+	z-index: 1;
+	cursor: pointer;
+}
+
+.pj-video-poster.is-cover {
+	z-index: 2;
+	display: block;
+	object-fit: cover;
+	cursor: pointer;
+}
+
+.pj-video-frame:fullscreen video {
+	height: 100%;
+	object-fit: contain;
+}
+
+.pj-video-start {
+	position: absolute;
+	z-index: 3;
+	left: 50%;
+	/* The gap between the GitHub link and the small print on the end card. */
+	bottom: 9.5%;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0.3rem 0.8rem 0.3rem 0.3rem;
+	background: var(--np-paper);
+	border: 2px solid var(--np-ink);
+	box-shadow: 4px 4px 0 var(--np-ink);
+	transform: translateX(-50%) rotate(-2deg);
+	font-family: var(--np-label);
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--np-ink);
+	white-space: nowrap;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pj-video-start:hover,
+.pj-video-start:focus-visible {
+	transform: translateX(-50%) rotate(0deg) translate(-1px, -1px);
+	box-shadow: 6px 6px 0 var(--np-ink);
+}
+
+.pj-video-start-icon {
+	display: grid;
+	place-items: center;
+	width: 1.6rem;
+	height: 1.6rem;
+	background: var(--c-projects, #c0262d);
+	border: 2px solid var(--np-ink);
+	border-radius: 50%;
+	color: #fff;
+	font-size: 0.75rem;
+}
+
+.pj-video-start-icon svg {
+	margin-left: 2px;
+	fill: currentColor;
+}
+
+.pj-video-bar {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.45rem 0.6rem;
+	background: var(--np-sheet, #fffdf8);
+	border-top: 1px solid var(--rd-line, var(--np-hairline));
+	font-family: var(--np-label);
+	color: var(--np-ink);
+}
+
+.pj-video-bar button {
+	display: grid;
+	flex-shrink: 0;
+	place-items: center;
+	width: 1.9rem;
+	height: 1.9rem;
+	background: transparent;
+	border: 1px solid var(--rd-line, var(--np-hairline));
+	color: var(--np-ink);
+	font-size: 0.9rem;
+	cursor: pointer;
+}
+
+.pj-video-bar button:hover,
+.pj-video-bar button:focus-visible {
+	background: var(--np-ink);
+	color: var(--np-paper);
+}
+
+.pj-video-time {
+	flex-shrink: 0;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	font-variant-numeric: tabular-nums;
+}
+
+.pj-video-seek {
+	flex: 1;
+	min-width: 0;
+	height: 0.5rem;
+	margin: 0;
+	appearance: none;
+	-webkit-appearance: none;
+	background: linear-gradient(
+		to right,
+		var(--c-projects, #c0262d) var(--pj-progress, 0%),
+		var(--np-paper-deep) var(--pj-progress, 0%)
+	);
+	border: 1.5px solid var(--np-ink);
+	cursor: pointer;
+}
+
+.pj-video-seek::-webkit-slider-thumb {
+	width: 0.8rem;
+	height: 1.1rem;
+	-webkit-appearance: none;
+	background: var(--np-ink);
+	border: 0;
+}
+
+.pj-video-seek::-moz-range-thumb {
+	width: 0.8rem;
+	height: 1.1rem;
+	background: var(--np-ink);
+	border: 0;
+	border-radius: 0;
+}
+
+.pj-video-frame :focus-visible {
+	outline: 2px solid var(--c-projects, #c0262d);
+	outline-offset: 2px;
+}
+
+html[data-edition='bw'] .pj-window {
+	border-top-color: var(--np-ink);
+}
+
+html[data-edition='bw'] .pj-video-start-icon,
+html[data-edition='bw'] .pj-video-seek {
+	filter: grayscale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pj-video-start {
+		transition: none;
+	}
+}
+
+.pj-media-shots {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.2rem;
+}
+
+.reader .pj-media-shots .fh-image-figure {
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.pj-media-shots {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.pj-media-shots .fh-image-figure:first-child {
+		grid-column: 1 / -1;
 	}
 }

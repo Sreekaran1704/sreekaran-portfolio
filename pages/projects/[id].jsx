@@ -4,6 +4,7 @@ import { ReadingSection, StoryContents } from '../../components/reading/ReadingK
 import { projectsData } from '../../data/projectsData';
 import { projectNotes } from '../../data/projectNotes';
 import Link from 'next/link';
+import ProjectVideo from '../../components/projects/ProjectVideo';
 
 // Some data strings carry a literal "&amp;".
 const decode = (text = '') => text.replace(/&amp;/g, '&');
@@ -30,8 +31,9 @@ function ProjectSingle({ project }) {
 	const info = project.ProjectInfo;
 	const tech = info.Technologies[0];
 	const note = projectNotes[project.url];
+	const media = project.ProjectMedia;
 	const links = [
-		project.liveUrl && project.liveUrl !== '#' && { href: project.liveUrl, label: 'Live site' },
+		project.liveUrl && project.liveUrl !== '#' && { href: project.liveUrl, label: note?.liveLabel || 'Live site' },
 		project.githubUrl && project.githubUrl !== '#' && { href: project.githubUrl, label: 'GitHub' },
 	].filter(Boolean);
 
@@ -100,6 +102,25 @@ function ProjectSingle({ project }) {
 						))}
 					</ul>
 				</section>
+
+				{media && (
+					<section className="pj-media" aria-label="Video and screenshots">
+						{media.video && <ProjectVideo video={media.video} />}
+
+						{media.images?.length > 0 && (
+							<div className="pj-media-shots">
+								{media.images.map((image) => (
+									<figure key={image.img} className="fh-image-figure">
+										<img src={image.img} alt={image.title} loading="lazy" />
+										<figcaption>{image.title}</figcaption>
+									</figure>
+								))}
+							</div>
+						)}
+
+						{media.note && <p className="pj-media-note">{media.note}</p>}
+					</section>
+				)}
 
 				<StoryContents label={info.ProjectDetailsHeading || 'In this story'} />
 
