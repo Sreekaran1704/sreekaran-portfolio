@@ -39,7 +39,11 @@ function ProjectSingle({ project }) {
 
 	return (
 		<div className="reader project-detail-page px-6 py-8 sm:px-10 lg:px-16">
-			<PagesMetaHead title={project.title} description={decode(note?.summary || info.ObjectivesDetails)} />
+			<PagesMetaHead
+				title={project.title}
+				description={decode(note?.summary || info.ObjectivesDetails)}
+				{...(project.ogImage && { image: project.ogImage, imageAlt: project.ogImageAlt || project.title })}
+			/>
 
 			<div className="mx-auto max-w-4xl">
 				<Link href="/#projects" className="project-detail-back-btn mt-8">

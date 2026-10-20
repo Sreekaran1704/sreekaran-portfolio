@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Source of the per-project link-preview cards in public/og/. One template,
-     three versions picked by ?p=loan | fanhouse | photocull. Every figure here is
+     four versions picked by ?p=loan | fanhouse | photocull | dialhack. Every figure here is
      copied from the project's own page; update both together. Regenerate with
      (from the nextjs-tailwindcss-portfolio folder), once per version:
      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot="$PWD/public/og/loan.png" "file://$PWD/design/og-project.html?p=loan" -->
@@ -138,6 +138,18 @@ const projects = {
 			<ol class="steps"><li><span>1</span>Scan + hash</li><li><span>2</span>Group + rank</li><li><span>3</span>Shortlist</li></ol>
 			<p class="note">F1 on a synthetic held-out benchmark</p></div>`,
 		cta: 'Read the project →',
+	},
+	dialhack: {
+		tone: '#b35300',
+		h1: '46px',
+		section: 'Hardware hacking',
+		kicker: 'Reverse engineering · macOS',
+		headline: 'DialHack: Turning the CMF Buds Pro 2 Dial into a Mac Input Device',
+		dek: 'I measured what the dial really sends over Bluetooth, then built a Mac app around it.',
+		stats: [['1/16', 'Volume step per click'], ['~3/s', 'Fastest the dial reports'], ['5', 'Dial modes']],
+		visual: `<figure class="frame"><img src="../public/images/dialhack/dial-light.jpg" alt="" style="object-position: 50% 0">
+			<figcaption class="label">The Dial page · free, open source, macOS 14+</figcaption></figure>`,
+		cta: 'See the project →',
 	},
 };
 const p = projects[new URLSearchParams(location.search).get('p')] || projects.loan;

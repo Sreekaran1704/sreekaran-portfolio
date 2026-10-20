@@ -7,6 +7,9 @@ export const projectsData = [
 		liveUrl: 'https://github.com/Sreekaran1704/Dial-Hack/releases/latest',
 		category: 'Hardware Hacking',
 		type: 'Project',
+		// Link-preview card, rendered from design/og-project.html?p=dialhack.
+		ogImage: '/og/dialhack.png',
+		ogImageAlt: 'DialHack: each dial click is one 1/16 volume step, the dial reports at most about 3 steps per second, and the app has 5 dial modes.',
 		ProjectHeader: {
 			title: 'DialHack: Turning the CMF Buds Pro 2 Dial into a Mac Input Device',
 			publishDate: '2026',
