@@ -183,6 +183,11 @@ html {
 		color: var(--np-ink-soft);
 	}
 
+	/* Touch screens keep :hover on the last tab tapped; don't tint it. */
+	.np-sections li a:hover {
+		color: var(--np-ink-soft);
+	}
+
 	.np-sections li a.is-active {
 		font-weight: 700;
 		color: var(--np-ink);
