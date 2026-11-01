@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useRouter } from 'next/router';
+import SmogTruck, { SMOG_END_AT, SMOG_SWAP_AT } from './SmogTruck';
+import TorchGuy, { TORCH_END_AT, TORCH_REVEAL_AT } from './TorchGuy';
 
 // Switches the whole paper between the colour edition and a black & white
 // print edition. The choice lives on <html data-edition>, set before first
@@ -14,12 +17,17 @@ const EDITIONS = [
 function EditionToggle() {
 	const router = useRouter();
 	const [edition, setEdition] = useState('colour');
+	// Which little show is playing: 'torch' into colour, 'smog' into black & white.
+	const [show, setShow] = useState(null);
+	const showTimers = useRef([]);
+	const torchTip = useRef(null);
 
 	useEffect(() => {
 		setEdition(document.documentElement.getAttribute('data-edition') === 'bw' ? 'bw' : 'colour');
+		return () => showTimers.current.forEach(clearTimeout);
 	}, []);
 
-	const choose = (value) => {
+	const apply = (value) => {
 		setEdition(value);
 		if (value === 'bw') {
 			document.documentElement.setAttribute('data-edition', 'bw');
@@ -42,8 +50,52 @@ function EditionToggle() {
 		}
 	};
 
+	const stopShow = () => {
+		showTimers.current.forEach(clearTimeout);
+		showTimers.current = [];
+		setShow(null);
+	};
+
+	// Opens the colour edition in a circle of light from the torch's tip.
+	const revealFromTorch = () => {
+		const root = document.documentElement;
+		const tip = torchTip.current?.getBoundingClientRect();
+		if (!document.startViewTransition || !tip) {
+			apply('colour');
+			return;
+		}
+		const { x, y } = tip;
+		const reach = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+		root.style.setProperty('--np-torch-x', `${x}px`);
+		root.style.setProperty('--np-torch-y', `${y}px`);
+		root.style.setProperty('--np-torch-end', `${reach * 1.3}px`);
+		root.setAttribute('data-torch-reveal', '');
+		document
+			.startViewTransition(() => flushSync(() => apply('colour')))
+			.finished.finally(() => root.removeAttribute('data-torch-reveal'));
+	};
+
+	const choose = (value) => {
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		// Any tap during a show ends it on the edition just chosen: the same button
+		// skips ahead, the other one calls it off.
+		if (show || value === edition || reducedMotion) {
+			stopShow();
+			apply(value);
+			return;
+		}
+		const toColour = value === 'colour';
+		setShow(toColour ? 'torch' : 'smog');
+		showTimers.current = [
+			setTimeout(toColour ? revealFromTorch : () => apply('bw'), toColour ? TORCH_REVEAL_AT : SMOG_SWAP_AT),
+			setTimeout(() => setShow(null), toColour ? TORCH_END_AT : SMOG_END_AT),
+		];
+	};
+
 	return (
 		<div className="np-edition" role="group" aria-label="Print edition">
+			{show === 'torch' && <TorchGuy tipRef={torchTip} />}
+			{show === 'smog' && <SmogTruck />}
 			<span className="np-edition-label">Edition</span>
 			{EDITIONS.map((item) => (
 				<button

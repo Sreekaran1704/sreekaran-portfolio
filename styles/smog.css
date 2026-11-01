@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Colour to black & white: a filthy truck crosses the screen (0-2.9s) and its
+   smoke builds until nothing shows (about 1.6s). The edition changes unseen at
+   1.9s, then the smoke clears over the black & white page by 3.9s.
+   SMOG_SWAP_AT and SMOG_END_AT in SmogTruck.jsx must match these timings.
+   ========================================================================== */
+
+.np-smog-stage {
+	--np-truck-w: clamp(170px, 46vw, 280px);
+	position: fixed;
+	inset: 0;
+	z-index: 1200;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* Thick enough at its peak to hide the page changing underneath. */
+.np-smog-haze {
+	position: absolute;
+	inset: 0;
+	background: #1f1f20;
+	opacity: 0;
+	animation: np-smog-haze 3.9s linear both;
+}
+
+@keyframes np-smog-haze {
+	0%, 12% { opacity: 0; }
+	41% { opacity: 0.985; }
+	52% { opacity: 0.985; }
+	92% { opacity: 0; }
+	100% { opacity: 0; }
+}
+
+/* Rolling cloud edges, so the smoke leaves in patches rather than one fade. */
+.np-smog-cloud {
+	position: absolute;
+	border-radius: 50%;
+	background: radial-gradient(closest-side, #252526 0%, #2b2b2c 45%, rgba(43, 43, 44, 0.75) 68%, rgba(43, 43, 44, 0) 100%);
+	opacity: 0;
+	transform: translateY(14vh) scale(0.85);
+	animation:
+		np-smog-cloud-in 1s ease-out 0.75s forwards,
+		np-smog-cloud-out 1.5s ease-in calc(2.15s + var(--clear-delay)) forwards;
+}
+
+@keyframes np-smog-cloud-in {
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes np-smog-cloud-out {
+	from {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(-34vh) scale(1.2);
+	}
+}
+
+/* Each puff leaves the stack at the spot the truck has reached by then. */
+.np-smog-puff {
+	position: absolute;
+	bottom: calc(var(--np-tabbar-h, 0px) + var(--np-truck-w) * 0.48);
+	left: calc((100vw + var(--np-truck-w)) * var(--along) - var(--np-truck-w) * 0.47);
+	width: 84px;
+	height: 84px;
+	margin-left: -42px;
+	border-radius: 50%;
+	background: radial-gradient(closest-side, rgba(18, 18, 19, 0.98) 0%, rgba(32, 32, 33, 0.9) 50%, rgba(45, 45, 46, 0) 100%);
+	opacity: 0;
+	animation: np-smog-puff 2s ease-out both;
+}
+
+@keyframes np-smog-puff {
+	0% {
+		opacity: 0;
+		transform: translate(0, 0) scale(0.2);
+	}
+
+	10% {
+		opacity: 1;
+	}
+
+	70% {
+		opacity: 0.85;
+	}
+
+	100% {
+		opacity: 0;
+		transform: translate(var(--drift), calc(var(--rise) * -1)) scale(var(--grow));
+	}
+}
+
+/* ---------- The truck ---------- */
+
+.np-smog-truck {
+	position: absolute;
+	bottom: calc(var(--np-tabbar-h, 0px) + 0.15rem);
+	left: 0;
+	width: var(--np-truck-w);
+	animation:
+		np-smog-drive 2.9s linear both,
+		np-smog-drain 0.01s linear 1.9s forwards;
+}
+
+.np-smog-truck svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+@keyframes np-smog-drive {
+	from { transform: translateX(calc(var(--np-truck-w) * -1)); }
+	to { transform: translateX(100vw); }
+}
+
+/* Even the truck comes out of it in black & white. */
+@keyframes np-smog-drain {
+	to { filter: grayscale(1); }
+}
+
+.np-smog-rattle {
+	animation: np-smog-rattle 0.11s linear infinite alternate;
+}
+
+@keyframes np-smog-rattle {
+	from { transform: translateY(0) rotate(-0.35deg); }
+	to { transform: translateY(-2px) rotate(0.35deg); }
+}
+
+.np-smog-wheel {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: np-smog-spin 0.4s linear infinite;
+}
+
+@keyframes np-smog-spin {
+	to { transform: rotate(360deg); }
+}
+
+.np-smog-flame {
+	transform-box: fill-box;
+	transform-origin: center bottom;
+	animation: np-smog-flame 0.7s steps(1) infinite;
+}
+
+@keyframes np-smog-flame {
+	0%, 45% { opacity: 0; transform: scale(0.4); }
+	50%, 62% { opacity: 1; transform: scale(1.1); }
+	63%, 78% { opacity: 0; transform: scale(0.4); }
+	80%, 90% { opacity: 1; transform: scale(0.75); }
+	91%, 100% { opacity: 0; transform: scale(0.4); }
+}
