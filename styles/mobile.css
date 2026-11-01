@@ -108,14 +108,60 @@ html {
 		padding-top: 0.5rem;
 	}
 
+	/* The edition switch is one small swatch beside the nameplate: it shows the
+	   edition a tap switches to. The label stays for screen readers. */
+	.np-masthead .np-wrap {
+		position: relative;
+	}
+
+	.np-earline {
+		display: block;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.np-earline .np-ear {
+		display: none;
+	}
+
 	.np-edition-bar {
-		padding: 0 0 0.3rem;
+		position: absolute;
+		top: 0;
+		right: 1rem;
+		padding: 0;
 	}
 
 	.np-edition-btn {
-		min-height: 40px;
-		padding: 0.25rem 0.7rem;
-		font-size: 0.75rem;
+		position: relative;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		min-height: 0;
+		padding: 0;
+		background: none;
+		border: 0;
+		font-size: 0;
+	}
+
+	.np-edition-btn:hover {
+		background: none;
+	}
+
+	/* Keeps the tap target at 44px around the smaller icon. */
+	.np-edition-btn::after {
+		content: '';
+		position: absolute;
+		inset: -0.25rem;
+	}
+
+	.np-edition-btn.is-active {
+		display: none;
+	}
+
+	.np-edition-swatch {
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 
 	/* Moving text at the top of a small screen is mostly noise. */
@@ -124,8 +170,11 @@ html {
 	}
 
 	.np-nameplate {
-		margin: 0.15rem 0 0.4rem;
-		font-size: min(7vw, 3rem);
+		/* Fills the line up to the swatch. */
+		margin: 0 0 0.4rem;
+		font-size: calc((100vw - 4.75rem) / 12.9);
+		line-height: 2.25rem;
+		text-align: left;
 		white-space: nowrap;
 	}
 

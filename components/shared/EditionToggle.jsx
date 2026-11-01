@@ -21,11 +21,25 @@ function EditionToggle() {
 	const [show, setShow] = useState(null);
 	const showTimers = useRef([]);
 	const torchTip = useRef(null);
+	const group = useRef(null);
+	const keepFocus = useRef(false);
 
 	useEffect(() => {
 		setEdition(document.documentElement.getAttribute('data-edition') === 'bw' ? 'bw' : 'colour');
 		return () => showTimers.current.forEach(clearTimeout);
 	}, []);
+
+	// On a phone the button just pressed hides once its edition is on, which
+	// would drop keyboard focus; hand it to the button that takes its place.
+	useEffect(() => {
+		if (!keepFocus.current) return;
+		keepFocus.current = false;
+		const focused = document.activeElement;
+		if (focused !== document.body && !group.current.contains(focused)) return;
+		[...group.current.querySelectorAll('button')]
+			.find((button) => button.offsetParent !== null)
+			?.focus({ preventScroll: true });
+	}, [edition]);
 
 	const apply = (value) => {
 		setEdition(value);
@@ -76,6 +90,7 @@ function EditionToggle() {
 	};
 
 	const choose = (value) => {
+		keepFocus.current = true;
 		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		// Any tap during a show ends it on the edition just chosen: the same button
 		// skips ahead, the other one calls it off.
@@ -93,7 +108,7 @@ function EditionToggle() {
 	};
 
 	return (
-		<div className="np-edition" role="group" aria-label="Print edition">
+		<div ref={group} className="np-edition" role="group" aria-label="Print edition">
 			{show === 'torch' && <TorchGuy tipRef={torchTip} />}
 			{show === 'smog' && <SmogTruck />}
 			<span className="np-edition-label">Edition</span>
