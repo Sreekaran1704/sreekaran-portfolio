@@ -5,6 +5,8 @@ import {
 	FiArrowLeft,
 	FiBookOpen,
 	FiBriefcase,
+	FiChevronLeft,
+	FiChevronRight,
 	FiCpu,
 	FiEdit3,
 	FiFileText,
@@ -18,13 +20,13 @@ import EditionToggle from './EditionToggle';
 
 // On a phone, `primary` links sit in the tab bar and the rest open from More.
 const navLinks = [
-	{ name: 'Front Page', href: '/#home', tone: 'front', Icon: FiHome, primary: true },
-	{ name: 'Projects', href: '/#projects', tone: 'projects', Icon: FiFolder, primary: true },
-	{ name: 'Experience', href: '/#experience', tone: 'experience', Icon: FiBriefcase, primary: true },
-	{ name: 'About', href: '/#about', tone: 'about', Icon: FiUser },
-	{ name: 'Writing', href: '/#articles', tone: 'writing', Icon: FiEdit3, primary: true },
-	{ name: 'Skills', href: '/#skills', tone: 'skills', Icon: FiCpu },
-	{ name: 'Contact', href: '/#contact', tone: 'contact', Icon: FiMail },
+	{ name: 'Front Page', href: '/#home', tone: 'front', Icon: FiHome, primary: true, page: 'A1' },
+	{ name: 'Projects', href: '/#projects', tone: 'projects', Icon: FiFolder, primary: true, page: 'B1' },
+	{ name: 'Experience', href: '/#experience', tone: 'experience', Icon: FiBriefcase, primary: true, page: 'C1' },
+	{ name: 'About', href: '/#about', tone: 'about', Icon: FiUser, page: 'D1' },
+	{ name: 'Writing', href: '/#articles', tone: 'writing', Icon: FiEdit3, primary: true, page: 'E1' },
+	{ name: 'Skills', href: '/#skills', tone: 'skills', Icon: FiCpu, page: 'F1' },
+	{ name: 'Contact', href: '/#contact', tone: 'contact', Icon: FiMail, page: 'G1' },
 ];
 
 // The resume is its own edition of the paper, with its own sections. Each
@@ -78,7 +80,31 @@ function AppMasthead() {
 	const [activeSection, setActiveSection] = useState('');
 	const [stuck, setStuck] = useState(false);
 	const [moreOpen, setMoreOpen] = useState(false);
+	// Set after load so the masthead shows the reader's own date, and kept current
+	// for a page left open: it turns over at midnight, and is checked again when
+	// the reader comes back, since a sleeping laptop delays timers.
+	const [today, setToday] = useState('');
+	useEffect(() => {
+		let timer;
+		const update = () => {
+			const now = new Date();
+			setToday(now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+			clearTimeout(timer);
+			timer = setTimeout(update, new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now);
+		};
+		update();
+		document.addEventListener('visibilitychange', update);
+		return () => {
+			clearTimeout(timer);
+			document.removeEventListener('visibilitychange', update);
+		};
+	}, []);
 	const closeMore = () => setMoreOpen(false);
+	// The page turner in the stuck bar, as an e-paper keeps: the page the reader
+	// is on, with the pages either side a click away.
+	const pageIndex = Math.max(links.findIndex((link) => sectionId(link.href) === activeSection), 0);
+	const prevPage = links[pageIndex - 1];
+	const nextPage = links[pageIndex + 1];
 	const moreLinks = links.filter((link) => !link.primary);
 	const activeMoreLink = moreLinks.find((link) => sectionId(link.href) === activeSection);
 	// Once the nameplate scrolls away, the section bar carries a small one.
@@ -173,6 +199,7 @@ function AppMasthead() {
 						<div className="np-edition-bar">
 							<EditionToggle />
 						</div>
+						<span className="np-dateline">{today}</span>
 						<span className="np-ear np-ear-right">
 							<strong>{edition.ear}</strong>
 							{edition.earNote}
@@ -233,6 +260,17 @@ function AppMasthead() {
 							</button>
 						</li>
 					</ul>
+					{router.pathname === '/' && (
+						<span className="np-page-turner">
+							{prevPage ? (
+								<Link href={prevPage.href} aria-label={`Previous page: ${prevPage.name}`}><FiChevronLeft aria-hidden="true" /></Link>
+							) : <span aria-hidden="true" />}
+							<span className="np-page-now">Page {links[pageIndex].page}</span>
+							{nextPage ? (
+								<Link href={nextPage.href} aria-label={`Next page: ${nextPage.name}`}><FiChevronRight aria-hidden="true" /></Link>
+							) : <span aria-hidden="true" />}
+						</span>
+					)}
 				</div>
 
 				{moreOpen && (

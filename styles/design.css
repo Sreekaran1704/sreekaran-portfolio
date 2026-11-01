@@ -1,0 +1,780 @@
+/* ==========================================================================
+   The paper's design, the same at every size. Loaded after the other sheets:
+   the first part applies everywhere, and the later parts only lay it out for
+   the width. Each story shows what a reader needs to choose it, with the detail
+   on its own page, and every section sits on the same paper; colour lives in the
+   marks on it. Screen only, so print keeps the resume's own styles.
+   ========================================================================== */
+
+/* Belongs to a layout below. */
+.np-page-turner {
+	display: none;
+}
+
+@media screen {
+	/* ---------- Front page ---------- */
+
+	.np-hero-page .np-ticker,
+	.np-hero-copy .np-hero-tags,
+	.np-hero-copy .np-hero-actions > .np-cta,
+	.np-hero-page .np-ask-banner,
+	.np-top-stories .np-teaser-kicker,
+	.np-top-stories .np-teaser-cta {
+		display: none;
+	}
+
+	/* The surname in italic colour. */
+	.np-hero-copy .np-hero-name span {
+		font-style: italic;
+		color: var(--c-front);
+		text-decoration: none;
+	}
+
+	/* The promise, marked in as it would be with a highlighter. */
+	.np-hero-copy .np-promise {
+		min-height: 0;
+		font-family: var(--np-display);
+		font-weight: 500;
+		line-height: 1.35;
+	}
+
+	.np-promise em {
+		padding: 0 0.1em;
+		font-style: italic;
+		color: var(--np-ink);
+		background: linear-gradient(color-mix(in srgb, var(--c-highlight) 60%, transparent), color-mix(in srgb, var(--c-highlight) 60%, transparent)) 0 78% / 0 42% no-repeat;
+		animation: np-marker 0.6s ease-out 0.5s forwards;
+	}
+
+	.np-promise em:nth-of-type(2) {
+		animation-delay: 0.95s;
+	}
+
+	.np-promise em:nth-of-type(3) {
+		animation-delay: 1.4s;
+	}
+
+	/* A block of colour behind the print, which straightens under the pointer. */
+	.np-hero-page .np-hero-photo {
+		isolation: isolate;
+	}
+
+	.np-hero-page .np-hero-photo::before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 7% -3.5% 2% 8%;
+		z-index: -1;
+		background: var(--c-highlight);
+		opacity: 1;
+		transform: rotate(4deg);
+	}
+
+	.np-hero-photo-frame {
+		transition: transform 0.3s ease;
+	}
+
+	.np-hero-photo:hover .np-hero-photo-frame {
+		transform: rotate(2deg) scale(1.015);
+	}
+
+	.np-hero-socials a {
+		background: none;
+		border: 0;
+	}
+
+	.np-hero-page .np-ask {
+		box-shadow: none;
+	}
+
+	.np-hero-page .np-ask .askme-send {
+		background: var(--c-front);
+	}
+
+	/* Top stories: each figure on a solid block of its desk's colour. */
+	.np-top-stories .np-teaser-figure {
+		background: var(--tone);
+		color: #fff;
+	}
+
+	.np-top-stories .np-teaser {
+		transition: transform 0.18s ease, box-shadow 0.18s ease;
+	}
+
+	.np-top-stories .np-teaser:hover {
+		box-shadow: 0 10px 22px -14px rgba(22, 20, 18, 0.55);
+		transform: translateY(-3px);
+	}
+
+	/* ---------- Projects ---------- */
+
+	/* Tools and findings live on each project's page; the write-ups keep their
+	   evidence, and only they get a solid button. */
+	.np-card .np-card-tools,
+	.np-card-brief .np-card-metric,
+	.np-card-brief .np-card-finding,
+	.np-card-brief .np-card-links a:not(.np-card-primary),
+	.np-filter-count {
+		display: none;
+	}
+
+	.np-card-cat {
+		color: var(--tone);
+	}
+
+	.np-card-featured .np-card-links a.np-card-primary,
+	.np-card-featured .np-card-links a.np-card-primary:hover {
+		padding: 0.6rem 1rem;
+		background: var(--tone);
+		border-color: var(--tone);
+		color: #fff;
+	}
+
+	.np-card-brief .np-card-links a.np-card-primary,
+	.np-card-brief .np-card-links a.np-card-primary:hover {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		color: var(--tone);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+
+	.np-card-brief {
+		transition: background-color 0.18s ease;
+	}
+
+	.np-card-brief:hover {
+		background: #fff;
+	}
+
+	/* Write-ups lead; the rest run under a brief head, placed with order so the
+	   cards keep their place in the markup. */
+	.np-card-featured {
+		order: 0;
+	}
+
+	.np-card-brief {
+		order: 2;
+	}
+
+	.np-story-grid::before {
+		content: 'In brief';
+		order: 1;
+		grid-column: 1 / -1;
+		margin-bottom: 0.75rem;
+		font-family: var(--np-display);
+		font-size: 1.625rem;
+		font-style: italic;
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--np-ink);
+	}
+
+	.np-story-grid:not(:has(.np-card-brief))::before {
+		display: none;
+	}
+
+	/* ---------- About ---------- */
+
+	/* The headline numbers as solid tiles. */
+	.np-ab-stats {
+		gap: 0.75rem;
+		border: 0;
+	}
+
+	.np-ab-stats .np-ab-stat {
+		padding: 1.1rem 1.25rem;
+		background: var(--tone);
+		border: 0;
+		color: #fff;
+	}
+
+	.np-ab-stats .np-ab-stat dd {
+		color: #fff;
+	}
+
+	.np-ab-stats .np-ab-stat dt {
+		font-size: 0.875rem;
+		line-height: 1.4;
+		color: #fff;
+	}
+
+	.np-ab-glance {
+		display: none;
+	}
+
+	/* A story opens with its first line in small capitals, after the drop cap. */
+	.np-ab-chapter > p::first-line {
+		font-variant-caps: small-caps;
+		letter-spacing: 0.03em;
+	}
+
+	/* ---------- Writing ---------- */
+
+	.np-essay .np-story-summary,
+	.np-essay .np-filed {
+		display: none;
+	}
+
+	.np-essay .np-kicker,
+	.np-letter .np-kicker {
+		color: var(--np-accent);
+	}
+
+	.np-byline {
+		margin: 0 0 0.45rem;
+		font-family: var(--np-label);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--np-ink-soft);
+	}
+
+	/* ---------- Skills ---------- */
+
+	.np-classified .np-classified-desc {
+		display: none;
+	}
+
+	/* ---------- Masthead ---------- */
+
+	/* The dateline every front page carries by its nameplate. */
+	.np-dateline {
+		font-family: var(--np-body);
+		font-size: 0.9375rem;
+		font-style: italic;
+		color: var(--np-ink-soft);
+	}
+
+	.np-jump {
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+
+	/* ---------- Black & white: no fills ---------- */
+
+	html[data-edition='bw'] .np-hero-page .np-hero-photo::before {
+		display: none;
+	}
+
+	html[data-edition='bw'] .np-promise em {
+		background: none;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		animation: none;
+	}
+}
+
+@keyframes np-marker {
+	to {
+		background-size: 100% 42%;
+	}
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+	.np-promise em {
+		background-size: 100% 42%;
+		animation: none;
+	}
+
+	.np-top-stories .np-teaser:hover {
+		transform: none;
+	}
+}
+
+/* ---------- Tablet and desktop ---------- */
+
+@media screen and (min-width: 720px) {
+	.np-section {
+		padding-top: 3rem;
+		padding-bottom: 3rem;
+	}
+
+	.np-hero-page .np-hero {
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr);
+		gap: 2.5rem;
+		padding-top: 2.25rem;
+		padding-bottom: 2.25rem;
+	}
+
+	.np-hero-copy .np-promise {
+		margin: 0 0 1.5rem;
+		font-size: 1.625rem;
+	}
+
+	.np-hero-page .np-ask {
+		padding-top: 1.1rem;
+	}
+
+	.np-hero-page .np-hero-lower {
+		padding-bottom: 1rem;
+	}
+
+	.np-earline {
+		justify-content: space-between;
+	}
+
+	/* Rows sit directly under each other: in this grid a row gap would also
+	   open between the tracks a card spans, even those of hidden details. */
+	.np-story-grid {
+		row-gap: 0;
+	}
+
+	/* Plain columns, so a short headline leaves no hole beneath it. */
+	.np-card-featured,
+	.np-card-brief {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		grid-row: span 1;
+		padding-bottom: 1.75rem;
+	}
+
+	.np-card .np-card-title {
+		align-self: stretch;
+		justify-self: stretch;
+		text-align: left;
+	}
+
+	.np-card > .np-card-links {
+		margin-top: auto;
+		border-top: 0;
+	}
+
+	/* Highlights in a reading column, the numbers in a small rail beside them. */
+	.np-rec-story {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 13rem;
+		column-gap: 2.5rem;
+		align-content: start;
+	}
+
+	.np-rec-story > * {
+		grid-column: 1;
+	}
+
+	.np-rec-story .np-rec-numbers {
+		grid-column: 2;
+		grid-row: 1 / span 5;
+		align-self: start;
+		display: block;
+		margin: 0;
+		padding-left: 1.25rem;
+		border: 0;
+		border-left: 1px solid var(--np-hairline);
+	}
+
+	.np-rec-story .np-rec-numbers > div {
+		display: flex;
+		flex-direction: column-reverse;
+		justify-content: flex-end;
+		padding: 0 0 0.9rem;
+		border: 0;
+	}
+
+	.np-rec-numbers dt {
+		font-size: 0.875rem;
+		line-height: 1.35;
+	}
+
+	.np-rec-more {
+		justify-self: start;
+	}
+
+	/* What each group covers reads as one line of text, not a wall of chips. */
+	.np-classified .np-classified-list {
+		display: block;
+		font-family: var(--np-label);
+		font-size: 0.875rem;
+		line-height: 1.55;
+		color: var(--np-ink-soft);
+	}
+
+	.np-classified .np-classified-list li {
+		display: inline;
+		padding: 0;
+		background: none;
+		border: 0;
+		font: inherit;
+		letter-spacing: 0;
+		text-transform: none;
+		color: inherit;
+	}
+
+	.np-classified .np-classified-list li + li::before {
+		content: ' · ';
+	}
+
+	.np-card-summary,
+	.np-essay-sub,
+	.np-rec-points li,
+	.np-ab-chapter > p {
+		font-size: 1.125rem;
+		line-height: 1.6;
+	}
+
+	.np-letter .np-story-summary {
+		font-size: 1.125rem;
+		line-height: 1.6;
+	}
+
+	.np-card-finding p {
+		font-size: 1.0625rem;
+		line-height: 1.5;
+	}
+}
+
+@media screen and (min-width: 720px) and (max-width: 959px) {
+	/* All seven section links fit without scrolling sideways. */
+	.np-sections ul {
+		justify-content: space-between;
+	}
+
+	.np-sections li a {
+		margin: 0.3rem 0;
+		padding: 0.35rem 0.4rem;
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+	}
+}
+
+@media screen and (min-width: 720px) and (max-width: 1079px) {
+	/* The first essay leads, with the other six in two columns under it. */
+	.np-essay:first-child {
+		grid-column: 1 / -1;
+		padding-right: 0;
+	}
+
+	.np-essay:nth-child(2n),
+	.np-essay:nth-child(2n):hover,
+	.np-essay:first-child,
+	.np-essay:first-child:hover {
+		padding-left: 0;
+		border-left: 0;
+	}
+
+	.np-essay:nth-child(2n)::before,
+	.np-essay:first-child::before {
+		left: 0;
+	}
+
+	.np-essay:nth-child(2n) {
+		padding-right: 1.4rem;
+	}
+
+	.np-essay:nth-child(2n + 1):not(:first-child),
+	.np-essay:nth-child(2n + 1):not(:first-child):hover {
+		padding-right: 0;
+		padding-left: 1.4rem;
+		border-left: 1px solid var(--np-hairline);
+	}
+
+	.np-essay:nth-child(2n + 1):not(:first-child)::before {
+		left: 1.4rem;
+	}
+}
+
+@media screen and (min-width: 960px) {
+	.np-ab-grid {
+		grid-template-areas:
+			'c1 c2'
+			'c1 quote'
+			'c3 c4';
+	}
+}
+
+/* Full rows, so no story is left alone beside a blank column: the briefs run
+   four across and the first essay leads across the page above the other six. */
+@media screen and (min-width: 1080px) {
+	.np-story-grid {
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	.np-card-featured {
+		grid-column: span 6;
+	}
+
+	.np-card-brief,
+	.np-card-brief.is-row-start {
+		grid-column: span 3;
+	}
+
+	.np-card-brief,
+	.np-card-brief:nth-child(3n + 2) {
+		padding-right: 1.25rem;
+	}
+
+	.np-card-brief:not(.is-row-start) {
+		padding-left: 1.25rem;
+	}
+
+	.np-card-brief:not(.is-row-start)::before {
+		left: 1.25rem;
+	}
+
+	.np-essays .np-essay,
+	.np-essays .np-essay:hover {
+		border-right: 0;
+	}
+
+	.np-essay:first-child {
+		grid-column: 1 / -1;
+		padding-right: 0;
+	}
+
+	.np-essay:first-child .np-story-headline {
+		font-size: 2.25rem;
+	}
+
+	.np-essay:nth-child(3n + 1),
+	.np-essay:nth-child(3n + 1):hover {
+		padding-left: 1.6rem;
+	}
+
+	.np-essay:nth-child(3n + 1)::before {
+		left: 1.6rem;
+	}
+
+	.np-essay:nth-child(3n + 2),
+	.np-essay:nth-child(3n + 2):hover,
+	.np-essay:first-child,
+	.np-essay:first-child:hover {
+		padding-left: 0;
+		border-left: 0;
+	}
+
+	.np-essay:nth-child(3n + 2)::before,
+	.np-essay:first-child::before {
+		left: 0;
+	}
+
+	.np-essay:nth-child(3n + 1):not(:first-child) {
+		padding-right: 0;
+		border-left: 1px solid var(--np-hairline);
+	}
+
+	.np-essay:nth-child(3n) {
+		padding-right: 1.6rem;
+	}
+}
+
+/* The page turner: only once the nameplate has scrolled away, and where the
+   stuck bar has room for it beside every section link. */
+@media screen and (min-width: 1180px) {
+	.np-sections.is-stuck .np-page-turner {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.25rem;
+		font-family: var(--np-label);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		white-space: nowrap;
+		color: var(--np-ink);
+	}
+
+	.np-page-turner > :first-child,
+	.np-page-turner > :last-child {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
+	}
+
+	.np-page-turner a:hover {
+		background: var(--np-ink);
+		color: var(--np-paper);
+	}
+}
+
+/* ---------- Phone: the same paper, in one column ---------- */
+
+/* mobile.css lays the phone out and trims the detail; these put back the look
+   the sizes share. */
+@media screen and (max-width: 719px) {
+	/* The date runs under the nameplate's rule; there's no room beside it. */
+	.np-masthead .np-wrap {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.np-earline {
+		display: contents;
+	}
+
+	.np-dateline {
+		order: 3;
+		min-height: 1.25rem;
+		margin-top: 0.35rem;
+		font-size: 0.85rem;
+		text-align: center;
+	}
+
+	.np-hero-copy .np-promise {
+		margin-bottom: 0.8rem;
+		font-size: min(4.9vw, 1.5rem);
+	}
+
+	.np-hero-copy .np-hero-actions {
+		justify-content: flex-start;
+	}
+
+	.np-hero-socials {
+		margin-left: 0;
+	}
+
+	.np-hero-page .np-ask {
+		padding: 1.1rem 1.25rem 1.25rem;
+		background: var(--np-sheet, #fffdf8);
+		border: 1px solid var(--np-hairline);
+		border-top: 3px solid var(--c-front);
+	}
+
+	.np-ask .askme-suggestion {
+		background: var(--np-paper-deep);
+	}
+
+	/* Top stories, as on every other size. */
+	.np-hero-page .np-top-stories {
+		display: flex;
+	}
+
+	.np-top-stories .np-teaser-headline {
+		font-size: 1.05rem;
+		line-height: 1.3;
+	}
+
+	.np-top-stories .np-teaser-all {
+		flex-wrap: wrap;
+		gap: 0.25rem;
+	}
+
+	/* Section heads: centred, as on the wider sizes, without the page labels. */
+	#home ~ section .np-section-head {
+		text-align: center;
+	}
+
+	#about .np-section-dek {
+		display: block;
+	}
+
+	#home ~ section .np-section-title::after {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.np-section-dek {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* Each story's short bar of its desk's colour. */
+	.np-story::before,
+	.np-rec::before,
+	.np-essay::before,
+	.np-letter::before {
+		display: block;
+	}
+
+	.np-story:first-child,
+	.np-rec:first-child,
+	.np-essay:first-child,
+	.np-letter:first-child,
+	.np-classified:first-child {
+		padding-top: 1.1rem;
+		border-top: 1px solid var(--np-hairline);
+	}
+
+	.np-story-grid::before {
+		margin-top: 1.75rem;
+	}
+
+	.np-card .np-card-evidence {
+		background: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.np-rec-period {
+		font-family: var(--np-display);
+		font-size: 1.125rem;
+		font-weight: 800;
+		color: var(--np-ink);
+	}
+
+	.np-ab-stats {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-bottom: 1.75rem;
+	}
+
+	.np-ab-stats .np-ab-stat {
+		padding: 0.9rem 1rem;
+	}
+
+	.np-ab-chapter > p::first-letter {
+		float: left;
+		margin: 0.08em 0.1em 0 0;
+		font-family: var(--np-display);
+		font-size: 3.1em;
+		font-weight: 700;
+		line-height: 0.8;
+		color: var(--tone);
+	}
+
+	.np-essay .np-byline {
+		display: none;
+	}
+
+	.np-essay-sub {
+		display: block;
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	.np-essay:first-child .np-story-headline {
+		font-size: 1.625rem;
+	}
+
+	.np-classified-end {
+		display: block;
+	}
+
+	.np-classified-title {
+		color: var(--box, var(--np-ink));
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		font-size: 0.78rem;
+	}
+
+	#skills .np-classified-list li {
+		font-family: var(--np-label);
+		font-size: 0.875rem;
+	}
+
+	.np-letter .np-story-summary {
+		display: block;
+	}
+}
+
+/* These show unless a layout above takes them away. */
+.np-byline,
+.np-dateline {
+	display: block;
+}
+
+.np-jump {
+	display: inline;
+}
+
+@media print {
+	.np-byline,
+	.np-dateline,
+	.np-jump {
+		display: none;
+	}
+}

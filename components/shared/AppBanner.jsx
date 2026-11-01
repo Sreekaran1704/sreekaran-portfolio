@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
 	FiArrowRight,
@@ -30,14 +29,6 @@ const tickerItems = [
 	'50% rise in school revenue at Avanthi High School',
 	'Market Pulse: a live job-market pipeline with its own MCP server',
 	'M.S. Computer Science, 3.97 GPA',
-];
-
-// From "SQL and Python to make data trustworthy, Tableau to make it legible,
-// and causal inference to make it actionable."
-const promises = [
-	{ word: 'trustworthy', how: 'with SQL & Python' },
-	{ word: 'legible', how: 'with Tableau' },
-	{ word: 'actionable', how: 'with causal inference' },
 ];
 
 const topStories = [
@@ -93,37 +84,13 @@ function Ticker() {
 	);
 }
 
-// Cycles the three things the About story says the tools are for.
+// From "SQL and Python to make data trustworthy, Tableau to make it legible,
+// and causal inference to make it actionable."
 function DataPromise() {
-	const [index, setIndex] = useState(0);
-	const [animate, setAnimate] = useState(false);
-
-	useEffect(() => {
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-		setAnimate(true);
-		const timer = setInterval(() => setIndex((i) => (i + 1) % promises.length), 2600);
-		return () => clearInterval(timer);
-	}, []);
-
-	const current = promises[index];
-
 	return (
 		<p className="np-promise">
-			<span className="sr-only">
-				I make data trustworthy with SQL and Python, legible with Tableau, and
-				actionable with causal inference.
-			</span>
-			<span aria-hidden="true">
-				I make data{' '}
-				<span className="np-promise-slot">
-					<span key={current.word} className={`np-promise-word ${animate ? 'is-animated' : ''}`}>
-						{current.word}
-					</span>
-				</span>{' '}
-				<span key={current.how} className={`np-promise-how ${animate ? 'is-animated' : ''}`}>
-					{current.how}
-				</span>
-			</span>
+			I make data <em>trustworthy</em> with SQL &amp; Python, <em>legible</em> with
+			Tableau and <em>actionable</em> with causal inference.
 		</p>
 	);
 }
@@ -322,7 +289,9 @@ function AppBanner() {
 						</Link>
 					))}
 					<Link href="#projects" className="np-teaser-all">
-						All {projectsData.length} projects <FiArrowRight aria-hidden="true" />
+						All {projectsData.length} projects
+						<span className="np-jump"> · continued on Page B1</span>
+						<FiArrowRight aria-hidden="true" />
 					</Link>
 				</section>
 			</div>

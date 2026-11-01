@@ -82,8 +82,8 @@ function ContactDetails() {
 	return (
 		<div className="np-wrap np-section">
 			<SectionHead
-				section="Section F · Letters"
-				page="Page F1"
+				section="Section G · Letters"
+				page="Page G1"
 				title="Connect with me"
 				dek="For data roles, applied AI conversations, collaborations, referrals, or project discussions, these are the easiest ways to reach me."
 			/>

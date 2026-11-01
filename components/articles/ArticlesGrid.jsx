@@ -14,8 +14,8 @@ function ArticlesGrid() {
 	return (
 		<div className="np-wrap np-section">
 			<SectionHead
-				section="Section C · Opinion & Essays"
-				page="Page C1"
+				section="Section E · Opinion & Essays"
+				page="Page E1"
 				title="A few things I wrote"
 				dek="Narrative-style technical writing on data, machine learning, LLMs, and applied AI."
 			/>
@@ -29,7 +29,17 @@ function ArticlesGrid() {
 								{article.category} · {article.year} · {article.readTime}
 							</p>
 
-							<h3 className="np-story-headline">{article.title}</h3>
+							<h3 className="np-story-headline">
+								<a
+									href={article.url}
+									target={external ? '_blank' : undefined}
+									rel={external ? 'noopener noreferrer' : undefined}
+								>
+									{article.title}
+								</a>
+							</h3>
+
+							<p className="np-byline">By Sreekaran Reddy</p>
 
 							<p className="np-essay-sub">{article.subtitle}</p>
 

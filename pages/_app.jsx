@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import '../styles/newspaper.css';
 import '../styles/reader.css';
 import '../styles/mobile.css';
+import '../styles/design.css';
 import '../styles/torch.css';
 import '../styles/smog.css';
 import { AnimatePresence } from 'framer-motion';

@@ -127,8 +127,8 @@ function Skills() {
 	return (
 		<div className="np-wrap np-section">
 			<SectionHead
-				section="Section E · Classifieds"
-				page="Page E1"
+				section="Section F · Classifieds"
+				page="Page F1"
 				title="Skills"
 				dek="Tools and the things I used."
 			/>

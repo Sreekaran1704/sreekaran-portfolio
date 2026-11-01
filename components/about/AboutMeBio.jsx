@@ -66,7 +66,7 @@ function Chapter({ chapter, index }) {
 function AboutMe() {
 	return (
 		<div className="np-wrap np-section">
-			<SectionHead section="Section A · Profile" page="Page A2" title="About" dek="My background and approach to working with data." />
+			<SectionHead section="Section D · Profile" page="Page D1" title="About" dek="My background and approach to working with data." />
 
 			<Reveal as="dl" className="np-ab-stats" aria-label="By the numbers">
 				{stats.map((stat) => (

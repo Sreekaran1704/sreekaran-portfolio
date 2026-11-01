@@ -160,8 +160,8 @@ function Experience() {
 	return (
 		<div className="np-wrap np-section">
 			<SectionHead
-				section="Section D · The Record"
-				page="Page D1"
+				section="Section C · The Record"
+				page="Page C1"
 				title="Experience"
 				dek="Roles, responsibilities, and results, most recent first."
 			/>

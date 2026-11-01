@@ -27,7 +27,7 @@ const countFor = (value) =>
 	value === 'All' ? ordered.length : ordered.filter((p) => p.type === value).length;
 
 // Where each card sits in the wide layout: write-ups run two to a row, the
-// rest three to a row, all in one grid. A row of briefs is told it starts a
+// rest four to a row, all in one grid. A row of briefs is told it starts a
 // row, so it never tucks in beside a lone write-up.
 function layoutFor(projects) {
 	let featured = 0;
@@ -39,7 +39,7 @@ function layoutFor(projects) {
 			featured += 1;
 			return { project, col, rowStart: col === 0 };
 		}
-		const col = brief % 3;
+		const col = brief % 4;
 		brief += 1;
 		return { project, col, rowStart: col === 0 };
 	});
