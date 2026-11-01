@@ -14,6 +14,12 @@ html {
 	bottom: 50px;
 }
 
+@media (min-width: 720px) {
+	.np-rec-more.is-phone-only {
+		display: none;
+	}
+}
+
 /* Only ever shown on a phone. */
 .np-tab-icon,
 .np-tab-more,
@@ -110,6 +116,11 @@ html {
 		min-height: 40px;
 		padding: 0.25rem 0.7rem;
 		font-size: 0.75rem;
+	}
+
+	/* Moving text at the top of a small screen is mostly noise. */
+	.np-ticker {
+		display: none;
 	}
 
 	.np-nameplate {
@@ -397,9 +408,17 @@ html {
 		margin-bottom: 1.1rem;
 	}
 
-	.np-hero-tags li {
-		padding: 0.25rem 0.5rem;
-		font-size: 0.72rem;
+	/* Plain lines of type, so the only boxes on the first screen are buttons. */
+	.np-hero-tags li,
+	.np-hero-tags li:nth-child(n) {
+		padding: 0;
+		background: none;
+		border: 0;
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		text-transform: none;
+		color: var(--np-muted);
 	}
 
 	.np-hero-photo {
@@ -443,27 +462,34 @@ html {
 		flex: 1 1 auto;
 	}
 
+	/* One real button; Explore Projects and the icons sit quietly beside it. */
 	.np-hero-actions > .np-cta {
-		flex: 1 1 11rem;
+		flex: 1 1 auto;
+		justify-content: flex-start;
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
 	}
 
 	.np-hero-socials a {
-		width: 48px;
-		height: 48px;
+		width: 44px;
+		height: 44px;
+		background: none;
+		border: 0;
+		box-shadow: none;
 	}
 
 	.np-hero-quote {
 		display: block;
 		grid-column: 1 / -1;
-		margin: 1.25rem 0 0;
-		padding-left: 0.8rem;
-		border-left: 3px solid var(--c-front);
+		margin: 1.75rem 0 0;
 		font-family: var(--np-display);
-		font-size: 1.05rem;
+		font-size: 1.1rem;
 		font-style: italic;
-		font-weight: 600;
-		line-height: 1.35;
-		color: var(--np-ink);
+		font-weight: 500;
+		line-height: 1.4;
+		color: var(--np-ink-soft);
 	}
 
 	/* ---------- Ask box: suggestions swipe sideways instead of stacking ---------- */
@@ -472,13 +498,33 @@ html {
 		gap: 2rem;
 	}
 
-	.np-ask .np-ask-title {
-		font-size: 1.6rem;
+	/* A soft panel rather than a framed box, and only the title and the field. */
+	.np-ask {
+		padding: 1.25rem;
+		background: var(--np-paper-deep);
+		border: 0;
+		box-shadow: none;
 	}
 
-	.np-ask .np-box-note {
-		font-size: 0.95rem;
-		line-height: 1.45;
+	.np-ask .np-ask-banner,
+	.np-ask .np-box-note,
+	.np-ask .askme-recommended-label,
+	.np-ask .askme-suggestion-category {
+		display: none;
+	}
+
+	.np-ask .np-ask-title {
+		margin: 0 0 0.9rem;
+		font-size: 1.45rem;
+	}
+
+	.np-ask .askme-bar {
+		border-width: 1px;
+		border-color: var(--np-rule);
+	}
+
+	.np-top-stories {
+		display: none;
 	}
 
 	.np-ask .askme-send {
@@ -503,16 +549,25 @@ html {
 	}
 
 	.np-ask .askme-suggestion {
-		flex: 0 0 72%;
-		padding: 0.7rem 0.8rem;
-		border: 1px solid var(--np-rule);
+		flex: 0 0 auto;
+		max-width: 85%;
+		min-height: 44px;
+		justify-content: center;
+		padding: 0.4rem 0.9rem;
+		background: var(--np-paper);
+		border: 0;
+		border-radius: 999px;
 		scroll-snap-align: start;
 		text-align: left;
 	}
 
 	.np-ask .askme-suggestion-text {
-		font-size: 0.98rem;
+		overflow: hidden;
+		font-family: var(--np-body);
+		font-size: 0.9rem;
 		line-height: 1.3;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	.np-teaser-all,
@@ -526,39 +581,159 @@ html {
 
 	/* ---------- Sections ---------- */
 
+	/* On a phone, space separates things: no page furniture, boxes or colour bars.
+	   Anything hidden here is still on the wider layouts or the project pages. */
 	.np-section {
-		padding-top: 2.5rem;
-		padding-bottom: 2.5rem;
+		padding-top: 3.25rem;
+		padding-bottom: 1rem;
 	}
 
 	.np-section-head {
 		margin-bottom: 1.5rem;
 	}
 
-	.np-section-title {
-		font-size: 2.2rem;
-	}
-
 	.np-section-dek {
-		font-size: 1.02rem;
-		line-height: 1.45;
+		font-size: 1rem;
+		line-height: 1.5;
+		color: var(--np-muted);
 	}
 
-	/* ---------- Projects ---------- */
+	#home ~ section .np-section-head {
+		text-align: left;
+	}
 
-	/* The filter buttons already carry the counts. */
-	.np-projects-count {
+	#home ~ section .np-section-slug,
+	#about .np-section-dek {
 		display: none;
 	}
 
-	.np-filter button {
-		padding: 0.5rem 0.25rem;
-		font-size: 0.72rem;
-		letter-spacing: 0.03em;
+	#home ~ section .np-section-title {
+		margin-top: 0;
+		font-size: 2.1rem;
 	}
 
-	.np-filter-count {
-		font-size: 0.72rem;
+	#home ~ section .np-section-title::after {
+		margin-left: 0;
+	}
+
+	.np-story::before,
+	.np-rec::before,
+	.np-essay::before,
+	.np-letter::before,
+	.np-ab-chapter::before,
+	.np-ab-glance::before {
+		display: none;
+	}
+
+	.np-story,
+	.np-rec,
+	.np-essay,
+	.np-letter,
+	.np-classified {
+		margin: 0;
+		padding: 1.75rem 0;
+		border-top: 1px solid var(--np-hairline);
+	}
+
+	.np-story:first-child,
+	.np-rec:first-child,
+	.np-essay:first-child,
+	.np-letter:first-child,
+	.np-classified:first-child {
+		padding-top: 0.25rem;
+		border-top: 0;
+	}
+
+	.np-story-grid,
+	.np-essays,
+	.np-letters,
+	.np-classifieds,
+	.np-record-list {
+		gap: 0;
+		border-top: 0;
+	}
+
+	/* The card's grid lines its parts up across a row of cards; a phone has one. */
+	.np-card {
+		display: block;
+	}
+
+	/* ---------- Projects: what, why it matters, and one way in ---------- */
+
+	.np-projects-bar,
+	.np-card-no,
+	.np-card-metric,
+	.np-card-finding,
+	.np-card-tools {
+		display: none;
+	}
+
+	.np-card-cat {
+		color: var(--np-muted);
+	}
+
+	.np-card-title {
+		font-size: 1.5rem;
+		line-height: 1.2;
+	}
+
+	.np-card-summary {
+		margin-bottom: 1rem;
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--np-ink-soft);
+	}
+
+	.np-card .np-card-evidence {
+		margin: 0 0 1rem;
+		padding: 1rem 0.75rem;
+		background: var(--np-paper-deep);
+		border: 0;
+	}
+
+	.np-card .projects-preview {
+		padding: 0;
+		border: 0;
+	}
+
+	.np-card .np-card-links {
+		gap: 0 0.9rem;
+		margin: 0;
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	/* Links read as words: only the first carries weight. */
+	.np-card .np-card-links a {
+		font-size: 0.8rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-ink-soft);
+	}
+
+	.np-card .np-card-links .np-card-primary {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		font-weight: 700;
+		color: var(--np-ink);
+	}
+
+	#articles .np-story-links,
+	#contact .np-story-links {
+		gap: 0 1.1rem;
+		padding-top: 0.25rem;
+	}
+
+	#articles .np-story-links a,
+	#contact .np-story-links a,
+	.np-letter-copy {
+		font-size: 0.85rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		text-transform: none;
 	}
 
 	.np-story-grid.is-phone-collapsed > :nth-child(n + 5),
@@ -573,41 +748,146 @@ html {
 		gap: 0.5rem;
 		width: 100%;
 		min-height: 48px;
-		margin-top: 1.5rem;
-		background: transparent;
-		border: 2px solid var(--np-ink);
+		margin-top: 0.5rem;
+		background: var(--np-paper-deep);
+		border: 0;
 		font-family: var(--np-label);
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
+		font-size: 0.85rem;
+		font-weight: 600;
 		color: var(--np-ink);
 	}
 
 	.np-card-evidence small,
 	.np-card-evidence em,
-	.np-card-metric,
-	.np-card-finding-label,
-	.np-rec-type,
-	.np-rec-more-label,
 	.preview-estimates-note {
 		font-size: 0.75rem;
 	}
 
-	/* ---------- Experience ---------- */
+	/* ---------- Experience: the role, its numbers, and one highlight ---------- */
 
-	.np-record-list .np-rec-points.is-phone-collapsed > li:nth-child(n + 3) {
+	.np-rec-type,
+	.np-rec-kicker,
+	.np-rec-more-label {
 		display: none;
 	}
 
-	.np-rec-more {
-		min-height: 48px;
+	.np-rec-period {
+		margin-bottom: 0.4rem;
+		font-family: var(--np-label);
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--np-muted);
 	}
 
-	/* ---------- About: chapters open on their first lines ---------- */
+	.np-rec-dateline {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.np-rec-role {
+		font-size: 1.5rem;
+		line-height: 1.2;
+	}
+
+	.np-rec-company {
+		margin-bottom: 1rem;
+		font-size: 1rem;
+	}
+
+	.np-rec-numbers {
+		gap: 0.9rem 1rem;
+		margin-bottom: 1rem;
+		padding: 0;
+		border: 0;
+	}
+
+	.np-rec-numbers dd {
+		font-size: 1.6rem;
+	}
+
+	.np-rec-numbers dt {
+		font-size: 0.78rem;
+	}
+
+	.np-record-list .np-rec-points.is-phone-collapsed > li:nth-child(n + 2) {
+		display: none;
+	}
+
+	.np-record-list .np-rec-points li {
+		line-height: 1.55;
+		color: var(--np-ink-soft);
+	}
+
+	.np-rec-more {
+		min-height: 44px;
+		margin-top: 0.25rem;
+		padding: 0;
+		border: 0;
+	}
+
+	.np-rec-more-title {
+		font-family: var(--np-label);
+		font-size: 0.85rem;
+		font-style: normal;
+		font-weight: 600;
+	}
+
+	/* ---------- About: the story, opening on its first lines ---------- */
+
+	.np-ab-stats,
+	.np-ab-chapter-no,
+	.np-ab-quote,
+	.np-ab-glance h4,
+	.np-ab-glance dl > div:first-child {
+		display: none;
+	}
+
+	.np-ab-headline {
+		margin-bottom: 1.5rem;
+		font-size: 1.5rem;
+		line-height: 1.25;
+	}
+
+	.np-ab-grid {
+		gap: 0;
+	}
+
+	.np-ab-chapter {
+		margin: 0;
+		padding: 0 0 1.75rem;
+		border-top: 0;
+	}
+
+	.np-ab-chapter > p {
+		line-height: 1.6;
+		color: var(--np-ink-soft);
+	}
+
+	.np-ab-chapter > p::first-letter {
+		float: none;
+		margin: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+	}
+
+	.np-ab-glance {
+		padding: 1.25rem;
+		background: var(--np-paper-deep);
+		border: 0;
+		box-shadow: none;
+	}
+
+	.np-ab-glance dl,
+	.np-ab-glance dl > div,
+	.np-ab-glance dl > div + div {
+		padding: 0.4rem 0;
+		border: 0;
+	}
 
 	.np-ab-chapter:not(.is-open) > p {
-		max-height: 11.5rem;
+		max-height: 7.5rem;
 		overflow: hidden;
 		-webkit-mask-image: linear-gradient(#000 65%, transparent);
 		mask-image: linear-gradient(#000 65%, transparent);
@@ -622,31 +902,97 @@ html {
 		background: transparent;
 		border: 0;
 		font-family: var(--np-label);
-		font-size: 0.78rem;
-		font-weight: 700;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
+		font-size: 0.85rem;
+		font-weight: 600;
 		color: var(--np-ink);
 	}
 
-	/* ---------- Writing: the summary is a teaser; the essay is on LinkedIn ---------- */
+	/* ---------- Writing: a title and a taste; the essay is on LinkedIn ---------- */
+
+	.np-essay-sub,
+	.np-essay .np-filed {
+		display: none;
+	}
+
+	.np-essay .np-kicker {
+		color: var(--np-muted);
+	}
+
+	.np-essay .np-story-headline {
+		font-size: 1.3rem;
+		line-height: 1.25;
+	}
 
 	.np-essay .np-story-summary {
 		display: -webkit-box;
 		overflow: hidden;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 4;
-		line-clamp: 4;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--np-ink-soft);
 	}
 
-	.np-essay .np-filed {
+	/* ---------- Skills: a heading and a line of plain words, not rows of boxes ---------- */
+
+	.np-classified-lede,
+	.np-classified-desc,
+	.np-classified-end {
 		display: none;
 	}
 
-	/* ---------- Skills: the headline line says it; chips carry the rest ---------- */
+	.np-classified {
+		padding: 1.1rem 0;
+		background: none;
+	}
 
-	.np-classified-desc {
+	.np-classified-title {
+		margin-bottom: 0.4rem;
+		font-family: var(--np-label);
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-ink);
+	}
+
+	#skills .np-classified-list {
+		display: block;
+		padding: 0;
+		border: 0;
+	}
+
+	#skills .np-classified-list li {
+		display: inline;
+		padding: 0;
+		background: none;
+		border: 0;
+		font-family: var(--np-body);
+		font-size: 0.98rem;
+		letter-spacing: 0;
+		text-transform: none;
+		line-height: 1.55;
+		color: var(--np-ink-soft);
+	}
+
+	#skills .np-classified-list li:not(:last-child)::after {
+		content: ' · ';
+		color: var(--np-muted);
+	}
+
+	/* ---------- Contact: where to reach me, and the link ---------- */
+
+	.np-letter .np-story-summary {
 		display: none;
+	}
+
+	.np-letter .np-kicker {
+		color: var(--np-muted);
+	}
+
+	.np-letter .np-story-headline {
+		font-size: 1.3rem;
 	}
 
 	/* ---------- Back to top: in the corner, clear of the reading column ---------- */
@@ -656,7 +1002,7 @@ html {
 		bottom: calc(var(--np-tabbar-h) + 0.75rem);
 	}
 
-	/* ---------- Project pages ---------- */
+	/* ---------- Project pages: every word stays; the framing around them goes ---------- */
 
 	.project-detail-back-btn,
 	.reader .project-detail-back-btn {
@@ -664,6 +1010,318 @@ html {
 		align-items: center;
 		min-height: 44px;
 		margin-top: 0.5rem;
+		font-size: 0.85rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-ink-soft);
+	}
+
+	.reader .fh-version-switch > :not(.fh-version-switch-options) {
+		display: none;
+	}
+
+	.reader .fh-version-switch {
+		margin-top: 0.25rem;
+		padding-bottom: 0;
+	}
+
+	.reader .fh-hero {
+		margin-top: 1rem;
+		padding-bottom: 1.75rem;
+		border-bottom: 0;
+	}
+
+	.reader .fh-hero::after {
+		display: none;
+	}
+
+	.reader .fh-eyebrow {
+		margin-bottom: 0.6rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--np-muted);
+	}
+
+	.reader .fh-hero-title {
+		font-size: min(9vw, 2.6rem);
+		line-height: 1.1;
+	}
+
+	.reader .fh-hero-lede {
+		margin-top: 0.9rem;
+		font-size: 1.05rem;
+		line-height: 1.5;
+	}
+
+	.reader .fh-hero-byline {
+		margin-top: 0.9rem;
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-muted);
+	}
+
+	/* One button; any others read as plain links beside it. */
+	.reader .fh-study-links {
+		align-items: center;
+		gap: 0.25rem 1.1rem;
+	}
+
+	.reader .fh-study-links .notice-link-outline {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		font-size: 0.85rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-ink);
+	}
+
+	/* The numbers sit on the page in two columns instead of a stack of cards. */
+	.reader .fh-hero-stats,
+	.reader .fh-study-snapshot {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem 1rem;
+		margin: 0 0 2.25rem;
+		padding: 0;
+		background: none;
+	}
+
+	.reader .fh-hero-stat,
+	.reader .fh-hero-stat:nth-child(n) {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+	}
+
+	.reader .fh-hero-stat-value {
+		font-size: 1.6rem;
+	}
+
+	.reader .fh-hero-stat-label {
+		font-size: 0.78rem;
+		line-height: 1.35;
+	}
+
+	/* Summaries, contents and asides: soft panels of ordinary reading text. */
+	.reader .rd-tldr,
+	.reader .rd-cast,
+	.reader .fh-insight,
+	.reader .fh-insight.fh-insight-final,
+	.reader .rd-strip,
+	.reader .fh-interactive {
+		padding: 1.1rem;
+		background: var(--np-paper-deep);
+		border: 0;
+		box-shadow: none;
+	}
+
+	.reader .rd-tldr h2,
+	.reader .rd-contents-label,
+	.reader .rd-cast-title,
+	.reader .fh-insight-tag,
+	.reader .fh-insight-final .fh-insight-tag {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--np-muted);
+	}
+
+	.reader .rd-tldr p,
+	.reader .rd-tldr li {
+		font-family: var(--np-body);
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.55;
+		color: var(--np-ink-soft);
+	}
+
+	.reader .rd-tldr li::before {
+		background: var(--np-muted);
+	}
+
+	.reader .fh-insight p,
+	.reader .fh-insight-final p {
+		font-size: 1.05rem;
+		line-height: 1.45;
+	}
+
+	.reader .rd-contents {
+		margin-bottom: 2.5rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+	}
+
+	.reader .rd-contents li a {
+		padding: 0.5rem 0;
+		border-top: 0;
+	}
+
+	.reader .rd-contents-no {
+		color: var(--np-muted);
+	}
+
+	.reader .rd-contents-title {
+		font-family: var(--np-body);
+		font-size: 1rem;
+		font-weight: 400;
+	}
+
+	/* Chapters: a quiet label, a title and text. The next chapter is right there,
+	   so "Continued in chapter 3" links go. */
+	.reader .rd-section,
+	.reader .fh-section {
+		margin-bottom: 3rem;
+	}
+
+	.reader .rd-section-head {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.reader .rd-kicker {
+		margin: 0 0 0.35rem;
+		padding-top: 0;
+		border-top: 0;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--np-muted);
+	}
+
+	.reader .rd-headline,
+	.reader .fh-section h2 {
+		font-size: 1.6rem;
+		line-height: 1.2;
+	}
+
+	.reader .rd-body > p:first-child::first-letter,
+	.reader .rd-rail + .fh-section > p:first-child::first-letter,
+	.reader .rd-objective::first-letter {
+		float: none;
+		margin: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+	}
+
+	.reader .rd-body p,
+	.reader .rd-body li {
+		font-size: 1.02rem;
+		line-height: 1.65;
+	}
+
+	.reader .rd-continued:has(.rd-continued-label) {
+		display: none;
+	}
+
+	/* The desk conversations keep their balloons, without the comic-strip frame. */
+	.reader .rd-strip::before {
+		display: none;
+	}
+
+	.reader .rd-strip {
+		gap: 0.9rem;
+	}
+
+	/* Tables: a light header, so the numbers are the darkest thing in them. */
+	.reader .fh-table thead th,
+	.reader .fh-chart-table thead th,
+	html[data-edition='bw'] .reader .fh-table thead th,
+	html[data-edition='bw'] .reader .fh-chart-table thead th {
+		background: none;
+		border-bottom: 1px solid var(--np-rule);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-muted);
+	}
+
+	.reader .fh-table-wrap {
+		border: 0;
+		box-shadow: none;
+	}
+
+	/* A run of figures stays on one line; the table already scrolls sideways. */
+	.reader .fh-table td:not(:first-child) {
+		white-space: nowrap;
+	}
+
+	.reader .fh-image-figure,
+	.reader .fh-chart-figure {
+		border: 0;
+		box-shadow: none;
+	}
+
+	.reader .fh-result-line,
+	.reader .fh-formula-block,
+	.reader .pc-edition,
+	.reader .pc-edition + .pc-edition {
+		background: var(--np-paper-deep);
+		border: 0;
+		box-shadow: none;
+	}
+
+	/* Tags and short lists are plain words in a row. */
+	.reader .fh-plain-list,
+	.reader .rd-tools {
+		gap: 0.3rem 1rem;
+	}
+
+	.reader .fh-plain-list li,
+	.reader .rd-tools li {
+		padding: 0;
+		background: none;
+		border: 0;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--np-ink-soft);
+	}
+
+	.reader .rd-body p.pc-qualifier {
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--np-muted);
+	}
+
+	/* PhotoCull's steps: a small number beside each, not a black block on a rail. */
+	.reader .pc-pipeline li:not(:last-child)::after {
+		display: none;
+	}
+
+	.reader .pc-pipeline-no,
+	.reader .pc-pipeline li.is-optional .pc-pipeline-no {
+		align-self: start;
+		justify-content: flex-start;
+		width: 1.6rem;
+		height: auto;
+		background: none;
+		border: 0;
+		font-weight: 600;
+		color: var(--np-muted);
 	}
 
 	.fh-version-switch-options,
