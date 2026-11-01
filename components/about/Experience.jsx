@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Reveal from '../shared/Reveal';
 import SectionHead from '../shared/SectionHead';
 
@@ -73,19 +73,31 @@ const experienceItems = [
 
 // Long records open on their first few highlights; the rest are a click away.
 const PREVIEW_POINTS = 3;
+// A phone opens on one fewer; mobile.css hides the last preview point.
+const PHONE_PREVIEW_POINTS = 2;
 
 // Each role is set like a story on a newspaper's record page: a dateline
 // column on the left, and on the right a kicker, the role as the headline,
 // the company as the deck, a "by the numbers" strip and the highlights.
 function RecordItem({ item }) {
 	const [expanded, setExpanded] = useState(false);
+	const rootRef = useRef(null);
 	const hidden = item.points.length - PREVIEW_POINTS;
+	const phoneHidden = item.points.length - PHONE_PREVIEW_POINTS;
 	const points = expanded ? item.points : item.points.slice(0, PREVIEW_POINTS);
 	const listId = `record-points-${item.id}`;
 	const focus = item.type.split('•').map((tag) => tag.trim());
 
+	const toggle = () => {
+		setExpanded((open) => !open);
+		// Collapsing removes the text above the button; keep the reader on this role.
+		if (expanded && rootRef.current?.getBoundingClientRect().top < 0) {
+			rootRef.current.scrollIntoView({ block: 'start' });
+		}
+	};
+
 	return (
-		<li className={`np-rec np-tone-${item.tone}`}>
+		<li ref={rootRef} className={`np-rec np-tone-${item.tone}`}>
 			<Reveal as="article" className="np-rec-grid">
 				<aside className="np-rec-dateline">
 					<p className="np-rec-period">{item.period}</p>
@@ -106,7 +118,7 @@ function RecordItem({ item }) {
 						))}
 					</dl>
 
-					<ul id={listId} className="np-rec-points">
+					<ul id={listId} className={`np-rec-points ${hidden > 0 && !expanded ? 'is-phone-collapsed' : ''}`}>
 						{points.map((point, i) => (
 							<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
 						))}
@@ -118,16 +130,21 @@ function RecordItem({ item }) {
 							className="np-rec-more"
 							aria-label={expanded
 								? `That’s the full record. Show fewer highlights for ${item.company}`
-								: `More from this role. Read ${hidden} more highlights for ${item.company}`}
+								: `More from this role. Read more highlights for ${item.company}`}
 							aria-expanded={expanded}
 							aria-controls={listId}
-							onClick={() => setExpanded((open) => !open)}
+							onClick={toggle}
 						>
 							<span className="np-rec-more-label">
 								{expanded ? 'That’s the full record' : 'More from this role'}
 							</span>
 							<span className="np-rec-more-title">
-								{expanded ? 'Show fewer highlights' : `Read ${hidden} more highlights`}{' '}
+								{expanded ? 'Show fewer highlights' : (
+									<>
+										Read <span className="np-wide-only">{hidden}</span>
+										<span className="np-phone-only">{phoneHidden}</span> more highlights
+									</>
+								)}{' '}
 								<span className="np-rec-more-arrow" aria-hidden="true">{expanded ? '↑' : '↓'}</span>
 							</span>
 						</button>

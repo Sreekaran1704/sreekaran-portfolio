@@ -1,27 +1,39 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import {
+	FiArrowLeft,
+	FiBookOpen,
+	FiBriefcase,
+	FiCpu,
+	FiEdit3,
+	FiFileText,
+	FiFolder,
+	FiHome,
+	FiMail,
+	FiUser,
+} from 'react-icons/fi';
 import EditionToggle from './EditionToggle';
 
 const navLinks = [
-	{ name: 'Front Page', href: '/#home' },
-	{ name: 'Projects', href: '/#projects' },
-	{ name: 'Experience', href: '/#experience' },
-	{ name: 'About', href: '/#about' },
-	{ name: 'Writing', href: '/#articles' },
-	{ name: 'Skills', href: '/#skills' },
-	{ name: 'Contact', href: '/#contact' },
+	{ name: 'Front Page', href: '/#home', Icon: FiHome },
+	{ name: 'Projects', href: '/#projects', Icon: FiFolder },
+	{ name: 'Experience', href: '/#experience', Icon: FiBriefcase },
+	{ name: 'About', href: '/#about', Icon: FiUser },
+	{ name: 'Writing', href: '/#articles', Icon: FiEdit3 },
+	{ name: 'Skills', href: '/#skills', Icon: FiCpu },
+	{ name: 'Contact', href: '/#contact', Icon: FiMail },
 ];
 
 // The resume is its own edition of the paper, with its own sections. Each
 // link keeps the desk colour its section uses on the page.
 const resumeLinks = [
-	{ name: 'Summary', href: '/resume#summary', tone: 'front' },
-	{ name: 'Experience', href: '/resume#experience', tone: 'experience' },
-	{ name: 'Projects', href: '/resume#projects', tone: 'projects' },
-	{ name: 'Education', href: '/resume#education', tone: 'about' },
-	{ name: 'Skills', href: '/resume#skills', tone: 'skills' },
-	{ name: '← Portfolio', href: '/', tone: 'contact' },
+	{ name: 'Summary', href: '/resume#summary', tone: 'front', Icon: FiFileText },
+	{ name: 'Experience', href: '/resume#experience', tone: 'experience', Icon: FiBriefcase },
+	{ name: 'Projects', href: '/resume#projects', tone: 'projects', Icon: FiFolder },
+	{ name: 'Education', href: '/resume#education', tone: 'about', Icon: FiBookOpen },
+	{ name: 'Skills', href: '/resume#skills', tone: 'skills', Icon: FiCpu },
+	{ name: '← Portfolio', tabName: 'Portfolio', href: '/', tone: 'contact', Icon: FiArrowLeft },
 ];
 
 const editions = {
@@ -59,6 +71,7 @@ function AppMasthead() {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 	const mastRef = useRef(null);
+	const tabsRef = useRef(null);
 	const [activeSection, setActiveSection] = useState('');
 	const [stuck, setStuck] = useState(false);
 	// Once the nameplate scrolls away, the section bar carries a small one.
@@ -103,6 +116,36 @@ function AppMasthead() {
 		};
 	}, [router.pathname, links]);
 
+	// Where the section bar scrolls sideways, fade whichever edge has more tabs.
+	useEffect(() => {
+		const tabs = tabsRef.current;
+		if (!tabs) return undefined;
+		const updateEdges = () => {
+			tabs.classList.toggle('has-more-left', tabs.scrollLeft > 2);
+			tabs.classList.toggle('has-more-right', tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 2);
+		};
+		updateEdges();
+		tabs.addEventListener('scroll', updateEdges, { passive: true });
+		window.addEventListener('resize', updateEdges);
+		return () => {
+			tabs.removeEventListener('scroll', updateEdges);
+			window.removeEventListener('resize', updateEdges);
+		};
+	}, []);
+
+	// ...and keep the current section's tab in view as the reader moves down.
+	useEffect(() => {
+		const tabs = tabsRef.current;
+		const active = tabs?.querySelector('a.is-active');
+		if (!active || tabs.scrollWidth <= tabs.clientWidth) return;
+		const tabBox = active.getBoundingClientRect();
+		const barBox = tabs.getBoundingClientRect();
+		tabs.scrollBy({
+			left: tabBox.left - barBox.left - (barBox.width - tabBox.width) / 2,
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+		});
+	}, [activeSection]);
+
 	return (
 		<>
 			<header ref={mastRef} className="np-masthead">
@@ -131,7 +174,7 @@ function AppMasthead() {
 					<Link href={edition.home} className="np-sections-mark" aria-hidden={!stuck} tabIndex={stuck ? 0 : -1} onClick={goHome}>
 						{edition.mark}
 					</Link>
-					<ul>
+					<ul ref={tabsRef}>
 						{links.map((link) => {
 							const id = sectionId(link.href);
 							const isActive = Boolean(id) && activeSection === id;
@@ -142,7 +185,10 @@ function AppMasthead() {
 										className={isActive ? 'is-active' : ''}
 										aria-current={isActive ? 'location' : undefined}
 									>
-										{link.name}
+										{/* On a phone this bar is a bottom tab bar (see mobile.css). */}
+										<span className="np-tab-icon" aria-hidden="true"><link.Icon /></span>
+										<span className="np-wide-only">{link.name}</span>
+										<span className="np-phone-only">{link.tabName || link.name}</span>
 									</Link>
 								</li>
 							);

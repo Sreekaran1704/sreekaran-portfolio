@@ -1,8 +1,16 @@
+import { useRef, useState } from 'react';
+import PhoneShowAll from '../shared/PhoneShowAll';
 import SectionHead from '../shared/SectionHead';
 import Reveal from '../shared/Reveal';
 import { articlesData } from '../../data/articlesData';
 
+// How many essays a phone shows first; mobile.css hides the rest until expanded.
+const PHONE_PREVIEW = 3;
+
 function ArticlesGrid() {
+	const [expanded, setExpanded] = useState(false);
+	const listRef = useRef(null);
+
 	return (
 		<div className="np-wrap np-section">
 			<SectionHead
@@ -12,7 +20,7 @@ function ArticlesGrid() {
 				dek="Narrative-style technical writing on data, machine learning, LLMs, and applied AI."
 			/>
 
-			<div className="np-essays">
+			<div ref={listRef} className={`np-essays ${expanded ? '' : 'is-phone-collapsed'}`}>
 				{articlesData.map((article, index) => {
 					const external = article.url !== '#';
 					return (
@@ -45,6 +53,16 @@ function ArticlesGrid() {
 					);
 				})}
 			</div>
+
+			{!expanded && (
+				<PhoneShowAll
+					total={articlesData.length}
+					preview={PHONE_PREVIEW}
+					label={`Show all ${articlesData.length} essays`}
+					listRef={listRef}
+					onExpand={() => setExpanded(true)}
+				/>
+			)}
 		</div>
 	);
 }

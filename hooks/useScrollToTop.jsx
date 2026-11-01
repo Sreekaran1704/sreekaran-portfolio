@@ -5,8 +5,19 @@ function ScrollToTop() {
 	const [showScroll, setShowScroll] = useState(false);
 
 	useEffect(() => {
-		const updateVisibility = () => setShowScroll(window.scrollY > 400);
-		updateVisibility();
+		const phone = window.matchMedia('(max-width: 719px)');
+		let lastY = window.scrollY;
+		const updateVisibility = () => {
+			const y = window.scrollY;
+			// On a phone it would sit on the text being read, so it only comes up
+			// when the reader starts scrolling back.
+			const scrollingBack = y < lastY;
+			if (y !== lastY) {
+				setShowScroll(y > 400 && (!phone.matches || scrollingBack));
+			}
+			lastY = y;
+		};
+		setShowScroll(lastY > 400 && !phone.matches);
 		window.addEventListener('scroll', updateVisibility, { passive: true });
 		return function cleanup() {
 			window.removeEventListener('scroll', updateVisibility);
@@ -33,8 +44,6 @@ function ScrollToTop() {
 					width: 44,
 					padding: 7,
 					borderRadius: 50,
-					right: 50,
-					bottom: 50,
 					display: showScroll ? 'flex' : 'none',
 					alignItems: 'center',
 					justifyContent: 'center',

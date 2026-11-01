@@ -269,7 +269,7 @@ function AppBanner() {
 							alt="Sreekaran Reddy"
 							width={2251}
 							height={2503}
-							sizes="(max-width: 400px) 80vw, 314px"
+							sizes="(max-width: 719px) 42vw, 314px"
 							priority
 							style={{ height: 'auto' }}
 						/>
@@ -289,6 +289,13 @@ function AppBanner() {
 						Open to work
 					</motion.span>
 				</motion.figure>
+
+				{/* The print is too small for its caption on a phone, so the line
+				    runs under the buttons instead (see mobile.css). */}
+				<p className="np-hero-quote">
+					&ldquo;Every dataset has a story it isn&apos;t telling yet. I enjoy the
+					process of finding it.&rdquo;
+				</p>
 			</div>
 
 			<div className="np-wrap np-hero-lower">

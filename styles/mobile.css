@@ -1,0 +1,610 @@
+/* ==========================================================================
+   The phone edition. Loaded last, and almost everything here sits behind
+   max-width: 719px, so wider screens are left as they were.
+   ========================================================================== */
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+/* Back to top moved here from inline styles so a phone can place it. */
+.scrollToTop {
+	right: 50px;
+	bottom: 50px;
+}
+
+/* Only ever shown on a phone. */
+.np-tab-icon,
+.np-show-all,
+.np-ab-more,
+.np-hero-quote,
+.np-phone-only {
+	display: none;
+}
+
+@media (max-width: 719px) {
+	/* Nothing sticks to the top of a phone, so anchors can land at the edge. */
+	:root {
+		--np-sticky-h: 0px;
+		--np-tabbar-h: 4rem;
+	}
+
+	.np-wide-only {
+		display: none;
+	}
+
+	.np-phone-only {
+		display: inline;
+	}
+
+	/* ---------- Touch ---------- */
+
+	a,
+	button,
+	summary,
+	select {
+		-webkit-tap-highlight-color: transparent;
+		touch-action: manipulation;
+	}
+
+	/* iOS zooms the whole page when a field under 16px takes focus. */
+	input,
+	select,
+	textarea,
+	.reader .fh-interactive select,
+	.reader .pc-walk-tools select {
+		font-size: 16px;
+	}
+
+	/* Blocks don't wait for JavaScript or fade in mid-scroll: on a slow phone
+	   that reads as a blank page. */
+	[data-reveal],
+	.np-hero-copy > * {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	.np-hero-photo {
+		opacity: 1 !important;
+		transform: rotate(-2deg) !important;
+	}
+
+	.np-hero-photo .np-sticker {
+		opacity: 1 !important;
+		transform: rotate(-6deg) !important;
+	}
+
+	/* A tap can leave :hover stuck on, so hover lifts become press feedback. */
+	.np-cta:hover,
+	.np-hero-socials a:hover {
+		transform: none;
+	}
+
+	.np-cta:active,
+	.np-teaser:active,
+	.np-show-all:active,
+	.np-card-primary:active {
+		opacity: 0.75;
+	}
+
+	.np-wrap {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	/* ---------- Masthead: one line of nameplate, a small edition switch ---------- */
+
+	.np-masthead {
+		padding-top: 0.5rem;
+	}
+
+	.np-edition-bar {
+		padding: 0 0 0.3rem;
+	}
+
+	.np-edition-btn {
+		min-height: 40px;
+		padding: 0.25rem 0.7rem;
+		font-size: 0.75rem;
+	}
+
+	.np-nameplate {
+		margin: 0.15rem 0 0.4rem;
+		font-size: min(7vw, 3rem);
+		white-space: nowrap;
+	}
+
+	/* ---------- Section bar: a bottom tab bar, within reach of a thumb ---------- */
+
+	.np-sections {
+		position: fixed;
+		top: auto;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: var(--np-paper);
+		border-top: 1px solid var(--np-rule);
+		border-bottom: 0;
+		box-shadow: 0 -6px 16px -12px rgba(0, 0, 0, 0.45);
+		transition: transform 0.2s ease;
+	}
+
+	.np-sections.is-stuck {
+		box-shadow: 0 -6px 16px -12px rgba(0, 0, 0, 0.45);
+	}
+
+	html[data-edition='bw'] .np-sections {
+		border-top: 2px solid #0d0d0d;
+		border-bottom: 0;
+	}
+
+	/* Out of the way of the on-screen keyboard while typing. */
+	body:has(input:focus, textarea:focus) .np-sections {
+		transform: translateY(100%);
+	}
+
+	.np-sections-inner {
+		min-height: 0;
+		padding: 0;
+	}
+
+	.np-sections-mark {
+		display: none;
+	}
+
+	.np-sections ul {
+		height: var(--np-tabbar-h);
+		align-items: center;
+		overscroll-behavior-x: contain;
+	}
+
+	.np-sections li {
+		flex: 1 0 auto;
+	}
+
+	.np-sections li a,
+	.np-sections li a.is-active {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.15rem;
+		min-width: 4.6rem;
+		min-height: var(--np-tabbar-h);
+		margin: 0;
+		padding: 0 0.2rem;
+		background: transparent;
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-decoration: none;
+		text-transform: none;
+		color: var(--np-ink-soft);
+	}
+
+	.np-sections li a.is-active {
+		font-weight: 700;
+		color: var(--np-ink);
+	}
+
+	.np-sections li a::before {
+		display: none;
+	}
+
+	.np-tab-icon {
+		display: grid;
+		place-items: center;
+		width: 3.1rem;
+		height: 1.9rem;
+		border-radius: 999px;
+		font-size: 1.15rem;
+		transition: background-color 0.15s ease, color 0.15s ease;
+	}
+
+	.np-sections li a:active .np-tab-icon {
+		background: var(--np-paper-deep);
+	}
+
+	.np-sections li a.is-active .np-tab-icon {
+		background: var(--c);
+		color: #fff;
+	}
+
+	.np-sections ul.has-more-right {
+		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+		mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+	}
+
+	.np-sections ul.has-more-left {
+		-webkit-mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+		mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+	}
+
+	.np-sections ul.has-more-left.has-more-right {
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+		mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+	}
+
+	/* The end of the page and anything floating stays clear of the bar. */
+	body {
+		padding-bottom: var(--np-tabbar-h);
+	}
+
+	.np-rec {
+		scroll-margin-top: 1rem;
+	}
+
+	.reader .pc-stage.is-pip,
+	.pj-window.is-pip {
+		bottom: calc(var(--np-tabbar-h) + 0.75rem);
+	}
+
+	/* ---------- Hero: who, what, a small print, and the buttons on one screen ---------- */
+
+	.np-hero {
+		grid-template-columns: minmax(0, 1fr) 38%;
+		column-gap: 1rem;
+		row-gap: 0;
+		align-items: start;
+		padding-top: 1.25rem;
+		padding-bottom: 1.5rem;
+	}
+
+	/* Lets the copy's children and the photo share one grid. */
+	.np-hero-copy {
+		display: contents;
+	}
+
+	.np-hero-name {
+		grid-column: 1 / -1;
+		margin-bottom: 0.45rem;
+		font-size: min(11.6vw, 5rem);
+		line-height: 1;
+		white-space: nowrap;
+	}
+
+	.np-hero-name span {
+		display: inline;
+	}
+
+	.np-hero-role {
+		grid-column: 1 / -1;
+		margin-bottom: 1rem;
+		font-size: clamp(11.5px, 3.3vw, 1.2rem);
+		letter-spacing: 0.04em;
+		white-space: nowrap;
+	}
+
+	.np-hero-copy > div:nth-child(3) {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	.np-promise {
+		margin-bottom: 0.8rem;
+		font-size: min(6.4vw, 2.4rem);
+	}
+
+	.np-promise-how {
+		margin-top: 0.2rem;
+		font-size: min(4vw, 1.2rem);
+		white-space: nowrap;
+	}
+
+	.np-hero-tags {
+		grid-column: 1;
+		grid-row: 4;
+		gap: 0.35rem;
+		margin-bottom: 1.1rem;
+	}
+
+	.np-hero-tags li {
+		padding: 0.25rem 0.5rem;
+		font-size: 0.72rem;
+	}
+
+	.np-hero-photo {
+		grid-column: 2;
+		grid-row: 3 / span 2;
+		justify-self: stretch;
+		width: 100%;
+		margin: 0.15rem 0 1.25rem;
+	}
+
+	.np-hero-photo-frame figcaption {
+		display: none;
+	}
+
+	.np-sticker-open {
+		left: -0.5rem;
+		bottom: -0.55rem;
+		padding: 0.2rem 0.4rem;
+		font-size: 0.66rem;
+		white-space: nowrap;
+	}
+
+	.np-hero-actions {
+		grid-column: 1 / -1;
+		gap: 0.6rem;
+		width: 100%;
+	}
+
+	.np-cta {
+		min-height: 48px;
+		padding: 0.6rem 0.9rem;
+		font-size: 0.8rem;
+	}
+
+	.np-cta-split {
+		display: flex;
+		flex: 1 1 100%;
+	}
+
+	.np-cta-split .np-cta-primary {
+		flex: 1 1 auto;
+	}
+
+	.np-hero-actions > .np-cta {
+		flex: 1 1 11rem;
+	}
+
+	.np-hero-socials a {
+		width: 48px;
+		height: 48px;
+	}
+
+	.np-hero-quote {
+		display: block;
+		grid-column: 1 / -1;
+		margin: 1.25rem 0 0;
+		padding-left: 0.8rem;
+		border-left: 3px solid var(--c-front);
+		font-family: var(--np-display);
+		font-size: 1.05rem;
+		font-style: italic;
+		font-weight: 600;
+		line-height: 1.35;
+		color: var(--np-ink);
+	}
+
+	/* ---------- Ask box: suggestions swipe sideways instead of stacking ---------- */
+
+	.np-hero-lower {
+		gap: 2rem;
+	}
+
+	.np-ask .np-ask-title {
+		font-size: 1.6rem;
+	}
+
+	.np-ask .np-box-note {
+		font-size: 0.95rem;
+		line-height: 1.45;
+	}
+
+	.np-ask .askme-send {
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	.np-ask .askme-recommended-grid {
+		display: flex;
+		gap: 0.6rem;
+		margin-right: -1.25rem;
+		padding-right: 1.25rem;
+		padding-bottom: 0.25rem;
+		overflow-x: auto;
+		scroll-snap-type: x proximity;
+		scrollbar-width: none;
+		overscroll-behavior-x: contain;
+	}
+
+	.np-ask .askme-recommended-grid::-webkit-scrollbar {
+		display: none;
+	}
+
+	.np-ask .askme-suggestion {
+		flex: 0 0 72%;
+		padding: 0.7rem 0.8rem;
+		border: 1px solid var(--np-rule);
+		scroll-snap-align: start;
+		text-align: left;
+	}
+
+	.np-ask .askme-suggestion-text {
+		font-size: 0.98rem;
+		line-height: 1.3;
+	}
+
+	.np-teaser-all,
+	.np-card-links a,
+	.np-story-links a,
+	.np-letter-copy {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
+
+	/* ---------- Sections ---------- */
+
+	.np-section {
+		padding-top: 2.5rem;
+		padding-bottom: 2.5rem;
+	}
+
+	.np-section-head {
+		margin-bottom: 1.5rem;
+	}
+
+	.np-section-title {
+		font-size: 2.2rem;
+	}
+
+	.np-section-dek {
+		font-size: 1.02rem;
+		line-height: 1.45;
+	}
+
+	/* ---------- Projects ---------- */
+
+	/* The filter buttons already carry the counts. */
+	.np-projects-count {
+		display: none;
+	}
+
+	.np-filter button {
+		padding: 0.5rem 0.25rem;
+		font-size: 0.72rem;
+		letter-spacing: 0.03em;
+	}
+
+	.np-filter-count {
+		font-size: 0.72rem;
+	}
+
+	.np-story-grid.is-phone-collapsed > :nth-child(n + 5),
+	.np-essays.is-phone-collapsed > :nth-child(n + 4) {
+		display: none;
+	}
+
+	.np-show-all {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		width: 100%;
+		min-height: 48px;
+		margin-top: 1.5rem;
+		background: transparent;
+		border: 2px solid var(--np-ink);
+		font-family: var(--np-label);
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--np-ink);
+	}
+
+	.np-card-evidence small,
+	.np-card-evidence em,
+	.np-card-metric,
+	.np-card-finding-label,
+	.np-rec-type,
+	.np-rec-more-label,
+	.preview-estimates-note {
+		font-size: 0.75rem;
+	}
+
+	/* ---------- Experience ---------- */
+
+	.np-record-list .np-rec-points.is-phone-collapsed > li:nth-child(n + 3) {
+		display: none;
+	}
+
+	.np-rec-more {
+		min-height: 48px;
+	}
+
+	/* ---------- About: chapters open on their first lines ---------- */
+
+	.np-ab-chapter:not(.is-open) > p {
+		max-height: 11.5rem;
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(#000 65%, transparent);
+		mask-image: linear-gradient(#000 65%, transparent);
+	}
+
+	.np-ab-more {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		min-height: 44px;
+		padding: 0;
+		background: transparent;
+		border: 0;
+		font-family: var(--np-label);
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--np-ink);
+	}
+
+	/* ---------- Writing: the summary is a teaser; the essay is on LinkedIn ---------- */
+
+	.np-essay .np-story-summary {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 4;
+		line-clamp: 4;
+	}
+
+	.np-essay .np-filed {
+		display: none;
+	}
+
+	/* ---------- Skills: the headline line says it; chips carry the rest ---------- */
+
+	.np-classified-desc {
+		display: none;
+	}
+
+	/* ---------- Back to top: in the corner, clear of the reading column ---------- */
+
+	.scrollToTop {
+		right: 1rem;
+		bottom: calc(var(--np-tabbar-h) + 0.75rem);
+	}
+
+	/* ---------- Project pages ---------- */
+
+	.project-detail-back-btn,
+	.reader .project-detail-back-btn {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin-top: 0.5rem;
+	}
+
+	.fh-version-switch-options,
+	.reader .fh-version-switch-options {
+		flex-wrap: nowrap;
+		gap: 0.7rem;
+	}
+
+	.fh-version-switch .fh-version-pill,
+	.reader .fh-version-switch .fh-version-pill {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+		white-space: nowrap;
+	}
+
+	.fh-chart-source,
+	.reader .fh-chart-source {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
+
+	.reader .fh-interactive button,
+	.reader .fh-interactive select,
+	.reader .pc-walk-tools select,
+	.reader .pc-walk-tools button {
+		min-height: 44px;
+	}
+
+	.notice-link-btn {
+		min-height: 44px;
+	}
+
+	.reader .rd-say-who,
+	.reader .pc-ctl,
+	.reader .pc-pipeline-tag {
+		font-size: 0.75rem;
+	}
+}

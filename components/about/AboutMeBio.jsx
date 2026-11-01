@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import SectionHead from '../shared/SectionHead';
 import Reveal from '../shared/Reveal';
 
@@ -32,12 +33,16 @@ const chapters = [
 
 const CHAPTER_TONES = ['about', 'front', 'projects', 'experience'];
 
+// On a phone each chapter opens on its first lines (see mobile.css); wider
+// screens never show the button and always show the whole chapter.
 function Chapter({ chapter, index }) {
+	const [open, setOpen] = useState(false);
+
 	return (
 		<Reveal
 			as="article"
 			delay={index * 0.05}
-			className={`np-ab-chapter np-ab-c${index + 1} np-tone-${CHAPTER_TONES[index]}`}
+			className={`np-ab-chapter np-ab-c${index + 1} np-tone-${CHAPTER_TONES[index]} ${open ? 'is-open' : ''}`}
 		>
 			<header className="np-ab-chapter-head">
 				<span className="np-ab-chapter-no" aria-hidden="true">
@@ -46,6 +51,14 @@ function Chapter({ chapter, index }) {
 				<h4>{chapter.title}</h4>
 			</header>
 			<p>{chapter.text}</p>
+			<button
+				type="button"
+				className="np-ab-more"
+				aria-expanded={open}
+				onClick={() => setOpen((value) => !value)}
+			>
+				{open ? 'Show less' : 'Read more'} <span aria-hidden="true">{open ? '↑' : '↓'}</span>
+			</button>
 		</Reveal>
 	);
 }

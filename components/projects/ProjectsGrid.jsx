@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ProjectSingle from './ProjectSingle';
+import PhoneShowAll from '../shared/PhoneShowAll';
 import SectionHead from '../shared/SectionHead';
 import { projectsData } from '../../data/projectsData';
 import { projectNotes } from '../../data/projectNotes';
@@ -9,6 +10,9 @@ const FILTERS = [
 	{ value: 'Project', label: 'Projects' },
 	{ value: 'Case Study', label: 'Case Studies' },
 ];
+
+// How many cards a phone shows first; mobile.css hides the rest until expanded.
+const PHONE_PREVIEW = 4;
 
 const isFeatured = (project) => Boolean(projectNotes[project.url]?.featured);
 
@@ -43,6 +47,8 @@ function layoutFor(projects) {
 
 function ProjectsGrid() {
 	const [activeFilter, setActiveFilter] = useState('All');
+	const [expanded, setExpanded] = useState(false);
+	const gridRef = useRef(null);
 
 	const visible =
 		activeFilter === 'All'
@@ -79,7 +85,7 @@ function ProjectsGrid() {
 				</div>
 			</div>
 
-			<div className="np-story-grid">
+			<div ref={gridRef} className={`np-story-grid ${expanded ? '' : 'is-phone-collapsed'}`}>
 				{layoutFor(visible).map(({ project, col, rowStart }) => (
 					<ProjectSingle
 						key={project.id}
@@ -89,6 +95,16 @@ function ProjectsGrid() {
 					/>
 				))}
 			</div>
+
+			{!expanded && (
+				<PhoneShowAll
+					total={visible.length}
+					preview={PHONE_PREVIEW}
+					label={`Show all ${visible.length} projects`}
+					listRef={gridRef}
+					onExpand={() => setExpanded(true)}
+				/>
+			)}
 		</div>
 	);
 }
