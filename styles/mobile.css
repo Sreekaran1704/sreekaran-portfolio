@@ -16,6 +16,9 @@ html {
 
 /* Only ever shown on a phone. */
 .np-tab-icon,
+.np-tab-more,
+.np-more-scrim,
+.np-more-panel,
 .np-show-all,
 .np-ab-more,
 .np-hero-quote,
@@ -156,28 +159,41 @@ html {
 	.np-sections ul {
 		height: var(--np-tabbar-h);
 		align-items: center;
-		overscroll-behavior-x: contain;
+		overflow: visible;
 	}
 
+	/* Four sections and More share the bar equally, with no sideways scroll. */
 	.np-sections li {
-		flex: 1 0 auto;
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	.np-sections li.np-tab-extra {
+		display: none;
+	}
+
+	.np-sections li.np-tab-more {
+		display: block;
 	}
 
 	.np-sections li a,
-	.np-sections li a.is-active {
+	.np-sections li a.is-active,
+	.np-tab-more-btn {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		gap: 0.15rem;
-		min-width: 4.6rem;
+		width: 100%;
 		min-height: var(--np-tabbar-h);
 		margin: 0;
-		padding: 0 0.2rem;
+		padding: 0;
 		background: transparent;
+		font-family: var(--np-label);
 		font-size: 0.72rem;
 		font-weight: 500;
 		letter-spacing: 0;
+		white-space: nowrap;
 		text-decoration: none;
 		text-transform: none;
 		color: var(--np-ink-soft);
@@ -188,7 +204,9 @@ html {
 		color: var(--np-ink-soft);
 	}
 
-	.np-sections li a.is-active {
+	.np-sections li a.is-active,
+	.np-tab-more-btn.is-active,
+	.np-tab-more-btn.is-open {
 		font-weight: 700;
 		color: var(--np-ink);
 	}
@@ -207,28 +225,103 @@ html {
 		transition: background-color 0.15s ease, color 0.15s ease;
 	}
 
-	.np-sections li a:active .np-tab-icon {
+	.np-sections li a:active .np-tab-icon,
+	.np-tab-more-btn:active .np-tab-icon,
+	.np-tab-more-btn.is-open .np-tab-icon {
 		background: var(--np-paper-deep);
 	}
 
-	.np-sections li a.is-active .np-tab-icon {
+	.np-sections li a.is-active .np-tab-icon,
+	.np-tab-more-btn.is-active .np-tab-icon {
 		background: var(--c);
 		color: #fff;
 	}
 
-	.np-sections ul.has-more-right {
-		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
-		mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+	/* ---------- More: the remaining sections, in a grid above the bar ---------- */
+
+	.np-sections:has(.np-more-panel) {
+		z-index: 60;
 	}
 
-	.np-sections ul.has-more-left {
-		-webkit-mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
-		mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+	/* Its inline display would otherwise put it on top of the grid. */
+	body:has(.np-more-panel) .scrollToTop {
+		display: none !important;
 	}
 
-	.np-sections ul.has-more-left.has-more-right {
-		-webkit-mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
-		mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+	.np-more-scrim {
+		display: block;
+		position: fixed;
+		inset: 0 0 var(--np-tabbar-h);
+		background: rgba(0, 0, 0, 0.35);
+		touch-action: none;
+	}
+
+	.np-more-panel {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.5rem;
+		position: fixed;
+		right: 0.75rem;
+		bottom: calc(var(--np-tabbar-h) + 0.6rem);
+		left: 0.75rem;
+		padding: 0.6rem;
+		background: var(--np-paper);
+		border: 1px solid var(--np-rule);
+		border-radius: 1.25rem;
+		box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.45);
+		animation: np-more-rise 0.18s ease-out;
+	}
+
+	@keyframes np-more-rise {
+		from {
+			opacity: 0;
+			transform: translateY(0.6rem);
+		}
+	}
+
+	.np-more-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		min-height: 5.25rem;
+		border-radius: 0.9rem;
+		font-family: var(--np-label);
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--np-ink);
+		text-decoration: none;
+	}
+
+	.np-more-item:active {
+		background: var(--np-paper-deep);
+	}
+
+	.np-more-icon {
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: 1px solid var(--c);
+		border-radius: 50%;
+		font-size: 1.2rem;
+		color: var(--c);
+	}
+
+	.np-more-item.is-active {
+		font-weight: 700;
+	}
+
+	.np-more-item.is-active .np-more-icon {
+		background: var(--c);
+		color: #fff;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.np-more-panel {
+			animation: none;
+		}
 	}
 
 	/* The end of the page and anything floating stays clear of the bar. */
