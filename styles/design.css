@@ -54,22 +54,7 @@
 		animation-delay: 1.4s;
 	}
 
-	/* A block of colour behind the print, which straightens under the pointer. */
-	.np-hero-page .np-hero-photo {
-		isolation: isolate;
-	}
-
-	.np-hero-page .np-hero-photo::before {
-		content: '';
-		display: block;
-		position: absolute;
-		inset: 7% -3.5% 2% 8%;
-		z-index: -1;
-		background: var(--c-highlight);
-		opacity: 1;
-		transform: rotate(4deg);
-	}
-
+	/* The print alone, which straightens under the pointer. */
 	.np-hero-photo-frame {
 		transition: transform 0.3s ease;
 	}
@@ -80,7 +65,8 @@
 
 	.np-hero-socials a {
 		background: none;
-		border: 0;
+		border: 1.5px solid #161412;
+		color: #161412;
 	}
 
 	.np-hero-page .np-ask {
@@ -253,11 +239,15 @@
 		text-transform: none;
 	}
 
-	/* ---------- Black & white: no fills ---------- */
+	/* ---------- Project pages ---------- */
 
-	html[data-edition='bw'] .np-hero-page .np-hero-photo::before {
-		display: none;
+	/* The article's column mustn't start a stacking layer of its own, or the
+	   reading-progress bar inside it stays behind the sticky section bar. */
+	.reader > .max-w-4xl {
+		z-index: auto;
 	}
+
+	/* ---------- Black & white: no fills ---------- */
 
 	html[data-edition='bw'] .np-promise em {
 		background: none;
@@ -297,6 +287,14 @@
 		gap: 2.5rem;
 		padding-top: 2.25rem;
 		padding-bottom: 2.25rem;
+	}
+
+	.np-hero-copy .np-hero-name {
+		font-size: clamp(3rem, 7.2vw, 6rem);
+	}
+
+	.np-hero-page .np-hero-photo {
+		width: min(85%, 18rem);
 	}
 
 	.np-hero-copy .np-promise {
@@ -560,6 +558,19 @@
 	}
 }
 
+/* Laptop widths: the article moves over so the contents list fits beside it.
+   From 1360px the column's own side margin already holds the list. */
+@media screen and (min-width: 1024px) and (max-width: 1359px) {
+	.reader .rd-rail {
+		left: 1.5rem;
+		width: 12.5rem;
+	}
+
+	.reader > .max-w-4xl {
+		margin-left: 11.5rem;
+	}
+}
+
 /* The page turner: only once the nameplate has scrolled away, and where the
    stuck bar has room for it beside every section link. */
 @media screen and (min-width: 1180px) {
@@ -612,6 +623,14 @@
 		margin-top: 0.35rem;
 		font-size: 0.85rem;
 		text-align: center;
+	}
+
+	.np-hero-page .np-hero {
+		grid-template-columns: minmax(0, 1fr) 33%;
+	}
+
+	.np-hero-copy .np-hero-name {
+		font-size: min(10.2vw, 4.4rem);
 	}
 
 	.np-hero-copy .np-promise {

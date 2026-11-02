@@ -564,7 +564,7 @@
 	display: none;
 }
 
-@media (min-width: 1360px) {
+@media (min-width: 1024px) {
 	.reader .rd-rail {
 		position: fixed;
 		top: calc(var(--np-sticky-h, 46px) + 2rem);

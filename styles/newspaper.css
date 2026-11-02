@@ -2295,18 +2295,6 @@ input:focus-visible {
 	margin: 1rem 1.5rem 1.5rem;
 }
 
-/* A yellow halftone block behind the print. */
-.np-hero-photo::before {
-	content: '';
-	position: absolute;
-	inset: 9% -9% -7% 12%;
-	z-index: -1;
-	background:
-		radial-gradient(rgba(22, 20, 18, 0.22) 1.7px, transparent 2px) 0 0 / 13px 13px,
-		var(--c-highlight);
-	transform: rotate(5deg);
-}
-
 .np-hero-photo-frame {
 	padding: 12px 12px 0;
 	background: #fff;
@@ -2969,12 +2957,6 @@ input:focus-visible {
 	border-color: var(--np-hairline);
 }
 
-/* A quiet dotted plate behind the print instead of a yellow block. */
-.np-hero-photo::before {
-	background: radial-gradient(rgba(22, 20, 18, 0.14) 1.2px, transparent 1.5px) 0 0 / 10px 10px;
-	transform: rotate(3deg);
-}
-
 .np-hero-photo-frame {
 	border: 1px solid var(--np-hairline);
 	box-shadow: var(--np-soft-shadow);
@@ -3603,10 +3585,6 @@ html[data-edition='bw'] .np-ask {
 
 html[data-edition='bw'] .np-hero-photo-frame {
 	border: 2px solid #0d0d0d;
-}
-
-html[data-edition='bw'] .np-hero-photo::before {
-	display: none;
 }
 
 /* Section labels print as outlined, typewriter-set tags. */
