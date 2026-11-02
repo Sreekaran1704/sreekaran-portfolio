@@ -11,30 +11,43 @@ const stats = [
 	{ value: '3.97', label: 'GPA, M.S. Computer Science', tone: 'writing' },
 ];
 
-// The About story, one chapter per card. Text is unchanged from the original.
+// The About story, one chapter per card: a lead, then the rest of the chapter.
 const chapters = [
 	{
-		title: "Where it started",
-		text: "I started out doing data analysis in places that had no data analyst. At Sree Nirman, 50,000+ construction records lived across scattered files and inconsistent formats. Pricing decisions were made on gut feel because nobody trusted the numbers enough to use them. At Avanthi High School, it was the same problem in a different shape: 12,000+ financial records and 50,000+ expense records with no standardized schema, and a scholarship process nobody could fully explain. In both places, my first job was earning the right to be trusted with the data at all, building the SQL and Python pipelines, validation checks, and Tableau dashboards before I could say anything interesting about what the numbers meant.",
+		title: 'The first script',
+		lead: 'As a kid, my friends and I had a contest: whoever texted “Happy Birthday” first at midnight won two chocolates. Everyone else got one.',
+		more: [
+			'I didn’t want to win by staring at a clock, so I wrote a script that sent the message at exactly 12:00 AM. It was my first real code, and it taught me something I still believe: the best work makes the right thing happen reliably, every time, without anyone having to remember. Years later, that is still how I think about data. A number only helps if it shows up correct, on time, every time.',
+		],
 	},
 	{
-		title: "Building on the foundation",
-		text: "Once that foundation existed, the real work started. At Sree Nirman, I built a tender estimation model to flag pricing risk before bids went out. At Avanthi, I replaced the scholarship process with a system combining regression and a fine-tuned language model, then ran a two-channel A/B test to confirm a new admissions initiative was actually working. It was.",
+		title: 'Small teams, real stakes',
+		lead: 'My first two jobs were on small teams where I was the person who owned the data, from the raw spreadsheets to the decision in the room.',
+		more: [
+			'At Avanthi High School, I consolidated 12K+ fee records and 50K+ expense records into reporting tables in Python and SQL, then used them to find 10–15% in cost savings. I designed an A/B test of two admission-marketing channels that lifted admissions by 18%. I built a scholarship system with XGBoost and a fine-tuned GPT-2, and walked the principal and correspondent through it, one user story at a time, until they backed the change.',
+			'At Sree Nirman, a construction startup in Hyderabad, I joined as the second employee. I standardized 50K+ project records, which made reporting 30% more reliable. I built a bid-pricing model from fewer than 200 real records, owned the bidding tool from specs to user testing, and cut bid analysis time in half. Along the way I helped hire 8 engineers and 2 interns, and grew the company YouTube channel to 60K+ subscribers, which brought in 12 construction deals.',
+		],
 	},
 	{
-		title: "The project that changed my thinking",
-		text: "The project that changed how I think about analysis was FanHouse, a study I built with synthetic retail data. Members spent 22.3% more after launch, but eventual members already spent 40.6% more before it. I used matching followed by difference-in-differences to make the comparison more useful. Estimated product value increased before discounts, while higher net payments were not established. I kept the pretrend warning and sensitivity results visible. That was when I started asking not just whether a number looked convincing, but what evidence would let me defend it.",
+		title: 'The project that changed my thinking',
+		lead: 'In my FanHouse case study, members spent 22.3% more after a membership launched. It looked like a clear win. It wasn’t that simple.',
+		more: [
+			'The customers who later joined already spent 40.6% more before the program existed. So I matched 12,153 member and non-member pairs on their history, then compared how each pair changed. Product value rose by about $0.14 per customer per day, but higher net payments were not established once discounts and rewards came out. I kept the pretrend warning and sensitivity checks on the page instead of hiding them. Since then, I ask a harder question of every result: not “does this look convincing?” but “what evidence would let me defend it?”',
+		],
 	},
 	{
-		title: "What I do now",
-		text: "That's the thread through everything I do now: SQL and Python to make data trustworthy, Tableau to make it legible, and causal inference to make it actionable. I'm currently looking for my next place to do that, as a Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or in Applied AI.",
+		title: 'What I’m looking for',
+		lead: 'I finished my M.S. in Computer Science, Data Science track, at UMKC in May 2026 with a 3.97 GPA, and I’m looking for my next team.',
+		more: [
+			'I’m applying for Data Analyst, Business Analyst, Data Scientist, Analytics Engineer and Applied AI roles. I’m based in Dallas and open to relocating anywhere in the US. Between applications, I write about causal inference and how language models work, and I keep building: a live job-market pipeline with its own MCP server, a forecasting backtest, and a photo-curation tool that runs on your own machine.',
+		],
 	},
 ];
 
 const CHAPTER_TONES = ['about', 'front', 'projects', 'experience'];
 
-// On a phone each chapter opens on its first lines (see mobile.css); wider
-// screens never show the button and always show the whole chapter.
+// On a phone each chapter opens on its lead (see mobile.css); wider screens
+// never show the button and always show the whole chapter.
 function Chapter({ chapter, index }) {
 	const [open, setOpen] = useState(false);
 
@@ -50,7 +63,12 @@ function Chapter({ chapter, index }) {
 				</span>
 				<h4>{chapter.title}</h4>
 			</header>
-			<p>{chapter.text}</p>
+			<p>{chapter.lead}</p>
+			<div className="np-ab-rest">
+				{chapter.more.map((paragraph) => (
+					<p key={paragraph.slice(0, 24)}>{paragraph}</p>
+				))}
+			</div>
 			<button
 				type="button"
 				className="np-ab-more"
@@ -78,7 +96,7 @@ function AboutMe() {
 			</Reveal>
 
 			<h3 className="np-ab-headline">
-				Earning the right to be <span>trusted</span> with the data
+				It started with two <span>chocolates</span>
 			</h3>
 
 			<div className="np-ab-grid">

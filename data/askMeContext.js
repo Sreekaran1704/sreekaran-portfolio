@@ -27,13 +27,16 @@ Sreekaran Reddy Ramasahayam.
 M.S. Computer Science, Data Science Track — University of Missouri–Kansas City, Aug 2024 – May 2026. GPA 3.97.
 Coursework: Database Management Systems, Statistical Learning, Principles of Data Science, Cloud Computing, Generative AI.
 Certification: Salesforce Certified AI Associate.
-Status: open to work, 2026. Targeting Data Analyst, Business Analyst, BI Analyst, Analytics Engineer, or Applied AI roles.
+Status: open to work, 2026. Targeting Data Analyst, Business Analyst, Data Scientist, Analytics Engineer, or Applied AI roles. Based in Dallas, open to relocating anywhere in the US.
 Contact: sreekaran.2021@gmail.com · github.com/Sreekaran1704 · linkedin.com/in/sree1704
 Positioning: Data Scientist specializing in causal inference, predictive modeling, and applied AI systems, with additional depth across analytics engineering, BI dashboard architecture, MLOps deployment, and business analysis. I build end-to-end pipelines from raw data through validated statistical models and deployed AI applications. Track record: a reproducible causal study of 40,000 synthetic customers, a 30% gain in reporting reliability, and production-style ML systems deployed on Kubernetes.
 
 === HOW I DESCRIBE MY OWN ARC ===
-I started out doing data analysis in places that had no data analyst. At Sree Nirman, 50,000+ construction records lived across scattered files and inconsistent formats, and pricing decisions were made on gut feel because nobody trusted the numbers. At Avanthi High School it was the same problem in a different shape: 12,000+ financial records and 50,000+ expense records with no standardized schema, and a scholarship process nobody could fully explain. In both places my first job was earning the right to be trusted with the data at all — building the SQL and Python pipelines, validation checks, and Tableau dashboards before I could say anything interesting about what the numbers meant.
-The project that changed how I think about analysis was FanHouse, a study I built with synthetic retail data. Members spent 22.3% more after launch, but eventual members already spent 40.6% more before it. I used matching followed by difference-in-differences to make the comparison more useful. Estimated product value increased before discounts, while higher net payments were not established. I kept the pretrend warning and sensitivity results visible. That was when I started asking not just whether a number looked convincing, but what evidence would let me defend it.
+(This is the About story on the site, "It started with two chocolates".)
+The first script: As a kid, my friends and I had a contest: whoever texted "Happy Birthday" first at midnight won two chocolates. Everyone else got one. I didn't want to win by staring at a clock, so I wrote a script that sent the message at exactly 12:00 AM. It was my first real code, and it taught me something I still believe: the best work makes the right thing happen reliably, every time, without anyone having to remember. Years later, that is still how I think about data. A number only helps if it shows up correct, on time, every time.
+Small teams, real stakes: My first two jobs were on small teams where I was the person who owned the data, from the raw spreadsheets to the decision in the room. At Avanthi High School, I consolidated 12K+ fee records and 50K+ expense records into reporting tables in Python and SQL, then used them to find 10–15% in cost savings. I designed an A/B test of two admission-marketing channels that lifted admissions by 18%. I built a scholarship system with XGBoost and a fine-tuned GPT-2, and walked the principal and correspondent through it, one user story at a time, until they backed the change. At Sree Nirman, a construction startup in Hyderabad, I joined as the second employee. I standardized 50K+ project records, which made reporting 30% more reliable. I built a bid-pricing model from fewer than 200 real records, owned the bidding tool from specs to user testing, and cut bid analysis time in half. Along the way I helped hire 8 engineers and 2 interns, and grew the company YouTube channel to 60K+ subscribers, which brought in 12 construction deals.
+The project that changed my thinking: In my FanHouse case study, members spent 22.3% more after a membership launched. It looked like a clear win. It wasn't that simple. The customers who later joined already spent 40.6% more before the program existed. So I matched 12,153 member and non-member pairs on their history, then compared how each pair changed. Product value rose by about $0.14 per customer per day, but higher net payments were not established once discounts and rewards came out. I kept the pretrend warning and sensitivity checks on the page instead of hiding them. Since then, I ask a harder question of every result: not "does this look convincing?" but "what evidence would let me defend it?"
+What I'm looking for: I finished my M.S. in Computer Science, Data Science track, at UMKC in May 2026 with a 3.97 GPA, and I'm looking for my next team. I'm applying for Data Analyst, Business Analyst, Data Scientist, Analytics Engineer and Applied AI roles. I'm based in Dallas and open to relocating anywhere in the US. Between applications, I write about causal inference and how language models work, and I keep building: a live job-market pipeline with its own MCP server, a forecasting backtest, and a photo-curation tool that runs on your own machine.
 
 === EVERYTHING I HAVE DONE (roster) ===
 Roles: Sree Nirman, Hyderabad, India, May 2023 – Jun 2024, Data Analyst and Machine Learning Engineer — the role began as an internship and converted to full time (construction analytics, ML, growth analytics). Avanthi High School, Warangal, India, Apr 2022 – Jan 2023, Data Analyst Intern (education finance and operations analytics). University of Missouri–Kansas City, Kansas City, MO, Aug 2025 – May 2026, Information Services Lab Assistant.
@@ -77,37 +80,76 @@ Two are humorous causal-inference notes written while reading Causal Inference i
 export const DETAIL_BLOCKS = [
 	{
 		id: 'sreeNirman',
-		match: /sree ?nirman|construction|tender|\bbid|pricing|cost estimat|tableau server|mlflow|experiment track|track\w*\s+\w*\s*experiment|youtube|hyderabad|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
+		match: /sree ?nirman|construction|tender|\bbid|pricing|cost estimat|tableau server|mlflow|experiment track|track\w*\s+\w*\s*experiment|youtube|hyderabad|\buat\b|user stor|backlog|acceptance criteria|product own|requirements|onboard|\bhir(e|ed|ing)\b|premiere|facebook ads|supplier|procurement|role-based access|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
 		text: `--- EXPERIENCE: Sree Nirman — Hyderabad, India — May 2023 – Jun 2024 ---
 Data Analyst and Machine Learning Engineer. The role began as an internship and converted to full time.
 Focus: construction analytics, machine learning, growth analytics.
-• Architected a reusable construction analytics foundation across 50K+ cost, labor, material, budget, sales, outreach, and progress records; standardized KPI logic for cost variance, budget drift, productivity, resource utilization, zone-wise progress, and progress-vs-target tracking.
-• Built SQL and Python ETL, reconciliation, validation, and reporting workflows across fragmented project datasets — resolving schema mismatches, duplicate entries, missing values, and inconsistent inputs — lifting reporting reliability by 30%.
-• Designed SQL logic using joins, CTEs, CASE expressions, and window functions to standardize cost, labor, and sales calculations enterprise-wide across variance, productivity, and progress-tracking metrics.
-• Addressed a limited sample of 150–200 real project records by generating synthetic training records sampled from real feature distributions, scaling the dataset to a size viable for reliable model benchmarking.
-• Engineered 20+ predictive and operational features across 7+ project dimensions — labor, material cost, budget variance, duration, plot size, work type, progress stage.
-• Benchmarked Ridge and Lasso regression against a baseline linear model using R², MSE, and MAE, estimating tender pricing within 10–20% of held-out results. The framework flags high-risk estimation cases for stakeholder review.
-• Delivered Tableau dashboards, Excel scorecards, and executive reporting packs surfacing ranked cost drivers, budget variance, timeline risk, workforce allocation, resource usage, zone-wise completion, and execution gaps.
-• Presented bi-weekly to stakeholders on dashboard trends, pricing risk signals, variance drivers, and reporting gaps, supporting cost-control, workforce planning, bid-pricing, and execution decisions — driving a 15% gain in operational efficiency.
-• Configured a scheduled Tableau Server extract refresh, automating weekly dashboard updates and eliminating manual republishing.
-• Tracked and compared model experiments using MLflow, logging runs and metrics across candidate models and registering the best-performing version for reuse.
-• Tracked reporting and analysis work as JIRA tickets within two-week sprints, coordinating delivery through an Agile/Scrum workflow.
-• Supported the co-founder's YouTube content strategy on construction education and pricing transparency, contributing to channel growth from roughly 100 to 60,000 subscribers, 12 house-construction deals, and 80+ consultation engagements. (This one is on my portfolio, not on my resume.)`,
+Data foundation:
+• Standardized 50K+ construction records using SQL and Pandas, improving reporting reliability by 30%.
+• Wrote SQL transformations with CTEs, window functions and CASE expressions to standardize cost, labor and sales calculations across project zones.
+• Combined cost, labor, budget and sales data from separate systems into one reporting dataset.
+• Defined one set of budget variance, productivity and project-progress KPIs, documented in a shared KPI definitions sheet.
+• Analyzed supplier pricing and material procurement costs to ground bid estimates in current market rates.
+Reporting and stakeholders:
+• Delivered bi-weekly Tableau dashboards to the CEO and client board, supporting a 15% operational efficiency gain.
+• Presented cost and pricing recommendations through Tableau Stories and PowerPoint in bi-weekly board reviews.
+• Automated weekly Tableau Server extract refreshes, eliminating manual dashboard republishing.
+• Configured role-based access on Tableau Server, restricting confidential project cost and client data to approved viewers.
+• Built Excel bid-costing models with XLOOKUP, SUMIFS and scenario assumptions to standardize cross-zone cost reporting.
+Bid-pricing model:
+• Engineered 20+ predictors from material costs, labor, location and project duration for bid-pricing models.
+• Augmented fewer than 200 real bid records with synthetic data sampled from observed feature distributions.
+• Benchmarked Ridge and Lasso regression against a linear baseline on R², MSE and MAE to select the pricing model.
+• Tracked experiments in MLflow and registered the selected model version for downstream reuse.
+• Deployed the pricing model with the engineering team in an internal bidding-support tool, reducing bid analysis time by 50%.
+Product ownership of the bidding tool:
+• Gathered requirements through interviews, surveys and feedback sessions with the co-founders, admin staff and project leads.
+• Ruled out a historical time-series pricing approach after scoping meetings, given shifting terrain costs in expanding cities.
+• Wrote functional specifications and user stories with acceptance criteria, organizing them into epics in a prioritized backlog.
+• Wrote and ran UAT test cases with outside clients and vendors, triaging defects before each release.
+• Planned launch milestones and owners, delivering the bidding-support tool as an iterative MVP.
+Team building:
+• Joined as the second employee and first technical hire, setting up the company's initial technical systems.
+• Screened, interviewed and onboarded 8 engineers and 2 interns.
+• Designed onboarding covering active experiments, the pricing tool's decision history and access to project documentation.
+Growth and marketing:
+• Grew the company YouTube channel from roughly 100 to 60K+ subscribers, driving 12 construction deals and 80+ client consultations.
+• Planned, shot and edited channel videos in Adobe Premiere Pro, reaching 4,000 watch hours within two months.
+• Optimized video titles and keywords using YouTube Studio analytics, tracking which videos led to client consultations.
+• Marketed company-built villas through Facebook Ads and in-person outreach.
+Applied AI:
+• Used Claude and ChatGPT in production to draft stakeholder reports.`,
 	},
 	{
 		id: 'avanthi',
-		match: /avanthi|school|scholarship|\badmission|gpt-2|\bocr\b|quantile|confidence interval|\bmae\b|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
+		match: /avanthi|school|scholarship|xgboost|leave-one|cohort|a\/b test|overdue|reconcil|taught python|\badmission|gpt-2|\bocr\b|quantile|confidence interval|\bmae\b|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
 		text: `--- EXPERIENCE: Avanthi High School — Warangal, India — Apr 2022 – Jan 2023 ---
 Data Analyst Intern, education finance and operations analytics.
-• Built the school's analytics foundation from scratch, structuring 12K+ student financial records and 50K+ institutional expense records into validated, reporting-ready datasets in SQL, Python, and Tableau — across fee collections, scholarships, hostel, dining, academics, activities, concessions, and administration.
-• Designed SQL, Python, Excel, and Tableau data-quality workflows to clean, normalize, deduplicate, reconcile, and validate inconsistent fee (payment, scholarship) and expense records, improving financial reporting accuracy by 30%.
-• Delivered recurring Excel reports, Tableau dashboards, and leadership summaries tracking fee collections, department spending, budget variance, category-level costs, concession patterns, collection gaps, and monthly financial performance.
-• Analyzed 50K+ expense transactions across dining, hostel, and academics, identifying 10–15% in cost-saving opportunities that supported the institution's first break-even cycle within four months.
-• Replaced an inconsistent scholarship-allocation process with an XGBoost model predicting final marks at 0.8 MAE, tuned via grid search and cross-validation, engineering per-grade snapshot features so students with partial academic history could still be scored, with SHAP-based feature importance validating model behaviour.
-• Fit quantile models attaching a 95% confidence interval to each prediction, which consolidated a four-person review panel into a single reviewer.
-• Built an OCR pipeline to extract text from scanned admission answer sheets, then fine-tuned GPT-2 on rubric-conditioned records to score descriptive responses, measuring agreement against teacher grading before rollout.
-• Paired the redesigned allocation formula with a new admission-test fee stream, together driving a 50% rise in school revenue.
-• Designed a two-channel A/B comparison isolating the admission test's marketing impact specifically, accounting for 15 of those 50 percentage points and driving an 18% rise in admissions.`,
+Financial data foundation:
+• Consolidated monthly fee and expense spreadsheets into reusable reporting tables using Python and SQL.
+• Reconciled 12K+ financial records, resolving duplicates, missing fields and inconsistent fee formats.
+Reporting and cost analysis:
+• Built recurring Tableau dashboards tracking fee collections and overdue balances for leadership financial reviews.
+• Built Tableau budget-variance views for standardized financial reviews.
+• Analyzed 50K+ dining, hostel and academic expense records in Tableau, identifying cost-saving opportunities of 10–15%.
+Experimentation:
+• Designed and measured a two-channel A/B test of admission marketing, recording an 18% rise in admissions.
+• Launched the winning admission marketing strategy, contributing 15 percentage points of a 50% rise in school revenue.
+Scholarship model:
+• Transformed graduated-student histories into per-grade snapshots with horizon and entry-grade features for partially observed records.
+• Trained XGBoost with leave-one-cohort-out cross-validation, beating mean and running-average baselines at 0.8 MAE on a 10-point scale.
+• Fit quantile regression models to estimate bounds for nominal 95% prediction intervals.
+• Ranked students on prior academic performance to segment applicants into scholarship tiers.
+• Defined merit-based scholarship tiers with borderline-case review, reducing required reviewers from four to one.
+Admission scoring with generative AI:
+• Fine-tuned GPT-2 to score OCR-extracted admission responses, validating outputs against teacher-assigned grades.
+• Collected and reviewed teacher-assigned grades as reference labels for the scoring pipeline.
+Stakeholders and rollout:
+• Gathered domain context through interviews, surveys and feedback sessions while building the scholarship model.
+• Won approval for the new scholarship process by walking the correspondent and principal through user stories.
+• Coordinated the scholarship rollout with school leadership through iterative reviews.
+Teaching:
+• Taught Python twice weekly to about 247 students alongside the analyst role.`,
 	},
 	{
 		id: 'umkcLab',

@@ -3818,6 +3818,13 @@ html[data-edition='bw'] .np-rec-numbers {
 	line-height: 1.75;
 }
 
+.np-ab-rest p {
+	margin: 0.9rem 0 0;
+	font-size: 1.08rem;
+	line-height: 1.75;
+	color: var(--np-ink-soft);
+}
+
 .np-ab-chapter > p::first-letter {
 	float: left;
 	margin: 0.08em 0.1em 0 0;

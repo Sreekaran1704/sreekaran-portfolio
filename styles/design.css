@@ -408,7 +408,8 @@
 	.np-card-summary,
 	.np-essay-sub,
 	.np-rec-points li,
-	.np-ab-chapter > p {
+	.np-ab-chapter > p,
+	.np-ab-rest p {
 		font-size: 1.125rem;
 		line-height: 1.6;
 	}
@@ -475,11 +476,18 @@
 }
 
 @media screen and (min-width: 960px) {
+	/* Chapter 2 runs longest, so the pull quote fills the column under chapter 1
+	   and sits centred in whatever room is left beside it. */
 	.np-ab-grid {
 		grid-template-areas:
 			'c1 c2'
-			'c1 quote'
+			'quote c2'
 			'c3 c4';
+		grid-template-rows: auto 1fr auto;
+	}
+
+	.np-ab-grid .np-ab-quote {
+		align-self: center;
 	}
 }
 

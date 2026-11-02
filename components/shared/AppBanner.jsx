@@ -84,13 +84,11 @@ function Ticker() {
 	);
 }
 
-// From "SQL and Python to make data trustworthy, Tableau to make it legible,
-// and causal inference to make it actionable."
 function DataPromise() {
 	return (
 		<p className="np-promise">
-			I make data <em>trustworthy</em> with SQL &amp; Python, <em>legible</em> with
-			Tableau and <em>actionable</em> with causal inference.
+			I make data <em>trustworthy</em> with SQL and Python, <em>readable</em> with
+			Tableau, and <em>defensible</em> with causal inference.
 		</p>
 	);
 }
@@ -110,8 +108,9 @@ function AskTheDesk() {
 				Ask me about my work
 			</h3>
 			<p className="np-box-note">
-				Type a question, or pick one below. Answers are drawn from my
-				background, projects and experience.
+				Type a question or pick one below. An AI assistant answers from my
+				resume, projects and experience. It can get details wrong, so the
+				resume is the final word.
 			</p>
 
 			<AskBar

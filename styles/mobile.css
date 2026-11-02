@@ -556,7 +556,6 @@ html {
 	}
 
 	.np-ask .np-ask-banner,
-	.np-ask .np-box-note,
 	.np-ask .askme-recommended-label,
 	.np-ask .askme-suggestion-category {
 		display: none;
@@ -935,11 +934,12 @@ html {
 		border: 0;
 	}
 
-	.np-ab-chapter:not(.is-open) > p {
-		max-height: 7.5rem;
-		overflow: hidden;
-		-webkit-mask-image: linear-gradient(#000 65%, transparent);
-		mask-image: linear-gradient(#000 65%, transparent);
+	.np-ab-chapter:not(.is-open) .np-ab-rest {
+		display: none;
+	}
+
+	.np-ab-rest p {
+		line-height: 1.6;
 	}
 
 	.np-ab-more {
