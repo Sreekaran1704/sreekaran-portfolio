@@ -1,10 +1,11 @@
-import { FiArrowLeft, FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowUpRight, FiDownload } from 'react-icons/fi';
 import PagesMetaHead from '../../components/PagesMetaHead';
 import { ReadingSection, StoryContents } from '../../components/reading/ReadingKit';
 import { projectsData } from '../../data/projectsData';
 import { projectNotes } from '../../data/projectNotes';
 import Link from 'next/link';
 import ProjectVideo from '../../components/projects/ProjectVideo';
+import ConnectHeadDemo from '../../components/projects/ConnectHeadDemo';
 
 // Some data strings carry a literal "&amp;".
 const decode = (text = '') => text.replace(/&amp;/g, '&');
@@ -32,8 +33,11 @@ function ProjectSingle({ project }) {
 	const tech = info.Technologies[0];
 	const note = projectNotes[project.url];
 	const media = project.ProjectMedia;
+	// An app with files to download offers one button per platform in place of the live link.
 	const links = [
-		project.liveUrl && project.liveUrl !== '#' && { href: project.liveUrl, label: note?.liveLabel || 'Live site' },
+		...(project.downloads
+			? project.downloads.map((d) => ({ ...d, download: true }))
+			: [project.liveUrl && project.liveUrl !== '#' && { href: project.liveUrl, label: note?.liveLabel || 'Live site' }]),
 		project.githubUrl && project.githubUrl !== '#' && { href: project.githubUrl, label: 'GitHub' },
 	].filter(Boolean);
 
@@ -65,13 +69,21 @@ function ProjectSingle({ project }) {
 									href={link.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className={`notice-link-btn ${i > 0 ? 'notice-link-outline' : ''}`}
-									aria-label={`${link.label} for ${project.title}`}
+									className={`notice-link-btn ${i > 0 && !link.download ? 'notice-link-outline' : ''}`}
+									aria-label={link.download ? `${link.label}: ${project.title}` : `${link.label} for ${project.title}`}
 								>
-									{link.label} <FiArrowUpRight aria-hidden="true" />
+									{link.label} {link.download ? <FiDownload aria-hidden="true" /> : <FiArrowUpRight aria-hidden="true" />}
 								</a>
 							))}
 						</div>
+					)}
+
+					{project.downloadsNote && <p className="pj-downloads-note">{project.downloadsNote}</p>}
+
+					{media?.demo && (
+						<a href="#live-prototype" className="pj-try-line">
+							<span className="chd-stage-pulse" aria-hidden="true" /> You can try the app’s interface below, no download needed <span aria-hidden="true">↓</span>
+						</a>
 					)}
 				</header>
 
@@ -110,6 +122,7 @@ function ProjectSingle({ project }) {
 				{media && (
 					<section className="pj-media" aria-label="Video and screenshots">
 						{media.video && <ProjectVideo video={media.video} />}
+						{media.demo === 'connect-head' && <ConnectHeadDemo />}
 
 						{media.images?.length > 0 && (
 							<div className="pj-media-shots">

@@ -507,6 +507,10 @@
 		grid-column: span 3;
 	}
 
+	.np-card-brief.is-third {
+		grid-column: span 4;
+	}
+
 	.np-card-brief,
 	.np-card-brief:nth-child(3n + 2) {
 		padding-right: 1.25rem;

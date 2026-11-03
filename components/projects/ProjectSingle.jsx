@@ -10,7 +10,7 @@ const TONES = ['projects', 'about', 'front', 'writing', 'experience', 'skills', 
 // Every card renders the same run of rows — even an empty one — so the grid
 // can line them up across a row: header, title, summary, (evidence), finding,
 // tools, links.
-function ProjectSingle({ index = 0, rowStart = false, number, title, url, githubUrl, liveUrl, category, ProjectInfo }) {
+function ProjectSingle({ index = 0, rowStart = false, third = false, number, title, url, githubUrl, liveUrl, category, ProjectInfo }) {
 	const techs = ProjectInfo?.Technologies?.[0]?.techs || [];
 
 	const note = projectNotes[url] || { summary: ProjectInfo?.ObjectivesDetails, metric: category, finding: 'Explore the project for methods and results.', annotation: 'Notes from the process.' };
@@ -32,6 +32,7 @@ function ProjectSingle({ index = 0, rowStart = false, number, title, url, github
 				`np-tone-${tone}`,
 				note.featured ? 'np-card-featured' : 'np-card-brief',
 				rowStart && 'is-row-start',
+				third && 'is-third',
 			]
 				.filter(Boolean)
 				.join(' ')}

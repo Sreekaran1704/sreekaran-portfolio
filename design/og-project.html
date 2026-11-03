@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Source of the per-project link-preview cards in public/og/. One template,
-     four versions picked by ?p=loan | fanhouse | photocull | dialhack. Every figure here is
+     five versions picked by ?p=loan | fanhouse | photocull | dialhack | connecthead. Every figure here is
      copied from the project's own page; update both together. Regenerate with
      (from the nextjs-tailwindcss-portfolio folder), once per version:
      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot="$PWD/public/og/loan.png" "file://$PWD/design/og-project.html?p=loan" -->
@@ -149,6 +149,18 @@ const projects = {
 		stats: [['1/16', 'Volume step per click'], ['~3/s', 'Fastest the dial reports'], ['5', 'Dial modes']],
 		visual: `<figure class="frame"><img src="../public/images/dialhack/dial-light.jpg" alt="" style="object-position: 50% 0">
 			<figcaption class="label">The Dial page · free, open source, macOS 14+</figcaption></figure>`,
+		cta: 'See the project →',
+	},
+	connecthead: {
+		tone: '#c8402a',
+		h1: '46px',
+		section: 'Hardware hacking',
+		kicker: 'Reverse engineering · macOS + Android',
+		headline: 'Connect Head: A Faster Companion App for Sony ULT WEAR Headphones',
+		dek: 'Sony’s app was slow and clunky, so I redesigned it and built my own for Mac and Android.',
+		stats: [['2 apps', 'One connection, shared'], ['5', 'Equalizer bands'], ['2 MB', 'Android download']],
+		visual: `<figure class="frame"><img src="../public/images/connect-head/mac-overview-light.jpg" alt="" style="object-position: 50% 0">
+			<figcaption class="label">The Mac home page · free, open source</figcaption></figure>`,
 		cta: 'See the project →',
 	},
 };

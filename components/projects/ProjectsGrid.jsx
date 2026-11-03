@@ -28,10 +28,13 @@ const countFor = (value) =>
 
 // Where each card sits in the wide layout: write-ups run two to a row, the
 // rest four to a row, all in one grid. A row of briefs is told it starts a
-// row, so it never tucks in beside a lone write-up.
+// row, so it never tucks in beside a lone write-up. When four to a row would
+// strand one brief on the last row, they run three to a row instead.
 function layoutFor(projects) {
 	let featured = 0;
 	let brief = 0;
+	const briefs = projects.filter((project) => !isFeatured(project)).length;
+	const perRow = briefs % 4 === 1 && briefs % 3 !== 1 ? 3 : 4;
 
 	return projects.map((project) => {
 		if (isFeatured(project)) {
@@ -39,9 +42,9 @@ function layoutFor(projects) {
 			featured += 1;
 			return { project, col, rowStart: col === 0 };
 		}
-		const col = brief % 4;
+		const col = brief % perRow;
 		brief += 1;
-		return { project, col, rowStart: col === 0 };
+		return { project, col, rowStart: col === 0, third: perRow === 3 };
 	});
 }
 
@@ -86,11 +89,12 @@ function ProjectsGrid() {
 			</div>
 
 			<div ref={gridRef} className={`np-story-grid ${expanded ? '' : 'is-phone-collapsed'}`}>
-				{layoutFor(visible).map(({ project, col, rowStart }) => (
+				{layoutFor(visible).map(({ project, col, rowStart, third }) => (
 					<ProjectSingle
 						key={project.id}
 						index={col}
 						rowStart={rowStart}
+						third={third}
 						{...project}
 					/>
 				))}

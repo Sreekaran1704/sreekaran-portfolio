@@ -19,6 +19,13 @@ export const projectNotes = {
     ],
     estimatesNote: 'per customer / day · Matched DiD · Profit not estimated',
   },
+  'connect-head-sony-ult-wear': {
+    displayTitle: 'Connect Head',
+    summary: 'An unofficial Mac and Android app for Sony ULT WEAR headphones, built because Sony’s own app was slow to connect and clunky to use.',
+    metric: '2 apps, 1 seat', finding: 'The headphones accept only one controlling connection, so the phone sends its commands through the Mac over the local network instead of fighting it for the link.',
+    annotation: 'Frustration, given a job.', stages: ['Redesign', 'Speak the protocol', 'Share one link'],
+    liveLabel: 'Download for Mac & Android',
+  },
   'dialhack-cmf-buds-dial': {
     displayTitle: 'DialHack',
     summary: 'Turn the Smart Dial on the CMF Buds Pro 2 case into a Mac input device, and learn how I fidget along the way.',

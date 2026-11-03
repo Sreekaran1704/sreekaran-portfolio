@@ -1,5 +1,123 @@
 export const projectsData = [
 	{
+		id: 11,
+		title: 'Connect Head: A Faster Companion App for Sony ULT WEAR Headphones',
+		url: 'connect-head-sony-ult-wear',
+		githubUrl: 'https://github.com/Sreekaran1704/Connect-Head',
+		liveUrl: 'https://github.com/Sreekaran1704/Connect-Head/releases/tag/v1.0.0',
+		// The project page offers each app's file instead of the release page.
+		downloads: [
+			{ label: 'Download for Mac', href: 'https://github.com/Sreekaran1704/Connect-Head/releases/download/v1.0.0/ConnectHead-1.0.0-mac.zip' },
+			{ label: 'Download for Android', href: 'https://github.com/Sreekaran1704/Connect-Head/releases/download/v1.0.0/ConnectHead-1.0.0-android.apk' },
+		],
+		downloadsNote: 'v1.0.0 · Mac: macOS 14+, Apple silicon and Intel · Android: 10+ · Free and open source',
+		category: 'Hardware Hacking',
+		type: 'Project',
+		// Link-preview card, rendered from design/og-project.html?p=connecthead.
+		ogImage: '/og/connect-head.png',
+		ogImageAlt: 'Connect Head: an unofficial Mac and Android app for Sony ULT WEAR headphones, where the phone sends commands through the Mac instead of fighting it for the one Bluetooth connection.',
+		ProjectHeader: {
+			title: 'Connect Head: A Faster Companion App for Sony ULT WEAR Headphones',
+			publishDate: '2026',
+			tags: 'Reverse Engineering / Swift / Kotlin / macOS + Android / Listening Analytics',
+		},
+		ProjectImages: [],
+		// Shown on the project page: a working prototype of the app's window.
+		ProjectMedia: {
+			demo: 'connect-head',
+		},
+		ProjectInfo: {
+			ClientHeading: 'Project Type',
+			CompanyInfo: [
+				{
+					id: 1111,
+					title: 'Association',
+					details: 'Independent side project; unofficial and not affiliated with Sony. Open source under AGPL-3.0',
+				},
+				{
+					id: 1112,
+					title: 'Platform',
+					details: 'macOS 14+ (Apple silicon and Intel) and Android 10+, for the Sony ULT WEAR (WH-ULT900N)',
+				},
+				{
+					id: 1113,
+					title: 'How it was built',
+					details: 'I designed the app; I built it with Claude (Claude Code) from those designs, over 2 to 3 November 2026',
+				},
+				{
+					id: 1114,
+					title: 'Privacy',
+					details: 'Listening history stays on the device and is kept for 120 days',
+				},
+			],
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'Replace Sony’s slow, clunky companion app for my ULT WEAR headphones with one that connects fast and looks the way I wished it did, on both my Mac and my phone. Sony does not publish the headphones’ protocol, so the apps speak it from open-source reverse engineering, and they had to learn to share a headset that accepts only one controlling connection at a time.',
+			Technologies: [
+				{
+					title: 'Tools & Methods',
+					techs: [
+						'Swift',
+						'SwiftUI',
+						'IOBluetooth (RFCOMM)',
+						'CoreAudio',
+						'AppleScript',
+						'Network framework (Bonjour)',
+						'Kotlin',
+						'Jetpack Compose',
+						'MediaSessionManager',
+						'NsdManager',
+						'R8',
+					],
+				},
+			],
+			ProjectDetailsHeading: 'Project Details',
+			ProjectDetails: [
+				{
+					title: 'Why I built it',
+					details:
+						'I got a rejection after going through every interview round. To cool off, I put on my headphones, played some rock, and opened Sony’s app to turn up the bass. It was slow to connect and clunky to use, and I got annoyed all over again.\n\nSo I gave the frustration a job. I redesigned the app the way I wished it looked, then built it with Claude from my designs. It follows DialHack, where I sniffed what the CMF Buds case dial sends over Bluetooth and turned it into a Mac input device.',
+				},
+				{
+					title: 'The app',
+					details:
+						'The home page shows the battery as a watch-style tick dial around a drawing of the headphones, traced from Sony’s product photo. Sound modes cover noise cancelling, ambient sound (with its level and focus on voice) or off, and which of those the NC/AMB button cycles through. The equalizer has every preset, Clear Bass and five bands: drag the curve on the home page (press and hold first, so scrolling never changes it), or use the faders.\n\nNow Playing shows artwork and controls for Apple Music, Spotify and YouTube in Safari or Chromium browsers on the Mac, through AppleScript, and for any media app on Android, through MediaSessionManager. You can connect, disconnect and switch between paired devices, and change DSEE, the LDAC preference, multipoint, voice guidance, the voice assistant, auto power off and pause-when-taken-off. The Mac app adds a menu-bar battery, low-battery notifications at 20% and 10%, launch at login, and a global shortcut (⌃⌥N) to cycle sound modes.',
+				},
+				{
+					title: 'An undocumented protocol',
+					details:
+						'Sony does not publish how its app talks to the headphones. I built on the open-source Gadgetbridge project’s reverse engineering: an RFCOMM channel carrying framed messages, with start and end bytes, escaping and a checksum, and requests sent one at a time, each waiting for an acknowledgement. The ULT WEAR has its own quirks, such as an extra byte in equalizer messages, which the apps detect. The same protocol logic exists in Swift and in Kotlin, with unit tests on Android.',
+				},
+				{
+					title: 'Two apps, one seat',
+					details:
+						'It looked simple. It wasn’t. The headphones accept only one controlling connection, so the Mac and phone apps kept knocking each other off.\n\nThe fix was to stop fighting over the seat. The Mac app shares the headphones’ state on the local network, advertised over Bonjour as _connecthead._tcp and served over HTTP. When the phone finds the Mac, it reads the state from it and sends commands through it instead of taking the connection. The Mac is the friend already holding the headphones; the phone just tells the friend what to do. When the Mac is not around, the phone connects directly, and hands the link back when you leave. Every request must carry the headphones’ Bluetooth address, so only devices paired with them can use it.',
+				},
+				{
+					title: 'The edge cases',
+					details:
+						'Sharing the seat brought its own bugs. On launch, the phone sometimes grabbed the link before it had found the Mac, and the two passed the connection back and forth. The fix was for the phone to wait briefly for the Mac before connecting, and to give the Mac time to reconnect after a handback.',
+				},
+				{
+					title: 'Listening analytics',
+					details:
+						'Because I’m a data person, I couldn’t skip the analytics. The apps record Now Playing history and volume, then show listening time by day and by hour, top artists and tracks, which app the music came from, the average volume, and time spent above 75% volume. Everything stays on the device and is kept for 120 days.',
+				},
+				{
+					title: 'The design',
+					details:
+						'The apps borrow this site’s printed-newspaper look: warm paper and ink in light mode, black paper in dark mode, serif type inspired by The New York Times, hairline rules and hard offset shadows, with no glow, and a vermilion accent. The wordmark, CONNECT HEAD, nods to Sony’s silver logo in wide Clarendon capitals with a brushed-silver fill. On the phone, navigation follows this site’s mobile layout, a bottom tab bar with a More menu.',
+				},
+				{
+					title: 'Build and credits',
+					details:
+						'The Mac app is built with plain swiftc as a universal binary for Apple silicon and Intel. The Android release APK is shrunk with R8 from 18.6 MB to 2 MB. The protocol comes from Gadgetbridge, and multipoint device management from mos9527/SonyHeadphonesClient. Connect Head is free, open source under AGPL-3.0, and not affiliated with Sony.',
+				},
+			],
+			SocialSharingHeading: '',
+		},
+	},
+	{
 		id: 10,
 		title: 'DialHack: Turning the CMF Buds Pro 2 Dial into a Mac Input Device',
 		url: 'dialhack-cmf-buds-dial',

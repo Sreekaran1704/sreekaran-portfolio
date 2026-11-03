@@ -30,6 +30,7 @@ export const suggestionCategories = [
 		label: 'Projects',
 		questions: [
 			'Tell me about the FanHouse case study.',
+			'What is Connect Head and why did you build it?',
 			'What is DialHack and how did you build it?',
 			'What is Market Pulse?',
 			'How did the QLoRA fine-tuning project go?',
