@@ -136,30 +136,31 @@
 	grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 	gap: 2.5rem;
 	align-items: start;
-	margin-bottom: 2.6rem;
+	margin-bottom: 2.8rem;
 }
 
 .sr-top .sr-head {
 	margin-bottom: 0;
 }
 
-.ct {
+/* (components/about/ReportCartoons.jsx) */
+.cs-panel {
 	justify-self: center;
 	width: 100%;
-	max-width: 21rem;
+	max-width: 22rem;
 	margin: 0;
 	transform: rotate(0.8deg);
 }
 
-.ct svg {
+.cs-panel svg {
 	display: block;
 	width: 100%;
 	height: auto;
-	border: 1.5px solid var(--np-ink);
+	background: #fbf6ea;
 	box-shadow: 5px 5px 0 var(--np-ink);
 }
 
-.ct-caption {
+.cs-caption {
 	margin: 0.8rem 0 0;
 	font-family: var(--np-body);
 	font-size: 0.98rem;
@@ -168,135 +169,247 @@
 	color: var(--np-ink-soft, var(--np-ink));
 }
 
-/* Lines draw no fill unless a colour class below gives them one. */
-.ct-line {
+/* The passes. Paint keeps fills and drops lines and lettering; pencil
+   is a thin grey underdrawing; ink keeps lines, eyes and lettering and drops
+   fills; the ghost is a faint second ink line. Hatching and floor shadows only
+   appear in the passes that suit them. */
+.cs-paint * {
+	stroke: none !important;
+}
+
+.cs-paint text,
+.cs-paint .cs-hatch,
+.cs-pencil text,
+.cs-pencil .ct-ink,
+.cs-pencil .cs-spark,
+.cs-pencil .cs-shadow,
+.cs-ghost text,
+.cs-ghost .ct-ink,
+.cs-ghost .cs-spark,
+.cs-ghost .cs-shadow,
+.cs-ink .cs-shadow {
+	display: none;
+}
+
+.cs-pencil * {
+	fill: none !important;
+	stroke: #7d7266 !important;
+	stroke-width: 0.8 !important;
+}
+
+.cs-pencil {
+	opacity: 0.45;
+}
+
+.cs-paint {
+	opacity: 1;
+}
+
+.cs-ink *:not(.ct-ink):not(.cs-spark):not(text) {
+	fill: none !important;
+}
+
+/* Lettering is drawn by its own pass, never thickened. */
+.cs-ink text {
+	display: none;
+}
+
+.cs-letters *:not(g):not(text):not(tspan) {
+	display: none;
+}
+
+.cs-ghost {
+	opacity: 0.32;
+}
+
+.cs-ghost .cs-line,
+.cs-ghost .cs-frames {
+	stroke-width: 1.1;
+}
+
+.cs-hatch {
 	fill: none;
-	stroke: var(--np-ink);
-	stroke-width: 2;
+	stroke: #1d1916;
+	stroke-width: 0.9;
+	stroke-linecap: round;
+	opacity: 0.55;
+}
+
+.cs-shadow {
+	fill: #3b2f25;
+	opacity: 0.16;
+}
+
+.cs-ground { fill: #fbf6ea; }
+.cs-grain { opacity: 0.08; mix-blend-mode: multiply; }
+
+.cs-line {
+	fill: none;
+	stroke: #1d1916;
+	stroke-width: 2.1;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 }
 
-.ct-line.ct-thin {
-	stroke-width: 1.2;
+.cs-line.cs-thin { stroke-width: 1.2; }
+.cs-line.is-bold { stroke-width: 2.8; }
+
+.cs-border {
 	fill: none;
+	stroke: #1d1916;
+	stroke-width: 3;
+	stroke-linejoin: round;
 }
 
-.ct-line.is-frame {
-	stroke-width: 2.5;
+.cs-balloon {
+	fill: #fffdf6;
 }
 
-.ct-line.is-bold {
-	stroke-width: 2.8;
-}
-
-.ct-paper { fill: var(--np-sheet, #fffdf8); }
-.ct-window { fill: #cfe6f2; }
-.ct-city { fill: #a9bfcf; }
-.ct-floor { fill: #e9d9c9; }
-.ct-scarf { fill: #f2c94c; }
-.ct-dhoti { fill: #fbfbf7; }
-.ct-trouser { fill: #4d5866; }
-.ct-shoe { fill: #3a2f27; }
-.ct-device { fill: #3b4049; }
-.ct-mouth-open { fill: #8e2f2a; }
-.ct-saree { fill: #e8a3b5; }
-.ct-tie { fill: #c0262d; }
-.ct-cap { fill: #f5f3ee; }
-.ct-table { fill: #c8a27a; }
-.ct-door { fill: #e6d3f0; }
-.ct-overshirt { fill: #e3dccd; }
-.ct-tee { fill: #fbfaf6; }
-.ct-teeth { fill: #fffdf8; }
-.ct-tongue { fill: #e0756e; }
-.ct-hair-light { fill: none; stroke: #5a4a40; stroke-width: 1.2; stroke-linecap: round; }
-
-.ct-frames {
-	fill: rgba(255, 255, 255, 0.28);
-	stroke: #6d7178;
-	stroke-width: 2.2;
-	stroke-linecap: round;
-}
-.ct-skin { fill: #f1cfa9; }
-.ct-hair { fill: #26211c; }
-.ct-white { fill: #f4f1ea; }
-.ct-mouth { fill: #fff; }
-.ct-glass { fill: rgba(255, 255, 255, 0.35); }
-.ct-ink { fill: var(--np-ink); }
-.ct-tone { fill: var(--tone); }
-.ct-tag { fill: #f2d98c; }
-
-.ct-tone-line {
-	stroke: var(--tone);
-	stroke-width: 4;
-	stroke-linecap: round;
-}
-
-.ct-hatch {
-	stroke: var(--np-ink);
-	stroke-width: 0.8;
-	opacity: 0.35;
-}
-
-.ct-say {
-	font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+.cs-say {
+	font-family: 'Kalam', 'Comic Neue', cursive;
 	font-size: 12.5px;
 	font-weight: 700;
 	text-anchor: middle;
-	fill: var(--np-ink);
+	fill: #1d1916;
 }
 
-.ct-label {
-	font-family: var(--np-label, Inter, sans-serif);
-	font-size: 8.5px;
-	font-weight: 800;
-	letter-spacing: 0.08em;
-	text-anchor: middle;
-	fill: var(--np-ink);
-}
+.cs-say.is-small { font-size: 11px; }
 
-.ct-label.is-big {
-	font-family: var(--np-display, Georgia, serif);
-	font-size: 14px;
-	letter-spacing: 0;
-}
-
-.ct-label.is-tiny {
-	font-size: 6.5px;
-}
-
-.ct-label.is-name {
-	font-size: 10px;
-	letter-spacing: 0.18em;
-}
-
-.ct-label.is-light {
-	fill: #fff;
-}
-
-.ct-label.is-panel {
-	font-size: 10px;
-	letter-spacing: 0.16em;
-	text-anchor: start;
-	fill: var(--tone);
-}
-
-.ct-shout {
-	font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-	font-size: 18px;
+.cs-prop {
+	font-family: 'Kalam', cursive;
+	font-size: 9.5px;
 	font-weight: 700;
 	text-anchor: middle;
-	fill: #c0262d;
+	fill: #1d1916;
 }
 
-.ct-sign {
-	font-family: 'Kohinoor Telugu', 'Noto Sans Telugu', 'Telugu MN', 'Comic Neue', cursive;
+.cs-prop.is-big { font-size: 14px; }
+.cs-prop.is-tiny { font-size: 7.5px; }
+.cs-prop.is-light { fill: #fff; }
+
+.cs-chalk {
+	font-family: 'Kalam', cursive;
+	font-size: 11px;
+	font-weight: 700;
+	fill: #2b5d8a;
+}
+
+.cs-shout {
+	font-family: 'Kalam', cursive;
 	font-size: 15px;
-	font-style: italic;
 	font-weight: 700;
-	text-anchor: end;
-	fill: var(--np-muted);
+	text-anchor: middle;
+	fill: #b3261e;
 }
+
+.cs-shout.is-quiet {
+	font-size: 11px;
+	font-weight: 400;
+	fill: #5b544a;
+}
+
+.cs-mutter {
+	font-family: 'Kalam', cursive;
+	font-size: 11px;
+	font-style: italic;
+	text-anchor: middle;
+	fill: #5b544a;
+}
+
+.cs-frames {
+	fill: rgba(255, 255, 255, 0.25);
+	stroke: #6d7178;
+	stroke-width: 2.1;
+	stroke-linecap: round;
+}
+
+.cs-spark { fill: #fff; }
+
+/* Watercolour palette, after the soft washes in the Sakshi cartoons. */
+.cs-wall { fill: #dcebee; }
+.cs-floor { fill: #ecdcc7; }
+.cs-skin-me { fill: #ecc29f; }
+.cs-skin { fill: #e9b98f; }
+.cs-kurta { fill: #fbfbf6; }
+.cs-dhoti { fill: #f4f2ea; }
+.cs-scarf { fill: #f0c24a; }
+.cs-tuft { fill: #f5f2ea; }
+.cs-specs { fill: rgba(255, 255, 255, 0.3); }
+.cs-saree { fill: #e9a2b6; }
+.cs-suit { fill: #9aa3ad; }
+.cs-tie { fill: #c0392b; }
+.cs-cap { fill: #f6f4ee; }
+.cs-uniform { fill: #8cc0e8; }
+.cs-coin { fill: #f2c94c; }
+.cs-door { fill: #d8c6ea; }
+.cs-window { fill: #cde6f4; }
+.cs-city { fill: #a8bccb; }
+.cs-crane-box { fill: #e0644e; }
+.cs-ledger { fill: #d9b48a; }
+.cs-machine { fill: #c7cdd4; }
+.cs-machine-top { fill: #9aa4ae; }
+.cs-paper { fill: #fffdf6; }
+.cs-card { fill: #fdf3c8; }
+.cs-scroll { fill: #f7e9c6; }
+.cs-scissors { stroke: #6d7178; }
+.cs-curtain { fill: #c86d6d; }
+.cs-whistle { fill: #c0c6cc; }
+.cs-device { fill: #3b4049; }
+.cs-screen { fill: #dfeaf0; }
+.cs-screen-text { font-family: 'Kalam', cursive; font-size: 11px; font-weight: 700; text-anchor: middle; fill: #1d1916; }
+.cs-screen-text.is-tiny { font-size: 7px; font-weight: 400; }
+.cs-screen-text.is-mid { font-size: 9px; }
+.cs-flag { fill: #e0644e; }
+.cs-table { fill: #c9a27b; }
+.cs-cup { fill: #fffdf6; }
+.cs-tag { fill: #f2d98c; }
+.cs-file { fill: #c0392b; }
+.cs-sweat { fill: #bfe3f2; }
+.cs-clock-half { fill: #9fd3a8; }
+.cs-eye-white { fill: #fffdf6; }
+.cs-marigold { fill: #f6b72c; }
+.cs-marigold-deep { fill: #e8781e; }
+.cs-tea { fill: #b98154; }
+.cs-saree-edge { fill: #c23b5e; }
+.cs-flower { fill: #fffdf6; }
+.cs-bindi { fill: #c0392b; }
+.cs-crow { fill: #2b2a2d; }
+.cs-sill { fill: #d8c3a0; }
+.cs-cardigan { fill: #8c6f9e; }
+.cs-sash { fill: #f2d98c; }
+.cs-cane { fill: #8a5a34; }
+.cs-whitehair { fill: #f4f1ea; }
+.cs-calendar-top { fill: #2b7a4b; }
+.cs-prop.is-sash { font-size: 9px; letter-spacing: 0.12em; }
+.cs-frame { fill: #b98b4f; }
+.cs-mat { fill: #fbf3df; }
+.cs-plaque { fill: #e9cf86; }
+.cs-board-cork { fill: #c99a62; }
+.cs-pin { fill: #c0392b; }
+.cs-bin { fill: #8fa3a8; }
+.cs-gate { fill: none; }
+.cs-notice { font-family: 'Kalam', cursive; font-size: 11px; font-weight: 700; fill: #1d1916; }
+.cs-notice.is-pct { text-anchor: end; fill: #b3261e; }
+.cs-prop.is-huge { font-size: 20px; }
+.cs-shout.is-small { font-size: 12px; }
+.cs-pot { fill: #c98b5a; }
+.cs-board { fill: #2f4a3a; }
+.cs-desk { fill: #c9a27b; }
+.cs-sky { fill: #d7ecf5; }
+.cs-school { fill: #f3e2c2; }
+.cs-banner { fill: #c0392b; }
+.cs-chalk.is-light { fill: #f4f1e8; }
+.cs-line.is-chalk { stroke: #f4f1e8; }
+
+/* Colours the strips share with the face and clothes of each character. */
+.ct-hair { fill: #26211c; }
+.ct-ink { fill: #1d1916; }
+.ct-mouth-open { fill: #8e2f2a; }
+.ct-overshirt { fill: #e3dccd; }
+.ct-shoe { fill: #3a2f27; }
+.ct-tee { fill: #fbfaf6; }
+.ct-teeth { fill: #fffdf8; }
+.ct-trouser { fill: #4d5866; }
 
 /* ---------- Beats and the pinned exhibit ---------- */
 
@@ -812,110 +925,6 @@
 		radial-gradient(ellipse at 50% 100%, var(--np-ink) 0 40%, transparent 41%);
 }
 
-.sr-snapshots {
-	display: flex;
-	flex-direction: column;
-	gap: 0.55rem;
-}
-
-.sr-snap-student {
-	margin: 0 0 0.3rem;
-	font-family: var(--np-label);
-	font-size: 0.78rem;
-	font-weight: 700;
-	color: var(--np-muted);
-}
-
-.sr-snap {
-	display: flex;
-	align-items: center;
-	gap: 0.8rem;
-	animation: sr-in 0.4s ease both;
-}
-
-.sr-snap:nth-child(3) { animation-delay: 0.12s; }
-.sr-snap:nth-child(4) { animation-delay: 0.24s; }
-.sr-snap:nth-child(5) { animation-delay: 0.36s; }
-
-.sr-snap-track {
-	display: inline-flex;
-	gap: 3px;
-}
-
-.sr-snap-track i {
-	width: 1.5rem;
-	height: 0.9rem;
-	border: 1px solid var(--np-ink);
-}
-
-.sr-snap-track i.is-known {
-	background: var(--tone);
-	border-color: var(--tone);
-}
-
-.sr-snap-copy {
-	font-family: var(--np-body);
-	font-size: 0.95rem;
-}
-
-.sr-cohorts {
-	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
-	gap: 0.5rem;
-}
-
-.sr-cohort {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.4rem;
-	padding: 0.6rem 0.25rem;
-	border: 1px solid var(--np-hairline);
-	transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.sr-cohort.is-held {
-	background: color-mix(in srgb, var(--tone) 14%, transparent);
-	border-color: var(--tone);
-}
-
-.sr-cohort-dots {
-	display: grid;
-	grid-template-columns: repeat(3, 0.5rem);
-	gap: 4px;
-}
-
-.sr-cohort-dots i {
-	width: 0.5rem;
-	height: 0.5rem;
-	border-radius: 50%;
-	background: var(--np-ink);
-}
-
-.sr-cohort.is-held .sr-cohort-dots i {
-	background: var(--tone);
-}
-
-.sr-cohort b {
-	font-family: var(--np-label);
-	font-size: 0.68rem;
-	text-align: center;
-}
-
-.sr-cohort em {
-	font-family: var(--np-label);
-	font-size: 0.62rem;
-	font-style: normal;
-	font-weight: 700;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--np-muted);
-}
-
-.sr-cohort.is-held em {
-	color: var(--tone);
-}
-
 .sr-ladder {
 	display: flex;
 	flex-wrap: wrap;
@@ -953,6 +962,132 @@
 	color: #fff;
 }
 
+/* Avanthi: the mystery percentage, marks to percentages, a student's card,
+   and word of mouth spreading out from the school. */
+
+.sr-mystery {
+	margin: 0;
+	font-family: var(--np-display);
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.sr-mystery b {
+	color: var(--tone);
+}
+
+.sr-pct {
+	font-weight: 800;
+	color: var(--tone);
+}
+
+.sr-student {
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
+	padding: 0.9rem 1rem;
+	border: 1.5px solid var(--np-ink);
+	background: var(--np-paper);
+}
+
+.sr-student-head {
+	display: flex;
+	justify-content: space-between;
+	font-family: var(--np-label);
+	font-size: 0.85rem;
+}
+
+.sr-student-facts {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.6rem;
+	margin: 0;
+}
+
+.sr-student-facts dt {
+	font-family: var(--np-label);
+	font-size: 0.66rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--np-muted);
+}
+
+.sr-student-facts dd {
+	margin: 0.15rem 0 0;
+	font-family: var(--np-display);
+	font-size: 1.8rem;
+	font-weight: 800;
+	line-height: 1.1;
+}
+
+.sr-student-next {
+	margin: 0;
+	font-family: var(--np-label);
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.sr-student-bar {
+	position: relative;
+	height: 0.7rem;
+	border: 1.5px solid var(--np-ink);
+}
+
+.sr-student-bar i {
+	position: absolute;
+	inset: 0 auto 0 0;
+	background: var(--tone);
+	animation: sr-bar 0.8s ease both;
+	transform-origin: left;
+}
+
+.sr-student-bar span {
+	position: absolute;
+	top: -0.35rem;
+	bottom: -0.35rem;
+	width: 2px;
+	background: var(--np-ink);
+}
+
+.sr-word-line {
+	stroke: var(--tone);
+	stroke-width: 2;
+	stroke-dasharray: 4 4;
+	opacity: 0;
+	animation: sr-fade 0.5s ease forwards;
+}
+
+.sr-word-node {
+	opacity: 0;
+	animation: sr-fade 0.5s ease forwards;
+}
+
+.sr-word-node circle {
+	fill: var(--np-sheet, #fffdf8);
+	stroke: var(--np-ink);
+	stroke-width: 1.5;
+}
+
+.sr-word-bubble {
+	fill: var(--tone);
+}
+
+.sr-school path {
+	fill: color-mix(in srgb, var(--tone) 18%, var(--np-paper));
+	stroke: var(--np-ink);
+	stroke-width: 2;
+	stroke-linejoin: round;
+}
+
+.sr-school .sr-school-door {
+	fill: var(--np-ink);
+}
+
+@keyframes sr-fade {
+	to { opacity: 1; }
+}
+
 /* ---------- Role card link ---------- */
 
 .np-rec-report {
@@ -987,7 +1122,7 @@
 		gap: 1.6rem;
 	}
 
-	.ct {
+	.cs-panel {
 		transform: none;
 	}
 
@@ -1062,10 +1197,6 @@
 		grid-template-columns: 7.5rem minmax(0, 1fr);
 	}
 
-	.sr-cohorts {
-		gap: 0.3rem;
-	}
-
 	.sr-reviewer {
 		font-size: 0.6rem;
 		white-space: nowrap;
@@ -1078,9 +1209,15 @@
 	.sr-band-range,
 	.sr-drivers i,
 	.sr-reviewer,
-	.sr-snap {
+	.sr-word-line,
+	.sr-word-node {
 		animation: none;
 		stroke-dashoffset: 0;
+	}
+
+	.sr-word-line,
+	.sr-word-node {
+		opacity: 1;
 	}
 
 	.sr-beat {

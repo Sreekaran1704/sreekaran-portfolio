@@ -40,30 +40,30 @@ export const reports = [
 		tab: 'Avanthi High School',
 		role: 'Avanthi High School, Warangal · 2022–2023',
 		kicker: 'Special report · Scholarships',
-		headline: 'Four reviewers, one decision',
-		dek: 'How a school’s scholarship panel became a model that knows when to hand a decision back to a person.',
+		headline: 'The right percentage, for every student',
+		dek: 'How predicting each student’s scholarship fairly lifted morale in the classroom, and got families talking about the school.',
 		tone: 'projects',
-		note: 'Students, cohorts and marks in the exhibit are illustrative. Student records stay private.',
+		note: 'Students, marks, tiers and percentages in the exhibit are illustrative. Student records stay private.',
 		beats: [
 			{
-				label: 'A process nobody could fully explain',
-				text: 'At Avanthi High School, scholarships were decided by a panel of four reviewers, through a process nobody could fully explain. My job was to put the decision on evidence: predict each student’s final marks, and place them in a tier.',
+				label: 'A percentage nobody could explain',
+				text: 'At Avanthi High School, each student’s scholarship percentage was decided by a panel of four reviewers, through a process nobody could fully explain. When a scholarship can’t be explained, it is hard for a student to trust it, or to know what to work towards.',
 			},
 			{
-				label: 'One student, many snapshots',
-				text: 'I expanded each graduated student’s history into per-grade snapshots, each one knowing how far it was from graduation and which grade the student joined in. That let the model score students who had only part of a history.',
-			},
-			{
-				label: 'Keeping one year out of another',
-				text: 'A random split would let a cohort’s own results leak into its test. So I split the data by graduating cohort, and tuned the models with leave-one-cohort-out cross-validation across 500 to 1,000 students.',
-			},
-			{
-				label: 'A mark is a range',
-				text: 'XGBoost beat a ladder of baselines, from the global mean to a running average to linear regression, at 0.8 MAE on a 10-point scale. Quantile regression then gave every prediction a 95% interval, not just a single number.',
+				label: 'Predict the marks, then the percentage',
+				text: 'I built a model to predict each student’s final marks from per-grade snapshots of their history, split by graduating cohort so no year could leak into another. XGBoost beat every baseline at 0.8 MAE on a 10-point scale, and the predicted marks placed each student in a scholarship tier and its percentage.',
 			},
 			{
 				label: 'The close calls go to a person',
-				text: 'Students whose interval crossed a tier boundary were flagged for human review; the rest were placed by the model. That cut the reviewers needed from four to one. When the principal and correspondent hesitated, I walked them through the tool one user story at a time until they approved it.',
+				text: 'Quantile regression gave every prediction a 95% interval. Students whose interval crossed a tier boundary were flagged for a person to decide; the rest were placed by the model. That cut the reviewers needed from four to one, and the principal and correspondent approved it after I walked them through it one user story at a time.',
+			},
+			{
+				label: 'Students who knew where they stood',
+				text: 'Getting the percentage right changed the mood in the classroom. A scholarship that followed a student’s own marks felt earned, not handed out, and it improved students’ morale: they could see what their work was worth.',
+			},
+			{
+				label: 'Then the parents started talking',
+				text: 'Fair scholarships travelled further than any poster. Families told other families, and the scholarships brought the school word of mouth.',
 			},
 		],
 	},

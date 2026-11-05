@@ -3,9 +3,10 @@ import { Html, Head, Main, NextScript } from 'next/document';
 // Newspaper type, tuned for screens: a blackletter nameplate, a display serif
 // for headlines, a screen-optimised text serif for reading, and a plain sans
 // for labels and navigation. Comic Neue letters the speech balloons in the
-// story write-ups; Space Mono sets labels in the black & white edition.
+// story write-ups; Space Mono sets labels in the black & white edition; Kalam
+// hand-letters the special reports' cartoon strips.
 const FONTS_URL =
-	'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Inter:wght@400;500;600;700&family=Comic+Neue:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap';
+	'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Inter:wght@400;500;600;700&family=Comic+Neue:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&display=swap';
 
 export default function Document() {
 	return (

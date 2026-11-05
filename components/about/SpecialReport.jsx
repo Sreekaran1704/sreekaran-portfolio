@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { reports } from '../../data/reportsData';
-import { PanelCartoon, PricingCartoon } from './ReportCartoons';
+import { PricingCartoon, ScholarshipCartoon } from './ReportCartoons';
 
 // A special report in the manner of a newspaper's scroll-through features: the
 // beats of one real case run down the left, and the exhibit on the right is
@@ -204,51 +204,6 @@ function IntervalChart({ flag }) {
 	);
 }
 
-function CohortGrid() {
-	const cohorts = ['2017', '2018', '2019', '2020', '2021'];
-	const [held, setHeld] = useState(0);
-	useEffect(() => {
-		const id = setInterval(() => setHeld((h) => (h + 1) % cohorts.length), 1300);
-		return () => clearInterval(id);
-	}, [cohorts.length]);
-	return (
-		<div className="sr-cohorts">
-			{cohorts.map((c, i) => (
-				<div key={c} className={`sr-cohort ${i === held ? 'is-held' : ''}`}>
-					<span className="sr-cohort-dots" aria-hidden="true">
-						{Array.from({ length: 12 }, (_, j) => (
-							<i key={j} />
-						))}
-					</span>
-					<b>Class of {c}</b>
-					<em>{i === held ? 'Held out' : 'Train'}</em>
-				</div>
-			))}
-		</div>
-	);
-}
-
-function Snapshots() {
-	const grades = [6, 7, 8, 9];
-	return (
-		<div className="sr-snapshots">
-			<p className="sr-snap-student">Student S-19 · joined in grade 6 · graduated after grade 10</p>
-			{grades.map((g) => (
-				<div key={g} className="sr-snap">
-					<span className="sr-snap-track">
-						{[6, 7, 8, 9, 10].map((k) => (
-							<i key={k} className={k <= g ? 'is-known' : ''} />
-						))}
-					</span>
-					<span className="sr-snap-copy">
-						Snapshot at grade {g} · {10 - g} year{10 - g === 1 ? '' : 's'} to go
-					</span>
-				</div>
-			))}
-		</div>
-	);
-}
-
 function Panel() {
 	return (
 		<div className="sr-panel">
@@ -264,7 +219,10 @@ function Panel() {
 					</span>
 				))}
 			</div>
-			<p className="sr-count">Four people for every decision</p>
+			<p className="sr-mystery">
+				Scholarship: <b>?%</b>
+			</p>
+			<p className="sr-count">Four people for every decision, and no reason given</p>
 		</div>
 	);
 }
@@ -285,8 +243,106 @@ function Ladder() {
 	);
 }
 
+// Predicted marks out of 10 decide the tier, and the tier the percentage.
+const TIER_TABLE = [
+	['S-07', '8.9', 'Tier 1', '75%'],
+	['S-12', '7.8', 'Tier 2', '50%'],
+	['S-38', '6.9', 'Tier 2', '50%'],
+	['S-23', '5.2', 'Tier 3', '25%'],
+];
+
+function MarksToPercent() {
+	return (
+		<table className="sr-ledger">
+			<thead>
+				<tr>
+					<th>Student</th>
+					<th>Predicted /10</th>
+					<th>Tier</th>
+					<th>Scholarship</th>
+				</tr>
+			</thead>
+			<tbody>
+				{TIER_TABLE.map((row) => (
+					<tr key={row[0]}>
+						{row.map((cell, i) => (
+							<td key={i}>{i === 3 ? <b className="sr-pct">{cell}</b> : cell}</td>
+						))}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	);
+}
+
+function StudentCard() {
+	return (
+		<div className="sr-student">
+			<div className="sr-student-head">
+				<b>Student S-12</b>
+				<span>Grade 9</span>
+			</div>
+			<dl className="sr-student-facts">
+				<div>
+					<dt>Predicted marks</dt>
+					<dd>7.8 / 10</dd>
+				</div>
+				<div>
+					<dt>Scholarship</dt>
+					<dd className="sr-pct">50%</dd>
+				</div>
+			</dl>
+			<p className="sr-student-next">Next tier at 8.0</p>
+			<div className="sr-student-bar" aria-label="Illustrative: close to the next tier">
+				<i style={{ width: '78%' }} />
+				<span style={{ left: '80%' }} />
+			</div>
+			<p className="sr-count">A percentage that follows your own marks, and a clear next step.</p>
+		</div>
+	);
+}
+
+function WordOfMouth() {
+	const ring = [
+		[160, 46, 'Parent'],
+		[262, 86, 'Neighbour'],
+		[262, 178, 'Cousin'],
+		[160, 222, 'Parent'],
+		[58, 178, 'Relative'],
+		[58, 86, 'Friend'],
+	];
+	return (
+		<svg className="sr-chart" viewBox="0 0 320 260" role="img" aria-label="Illustrative: the school at the centre, with families passing the word on to neighbours, cousins, relatives and friends.">
+			{ring.map(([x, y], i) => {
+				// From the school's edge to the circle's edge, clear of the labels.
+				const dx = x - 160;
+				const dy = y - 124;
+				const len = Math.hypot(dx, dy);
+				const at = (d) => [160 + (dx / len) * d, 124 + (dy / len) * d];
+				const [x1, y1] = at(46);
+				const [x2, y2] = at(len - 19);
+				return <line key={i} x1={Math.round(x1)} y1={Math.round(y1)} x2={Math.round(x2)} y2={Math.round(y2)} className="sr-word-line" style={{ animationDelay: `${i * 0.15}s` }} />;
+			})}
+			<g className="sr-school">
+				<path d="M128 150 V118 L160 98 L192 118 V150Z" />
+				<path d="M150 150 V132 H170 V150" className="sr-school-door" />
+				<text x="160" y="168" className="sr-label is-middle">AVANTHI</text>
+			</g>
+			{ring.map(([x, y, who], i) => (
+				<g key={i} className="sr-word-node" style={{ animationDelay: `${0.3 + i * 0.15}s` }}>
+					<circle cx={x} cy={y} r="15" />
+					<path d={`M${x - 6} ${y - 4} h12 v7 h-7 l-4 4 v-4 h-1Z`} className="sr-word-bubble" />
+					<text x={x} y={y < 60 ? y - 21 : y + 28} className="sr-label is-middle">
+						{who}
+					</text>
+				</g>
+			))}
+		</svg>
+	);
+}
+
 function ScholarshipExhibit({ step }) {
-	const titles = ['The old process', 'One history, many rows', 'Leave one cohort out', 'Predictions with intervals', 'Who still needs a person'];
+	const titles = ['The old way', 'Marks to a percentage', 'Who still needs a person', 'What a student could see', 'Word of mouth'];
 	return (
 		<figure className="sr-exhibit-card">
 			<figcaption className="sr-exhibit-head">
@@ -294,24 +350,24 @@ function ScholarshipExhibit({ step }) {
 			</figcaption>
 			<div className="sr-exhibit-body" key={step}>
 				{step === 0 && <Panel />}
-				{step === 1 && <Snapshots />}
-				{step === 2 && (
-					<>
-						<CohortGrid />
-						<p className="sr-count">500 to 1,000 students, split by graduating cohort</p>
-					</>
-				)}
-				{step === 3 && (
+				{step === 1 && (
 					<>
 						<Ladder />
-						<IntervalChart />
-						<p className="sr-count">Marks out of 10, each with a 95% interval</p>
+						<MarksToPercent />
+						<p className="sr-count">Predicted marks set the tier; the tier sets the percentage.</p>
 					</>
 				)}
-				{step === 4 && (
+				{step === 2 && (
 					<>
 						<IntervalChart flag />
 						<p className="sr-stamp">Reviewers: 4 → 1</p>
+					</>
+				)}
+				{step === 3 && <StudentCard />}
+				{step === 4 && (
+					<>
+						<WordOfMouth />
+						<p className="sr-count">Families told families.</p>
 					</>
 				)}
 			</div>
@@ -322,7 +378,7 @@ function ScholarshipExhibit({ step }) {
 /* ---------- The report ---------- */
 
 const EXHIBITS = { 'sree-nirman': BidExhibit, avanthi: ScholarshipExhibit };
-const CARTOONS = { 'sree-nirman': PricingCartoon, avanthi: PanelCartoon };
+const CARTOONS = { 'sree-nirman': PricingCartoon, avanthi: ScholarshipCartoon };
 
 function Report({ report }) {
 	const [step, setStep] = useState(0);
@@ -347,18 +403,19 @@ function Report({ report }) {
 
 	return (
 		<article className={`sr-report np-tone-${report.tone}`} aria-labelledby={`sr-${report.id}-title`}>
+			{/* The headline with the day's cartoon beside it, as on an editorial page. */}
 			<div className="sr-top">
-			<header className="sr-head">
-				<p className="sr-kicker">{report.kicker}</p>
-				<h3 id={`sr-${report.id}-title`} className="sr-headline">
-					{report.headline}
-				</h3>
-				<p className="sr-dek">{report.dek}</p>
-				<p className="sr-byline">
-					By Sreekaran Reddy · {report.role} · <span>Scroll to follow the case</span>
-				</p>
-			</header>
-			<Cartoon />
+				<header className="sr-head">
+					<p className="sr-kicker">{report.kicker}</p>
+					<h3 id={`sr-${report.id}-title`} className="sr-headline">
+						{report.headline}
+					</h3>
+					<p className="sr-dek">{report.dek}</p>
+					<p className="sr-byline">
+						By Sreekaran Reddy · {report.role} · <span>Scroll to follow the case</span>
+					</p>
+				</header>
+				<Cartoon />
 			</div>
 
 			<div className="sr-body">
