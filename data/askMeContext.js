@@ -39,7 +39,7 @@ The project that changed my thinking: In my FanHouse case study, members spent 2
 What I'm looking for: I finished my M.S. in Computer Science, Data Science track, at UMKC in May 2026 with a 3.97 GPA, and I'm looking for my next team. I'm applying for Data Analyst, Business Analyst, Data Scientist, Analytics Engineer and Applied AI roles. I'm based in Dallas and open to relocating anywhere in the US. Between applications, I write about causal inference and how language models work, and I keep building: a live job-market pipeline with its own MCP server, a forecasting backtest, and a photo-curation tool that runs on your own machine.
 
 === EVERYTHING I HAVE DONE (roster) ===
-Roles: Sree Nirman, Hyderabad, India, May 2023 – Jun 2024, Data Analyst and Machine Learning Engineer — the role began as an internship and converted to full time (construction analytics, ML, growth analytics). Avanthi High School, Warangal, India, Apr 2022 – Jan 2023, Data Analyst Intern (education finance and operations analytics). University of Missouri–Kansas City, Kansas City, MO, Aug 2025 – May 2026, Information Services Lab Assistant.
+Roles: Sree Nirman, Hyderabad, India, May 2023 – Jun 2024, Data and ML Intern, then full-time Data Scientist from April 2024 (construction analytics, ML, growth analytics). Avanthi High School, Warangal, India, Apr 2022 – Jan 2023, Data Science Intern (education finance, experimentation and ML decision support). University of Missouri–Kansas City, Kansas City, MO, Aug 2025 – May 2026, Information Services Lab Assistant.
 Projects: Connect Head, an unofficial companion app for Sony ULT WEAR (WH-ULT900N) headphones on macOS (Swift) and Android (Kotlin), built because Sony's app was slow and clunky; it speaks the headphones' undocumented Bluetooth protocol, lets the phone control them through the Mac so the two apps stop fighting over the one connection, and adds on-device listening analytics. DialHack, a Swift macOS menu-bar app that turns the Smart Dial on the CMF Buds Pro 2 charging case into a Mac input device (scroll, video scrub, macros, focus timer), built after sniffing what the dial sends over Bluetooth, with a local Python fidget-analytics pipeline (DuckDB, KMeans, IsolationForest). The Forecast That Was Too Good To Be True, a loan-delinquency forecasting case study comparing ARIMA against XGBoost and LightGBM on five FRED series with walk-forward backtesting. FanHouse, a causal inference case study on selection, product value, and net payments under an opt-in membership (synthetic data). Market Pulse, a live job market intelligence platform with a dual-transport MCP server. PhotoCull, a privacy-first, local-first computer-vision system for duplicate detection, event grouping, and photo shortlists. Genre-Controlled Story Generation, QLoRA fine-tuning of google/gemma-3-1b-it. MedPredicts, context-aware 30-day hospital readmission forecasting with a RAG explanation layer. Vehicle Insurance Eligibility Prediction, an end-to-end MLOps pipeline served on AWS EKS. NorthMart, a DuckDB-to-BigQuery retail analytics pipeline with dbt Core modelling. Multi-Object Tracking, pedestrian detection and re-identification on MOT16. RecommenderX, a cloud movie recommendation SaaS. Student Success Prediction, multiclass classification of student outcomes.
 Writing: seven LinkedIn articles from 2026 — five explaining LLM internals through story-driven formats, and two on causal inference written while reading Causal Inference in Python by Matheus Facure.
 If a visitor asks about one of these and the detail is not in this context, say it is one of my projects, give the one-line description above, and invite them to ask a more specific question about it. Never invent details for it.
@@ -81,76 +81,27 @@ Two are humorous causal-inference notes written while reading Causal Inference i
 export const DETAIL_BLOCKS = [
 	{
 		id: 'sreeNirman',
-		match: /sree ?nirman|construction|tender|\bbid|pricing|cost estimat|tableau server|mlflow|experiment track|track\w*\s+\w*\s*experiment|youtube|hyderabad|\buat\b|user stor|backlog|acceptance criteria|product own|requirements|onboard|\bhir(e|ed|ing)\b|premiere|facebook ads|supplier|procurement|role-based access|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
+		match: /sree ?nirman|construction|tender|fastapi|docker|\baws\b|deploy|\bsop|watch hours|facebook|\bbid|pricing|cost estimat|tableau server|mlflow|experiment track|track\w*\s+\w*\s*experiment|youtube|hyderabad|\buat\b|user stor|backlog|acceptance criteria|product own|requirements|onboard|\bhir(e|ed|ing)\b|premiere|facebook ads|supplier|procurement|role-based access|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
 		text: `--- EXPERIENCE: Sree Nirman — Hyderabad, India — May 2023 – Jun 2024 ---
-Data Analyst and Machine Learning Engineer. The role began as an internship and converted to full time.
-Focus: construction analytics, machine learning, growth analytics.
-Data foundation:
-• Standardized 50K+ construction records using SQL and Pandas, improving reporting reliability by 30%.
-• Wrote SQL transformations with CTEs, window functions and CASE expressions to standardize cost, labor and sales calculations across project zones.
-• Combined cost, labor, budget and sales data from separate systems into one reporting dataset.
-• Defined one set of budget variance, productivity and project-progress KPIs, documented in a shared KPI definitions sheet.
-• Analyzed supplier pricing and material procurement costs to ground bid estimates in current market rates.
-Reporting and stakeholders:
-• Delivered bi-weekly Tableau dashboards to the CEO and client board, supporting a 15% operational efficiency gain.
-• Presented cost and pricing recommendations through Tableau Stories and PowerPoint in bi-weekly board reviews.
-• Automated weekly Tableau Server extract refreshes, eliminating manual dashboard republishing.
-• Configured role-based access on Tableau Server, restricting confidential project cost and client data to approved viewers.
-• Built Excel bid-costing models with XLOOKUP, SUMIFS and scenario assumptions to standardize cross-zone cost reporting.
-Bid-pricing model:
-• Engineered 20+ predictors from material costs, labor, location and project duration for bid-pricing models.
-• Augmented fewer than 200 real bid records with synthetic data sampled from observed feature distributions.
-• Benchmarked Ridge and Lasso regression against a linear baseline on R², MSE and MAE to select the pricing model.
-• Tracked experiments in MLflow and registered the selected model version for downstream reuse.
-• Deployed the pricing model with the engineering team in an internal bidding-support tool, reducing bid analysis time by 50%.
-Product ownership of the bidding tool:
-• Gathered requirements through interviews, surveys and feedback sessions with the co-founders, admin staff and project leads.
-• Ruled out a historical time-series pricing approach after scoping meetings, given shifting terrain costs in expanding cities.
-• Wrote functional specifications and user stories with acceptance criteria, organizing them into epics in a prioritized backlog.
-• Wrote and ran UAT test cases with outside clients and vendors, triaging defects before each release.
-• Planned launch milestones and owners, delivering the bidding-support tool as an iterative MVP.
-Team building:
-• Joined as the second employee and first technical hire, setting up the company's initial technical systems.
-• Screened, interviewed and onboarded 8 engineers and 2 interns.
-• Designed onboarding covering active experiments, the pricing tool's decision history and access to project documentation.
-Growth and marketing:
-• Grew the company YouTube channel from roughly 100 to 60K+ subscribers, driving 12 construction deals and 80+ client consultations.
-• Planned, shot and edited channel videos in Adobe Premiere Pro, reaching 4,000 watch hours within two months.
-• Optimized video titles and keywords using YouTube Studio analytics, tracking which videos led to client consultations.
-• Marketed company-built villas through Facebook Ads and in-person outreach.
-Applied AI:
-• Used Claude and ChatGPT in production to draft stakeholder reports.`,
+An early-stage construction startup. I joined as the second employee after the co-founders and its first technical person: Data and ML Intern from May 2023, then full-time Data Scientist from April 2024. Those are my only two titles there. I set up the company's initial technical foundation.
+Data and reporting: standardized 50K+ construction records using SQL and Pandas, improving reporting reliability by 30%. Wrote SQL transformations (CTEs, window functions, CASE) to standardize cost, labor and sales calculations across project zones. Combined cost, labor, budget and sales data from multiple systems into stakeholder reports on budget, zone-wise progress, labor utilization and progress against targets. Delivered bi-weekly Tableau dashboards to the CEO and client board, supporting a 15% gain in operational efficiency; presented through Tableau Stories and PowerPoint; automated weekly Tableau Server extract refreshes; set role-based access on Tableau Server; kept numbers consistent with a shared KPI definitions sheet. Built Excel bid-costing models (XLOOKUP, SUMIFS) with explicit assumptions and scenarios.
+Bid-pricing tool (my biggest project): started from only 150 to 200 real bid records and expanded them with synthetic samples drawn from real feature distributions; engineered 20+ cost, labor, location and duration features; benchmarked Ridge and Lasso against a linear baseline on R², MSE and MAE; tracked experiments and model versions in MLflow. After meetings with the co-founders we ruled out a historical price-comparison approach, because terrain costs in expanding cities had reversed, and built on current data instead, checking prices against market rates, supplier pricing and material procurement costs. Deployed the model as an internal web tool with FastAPI, Docker and AWS; it returns a 10 to 20% price range with ranked cost drivers for each bid, and cut bid analysis time by 50%.
+Product ownership of the tool: gathered requirements through interviews, surveys and feedback sessions with the admin team and co-founders; made every feature decision; wrote functional specifications and user stories with acceptance criteria, organized into epics; kept the roadmap with launch milestones and owners; ran UAT with written test cases, triaged defects, and coordinated testing with outside clients and vendors; shipped it as an iterative MVP alongside the engineering team.
+Also: flagged low-margin risk in a PMC tender through cost analysis; used Claude and ChatGPT in production to draft stakeholder reports.
+Team: screened resumes and ran technical and culture-fit interviews to help hire 8 engineers and 2 interns; designed their onboarding around the company's context, active experiments and the decisions behind the pricing tool; wrote SOP documents the team adopted.
+Growth marketing: planned, co-wrote, shot and edited videos in Adobe Premiere Pro; used YouTube Studio analytics and SEO to tune titles and keywords and track which videos drove consultations. Grew the company channel to 4,000 watch hours in two months and from about 100 to 60K+ subscribers, generating 12 construction deals and 80+ client consultations. Marketed the company's villas through Facebook Ads and in-person outreach, reporting campaign performance from the ad platform.`,
 	},
 	{
 		id: 'avanthi',
-		match: /avanthi|school|scholarship|xgboost|leave-one|cohort|a\/b test|overdue|reconcil|taught python|\badmission|gpt-2|\bocr\b|quantile|confidence interval|\bmae\b|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
+		match: /avanthi|school|scholarship|\bteach|taught|leakage|cohort|prediction interval|xgboost|leave-one|cohort|a\/b test|overdue|reconcil|taught python|\badmission|gpt-2|\bocr\b|quantile|confidence interval|\bmae\b|\bfee|warangal|education finance|break-even|work experience|work history|professional experience|employment|career|job history|previous role|where have you worked|walk me through your/i,
 		text: `--- EXPERIENCE: Avanthi High School — Warangal, India — Apr 2022 – Jan 2023 ---
-Data Analyst Intern, education finance and operations analytics.
-Financial data foundation:
-• Consolidated monthly fee and expense spreadsheets into reusable reporting tables using Python and SQL.
-• Reconciled 12K+ financial records, resolving duplicates, missing fields and inconsistent fee formats.
-Reporting and cost analysis:
-• Built recurring Tableau dashboards tracking fee collections and overdue balances for leadership financial reviews.
-• Built Tableau budget-variance views for standardized financial reviews.
-• Analyzed 50K+ dining, hostel and academic expense records in Tableau, identifying cost-saving opportunities of 10–15%.
-Experimentation:
-• Designed and measured a two-channel A/B test of admission marketing, recording an 18% rise in admissions.
-• Launched the winning admission marketing strategy, contributing 15 percentage points of a 50% rise in school revenue.
-Scholarship model:
-• Transformed graduated-student histories into per-grade snapshots with horizon and entry-grade features for partially observed records.
-• Trained XGBoost with leave-one-cohort-out cross-validation, beating mean and running-average baselines at 0.8 MAE on a 10-point scale.
-• Fit quantile regression models to estimate bounds for nominal 95% prediction intervals.
-• Ranked students on prior academic performance to segment applicants into scholarship tiers.
-• Defined merit-based scholarship tiers with borderline-case review, reducing required reviewers from four to one.
-Admission scoring with generative AI:
-• Fine-tuned GPT-2 to score OCR-extracted admission responses, validating outputs against teacher-assigned grades.
-• Collected and reviewed teacher-assigned grades as reference labels for the scoring pipeline.
-Stakeholders and rollout:
-• Gathered domain context through interviews, surveys and feedback sessions while building the scholarship model.
-• Won approval for the new scholarship process by walking the correspondent and principal through user stories.
-• Coordinated the scholarship rollout with school leadership through iterative reviews.
-Teaching:
-• Taught Python twice weekly to about 247 students alongside the analyst role.`,
+Data Science Intern (my only title there), working with the school's leadership as an early team member on growth across revenue, efficiency and cost.
+Reporting and cost: built reporting tables from 12K+ student fee records and 50K+ expense records using Python and SQL; analyzed spending across hostel, dining, academics and activities to find 10 to 15% in cost-saving opportunities; delivered recurring Tableau and Excel dashboards tracking outstanding and overdue fee balances for leadership.
+Experiment: owned a two-channel A/B test of admission marketing end to end, from design to measurement, which drove an 18% rise in admissions. The winning strategy, once launched, contributed 15 percentage points of a 50% rise in school revenue.
+Scholarship model: expanded each graduated student's history into per-grade snapshots, split data by graduating cohort to prevent leakage, and tuned models with leave-one-cohort-out cross-validation across 500 to 1,000 students. XGBoost beat a baseline ladder of global mean, running average and linear regression at 0.8 MAE on a 10-point scale. Added quantile regression for 95% prediction intervals and flagged students whose range crossed a tier boundary for human review. Segmenting students into scholarship tiers this way cut the reviewers needed from four to one.
+Admission scoring: built an OCR-to-GPT-2 pipeline to score admission responses, validating its outputs against teacher-assigned grades.
+Stakeholders: ran interviews, surveys and feedback sessions with staff to understand the domain. When the principal and correspondent hesitated to move scholarship decisions to a new process, I walked them through the tool one user story at a time until they approved it.
+Teaching: taught Python to about 247 students twice a week alongside the role.`,
 	},
 	{
 		id: 'umkcLab',

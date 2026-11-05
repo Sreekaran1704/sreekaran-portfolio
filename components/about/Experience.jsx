@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import Reveal from '../shared/Reveal';
 import SectionHead from '../shared/SectionHead';
+import SpecialReport from './SpecialReport';
 
 // Newest first, the way a record of service reads.
 const experienceItems = [
@@ -24,8 +25,9 @@ const experienceItems = [
 	{
 		id: 2,
 		category: 'Internship → Full Time',
-		role: 'Data Analyst and ML Intern → Data Scientist',
+		role: 'Data and ML Intern → Data Scientist',
 		company: 'Sree Nirman, Hyderabad, India',
+		report: 'sree-nirman',
 		period: 'May 2023 – Jun 2024',
 		type: 'Construction Analytics • Machine Learning • Growth Analytics',
 		tone: 'experience',
@@ -51,6 +53,7 @@ const experienceItems = [
 		category: 'Internship',
 		role: 'Data Science Intern',
 		company: 'Avanthi High School',
+		report: 'avanthi',
 		period: 'Apr 2022 – Jan 2023',
 		type: 'Financial Analytics • Education Data • ML Decision Support',
 		tone: 'projects',
@@ -153,6 +156,16 @@ function RecordItem({ item }) {
 							</span>
 						</button>
 					)}
+
+					{item.report && (
+						<button
+							type="button"
+							className="np-rec-report"
+							onClick={() => window.dispatchEvent(new CustomEvent('sr-open', { detail: item.report }))}
+						>
+							Read the special report from this role <span aria-hidden="true">↓</span>
+						</button>
+					)}
 				</div>
 			</Reveal>
 		</li>
@@ -174,6 +187,8 @@ function Experience() {
 					<RecordItem key={item.id} item={item} />
 				))}
 			</ol>
+
+			<SpecialReport />
 		</div>
 	);
 }

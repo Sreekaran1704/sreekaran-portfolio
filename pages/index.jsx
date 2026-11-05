@@ -11,7 +11,7 @@ import DeliveryIntro from '../components/home/DeliveryIntro';
 export default function Home() {
 	return (
 		<div>
-			<PagesMetaHead title="Sreekaran Reddy — Data Analyst & Data Scientist" />
+			<PagesMetaHead title="Sreekaran Reddy" />
 			<DeliveryIntro />
 
 			<section id="home">

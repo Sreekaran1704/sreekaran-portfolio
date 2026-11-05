@@ -56,7 +56,7 @@ export default function Resume() {
 	return (
 		<article className="np-wrap np-section np-resume">
 			<PagesMetaHead
-				title="Resume | Sreekaran Reddy"
+				title="Sreekaran Reddy"
 				description="Resume of Sreekaran Reddy, Data Scientist: experience, projects, education and skills, with the original PDF."
 			/>
 

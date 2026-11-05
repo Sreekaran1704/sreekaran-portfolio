@@ -6,9 +6,9 @@ const SITE_URL = 'https://sreekaran-portfolio.vercel.app';
 const SITE_NAME = 'The Sreekaran Reddy Portfolio';
 
 const DEFAULTS = {
-	title: 'Sreekaran Reddy — Data Analyst & Data Scientist',
+	title: 'Sreekaran Reddy',
 	keywords: 'data analyst, data scientist, SQL, Python, Tableau, causal inference, forecasting, machine learning, portfolio',
-	description: 'Sreekaran Reddy — Data Analyst and Data Scientist. Explore SQL, Python, and Tableau work, plus case studies in causal inference, forecasting, and machine learning.',
+	description: 'Sreekaran Reddy, Data Analyst and Data Scientist. Explore SQL, Python, and Tableau work, plus case studies in causal inference, forecasting, and machine learning.',
 	image: '/og-image.png',
 	imageAlt: 'The Sreekaran Reddy Portfolio: Data Analyst & Data Scientist, set as a newspaper front page.',
 };
