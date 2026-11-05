@@ -129,6 +129,130 @@
 	color: var(--tone);
 }
 
+/* ---------- Editorial cartoon beside the headline ---------- */
+
+.sr-top {
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	gap: 2.5rem;
+	align-items: start;
+	margin-bottom: 2.6rem;
+}
+
+.sr-top .sr-head {
+	margin-bottom: 0;
+}
+
+.ct {
+	margin: 0;
+	transform: rotate(0.6deg);
+}
+
+.ct svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1.5px solid var(--np-ink);
+	box-shadow: 5px 5px 0 var(--np-ink);
+}
+
+.ct-caption {
+	margin: 0.8rem 0 0;
+	font-family: var(--np-body);
+	font-size: 0.98rem;
+	font-style: italic;
+	text-align: center;
+	color: var(--np-ink-soft, var(--np-ink));
+}
+
+/* Lines draw no fill unless a colour class below gives them one. */
+.ct-line {
+	fill: none;
+	stroke: var(--np-ink);
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ct-line.ct-thin {
+	stroke-width: 1.2;
+	fill: none;
+}
+
+.ct-line.is-frame {
+	stroke-width: 2.5;
+}
+
+.ct-paper { fill: var(--np-sheet, #fffdf8); }
+.ct-skin { fill: #f1cfa9; }
+.ct-hair { fill: #26211c; }
+.ct-white { fill: #f4f1ea; }
+.ct-mouth { fill: #fff; }
+.ct-glass { fill: rgba(255, 255, 255, 0.35); }
+.ct-ink { fill: var(--np-ink); }
+.ct-tone { fill: var(--tone); }
+.ct-tag { fill: #f2d98c; }
+
+.ct-tone-line {
+	stroke: var(--tone);
+	stroke-width: 4;
+	stroke-linecap: round;
+}
+
+.ct-hatch {
+	stroke: var(--np-ink);
+	stroke-width: 0.8;
+	opacity: 0.35;
+}
+
+.ct-say {
+	font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+	font-size: 12.5px;
+	font-weight: 700;
+	text-anchor: middle;
+	fill: var(--np-ink);
+}
+
+.ct-label {
+	font-family: var(--np-label, Inter, sans-serif);
+	font-size: 8.5px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-anchor: middle;
+	fill: var(--np-ink);
+}
+
+.ct-label.is-big {
+	font-family: var(--np-display, Georgia, serif);
+	font-size: 14px;
+	letter-spacing: 0;
+}
+
+.ct-label.is-tiny {
+	font-size: 6.5px;
+}
+
+.ct-label.is-name {
+	font-size: 10px;
+	letter-spacing: 0.18em;
+}
+
+.ct-label.is-panel {
+	font-size: 10px;
+	letter-spacing: 0.16em;
+	text-anchor: start;
+	fill: var(--tone);
+}
+
+.ct-sign {
+	font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+	font-size: 11px;
+	font-style: italic;
+	font-weight: 700;
+	text-anchor: end;
+	fill: var(--np-muted);
+}
+
 /* ---------- Beats and the pinned exhibit ---------- */
 
 .sr-body {
@@ -813,6 +937,15 @@
 /* ---------- Phones: each beat carries its exhibit ---------- */
 
 @media (max-width: 899px) {
+	.sr-top {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 1.6rem;
+	}
+
+	.ct {
+		transform: none;
+	}
+
 	.sr-body {
 		grid-template-columns: minmax(0, 1fr);
 	}

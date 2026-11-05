@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { reports } from '../../data/reportsData';
+import { PanelCartoon, PricingCartoon } from './ReportCartoons';
 
 // A special report in the manner of a newspaper's scroll-through features: the
 // beats of one real case run down the left, and the exhibit on the right is
@@ -321,11 +322,13 @@ function ScholarshipExhibit({ step }) {
 /* ---------- The report ---------- */
 
 const EXHIBITS = { 'sree-nirman': BidExhibit, avanthi: ScholarshipExhibit };
+const CARTOONS = { 'sree-nirman': PricingCartoon, avanthi: PanelCartoon };
 
 function Report({ report }) {
 	const [step, setStep] = useState(0);
 	const beatRefs = useRef([]);
 	const Exhibit = EXHIBITS[report.id];
+	const Cartoon = CARTOONS[report.id];
 
 	// The beat crossing the middle of the screen is the one being read.
 	useEffect(() => {
@@ -344,6 +347,7 @@ function Report({ report }) {
 
 	return (
 		<article className={`sr-report np-tone-${report.tone}`} aria-labelledby={`sr-${report.id}-title`}>
+			<div className="sr-top">
 			<header className="sr-head">
 				<p className="sr-kicker">{report.kicker}</p>
 				<h3 id={`sr-${report.id}-title`} className="sr-headline">
@@ -354,6 +358,8 @@ function Report({ report }) {
 					By Sreekaran Reddy · {report.role} · <span>Scroll to follow the case</span>
 				</p>
 			</header>
+			<Cartoon />
+			</div>
 
 			<div className="sr-body">
 				<ol className="sr-beats">
