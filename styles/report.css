@@ -133,7 +133,7 @@
 
 .sr-top {
 	display: grid;
-	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 	gap: 2.5rem;
 	align-items: start;
 	margin-bottom: 2.6rem;
@@ -144,8 +144,11 @@
 }
 
 .ct {
+	justify-self: center;
+	width: 100%;
+	max-width: 21rem;
 	margin: 0;
-	transform: rotate(0.6deg);
+	transform: rotate(0.8deg);
 }
 
 .ct svg {
@@ -183,7 +186,37 @@
 	stroke-width: 2.5;
 }
 
+.ct-line.is-bold {
+	stroke-width: 2.8;
+}
+
 .ct-paper { fill: var(--np-sheet, #fffdf8); }
+.ct-window { fill: #cfe6f2; }
+.ct-city { fill: #a9bfcf; }
+.ct-floor { fill: #e9d9c9; }
+.ct-scarf { fill: #f2c94c; }
+.ct-dhoti { fill: #fbfbf7; }
+.ct-trouser { fill: #4d5866; }
+.ct-shoe { fill: #3a2f27; }
+.ct-device { fill: #3b4049; }
+.ct-mouth-open { fill: #8e2f2a; }
+.ct-saree { fill: #e8a3b5; }
+.ct-tie { fill: #c0262d; }
+.ct-cap { fill: #f5f3ee; }
+.ct-table { fill: #c8a27a; }
+.ct-door { fill: #e6d3f0; }
+.ct-overshirt { fill: #e3dccd; }
+.ct-tee { fill: #fbfaf6; }
+.ct-teeth { fill: #fffdf8; }
+.ct-tongue { fill: #e0756e; }
+.ct-hair-light { fill: none; stroke: #5a4a40; stroke-width: 1.2; stroke-linecap: round; }
+
+.ct-frames {
+	fill: rgba(255, 255, 255, 0.28);
+	stroke: #6d7178;
+	stroke-width: 2.2;
+	stroke-linecap: round;
+}
 .ct-skin { fill: #f1cfa9; }
 .ct-hair { fill: #26211c; }
 .ct-white { fill: #f4f1ea; }
@@ -237,6 +270,10 @@
 	letter-spacing: 0.18em;
 }
 
+.ct-label.is-light {
+	fill: #fff;
+}
+
 .ct-label.is-panel {
 	font-size: 10px;
 	letter-spacing: 0.16em;
@@ -244,9 +281,17 @@
 	fill: var(--tone);
 }
 
-.ct-sign {
+.ct-shout {
 	font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-	font-size: 11px;
+	font-size: 18px;
+	font-weight: 700;
+	text-anchor: middle;
+	fill: #c0262d;
+}
+
+.ct-sign {
+	font-family: 'Kohinoor Telugu', 'Noto Sans Telugu', 'Telugu MN', 'Comic Neue', cursive;
+	font-size: 15px;
 	font-style: italic;
 	font-weight: 700;
 	text-anchor: end;

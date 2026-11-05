@@ -1,126 +1,183 @@
-// Editorial cartoons for the special reports: ink line drawings with labelled
-// props, a speech balloon and a caption, the way a paper sums up a story in
-// one panel. The recurring character is me, drawn from the front-page photo:
-// curly hair, round glasses, a beard and a wide smile. Colours come from
-// classes (.ct-*) in report.css, so the black & white edition restyles them.
+// Editorial cartoons for the special reports, after the daily cartoons in
+// Telugu papers like Sakshi: a tall panel, a soft pastel wash, loose hand-inked
+// lines (an SVG wobble filter), big-headed figures with expressive faces, and
+// props in the background that carry the joke. The recurring character is me,
+// drawn true to the front-page photo (see Me below). The signature is "శ్రీ" (Sree) in Telugu, the way those cartoonists
+// sign. Colours live in .ct-* classes in report.css.
 
-function Me({ x, y, s = 1, flip = false, children }) {
-	return (
-		<g transform={`translate(${x} ${y}) scale(${flip ? -s : s} ${s})`}>
-			{/* Body: shirt in the report's colour, arms drawn by the caller. */}
-			<path className="ct-tone ct-line" d="M-22 78 Q-24 44 0 40 Q24 44 22 78Z" />
-			<path className="ct-line" d="M0 40 L0 52" />
-			{children}
-			{/* Head: an oversized caricature head. */}
-			<ellipse className="ct-skin ct-line" cx="0" cy="8" rx="23" ry="26" />
-			{/* Curly hair: a row of bumps over the top. */}
-			<path
-				className="ct-hair ct-line"
-				d="M-24 6 Q-30 -6 -21 -12 Q-22 -24 -10 -24 Q-6 -34 4 -28 Q14 -34 19 -23 Q30 -22 26 -9 Q32 0 25 8 Q22 -4 14 -8 Q6 -14 -4 -10 Q-14 -12 -18 -2 Q-22 2 -24 6Z"
-			/>
-			{/* Ears */}
-			<path className="ct-skin ct-line" d="M-23 10 Q-30 10 -28 17 Q-26 21 -22 19" />
-			<path className="ct-skin ct-line" d="M23 10 Q30 10 28 17 Q26 21 22 19" />
-			{/* Glasses */}
-			<circle className="ct-glass ct-line" cx="-9" cy="7" r="7" />
-			<circle className="ct-glass ct-line" cx="9" cy="7" r="7" />
-			<path className="ct-line" d="M-2 7 H2 M-16 6 L-22 4 M16 6 L22 4" />
-			<circle className="ct-ink" cx="-8" cy="8" r="2" />
-			<circle className="ct-ink" cx="10" cy="8" r="2" />
-			{/* Beard along the jaw, with the grin cut into it. */}
-			<path className="ct-hair" d="M-21 18 Q-20 36 0 35 Q20 36 21 18 Q16 30 0 29 Q-16 30 -21 18Z" />
-			<path className="ct-mouth ct-line" d="M-10 19 Q0 29 10 19Z" />
-			<path className="ct-line" d="M-1 11 Q-3 15 1 16" />
-		</g>
-	);
-}
-
-function Balloon({ x, y, w, h, tailX, tailY, children, lines }) {
-	return (
-		<g>
-			<path
-				className="ct-paper ct-line"
-				d={`M${x + 10} ${y} H${x + w - 10} Q${x + w} ${y} ${x + w} ${y + 10} V${y + h - 10} Q${x + w} ${y + h} ${x + w - 10} ${y + h} H${tailX + 10} L${tailX} ${tailY} L${tailX - 2} ${y + h} H${x + 10} Q${x} ${y + h} ${x} ${y + h - 10} V${y + 10} Q${x} ${y} ${x + 10} ${y}Z`}
-			/>
-			{(lines || [children]).map((line, i) => (
-				<text key={i} className="ct-say" x={x + w / 2} y={y + 17 + i * 14}>
-					{line}
-				</text>
-			))}
-		</g>
-	);
-}
-
-function Defs({ id }) {
+function Defs({ id, wash }) {
 	return (
 		<defs>
-			<pattern id={`${id}-hatch`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-				<line x1="0" y1="0" x2="0" y2="5" className="ct-hatch" />
-			</pattern>
+			{/* Hand-inked lines: a little noise displaces every stroke. */}
+			<filter id={`${id}-ink`} x="-5%" y="-5%" width="110%" height="110%">
+				<feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise" />
+				<feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+			</filter>
+			<linearGradient id={`${id}-wash`} x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stopColor={wash[0]} />
+				<stop offset="0.65" stopColor={wash[1]} />
+				<stop offset="1" stopColor={wash[2]} />
+			</linearGradient>
+			<radialGradient id={`${id}-skin`} cx="0.4" cy="0.35" r="0.75">
+				<stop offset="0" stopColor="#f6d3ad" />
+				<stop offset="1" stopColor="#e2a878" />
+			</radialGradient>
+			<radialGradient id={`${id}-me`} cx="0.42" cy="0.32" r="0.8">
+				<stop offset="0" stopColor="#ecc29f" />
+				<stop offset="1" stopColor="#d59f78" />
+			</radialGradient>
+			<linearGradient id={`${id}-kurta`} x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0" stopColor="#ffffff" />
+				<stop offset="1" stopColor="#e4e7ea" />
+			</linearGradient>
 		</defs>
 	);
 }
 
-/* ---------- Sree Nirman: history quoting last year's prices ---------- */
+// Me, drawn from the front-page photo and kept true to it: light, warm skin,
+// full wavy hair with a fringe, rectangular grey frames, clean-shaven, a wide
+// smile, and a beige overshirt over a white tee. Drawn on the cute side: a
+// slightly bigger, tilted head and big bright eyes.
+function Me({ x, y, s = 1, id, children }) {
+	return (
+		<g transform={`translate(${x} ${y}) scale(${s})`}>
+			{/* Overshirt open over a white tee, trousers, shoes. */}
+			<path className="ct-trouser ct-line" d="M-20 118 L-18 158 L-6 158 L-2 126 L4 158 L16 158 L20 118Z" />
+			<path className="ct-shoe ct-line" d="M-20 158 Q-28 162 -26 166 H-4 V158Z M4 158 V166 H24 Q26 161 16 158Z" />
+			<path className="ct-overshirt ct-line" d="M-28 120 Q-32 60 0 54 Q32 60 28 120Z" />
+			<path className="ct-tee ct-line" d="M-10 56 Q0 62 10 56 L8 120 H-8Z" />
+			<path className="ct-overshirt ct-line" d="M-10 56 L-16 66 L-6 72 Z M10 56 L16 66 L6 72Z" />
+			<path className="ct-line ct-thin" d="M-22 82 H-12 V94 H-22Z M12 82 H22 V94 H12Z" />
+			{children}
+			{/* Neck */}
+			<path style={{ fill: `url(#${id}-me)` }} className="ct-line" d="M-8 46 V56 Q0 60 8 56 V46Z" />
+			{/* The head, a little bigger and tilted, the cute end of a caricature. */}
+			<g transform="translate(0 52) rotate(-6) scale(1.16) translate(0 -46)">
+				{/* A soft, round face */}
+				<path style={{ fill: `url(#${id}-me)` }} className="ct-line" d="M-24 2 Q-25 -30 0 -31 Q25 -30 24 2 Q24 30 13 40 Q0 48 -13 40 Q-24 30 -24 2Z" />
+				{/* Ears */}
+				<path style={{ fill: `url(#${id}-me)` }} className="ct-line" d="M-24 2 Q-31 2 -30 10 Q-29 16 -23 15" />
+				<path style={{ fill: `url(#${id}-me)` }} className="ct-line" d="M24 2 Q31 2 30 10 Q29 16 23 15" />
+				{/* Full wavy hair, with a bouncy fringe */}
+				<path
+					className="ct-hair ct-line"
+					d="M-27 6 Q-34 -6 -28 -19 Q-32 -34 -17 -39 Q-11 -51 3 -46 Q17 -53 25 -41 Q37 -36 33 -22 Q37 -9 28 3 Q27 -8 21 -14 Q18 -6 10 -9 Q8 -16 2 -15 Q-2 -8 -9 -11 Q-12 -18 -17 -13 Q-22 -7 -27 6Z"
+				/>
+				<path className="ct-hair-light" d="M-16 -33 q6 -5 12 -1 M4 -39 q6 -4 12 1 M18 -31 q5 -2 8 3 M-24 -21 q3 -6 9 -6" />
+				{/* Happy brows */}
+				<path className="ct-line" d="M-16 -9 Q-11 -13 -5 -10 M5 -10 Q11 -13 16 -9" />
+				{/* Big round eyes with two sparkles each */}
+				<ellipse className="ct-ink" cx="-10.5" cy="0" rx="3.6" ry="4" />
+				<ellipse className="ct-ink" cx="10.5" cy="0" rx="3.6" ry="4" />
+				<circle className="ct-paper" cx="-9.2" cy="-1.6" r="1.3" />
+				<circle className="ct-paper" cx="11.8" cy="-1.6" r="1.3" />
+				<circle className="ct-paper" cx="-11.6" cy="1.6" r="0.6" />
+				<circle className="ct-paper" cx="9.4" cy="1.6" r="0.6" />
+				{/* Rectangular grey frames */}
+				<rect className="ct-frames" x="-19.5" y="-7" width="17" height="13" rx="4" />
+				<rect className="ct-frames" x="2.5" y="-7" width="17" height="13" rx="4" />
+				<path className="ct-frames" d="M-2.5 -2 Q0 -4 2.5 -2 M-19.5 -3 L-24 -4 M19.5 -3 L24 -4" />
+				{/* A small, light nose */}
+				<path className="ct-line ct-thin" d="M0 7 Q-1.5 11 0.5 12.5" />
+				{/* A big happy smile */}
+				<path className="ct-mouth-open ct-line" d="M-11 19 Q0 35 11 19 Q0 23 -11 19Z" />
+				<path className="ct-teeth" d="M-9.5 20 Q0 23.5 9.5 20 L8.5 23 Q0 26 -8.5 23Z" />
+				<path className="ct-tongue" d="M-4 29 Q0 26 4 29 Q0 31.5 -4 29Z" />
+			</g>
+		</g>
+	);
+}
+
+/* ---------- Sree Nirman: History, still quoting last year's prices ---------- */
 
 export function PricingCartoon() {
+	const id = 'ctp';
 	return (
 		<figure className="ct">
-			<svg viewBox="0 0 440 300" role="img" aria-label="Editorial cartoon: an old man labelled History stands on low ground holding last year's price tag, while I stand on the raised ground of today's terrain holding a tablet showing a price range.">
-				<Defs id="ctp" />
-				<rect className="ct-paper" width="440" height="300" />
+			<svg viewBox="0 0 300 420" role="img" aria-label="Editorial cartoon: in an office, a bald old man labelled History waves a 2019 price tag, while through the window cranes put up new buildings in the expanding city. I stand beside him with a tablet showing a price range, grinning at the reader.">
+				<Defs id={id} wash={['#d9eef3', '#f4f1e4', '#f6dfe0']} />
+				<rect width="300" height="420" fill={`url(#${id}-wash)`} />
 
-				{/* Ground: low and old on the left, a raised cliff of today's terrain on the right. */}
-				<path className="ct-paper ct-line" d="M0 252 H190 L204 196 H440 V300 H0Z" />
-				<path fill="url(#ctp-hatch)" d="M204 196 H440 V300 H190 Z" />
-				<path className="ct-line" d="M190 252 L204 196" />
-				<rect className="ct-paper ct-line" x="300" y="246" width="118" height="22" />
-				<text className="ct-label" x="359" y="261">TODAY’S TERRAIN</text>
-				<path className="ct-line" d="M160 252 V226" />
-				<rect className="ct-paper ct-line" x="126" y="208" width="70" height="20" />
-				<text className="ct-label" x="161" y="222">LAST YEAR</text>
+				<g filter={`url(#${id}-ink)`}>
+					{/* Window: the city outside is growing. */}
+					<rect className="ct-window ct-line" x="150" y="34" width="128" height="120" />
+					<path className="ct-city" d="M156 154 V112 H176 V96 H196 V124 H212 V84 H236 V118 H252 V102 H272 V154Z" />
+					<path className="ct-line ct-thin" d="M176 112 H196 M212 100 H236 M212 112 H236" />
+					{/* Two cranes */}
+					<path className="ct-line" d="M190 96 V52 M180 56 H236 M230 56 V74 M188 56 L198 46 L206 56" />
+					<rect className="ct-tone ct-line" x="224" y="74" width="12" height="8" />
+					<path className="ct-line" d="M258 102 V64 M248 68 H282 M276 68 V82" />
+					<path className="ct-line is-frame" d="M150 94 H278 M214 34 V154" />
+					<rect className="ct-paper ct-line" x="164" y="12" width="100" height="16" />
+					<text className="ct-label" x="214" y="24">CITY, EXPANDING</text>
 
-				{/* History: bald, long white beard, a cane, and an old price tag. */}
-				<g transform="translate(96 168)">
-					<path className="ct-paper ct-line" d="M-26 84 Q-28 40 0 36 Q28 40 26 84Z" />
-					<path fill="url(#ctp-hatch)" d="M-26 84 Q-28 40 0 36 Q28 40 26 84Z" opacity="0.6" />
-					<path className="ct-line" d="M24 50 L44 76 M44 76 L44 86" />
-					<ellipse className="ct-skin ct-line" cx="0" cy="6" rx="21" ry="24" />
-					<path className="ct-white ct-line" d="M-17 14 Q-20 44 0 52 Q20 44 17 14 Q10 24 0 22 Q-10 24 -17 14Z" />
-					<path className="ct-line" d="M-12 0 Q-8 -3 -4 0 M4 0 Q8 -3 12 0" />
-					<path className="ct-line" d="M-6 12 Q0 9 6 12" />
-					<path className="ct-white ct-line" d="M-21 -2 Q-26 -8 -20 -12 M21 -2 Q26 -8 20 -12" />
-					{/* Arm raised with the price tag. */}
-					<path className="ct-line" d="M-22 46 Q-46 30 -50 6" />
-					<g transform="rotate(-12 -56 -6)">
-						<rect className="ct-tag ct-line" x="-92" y="-26" width="74" height="34" rx="3" />
-						<circle className="ct-paper ct-line" cx="-84" cy="-9" r="3" />
-						<text className="ct-label is-big" x="-52" y="-11">₹29L</text>
-						<text className="ct-label" x="-52" y="1">2019 RATE</text>
+					{/* Wall calendar stuck on 2019, with a cobweb. */}
+					<rect className="ct-paper ct-line" x="22" y="40" width="70" height="78" />
+					<rect className="ct-tone ct-line" x="22" y="40" width="70" height="18" />
+					<text className="ct-label is-big" x="57" y="96">2019</text>
+					<path className="ct-line ct-thin" d="M22 118 L44 96 M22 108 Q32 104 34 96 M22 100 Q28 98 28 92 M30 112 Q36 106 40 102" />
+
+					{/* Floor */}
+					<path className="ct-floor" d="M0 352 H300 V420 H0Z" />
+					<path className="ct-line ct-thin" d="M0 352 H300" />
+
+					{/* History: bald with white side tufts, big nose, specs, kurta and a yellow scarf. */}
+					<g transform="translate(96 214)">
+						<path style={{ fill: `url(#${id}-kurta)` }} className="ct-line" d="M-34 138 Q-40 60 -2 52 Q36 60 32 138Z" />
+						<path className="ct-dhoti ct-line" d="M-30 138 L-28 176 L-8 176 L-2 146 L4 176 L24 176 L28 138Z" />
+						<path className="ct-shoe ct-line" d="M-28 176 Q-38 180 -34 184 H-8 V176Z M4 176 V184 H28 Q30 179 22 176Z" />
+						<path className="ct-scarf ct-line" d="M-22 56 Q-2 72 22 56 L18 120 L8 120 L6 70 Q-2 76 -10 70 L-14 128 L-24 128Z" />
+						<g transform="rotate(-6 0 98)">
+							<rect className="ct-paper ct-line" x="-30" y="88" width="62" height="18" />
+							<text className="ct-label is-name" x="1" y="101">HISTORY</text>
+						</g>
+						{/* Arm up, shaking the old price tag. */}
+						<path style={{ fill: `url(#${id}-kurta)` }} className="ct-line" d="M-28 70 Q-60 50 -56 4 L-44 2 Q-46 44 -18 62Z" />
+						<circle style={{ fill: `url(#${id}-skin)` }} className="ct-line" cx="-50" cy="-2" r="8" />
+						<path className="ct-line" d="M-66 -24 l-8 -6 M-36 -30 l6 -8 M-72 -6 l-10 0" />
+						<g transform="rotate(-14 -50 -36)">
+							<path className="ct-line" d="M-50 -4 L-50 -22" />
+							<rect className="ct-tag ct-line" x="-88" y="-66" width="78" height="44" rx="4" />
+							<circle className="ct-paper ct-line" cx="-79" cy="-44" r="3.5" />
+							<text className="ct-label is-big" x="-46" y="-42">₹29L</text>
+							<text className="ct-label" x="-46" y="-29">2019 RATE</text>
+						</g>
+						{/* Head */}
+						<path style={{ fill: `url(#${id}-skin)` }} className="ct-line" d="M-24 10 Q-30 -30 4 -32 Q34 -30 30 8 Q30 40 2 46 Q-24 44 -24 10Z" />
+						<path className="ct-white ct-line" d="M-26 0 Q-36 -6 -30 -16 Q-26 -8 -22 -10 M30 0 Q40 -6 34 -16 Q30 -8 26 -10" />
+						<path className="ct-line ct-thin" d="M-6 -28 Q2 -32 10 -28" />
+						{/* Angry brows, specs low on a bulbous nose, a thick white moustache */}
+						<path className="ct-line is-bold" d="M-14 -12 L-2 -6 M14 -6 L26 -12" />
+						<circle className="ct-glass ct-line" cx="-6" cy="2" r="7.5" />
+						<circle className="ct-glass ct-line" cx="16" cy="2" r="7.5" />
+						<path className="ct-line" d="M1.5 2 H8.5" />
+						<circle className="ct-ink" cx="-4" cy="3" r="2" />
+						<circle className="ct-ink" cx="14" cy="3" r="2" />
+						<path className="ct-line ct-thin" d="M6 8 Q3 16 1 20 Q5 23 10 20" />
+						<path className="ct-white ct-line" d="M-14 26 Q-2 20 6 28 Q14 20 24 26 Q16 34 6 30 Q-4 34 -14 26Z" />
+						<path className="ct-mouth-open ct-line" d="M-2 34 Q6 44 14 34 Q6 37 -2 34Z" />
 					</g>
-					<path className="ct-tag ct-line" d="M-33 63 L33 53 L34 68 L-32 78Z" />
-					<text className="ct-label is-name" x="0" y="69" transform="rotate(-9 0 66)">HISTORY</text>
+
+					{/* Me, with the tablet: a range, not a single number. */}
+					<Me x={222} y={240} s={0.82} id={id}>
+						<path className="ct-overshirt ct-line" d="M-22 72 Q-44 86 -40 104 L-30 104 Q-30 90 -14 82Z" />
+					</Me>
+					<g transform="translate(150 300) rotate(-8)">
+						<rect className="ct-device ct-line" x="0" y="0" width="68" height="48" rx="5" />
+						<rect className="ct-paper" x="5" y="5" width="58" height="38" />
+						<text className="ct-label" x="34" y="17">₹36–42L</text>
+						<line className="ct-line ct-thin" x1="10" y1="31" x2="58" y2="31" />
+						<rect className="ct-tone" x="22" y="25" width="24" height="6" />
+						<text className="ct-label is-tiny" x="34" y="40">PRICE RANGE</text>
+					</g>
 				</g>
 
-				<Balloon x={14} y={22} w={170} h={44} tailX={86} tailY={150} lines={['In my day, this plot', 'cost half that!']} />
+				{/* Speech, kept short the way those cartoons keep it. */}
+				<path className="ct-paper ct-line" d="M136 160 H264 Q272 160 272 168 V188 Q272 196 264 196 H158 L130 226 L146 196 H136 Q128 196 128 188 V168 Q128 160 136 160Z" />
+				<text className="ct-say" x="200" y="175">In my day this plot</text>
+				<text className="ct-say" x="200" y="190">cost half!</text>
 
-				{/* Me, on today's ground, holding a tablet with the price range. */}
-				<path className="ct-line" d="M310 190 V196 M326 190 V196" />
-				<Me x={318} y={112} s={1}>
-					<path className="ct-line" d="M-20 50 Q-34 64 -26 74" />
-					<path className="ct-line" d="M20 50 Q36 58 44 50" />
-				</Me>
-				<g transform="translate(350 126) rotate(8)">
-					<rect className="ct-paper ct-line" x="0" y="0" width="80" height="46" rx="4" />
-					<line className="ct-line ct-thin" x1="8" y1="31" x2="72" y2="31" />
-					<rect className="ct-tone" x="26" y="23" width="26" height="8" />
-					<text className="ct-label" x="40" y="16">₹36–42L</text>
-					<text className="ct-label is-tiny" x="40" y="41">RANGE + DRIVERS</text>
-				</g>
-
-				<Balloon x={250} y={14} w={180} h={44} tailX={300} tailY={84} lines={['Let’s price the ground', 'we’re standing on.']} />
-
-				<text className="ct-sign" x="430" y="292">S.R.</text>
+				<text className="ct-sign" x="286" y="410">శ్రీ</text>
 			</svg>
 			<figcaption className="ct-caption">History, still quoting last year’s prices.</figcaption>
 		</figure>
@@ -129,91 +186,108 @@ export function PricingCartoon() {
 
 /* ---------- Avanthi: the panel, before and after ---------- */
 
-function Reviewer({ x, hair, mark, sleepy, content }) {
+function Reviewer({ x, y, id, look, hair, mood = 'cross', s = 1 }) {
+	const mouth = {
+		cross: 'M-6 30 Q2 24 10 30',
+		shout: 'M-6 28 Q2 40 10 28 Q2 31 -6 28Z',
+		calm: 'M-6 28 Q2 34 10 28',
+	}[mood];
 	return (
-		<g transform={`translate(${x} 0)`}>
-			<path className="ct-paper ct-line" d="M-18 150 Q-20 120 0 116 Q20 120 18 150Z" />
-			<ellipse className="ct-skin ct-line" cx="0" cy="98" rx="16" ry="18" />
-			{hair === 'bun' && <path className="ct-hair ct-line" d="M-16 96 Q-16 78 0 78 Q16 78 16 96 Q10 86 0 86 Q-10 86 -16 96Z M-6 78 Q0 66 6 78Z" />}
-			{hair === 'bald' && <path className="ct-hair ct-line" d="M-16 100 Q-18 90 -14 88 M16 100 Q18 90 14 88" />}
-			{hair === 'flat' && <path className="ct-hair ct-line" d="M-16 94 Q-14 78 0 79 Q14 78 16 94 Q8 88 -2 89 Q-10 88 -16 94Z" />}
-			{hair === 'tall' && <path className="ct-hair ct-line" d="M-15 92 Q-18 68 0 70 Q18 68 15 92 Q6 84 0 86 Q-6 84 -15 92Z" />}
-			{sleepy ? (
-				<path className="ct-line" d="M-9 98 Q-6 100 -3 98 M3 98 Q6 100 9 98" />
-			) : (
-				<>
-					<circle className="ct-ink" cx="-6" cy="97" r="1.8" />
-					<circle className="ct-ink" cx="6" cy="97" r="1.8" />
-				</>
-			)}
-			<path className="ct-line" d={sleepy ? 'M-4 107 H4' : content ? 'M-5 105 Q0 110 5 105' : 'M-5 108 Q0 104 5 108'} />
-			{mark && (
-				<g transform="translate(0 52)">
-					<rect className="ct-paper ct-line" x="-13" y="-12" width="26" height="22" />
-					<text className="ct-label is-big" x="0" y="5">{mark}</text>
-				</g>
-			)}
-			{sleepy && <text className="ct-label" x="18" y="80">z z</text>}
+		<g transform={`translate(${x} ${y}) scale(${look === 'left' ? -s : s} ${s})`}>
+			<path style={hair === 'bun' ? undefined : { fill: `url(#${id}-kurta)` }} className={`ct-line ${hair === 'bun' ? 'ct-saree' : ''}`} d="M-24 100 Q-28 52 2 46 Q30 52 26 100Z" />
+			{hair === 'tie' && <path className="ct-tie ct-line" d="M0 50 L-4 58 L0 84 L4 58Z" />}
+			<path style={{ fill: `url(#${id}-skin)` }} className="ct-line" d="M-20 8 Q-24 -24 2 -26 Q26 -24 24 6 Q24 34 2 38 Q-20 36 -20 8Z" />
+			{hair === 'bun' && <path className="ct-hair ct-line" d="M-22 4 Q-24 -28 2 -28 Q26 -28 24 2 Q16 -14 0 -14 Q-14 -14 -22 4Z M-4 -28 Q2 -42 10 -28Z" />}
+			{hair === 'tufts' && <path className="ct-white ct-line" d="M-22 -2 Q-30 -8 -24 -16 Q-20 -8 -18 -10 M24 -2 Q32 -8 26 -16 Q22 -8 20 -10" />}
+			{hair === 'tie' && <path className="ct-hair ct-line" d="M-20 -6 Q-20 -28 2 -28 Q24 -28 24 -6 Q16 -18 2 -16 Q-10 -18 -20 -6Z" />}
+			{hair === 'cap' && <path className="ct-cap ct-line" d="M-22 -8 Q-20 -32 2 -32 Q24 -32 24 -8Z M-26 -8 H28" />}
+			<circle className="ct-ink" cx="-3" cy="2" r="2" />
+			<circle className="ct-ink" cx="12" cy="2" r="2" />
+			<path className="ct-line is-bold" d={mood === 'calm' ? 'M-8 -8 Q-3 -11 2 -8 M8 -8 Q13 -11 18 -8' : 'M-9 -10 L2 -5 M8 -5 L19 -10'} />
+			<path className="ct-line ct-thin" d="M6 6 Q4 13 2 16 Q5 19 9 16" />
+			{hair !== 'bun' && <path className="ct-hair ct-line" d="M-6 24 Q2 20 6 25 Q10 20 16 24 Q10 28 6 26 Q0 28 -6 24Z" />}
+			<path className={mood === 'shout' ? 'ct-mouth-open ct-line' : 'ct-line'} d={mouth} />
 		</g>
 	);
 }
 
 export function PanelCartoon() {
+	const id = 'cta';
 	return (
 		<figure className="ct">
-			<svg viewBox="0 0 440 300" role="img" aria-label="Editorial cartoon in two panels. Before: four reviewers at a long table hold up different tiers for one scholarship file. After: I sit at a laptop showing prediction intervals and hand one reviewer a small tray of close calls; the other three are out to lunch.">
-				<Defs id="cta" />
-				<rect className="ct-paper" width="440" height="300" />
+			<svg viewBox="0 0 300 420" role="img" aria-label="Editorial cartoon in two stacked panels. Before: four reviewers squeezed behind one table shout four different tiers over a single scholarship file. After: one calm reviewer sips tea over a small tray of close calls while I sit at a laptop of prediction intervals; a sign on the door says the other three are out to lunch.">
+				<Defs id={id} wash={['#e3f1e6', '#f5f2e5', '#fae4dc']} />
+				<rect width="300" height="420" fill={`url(#${id}-wash)`} />
 
-				{/* Panel frames */}
-				<rect className="ct-paper ct-line is-frame" x="6" y="6" width="210" height="258" />
-				<rect className="ct-paper ct-line is-frame" x="224" y="6" width="210" height="258" />
-				<text className="ct-label is-panel" x="16" y="24">BEFORE</text>
-				<text className="ct-label is-panel" x="234" y="24">AFTER</text>
+				<g filter={`url(#${id}-ink)`}>
+					{/* ---- Before ---- */}
+					<rect className="ct-line is-frame" x="8" y="8" width="284" height="196" fill="none" />
+					<text className="ct-label is-panel" x="18" y="26">BEFORE</text>
+					{/* Papers flying */}
+					<path className="ct-paper ct-line" d="M210 22 l22 -6 l4 16 l-22 6Z M246 40 l18 4 l-3 16 l-18 -4Z" />
+					<path className="ct-line ct-thin" d="M200 30 l-8 -4 M268 34 l8 -6 M60 40 l-8 -6" />
+					<Reviewer x={54} y={96} id={id} hair="tufts" mood="shout" />
+					<Reviewer x={112} y={92} id={id} hair="bun" mood="cross" />
+					<Reviewer x={172} y={96} id={id} hair="tie" mood="shout" look="left" />
+					<Reviewer x={234} y={92} id={id} hair="cap" mood="cross" look="left" />
+					{/* Each holds up a different tier. */}
+					{[
+						[40, 'A'],
+						[100, 'B'],
+						[160, 'A?'],
+						[220, 'C'],
+					].map(([x, m]) => (
+						<g key={x} transform={`translate(${x} 34) rotate(${x % 120 === 40 ? -8 : 7})`}>
+							<rect className="ct-paper ct-line" x="0" y="0" width="28" height="24" />
+							<text className="ct-label is-big" x="14" y="17">{m}</text>
+						</g>
+					))}
+					<path className="ct-table ct-line" d="M18 172 H282 V188 H18Z" />
+					<g transform="translate(132 156) rotate(-6)">
+						<rect className="ct-tone ct-line" x="0" y="0" width="38" height="20" />
+						<text className="ct-label is-light" x="19" y="13">FILE</text>
+					</g>
 
-				{/* Before: four reviewers, four different answers, one file. */}
-				<g transform="translate(0 24)">
-					<Reviewer x={40} hair="bald" mark="A" />
-					<Reviewer x={86} hair="bun" mark="B" />
-					<Reviewer x={132} hair="flat" mark="A?" />
-					<Reviewer x={178} hair="tall" mark="C" />
-					<rect className="ct-paper ct-line" x="12" y="172" width="198" height="14" />
-					<path fill="url(#cta-hatch)" d="M12 186 H210 V196 H12Z" />
-					<g transform="translate(96 158) rotate(-6)">
-						<rect className="ct-tone ct-line" x="0" y="0" width="34" height="22" />
-						<text className="ct-label" x="17" y="14">FILE</text>
+					{/* ---- After ---- */}
+					<rect className="ct-line is-frame" x="8" y="214" width="284" height="196" fill="none" />
+					<text className="ct-label is-panel" x="18" y="232">AFTER</text>
+					{/* The door: three are out. */}
+					<rect className="ct-door ct-line" x="226" y="226" width="56" height="120" />
+					<circle className="ct-ink" cx="236" cy="290" r="2.5" />
+					<g transform="translate(232 252) rotate(4)">
+						<rect className="ct-paper ct-line" x="0" y="0" width="46" height="30" />
+						<text className="ct-label is-tiny" x="23" y="12">3 OUT TO</text>
+						<text className="ct-label is-tiny" x="23" y="22">LUNCH</text>
+					</g>
+					<Reviewer x={184} y={300} id={id} hair="bun" mood="calm" look="left" s={0.9} />
+					{/* Tea, steaming */}
+					<path className="ct-paper ct-line" d="M150 352 h12 v10 q-6 4 -12 0Z M162 354 q5 0 4 5 q-1 3 -4 2" />
+					<path className="ct-line ct-thin" d="M154 346 q-3 -4 0 -8 M158 346 q-3 -4 0 -8" />
+					<Me x={56} y={314} s={0.56} id={id} />
+					{/* Laptop of intervals */}
+					<g transform="translate(76 320)">
+						<path className="ct-device ct-line" d="M0 32 L8 0 H58 L52 32Z" />
+						<path className="ct-line ct-thin" d="M18 10 H36 M26 18 H46 M14 26 H30" />
+						<path className="ct-tone-line" d="M32 18 H42" />
+						<rect className="ct-device ct-line" x="-6" y="32" width="66" height="5" />
+					</g>
+					<path className="ct-table ct-line" d="M18 358 H282 V372 H18Z" />
+					<g transform="translate(196 340)">
+						<rect className="ct-paper ct-line" x="-26" y="0" width="52" height="16" />
+						<rect className="ct-tone ct-line" x="-14" y="-6" width="20" height="7" />
+						<text className="ct-label is-tiny" x="0" y="11">CLOSE CALLS</text>
 					</g>
 				</g>
-				<rect className="ct-tag ct-line" x="18" y="228" width="186" height="26" />
-				<text className="ct-say" x="111" y="245">Same file. Four opinions.</text>
 
-				{/* After: me at a laptop of intervals; one reviewer with the close calls. */}
-				<g>
-					<g transform="translate(240 24)">
-						<Reviewer x={150} hair="bun" content />
-					</g>
-					<g transform="translate(390 192)">
-						<rect className="ct-paper ct-line" x="-24" y="-10" width="48" height="12" />
-						<rect className="ct-tone ct-line" x="-14" y="-17" width="20" height="7" />
-						<text className="ct-label is-tiny" x="0" y="-1.5">CLOSE CALLS</text>
-					</g>
+				{/* Before: four voices at once, no balloon needed. */}
+				<text className="ct-shout" x="86" y="70">!!</text>
+				<text className="ct-shout" x="204" y="70">!?</text>
+				{/* After: one quiet line. */}
+				<path className="ct-paper ct-line" d="M24 238 H150 Q158 238 158 246 V270 Q158 278 150 278 H70 L60 292 L58 278 H24 Q16 278 16 270 V246 Q16 238 24 238Z" />
+				<text className="ct-say" x="87" y="254">Clear ones are done.</text>
+				<text className="ct-say" x="87" y="269">Here are the close calls.</text>
 
-					<Me x={262} y={150} s={0.62}>
-						<path className="ct-line" d="M20 50 Q34 56 40 64" />
-					</Me>
-					<g transform="translate(282 190)">
-						<path className="ct-paper ct-line" d="M0 0 H58 L52 -38 H6Z" />
-						<path className="ct-line ct-thin" d="M14 -28 H34 M22 -19 H44 M10 -10 H28" />
-						<path className="ct-tone-line" d="M30 -19 H42" />
-						<rect className="ct-paper ct-line" x="-6" y="0" width="70" height="5" />
-					</g>
-					<rect className="ct-paper ct-line" x="230" y="196" width="198" height="10" />
-					<rect className="ct-tag ct-line" x="236" y="228" width="186" height="26" />
-					<text className="ct-say" x="329" y="245">One reviewer. Three out to lunch.</text>
-				</g>
-				<Balloon x={234} y={34} w={190} h={44} tailX={262} tailY={118} lines={['Clear cases are done.', 'Here are the close calls.']} />
-
-				<text className="ct-sign" x="430" y="292">S.R.</text>
+				<text className="ct-sign" x="286" y="404">శ్రీ</text>
 			</svg>
 			<figcaption className="ct-caption">The scholarship panel, before and after the model learned to say “I’m not sure.”</figcaption>
 		</figure>
