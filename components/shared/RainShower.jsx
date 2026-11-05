@@ -3,9 +3,8 @@ import { createPortal } from 'react-dom';
 // The way back into colour, the other half of the smog truck's story: rain
 // clouds roll in over the grey page, a flash of lightning, and the rain washes
 // the pollution away. EditionToggle opens the colour edition from the top of
-// the screen down, like a wash running down the page, and a rainbow shows as
-// the clouds leave. Timings live in rain.css; RAIN_REVEAL_AT and RAIN_END_AT
-// must match them.
+// the screen down, like a wash running down the page, as the clouds leave.
+// Timings live in rain.css; RAIN_REVEAL_AT and RAIN_END_AT must match them.
 export const RAIN_REVEAL_AT = 1100;
 export const RAIN_END_AT = 3900;
 
@@ -70,12 +69,6 @@ function RainShower() {
 			{SPLASHES.map((splash) => (
 				<span key={splash.left} className="np-rain-splash" style={{ left: `${splash.left}%`, animationDelay: `${splash.delay}s` }} />
 			))}
-
-			<svg className="np-rain-bow" viewBox="0 0 200 100" focusable="false">
-				{['#e5484d', '#f59e0b', '#f5d142', '#3fa66b', '#2f80c9', '#7b5ea7'].map((colour, i) => (
-					<path key={colour} d={`M${10 + i * 6} 100 A${90 - i * 6} ${90 - i * 6} 0 0 1 ${190 - i * 6} 100`} fill="none" stroke={colour} strokeWidth="6" />
-				))}
-			</svg>
 		</div>,
 		document.body,
 	);
