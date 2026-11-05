@@ -1,0 +1,215 @@
+/* ==========================================================================
+   Black & white to colour: the other half of the smog truck's story. Rain
+   clouds roll in over a grey haze (0-0.6s), lightning flashes (0.7s), and rain
+   falls. At 1.1s EditionToggle starts a view transition: the colour edition
+   washes down the page from the top with a dripping edge (1.1-2.8s) while the
+   haze clears. The clouds leave and a rainbow shows (2.7-3.9s).
+   RAIN_REVEAL_AT and RAIN_END_AT in RainShower.jsx must match these timings.
+   ========================================================================== */
+
+.np-rain-stage {
+	position: fixed;
+	inset: 0;
+	z-index: 1200;
+	overflow: hidden;
+	pointer-events: none;
+	/* Captured on its own, so the rain keeps falling over the wash. */
+	view-transition-name: np-rain;
+}
+
+/* The pollution sitting on the grey page, rinsed away by the rain. */
+.np-rain-smog {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(#3a3a3d, #57575a);
+	opacity: 0;
+	animation: np-rain-smog 3.9s ease both;
+}
+
+@keyframes np-rain-smog {
+	0% { opacity: 0; }
+	14% { opacity: 0.5; }
+	30% { opacity: 0.5; }
+	72% { opacity: 0; }
+	100% { opacity: 0; }
+}
+
+.np-rain-flash {
+	position: absolute;
+	inset: 0;
+	background: #f4f6ff;
+	opacity: 0;
+	animation: np-rain-flash 3.9s linear both;
+}
+
+@keyframes np-rain-flash {
+	0%, 17% { opacity: 0; }
+	18% { opacity: 0.75; }
+	19.5% { opacity: 0.1; }
+	21% { opacity: 0.55; }
+	24%, 100% { opacity: 0; }
+}
+
+/* Rain clouds: roll down from the top, then lift away. */
+.np-rain-cloud {
+	position: absolute;
+	border-radius: 50%;
+	background: radial-gradient(closest-side, #4a4d55 0%, #5a5e67 55%, rgba(90, 94, 103, 0.7) 75%, rgba(90, 94, 103, 0) 100%);
+	opacity: 0;
+	transform: translateY(-20vh);
+	animation:
+		np-rain-cloud-in 0.6s ease-out var(--cloud-delay) forwards,
+		np-rain-cloud-out 1.1s ease-in calc(2.6s + var(--cloud-delay)) forwards;
+}
+
+@keyframes np-rain-cloud-in {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes np-rain-cloud-out {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(-26vh);
+	}
+}
+
+/* Drops: thin slanted streaks falling the height of the screen, over and over
+   until the shower stops. */
+.np-rain-drop {
+	position: absolute;
+	top: -12vh;
+	width: 2.5px;
+	border-radius: 2px;
+	background: linear-gradient(rgba(96, 128, 162, 0), rgba(96, 128, 162, 0.9));
+	opacity: 0;
+	transform: rotate(12deg);
+	animation: np-rain-fall 0.7s linear infinite;
+}
+
+.np-rain-drop.is-faint {
+	width: 1.5px;
+	background: linear-gradient(rgba(120, 150, 182, 0), rgba(120, 150, 182, 0.75));
+}
+
+@keyframes np-rain-fall {
+	0% {
+		opacity: 0;
+		transform: translate(0, 0) rotate(12deg);
+	}
+
+	10% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 1;
+		transform: translate(-24vh, 125vh) rotate(12deg);
+	}
+}
+
+/* The whole shower eases off at the end. */
+.np-rain-stage .np-rain-drop,
+.np-rain-stage .np-rain-splash {
+	animation-iteration-count: infinite;
+}
+
+.np-rain-stage {
+	animation: np-rain-stage 3.9s linear both;
+}
+
+@keyframes np-rain-stage {
+	0%, 80% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+/* Splashes at the foot of the screen. */
+.np-rain-splash {
+	position: absolute;
+	bottom: calc(var(--np-tabbar-h, 0px) + 0.4rem);
+	width: 26px;
+	height: 8px;
+	margin-left: -13px;
+	border: 2px solid rgba(96, 128, 162, 0.85);
+	border-radius: 50%;
+	opacity: 0;
+	animation: np-rain-splash 0.6s ease-out infinite;
+}
+
+@keyframes np-rain-splash {
+	0% {
+		opacity: 0.9;
+		transform: scale(0.2);
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(1.4);
+	}
+}
+
+/* The rainbow, as the clouds go. */
+.np-rain-bow {
+	position: absolute;
+	top: 6vh;
+	right: -6vw;
+	width: min(70vw, 560px);
+	height: auto;
+	opacity: 0;
+	animation: np-rain-bow 3.9s ease both;
+}
+
+@keyframes np-rain-bow {
+	0%, 66% { opacity: 0; transform: scale(0.96); }
+	80% { opacity: 0.55; transform: scale(1); }
+	100% { opacity: 0; transform: scale(1); }
+}
+
+/* ---------- The wash: the colour edition runs down the page ---------- */
+
+html[data-rain-reveal]::view-transition-old(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+html[data-rain-reveal]::view-transition-new(root) {
+	mix-blend-mode: normal;
+	animation: np-rain-wash 1.7s cubic-bezier(0.4, 0, 0.3, 1) both;
+}
+
+/* A dripping edge: the wash runs a little further in some places. */
+@keyframes np-rain-wash {
+	from {
+		clip-path: polygon(0 0, 100% 0, 100% -12%, 92% -4%, 84% -10%, 76% -2%, 68% -9%, 60% -3%, 52% -11%, 44% -5%, 36% -10%, 28% -2%, 20% -8%, 12% -3%, 4% -10%, 0 -6%);
+	}
+
+	to {
+		clip-path: polygon(0 0, 100% 0, 100% 108%, 92% 116%, 84% 110%, 76% 118%, 68% 111%, 60% 117%, 52% 109%, 44% 115%, 36% 110%, 28% 118%, 20% 112%, 12% 117%, 4% 110%, 0 114%);
+	}
+}
+
+html[data-rain-reveal]::view-transition-group(np-rain) {
+	z-index: 1;
+	animation: none;
+}
+
+html[data-rain-reveal]::view-transition-old(np-rain) {
+	display: none;
+}
+
+html[data-rain-reveal]::view-transition-new(np-rain) {
+	animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.np-rain-stage {
+		display: none;
+	}
+}

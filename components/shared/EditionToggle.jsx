@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useRouter } from 'next/router';
 import SmogTruck, { SMOG_END_AT, SMOG_SWAP_AT } from './SmogTruck';
-import TorchGuy, { TORCH_END_AT, TORCH_REVEAL_AT } from './TorchGuy';
+import RainShower, { RAIN_END_AT, RAIN_REVEAL_AT } from './RainShower';
 
 // Switches the whole paper between the colour edition and a black & white
 // print edition. The choice lives on <html data-edition>, set before first
@@ -17,10 +17,9 @@ const EDITIONS = [
 function EditionToggle() {
 	const router = useRouter();
 	const [edition, setEdition] = useState('colour');
-	// Which little show is playing: 'torch' into colour, 'smog' into black & white.
+	// Which little show is playing: 'rain' into colour, 'smog' into black & white.
 	const [show, setShow] = useState(null);
 	const showTimers = useRef([]);
-	const torchTip = useRef(null);
 	const group = useRef(null);
 	const keepFocus = useRef(false);
 
@@ -70,23 +69,17 @@ function EditionToggle() {
 		setShow(null);
 	};
 
-	// Opens the colour edition in a circle of light from the torch's tip.
-	const revealFromTorch = () => {
+	// The rain washes the colour edition down the page from the top.
+	const washInColour = () => {
 		const root = document.documentElement;
-		const tip = torchTip.current?.getBoundingClientRect();
-		if (!document.startViewTransition || !tip) {
+		if (!document.startViewTransition) {
 			apply('colour');
 			return;
 		}
-		const { x, y } = tip;
-		const reach = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-		root.style.setProperty('--np-torch-x', `${x}px`);
-		root.style.setProperty('--np-torch-y', `${y}px`);
-		root.style.setProperty('--np-torch-end', `${reach * 1.3}px`);
-		root.setAttribute('data-torch-reveal', '');
+		root.setAttribute('data-rain-reveal', '');
 		document
 			.startViewTransition(() => flushSync(() => apply('colour')))
-			.finished.finally(() => root.removeAttribute('data-torch-reveal'));
+			.finished.finally(() => root.removeAttribute('data-rain-reveal'));
 	};
 
 	const choose = (value) => {
@@ -100,16 +93,16 @@ function EditionToggle() {
 			return;
 		}
 		const toColour = value === 'colour';
-		setShow(toColour ? 'torch' : 'smog');
+		setShow(toColour ? 'rain' : 'smog');
 		showTimers.current = [
-			setTimeout(toColour ? revealFromTorch : () => apply('bw'), toColour ? TORCH_REVEAL_AT : SMOG_SWAP_AT),
-			setTimeout(() => setShow(null), toColour ? TORCH_END_AT : SMOG_END_AT),
+			setTimeout(toColour ? washInColour : () => apply('bw'), toColour ? RAIN_REVEAL_AT : SMOG_SWAP_AT),
+			setTimeout(() => setShow(null), toColour ? RAIN_END_AT : SMOG_END_AT),
 		];
 	};
 
 	return (
 		<div ref={group} className="np-edition" role="group" aria-label="Print edition">
-			{show === 'torch' && <TorchGuy tipRef={torchTip} />}
+			{show === 'rain' && <RainShower />}
 			{show === 'smog' && <SmogTruck />}
 			<span className="np-edition-label">Edition</span>
 			{EDITIONS.map((item) => (

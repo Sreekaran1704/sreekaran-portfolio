@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 
-// The way into the black & white edition: a filthy old truck rattles across the
+// The way into the black & white edition (RainShower brings the colour back): a filthy old truck rattles across the
 // bottom of the screen, its smoke fills the page, and EditionToggle drains the
 // colour while nothing can be seen. When the smoke clears, the colour is gone.
 // Timings live in smog.css; SMOG_SWAP_AT and SMOG_END_AT must match them.

@@ -5,7 +5,7 @@ import '../styles/mobile.css';
 import '../styles/design.css';
 import '../styles/connect-head-demo.css';
 import '../styles/report.css';
-import '../styles/torch.css';
+import '../styles/rain.css';
 import '../styles/smog.css';
 import { AnimatePresence } from 'framer-motion';
 import DefaultLayout from '../components/layout/DefaultLayout';
