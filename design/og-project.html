@@ -7,19 +7,19 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:wght@700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@600;700&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Merriweather:opsz,wght@18..144,400..900&family=Merriweather+Sans:wght@600;700;800&display=block">
 <style>
 	:root {
-		--paper: #f7f3ea; --ink: #161412; --muted: #5b544a; --up: #2b7a4b; --down: #c0262d;
+		--paper: #e6dfd6; --ink: #161412; --muted: #5b544a; --up: #256f45; --down: #b7232a;
 	}
 	* { box-sizing: border-box; margin: 0; padding: 0; }
 	html, body { width: 1200px; height: 630px; overflow: hidden; }
 	body {
 		display: flex; flex-direction: column; background: var(--paper); color: var(--ink);
-		padding: 26px 56px 24px; font-family: 'Source Serif 4', Georgia, serif;
+		padding: 26px 56px 24px; font-family: 'Merriweather', Georgia, serif;
 	}
 	.ear, .plate, .rainbow, .foot { flex: none; }
-	.label { font: 700 14px/1.25 Inter, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+	.label { font: 700 14px/1.25 'Merriweather Sans', sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 	.ear { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); }
 	.ear b { color: var(--tone); }
 	.plate {
@@ -29,8 +29,8 @@
 	.rainbow {
 		height: 5px;
 		background: linear-gradient(90deg,
-			#1a5aa6 0 14.28%, #0b7285 0 28.57%, #c0262d 0 42.85%,
-			#6a3fa0 0 57.14%, #2b7a4b 0 71.42%, #b35300 0 85.71%, #a8326e 0);
+			#1a5aa6 0 14.28%, #0a6878 0 28.57%, #b7232a 0 42.85%,
+			#6a3fa0 0 57.14%, #256f45 0 71.42%, #9c4800 0 85.71%, #a8326e 0);
 	}
 	/* The story fills the space between the rule and the footer, centred. */
 	.main { flex: 1; display: grid; grid-template-columns: 1fr 390px; gap: 44px; align-items: center; padding: 18px 0; }
@@ -38,49 +38,51 @@
 		display: inline-block; background: var(--tone); color: #fff; padding: 7px 11px 6px;
 	}
 	h1 {
-		font-family: 'Playfair Display', Georgia, serif; font-weight: 900;
+		font-family: 'Merriweather', Georgia, serif; font-weight: 800;
 		font-size: var(--h1, 54px); line-height: 1.04; letter-spacing: -.01em; margin: 16px 0 14px;
 	}
 	.dek { font-size: 22px; line-height: 1.38; color: #2b2824; }
 	.stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 24px; border-top: 1px solid var(--ink); }
 	.stat { padding: 12px 14px 0 0; }
 	.stat + .stat { padding-left: 16px; border-left: 1px solid rgba(22,20,18,.25); }
-	.fig { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 42px; line-height: 1; color: var(--tone); white-space: nowrap; }
+	.fig { font-family: 'Merriweather', serif; font-weight: 800; font-size: 42px; line-height: 1; color: var(--tone); white-space: nowrap; }
 	.stat .label { font-size: 12px; color: var(--muted); margin-top: 7px; }
 
 	/* Right-hand visuals */
 	.visual { align-self: center; }
 	.frame {
-		background: #fff; padding: 10px; border: 1px solid rgba(22,20,18,.2);
+		background: #efe9e1; padding: 10px; border: 1px solid rgba(22,20,18,.2);
 		box-shadow: 0 10px 24px rgba(22,20,18,.14); transform: rotate(1.5deg);
 	}
 	.frame img { display: block; width: 100%; height: 250px; object-fit: cover; object-position: 50% 40%; }
 	.frame .label { font-size: 11px; color: var(--muted); margin-top: 9px; letter-spacing: .1em; }
-	.box { border: 2px solid var(--ink); background: #fff; padding: 18px 20px; box-shadow: 6px 6px 0 var(--tone); }
+	.box { border: 2px solid var(--ink); background: #efe9e1; padding: 18px 20px; box-shadow: 6px 6px 0 var(--tone); }
 	.box > .label { color: var(--tone); padding-bottom: 12px; border-bottom: 1px solid var(--ink); }
 	.est { display: grid; grid-template-columns: 1fr 1fr; }
 	.est div { padding: 16px 4px 4px; text-align: center; }
 	.est div + div { border-left: 1px solid rgba(22,20,18,.2); }
 	.est .label { font-size: 12px; color: var(--muted); }
-	.est .val { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 34px; margin: 10px 0 6px; white-space: nowrap; }
+	.est .val { font-family: 'Merriweather', serif; font-weight: 800; font-size: 34px; margin: 10px 0 6px; white-space: nowrap; }
 	.est .up { color: var(--up); } .est .down { color: var(--down); }
-	.est small { font: 600 11px/1.2 Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-	.note { font: 600 11px/1.3 Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(22,20,18,.2); }
+	.est small { font: 600 11px/1.2 'Merriweather Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+	.note { font: 600 11px/1.3 'Merriweather Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(22,20,18,.2); }
 	.steps { list-style: none; margin-top: 6px; }
 	.steps li {
 		display: flex; align-items: center; gap: 14px; padding: 13px 0;
-		font-family: 'Playfair Display', serif; font-weight: 700; font-size: 25px;
+		font-family: 'Merriweather', serif; font-weight: 800; font-size: 25px;
 	}
 	.steps li + li { border-top: 1px dashed rgba(22,20,18,.3); }
 	.steps span {
 		display: grid; place-items: center; width: 34px; height: 34px; flex: none;
-		background: var(--tone); color: #fff; font: 700 15px/1 Inter, sans-serif;
+		background: var(--tone); color: #fff; font: 700 15px/1 'Merriweather Sans', sans-serif;
 	}
 	.foot {
 		padding-top: 11px; border-top: 3px double var(--ink);
 		display: flex; justify-content: space-between; color: var(--muted);
 	}
 	.foot b { color: var(--tone); }
+	/* Old-style figures look out of place in stats; stats read cleaner with lining ones, as on the site. */
+	h1, .fig, .est .val { font-variant-numeric: lining-nums; }
 </style>
 </head>
 <body>
@@ -101,7 +103,7 @@
 <script>
 const projects = {
 	loan: {
-		tone: '#c0262d',
+		tone: '#b7232a',
 		section: 'Forecasting',
 		kicker: 'Time-series forecasting',
 		headline: 'The Forecast That Was Too Good To Be True',
@@ -112,7 +114,7 @@ const projects = {
 		cta: 'Read the story →',
 	},
 	fanhouse: {
-		tone: '#0b7285',
+		tone: '#0a6878',
 		h1: '46px',
 		section: 'Causal inference',
 		kicker: 'Causal inference · Synthetic data',
@@ -140,7 +142,7 @@ const projects = {
 		cta: 'Read the project →',
 	},
 	dialhack: {
-		tone: '#b35300',
+		tone: '#9c4800',
 		h1: '46px',
 		section: 'Hardware hacking',
 		kicker: 'Reverse engineering · macOS',

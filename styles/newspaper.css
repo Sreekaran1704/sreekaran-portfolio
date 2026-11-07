@@ -17,9 +17,14 @@
 	--np-wrap: 1240px;
 
 	--np-plate: 'UnifrakturMaguntia', 'Old English Text MT', Georgia, serif;
-	--np-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-	--np-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-	--np-label: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+	/* Type after The Hindu's system: Merriweather for headlines and reading,
+	   Merriweather Sans for labels, kickers and bylines, Playfair Display for
+	   section titles, Faustina for drop caps. */
+	--np-display: 'Merriweather', Georgia, 'Times New Roman', serif;
+	--np-body: 'Merriweather', Georgia, 'Times New Roman', serif;
+	--np-label: 'Merriweather Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+	--np-section: 'Playfair Display', Georgia, 'Times New Roman', serif;
+	--np-dropcap: 'Faustina', Georgia, 'Times New Roman', serif;
 
 	--np-sticky-h: 46px;
 }
@@ -371,7 +376,7 @@ input:focus-visible {
 	padding: 1.1rem 1.15rem 1.2rem;
 	border: 1px solid var(--np-ink);
 	box-shadow: inset 0 0 0 3px var(--np-paper), inset 0 0 0 4px var(--np-ink);
-	background: rgba(255, 255, 255, 0.18);
+	background: color-mix(in srgb, var(--np-sheet) 45%, transparent);
 }
 
 .np-box-note {
@@ -387,7 +392,7 @@ input:focus-visible {
 	padding: 0 1.5rem 1.5rem;
 	border-width: 2px;
 	box-shadow: 6px 6px 0 var(--np-ink);
-	background: #fbf8f0;
+	background: var(--np-sheet);
 }
 
 .np-ask-banner {
@@ -427,13 +432,13 @@ input:focus-visible {
 .np-ask .askme-bar {
 	gap: 0.6rem;
 	padding: 0.35rem 0.35rem 0.35rem 0.9rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	border-radius: 0;
 }
 
 .np-ask .askme-bar:focus-within {
-	background: #fbf8f0;
+	background: var(--np-sheet);
 	border-color: var(--np-ink);
 	box-shadow: 0 0 0 1px var(--np-ink);
 }
@@ -533,8 +538,8 @@ input:focus-visible {
 }
 
 .np-ask .askme-suggestion-text {
-	font-family: var(--np-display);
-	font-size: 1.08rem;
+	font-family: var(--np-body);
+	font-size: 1rem;
 	line-height: 1.3;
 	color: var(--np-ink);
 	transition: color 0.15s ease;
@@ -661,7 +666,7 @@ input:focus-visible {
 
 .np-section-title {
 	margin: 1.1rem 0 0.4rem;
-	font-family: var(--np-display);
+	font-family: var(--np-section);
 	font-size: clamp(2.2rem, 5vw, 3.6rem);
 	font-weight: 900;
 	line-height: 1;
@@ -845,7 +850,7 @@ input:focus-visible {
 .np-card {
 	display: flex;
 	flex-direction: column;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 7px 7px 0 var(--tone);
 	transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -905,7 +910,7 @@ input:focus-visible {
 	flex-shrink: 0;
 	max-width: 55%;
 	padding: 0.25rem 0.65rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	border-radius: 999px;
 	font-family: var(--np-label);
@@ -1077,7 +1082,7 @@ input:focus-visible {
 	align-self: start;
 	margin-bottom: 1rem;
 	padding: 0.75rem 0.9rem;
-	background: color-mix(in srgb, var(--tone) 9%, #fff);
+	background: color-mix(in srgb, var(--tone) 9%, var(--np-sheet));
 	border-left: 4px solid var(--tone);
 }
 
@@ -1482,7 +1487,7 @@ input:focus-visible {
 
 .fh-hero-lede,
 .fh-section p.fh-lede {
-	font-family: var(--np-display);
+	font-family: var(--np-body);
 	font-style: italic;
 	color: var(--np-ink-soft);
 }
@@ -1655,7 +1660,7 @@ input:focus-visible {
 
 .fh-interactive select:hover,
 .fh-interactive button:hover {
-	background: #fbf8f0;
+	background: var(--np-sheet);
 }
 
 /* Bars */
@@ -1702,10 +1707,10 @@ input:focus-visible {
 }
 
 .np-classified:hover {
-	background: #fbf8f1;
+	background: var(--np-sheet);
 }
 
-/* Playfair defaults to old-style figures; lining ones read cleaner in stats
+/* Old-style figures look out of place in stats; lining ones read cleaner in stats
    and headlines. */
 .np-story-headline,
 .np-section-title,
@@ -1723,15 +1728,16 @@ input:focus-visible {
    ========================================================================== */
 
 :root {
-	--np-paper: #faf7f0;
-	--np-paper-deep: #f1ebdf;
+	--np-paper: #e6dfd6; /* newsprint: ISO 12647-3 paper hue (a* 1, b* 5), lifted to L* 89 for a lit screen */
+	--np-muted: #5b544a;
+	--np-paper-deep: #dad3cb; /* the spec value itself, L* 85 */
 
 	--c-front: #1a5aa6;
-	--c-about: #0b7285;
-	--c-projects: #c0262d;
+	--c-about: #0a6878;
+	--c-projects: #b7232a;
 	--c-writing: #6a3fa0;
-	--c-experience: #2b7a4b;
-	--c-skills: #b35300;
+	--c-experience: #256f45;
+	--c-skills: #9c4800;
 	--c-contact: #a8326e;
 	--c-highlight: #f2b705;
 
@@ -1909,7 +1915,7 @@ input:focus-visible {
 }
 
 .np-essay:hover {
-	background: #fff;
+	background: var(--np-sheet);
 }
 
 /* Skills: classifieds boxes cycle through the desk colours. */
@@ -1923,7 +1929,7 @@ input:focus-visible {
 
 .np-classified {
 	border-color: var(--box, var(--np-ink));
-	background: #fff;
+	background: var(--np-sheet);
 }
 
 .np-classified-title {
@@ -2226,7 +2232,7 @@ input:focus-visible {
 	align-items: center;
 	gap: 0.55rem;
 	padding: 0.95rem 1.35rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 4px 4px 0 var(--np-ink);
 	font-family: var(--np-label);
@@ -2297,7 +2303,7 @@ input:focus-visible {
 
 .np-hero-photo-frame {
 	padding: 12px 12px 0;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 10px 10px 0 var(--np-ink);
 }
@@ -2312,10 +2318,10 @@ input:focus-visible {
 
 .np-hero-photo-frame figcaption {
 	padding: 0.85rem 0.35rem 1rem;
-	font-family: var(--np-display);
-	font-size: 1.08rem;
+	font-family: var(--np-body);
+	font-size: 1rem;
 	font-style: italic;
-	font-weight: 600;
+	font-weight: 500;
 	line-height: 1.35;
 	color: var(--np-ink);
 }
@@ -2385,7 +2391,7 @@ input:focus-visible {
 	--tone: var(--c-front);
 	display: grid;
 	grid-template-columns: 7rem minmax(0, 1fr);
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 5px 5px 0 var(--tone);
 	transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -2635,7 +2641,7 @@ input:focus-visible {
 }
 
 .np-ab-chapter {
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 6px 6px 0 var(--tone);
 }
@@ -2646,7 +2652,7 @@ input:focus-visible {
 	gap: 0.9rem;
 	padding: 0.85rem 1.3rem;
 	border-bottom: 2px solid var(--np-ink);
-	background: color-mix(in srgb, var(--tone) 10%, #fff);
+	background: color-mix(in srgb, var(--tone) 10%, var(--np-sheet));
 }
 
 .np-ab-chapter-no {
@@ -2714,7 +2720,7 @@ input:focus-visible {
 }
 
 .np-ab-glance {
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--np-ink);
 	box-shadow: 6px 6px 0 var(--tone);
 }
@@ -2793,7 +2799,7 @@ input:focus-visible {
    ========================================================================== */
 
 :root {
-	--np-sheet: #fffdf8;
+	--np-sheet: #efe9e1;
 	--np-soft-shadow: 0 1px 0 rgba(22, 20, 18, 0.06), 0 10px 24px -18px rgba(22, 20, 18, 0.35);
 }
 
@@ -3828,7 +3834,7 @@ html[data-edition='bw'] .np-rec-numbers {
 .np-ab-chapter > p::first-letter {
 	float: left;
 	margin: 0.08em 0.1em 0 0;
-	font-family: var(--np-display);
+	font-family: var(--np-dropcap);
 	font-size: 3.4em;
 	font-weight: 900;
 	line-height: 0.8;
@@ -4441,7 +4447,7 @@ html[data-edition='bw'] .np-letter::before {
 .np-resume-lede::first-letter {
 	float: left;
 	margin: 0.08em 0.1em 0 0;
-	font-family: var(--np-display);
+	font-family: var(--np-dropcap);
 	font-size: 3.4em;
 	font-weight: 900;
 	line-height: 0.8;
@@ -4934,7 +4940,7 @@ html[data-intro='play'] .np-intro {
 	background: var(--np-paper);
 	cursor: pointer;
 	/* If the script never runs, get out of the way instead of hiding the page. */
-	animation: np-intro-failsafe 0s linear 7s forwards;
+	animation: np-intro-failsafe 0s linear 6s forwards;
 }
 
 @keyframes np-intro-failsafe {
@@ -4952,11 +4958,21 @@ html[data-intro='play'] .np-intro {
 	height: 100%;
 }
 
-.np-intro-scene {
+.np-intro-scene,
+.np-intro-fx {
 	display: block;
 }
 
-html[data-edition='bw'] .np-intro-scene {
+.np-intro-fx {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+html[data-edition='bw'] .np-intro-scene,
+html[data-edition='bw'] .np-intro-fx {
 	filter: grayscale(1) contrast(1.1);
 }
 
@@ -4966,8 +4982,42 @@ html[data-edition='bw'] .np-intro-scene {
 	opacity: 0;
 	overflow: hidden;
 	background: var(--np-paper);
-	box-shadow: 0 40px 90px rgba(22, 20, 18, var(--np-intro-shadow, 0.35)), 0 0 0 1px rgba(22, 20, 18, 0.12);
-	will-change: transform, opacity;
+	/* --np-intro-lift runs 1 to 0 as the page lands: the shadow starts long
+	   and soft (still in the air) and tightens once it is down. */
+	box-shadow:
+		0 calc(14px + 46px * var(--np-intro-lift, 0)) calc(34px + 70px * var(--np-intro-lift, 0)) rgba(22, 20, 18, var(--np-intro-shadow, 0.35)),
+		0 2px 4px rgba(22, 20, 18, calc(var(--np-intro-shadow, 0.35) * 0.5)),
+		0 0 0 1px rgba(22, 20, 18, 0.12);
+	will-change: transform, opacity, clip-path;
+}
+
+/* The two rolled edges of the paper as it opens out from the middle: shaded
+   like a cylinder, with a few lines of type showing on the curl. */
+.np-intro-curl {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 2;
+	width: 0;
+	pointer-events: none;
+	background:
+		repeating-linear-gradient(to bottom, transparent 0 9px, rgba(22, 20, 18, 0.16) 9px 11px),
+		linear-gradient(90deg,
+			rgba(22, 20, 18, 0.34) 0%,
+			var(--np-paper-deep) 18%,
+			var(--np-sheet, var(--np-paper)) 46%,
+			var(--np-paper) 70%,
+			rgba(22, 20, 18, 0.42) 100%);
+	box-shadow: 0 0 0 1.5px rgba(22, 20, 18, 0.55);
+}
+
+.np-intro-curl-l {
+	border-radius: 0 40% 40% 0 / 0 3% 3% 0;
+	transform: scaleX(-1);
+}
+
+.np-intro-curl-r {
+	border-radius: 0 40% 40% 0 / 0 3% 3% 0;
 }
 
 .np-intro-sheet-inner {
@@ -5447,4 +5497,18 @@ html[data-edition='bw'] .pj-video-seek {
 	.pj-media-shots .fh-image-figure:first-child {
 		grid-column: 1 / -1;
 	}
+}
+
+/* ---------- Newsprint grain ----------
+   A faint fibre noise over the paper colour so the page reads as printed
+   stock rather than a flat screen fill. The B&W edition stays clean white. */
+:root {
+	--np-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.26 0 0 0 0 0.2 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+html:not([data-edition='bw']) body,
+html:not([data-edition='bw']) .app-paper-bg,
+html:not([data-edition='bw']) .np-sections {
+	background-image: var(--np-grain) !important;
+	background-repeat: repeat !important;
 }

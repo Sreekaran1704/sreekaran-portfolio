@@ -128,11 +128,11 @@
 	}
 
 	.np-card-brief {
-		transition: background-color 0.18s ease;
+		transition: background-color 0.18s ease, box-shadow 0.18s ease;
 	}
 
 	.np-card-brief:hover {
-		background: #fff;
+		background: var(--np-sheet);
 	}
 
 	/* Write-ups lead; the rest run under a brief head, placed with order so the
@@ -524,6 +524,14 @@
 		left: 1.25rem;
 	}
 
+	/* The first card in a row has no left padding so its text lines up with
+	   the section edge. On hover, a solid shadow carries the fill 1.25rem
+	   past that edge, so every card's highlight leaves the same margin
+	   around its text. */
+	.np-card-brief.is-row-start:hover {
+		box-shadow: -1.25rem 0 0 var(--np-sheet);
+	}
+
 	.np-essays .np-essay,
 	.np-essays .np-essay:hover {
 		border-right: 0;
@@ -735,7 +743,7 @@
 	.np-ab-chapter > p::first-letter {
 		float: left;
 		margin: 0.08em 0.1em 0 0;
-		font-family: var(--np-display);
+		font-family: var(--np-dropcap);
 		font-size: 3.1em;
 		font-weight: 700;
 		line-height: 0.8;

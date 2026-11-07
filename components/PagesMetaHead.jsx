@@ -55,7 +55,7 @@ function PagesMetaHead({
 			<link key="icon" rel="icon" href="/icon-32.png" type="image/png" sizes="32x32" />
 			<link key="apple-touch-icon" rel="apple-touch-icon" href="/apple-touch-icon.png" />
 			<link key="manifest" rel="manifest" href="/site.webmanifest" />
-			<meta key="theme-color" name="theme-color" content="#f7f3ea" />
+			<meta key="theme-color" name="theme-color" content="#e6dfd6" />
 		</Head>
 	);
 }

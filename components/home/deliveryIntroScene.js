@@ -14,23 +14,53 @@ const ease = {
 	outBack: (u) => 1 + 2.5 * Math.pow(u - 1, 3) + 1.5 * Math.pow(u - 1, 2),
 };
 
-// Timeline, in seconds.
-// The approach and the pause on the front page are the shortest beats; the
-// roll and throw keep just enough time to read.
+// Timeline, in seconds: three in all. He is close from the first frame and
+// reaching for a paper at once; each beat (grab, roll and band, wind-up and
+// throw, flight, landing and unrolling, a glance at the front page, the
+// nameplate settling onto the masthead) is brief but whole.
 const T = {
-	fadeIn: [0, 0.1],
-	approach: [0, 0.65],
-	grab: 0.3, lift: [0.35, 0.43], roll: [0.45, 0.56], windup: [0.56, 0.61], release: 0.65,
-	exit: [0.65, 0.95],
-	fly: [0.65, 0.95],
-	land: [0.92, 1.07],
-	expand: [1.12, 1.25],
-	morph: [1.18, 1.36],
-	fade: [1.3, 1.45],
+	fadeIn: [0, 0.2],
+	grab: 0.15, lift: [0.2, 0.42], roll: [0.45, 0.75], windup: [0.78, 1.02], release: 1.12,
+	exit: [1.12, 1.7],
+	fly: [1.12, 1.72],
+	land: [1.7, 2.05],
+	expand: [2.3, 2.6],
+	morph: [2.33, 2.72],
+	fade: [2.65, 3.0],
 };
-export const INTRO_DURATION = 1.45;
-// How far down the street the rider starts (depth; 1 is right in front).
-const START_DEPTH = 6;
+export const INTRO_DURATION = 3.0;
+// How far down the street the rider starts, and where he is when he lets go
+// (depth; 1 is right in front). He starts close, so there is little street
+// to cover before the throw, at the same riding speed as before.
+const START_DEPTH = 1.96;
+const RELEASE_DEPTH = 1.1;
+// Pedal revolutions per unit of depth ridden (about two a second).
+const PEDAL_PER_DEPTH = 2.4;
+// Wheel turns per pedal turn (the gearing).
+const GEAR = 2.6;
+// Front wheel geometry (rider-local units): radius, the rim's edge-on ellipse
+// and the number of spokes.
+const WHEEL_R = 58;
+const RIM_RX = 13;
+const RIM_RY = 49;
+const SPOKES = 10;
+// Edge-on tyre ellipse (rx 18, ry WHEEL_R), for the tread to slide round.
+const TYRE_PERIMETER = 2 * Math.PI * Math.sqrt((18 * 18 + WHEEL_R * WHEEL_R) / 2);
+// The rubber band, in roll units (the roll is 12 wide and 48 tall).
+const BAND_W = 13;
+const BAND_H = 7;
+// The rolled paper's size when it reaches the reader, and its final angle:
+// chosen so it hands off exactly to the front page, which lands tilted -18deg
+// at half scale.
+const ROLL_END = 9.4;
+const SPIN_END = -18 + 360; // one turn in a short flight
+const HELD_RELEASE_ROT = 20;
+const BAND_RED = '#c0262d';
+// Deterministic "random" numbers, so every visit plays the same.
+const rand = (i, k = 1) => {
+	const v = Math.sin(i * 127.1 + k * 311.7) * 43758.5453;
+	return v - Math.floor(v);
+};
 
 const VP = { x: 800, y: 430 };
 const G = 420; // ground line below the horizon at depth 1
@@ -48,6 +78,8 @@ function el(tag, attrs, parent) {
 }
 // Paper-coloured fills follow the edition (cream in colour, white in B&W).
 const paper = (n) => { n.style.fill = 'var(--np-paper)'; return n; };
+// Newsprint sheets (the papers themselves) use the lighter sheet tone.
+const sheetFill = (n) => { n.style.fill = 'var(--np-sheet, var(--np-paper))'; return n; };
 
 function drawStreet(svg) {
 	const defs = el('defs', {}, svg);
@@ -60,7 +92,25 @@ function drawStreet(svg) {
 	paper(el('rect', { x: -400, y: -100, width: 2400, height: 1200 }, scene));
 	el('rect', { x: -400, y: -100, width: 2400, height: 530, fill: 'url(#np-intro-dots)', opacity: 0.06 }, scene);
 	el('circle', { cx: 800, cy: 345, r: 150, fill: 'url(#np-intro-sun)', opacity: 0.55 }, scene);
-	el('rect', { x: -400, y: 430, width: 2400, height: 600, fill: '#efe8da' }, scene);
+
+	// Inked clouds drifting slowly across the sky (outlined puffs, then the
+	// same puffs filled on top so only the outer edge keeps its line).
+	const PUFFS = [[-60, 8, 46], [-10, -14, 58], [48, 4, 44], [92, 14, 30], [-102, 18, 28]];
+	const clouds = [[330, 165, 1, 9], [1130, 110, 0.78, 6], [1560, 235, 0.62, 12]].map(([cx, cy, s, speed]) => {
+		const g = el('g', {}, scene);
+		PUFFS.forEach(([x, y, rr]) => paper(el('circle', { cx: x * s, cy: y * s, r: rr * s, stroke: INK, 'stroke-width': 2.2 }, g)));
+		PUFFS.forEach(([x, y, rr]) => paper(el('circle', { cx: x * s, cy: y * s, r: rr * s - 2 }, g)));
+		el('path', { d: `M${-70 * s},${30 * s} Q${0},${44 * s} ${70 * s},${30 * s}`, fill: 'none', stroke: INK, 'stroke-width': 1.2, opacity: 0.35 }, g);
+		return { g, cx, cy, speed };
+	});
+
+	// A few birds crossing high above the street.
+	const birds = [[520, 120, 1], [575, 98, 0.8], [610, 140, 0.7]].map(([x, y, s], i) => ({
+		path: el('path', { fill: 'none', stroke: INK, 'stroke-width': 2.4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, scene),
+		x, y, s, i,
+	}));
+
+	el('rect', { x: -400, y: 430, width: 2400, height: 600, fill: 'var(--np-paper-deep)' }, scene);
 	el('line', { x1: -400, y1: 430, x2: 2000, y2: 430, stroke: INK, 'stroke-width': 1.5 }, scene);
 
 	el('polygon', { points: pts([P(-430, 0, 0.8), P(430, 0, 0.8), P(430, 0, 90), P(-430, 0, 90)]), fill: '#e2d9c6', stroke: INK, 'stroke-width': 2 }, scene);
@@ -109,7 +159,18 @@ function drawStreet(svg) {
 			el('circle', { cx: arm[0], cy: arm[1] + 9 * s, r: Math.max(1, 11 * s), fill: '#f2c94c', stroke: INK, 'stroke-width': Math.max(0.6, 3 * s) }, scene);
 		});
 	});
-	return scene;
+	return { scene, clouds, birds };
+}
+
+function animateSky({ clouds, birds }, t) {
+	clouds.forEach((c) => c.g.setAttribute('transform', `translate(${(c.cx + c.speed * t).toFixed(1)} ${c.cy})`));
+	birds.forEach((b) => {
+		const flap = 7 * Math.sin(t * 2 * Math.PI * 2.4 + b.i * 1.7);
+		const x = b.x + 34 * t;
+		const y = b.y - 6 * t + 3 * Math.sin(t * 2 + b.i);
+		b.path.setAttribute('d', `M${-11},${0} Q${-5.5},${-flap} 0,0 Q${5.5},${-flap} 11,0`);
+		b.path.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${b.s})`);
+	});
 }
 
 // The paperboy, seen from the front. Local coords: ground contact at (0, 0).
@@ -141,55 +202,131 @@ function drawRider(svg) {
 	el('path', { d: 'M-78,-148 Q0,-168 78,-148', fill: 'none', stroke: INK, 'stroke-width': 6, 'stroke-linecap': 'round' }, body);
 	el('rect', { x: -84, y: -155, width: 16, height: 11, rx: 4, fill: '#2b2824' }, body);
 	el('rect', { x: 68, y: -155, width: 16, height: 11, rx: 4, fill: '#2b2824' }, body);
-	el('line', { x1: -9, y1: -56, x2: -6, y2: -146, stroke: INK, 'stroke-width': 5 }, body);
-	el('line', { x1: 9, y1: -56, x2: 6, y2: -146, stroke: INK, 'stroke-width': 5 }, body);
-	el('ellipse', { cx: 0, cy: -56, rx: 11, ry: 56, fill: 'none', stroke: INK, 'stroke-width': 8 }, body);
-	const tread = el('ellipse', { cx: 0, cy: -56, rx: 11, ry: 56, fill: 'none', stroke: '#9a9182', 'stroke-width': 3, 'stroke-dasharray': '5 15' }, body);
+	// The front wheel, seen nearly edge-on: a black tyre with tread, a steel
+	// rim, spokes that turn with the pedalling, the hub and axle, and the fork
+	// legs on either side of it.
+	el('ellipse', { cx: 0, cy: -WHEEL_R, rx: 18, ry: WHEEL_R, fill: 'none', stroke: INK, 'stroke-width': 9 }, body);
+	const tread = el('ellipse', { cx: 0, cy: -WHEEL_R, rx: 18, ry: WHEEL_R, fill: 'none', stroke: '#6b645b', 'stroke-width': 2.5, 'stroke-dasharray': '4 9' }, body);
+	el('ellipse', { cx: 0, cy: -WHEEL_R, rx: RIM_RX, ry: RIM_RY, fill: 'none', stroke: '#8d877c', 'stroke-width': 4 }, body);
+	el('ellipse', { cx: 0, cy: -WHEEL_R, rx: RIM_RX - 2.5, ry: RIM_RY - 2.5, fill: 'none', stroke: INK, 'stroke-width': 1.2, opacity: 0.55 }, body);
+	const spokes = Array.from({ length: SPOKES }, () => el('line', { x1: 0, y1: -WHEEL_R, stroke: '#6b645b', 'stroke-width': 1.3 }, body));
+	el('line', { x1: -24, y1: -WHEEL_R, x2: 24, y2: -WHEEL_R, stroke: INK, 'stroke-width': 3.5, 'stroke-linecap': 'round' }, body);
+	el('circle', { cx: 0, cy: -WHEEL_R, r: 6, fill: '#8d877c', stroke: INK, 'stroke-width': 2 }, body);
+	el('line', { x1: -21, y1: -WHEEL_R, x2: -7, y2: -146, stroke: INK, 'stroke-width': 5, 'stroke-linecap': 'round' }, body);
+	el('line', { x1: 21, y1: -WHEEL_R, x2: 7, y2: -146, stroke: INK, 'stroke-width': 5, 'stroke-linecap': 'round' }, body);
 	el('rect', { x: -38, y: -146, width: 76, height: 38, fill: '#e2d2b4', stroke: INK, 'stroke-width': 3 }, body);
 	for (let x = -26; x <= 26; x += 13) el('line', { x1: x, y1: -146, x2: x, y2: -108, stroke: INK, 'stroke-width': 1.2, opacity: 0.5 }, body);
-	const basketPapers = [-24, -6, 12].map((x) => el('rect', { x, y: -166, width: 14, height: 26, fill: '#fff', stroke: INK, 'stroke-width': 1.8 }, body));
+	const basketPapers = [-24, -6, 12].map((x) => sheetFill(el('rect', { x, y: -166, width: 14, height: 26, stroke: INK, 'stroke-width': 1.8 }, body)));
 	el('circle', { cx: 0, cy: -98, r: 8, fill: '#f2c94c', stroke: INK, 'stroke-width': 2.5 }, body);
 	const armStyle = { fill: 'none', stroke: SHIRT, 'stroke-width': 14, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
 	const armL = el('polyline', armStyle, body);
 	const handL = el('circle', { r: 8, fill: SKIN, stroke: INK, 'stroke-width': 2 }, body);
 	const armR = el('polyline', armStyle, body);
-	const handR = el('circle', { r: 8, fill: SKIN, stroke: INK, 'stroke-width': 2 }, body);
+	// The paper in his hand: first a flat sheet that he rolls up, then the
+	// very same rolled paper that flies, and the band that he slips onto it.
 	const held = el('g', {}, body);
-	const heldSheet = el('rect', { y: -24, height: 48, fill: '#fff', stroke: INK, 'stroke-width': 2 }, held);
+	const heldSheet = sheetFill(el('rect', { y: -24, height: 48, stroke: INK, 'stroke-width': 2 }, held));
 	const heldLines = el('g', { stroke: INK, 'stroke-width': 1.6 }, held);
 	[-14, -6, 2, 10].forEach((y) => el('line', { x1: -20, x2: 20, y1: y, y2: y }, heldLines));
-	const heldBand = el('rect', { x: -7, y: -4, width: 14, height: 8, fill: '#c0262d', opacity: 0 }, held);
-	return { rider, shadow, body, legL, legR, shoeL, shoeR, tread, basketPapers, armL, handL, armR, handR, held, heldSheet, heldLines, heldBand };
+	const heldRoll = drawRoll(held, { band: false });
+	const heldBand = drawBand(held);
+	// The hand goes over the paper, so he is visibly gripping it.
+	const handR = el('circle', { r: 8, fill: SKIN, stroke: INK, 'stroke-width': 2 }, body);
+	return { rider, shadow, body, legL, legR, shoeL, shoeR, tread, spokes, basketPapers, armL, handL, armR, handR, held, heldSheet, heldLines, heldRoll, heldBand };
 }
 
-function drawFlight(svg) {
-	const flight = el('g', { opacity: 0 }, svg);
-	const ns = { 'vector-effect': 'non-scaling-stroke' };
-	el('rect', { x: -6, y: -24, width: 12, height: 48, rx: 6, fill: '#fff', stroke: INK, 'stroke-width': 3, ...ns }, flight);
-	el('line', { x1: -3, x2: 3, y1: -15, y2: -15, stroke: INK, 'stroke-width': 1.5, ...ns }, flight);
-	el('line', { x1: -3, x2: 3, y1: 14, y2: 14, stroke: INK, 'stroke-width': 1.5, ...ns }, flight);
-	el('rect', { x: -6, y: -3.5, width: 12, height: 7, fill: '#c0262d' }, flight);
-	return flight;
+// The rubber band: one shape used on the roll in his hand, on the roll in
+// flight and when it snaps off, so it never changes as it is handed along.
+function drawBand(parent) {
+	return el('rect', { x: -BAND_W / 2, y: -BAND_H / 2, width: BAND_W, height: BAND_H, rx: 1.5, fill: BAND_RED, stroke: '#7a1418', 'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }, parent);
 }
+
+// One rolled paper (local coords centred on the roll), with or without its band.
+function drawRoll(parent, { opacity = 1, band = true } = {}) {
+	const g = el('g', { opacity }, parent);
+	const ns = { 'vector-effect': 'non-scaling-stroke' };
+	sheetFill(el('rect', { x: -6, y: -24, width: 12, height: 48, rx: 6, stroke: INK, 'stroke-width': 2.5, ...ns }, g));
+	el('rect', { x: 1.5, y: -22, width: 3, height: 44, rx: 1.5, fill: INK, opacity: 0.12 }, g);
+	el('line', { x1: -3, x2: 3, y1: -15, y2: -15, stroke: INK, 'stroke-width': 1.5, ...ns }, g);
+	el('line', { x1: -3, x2: 3, y1: -9, y2: -9, stroke: INK, 'stroke-width': 1, opacity: 0.6, ...ns }, g);
+	el('line', { x1: -3, x2: 3, y1: 9, y2: 9, stroke: INK, 'stroke-width': 1, opacity: 0.6, ...ns }, g);
+	el('line', { x1: -3, x2: 3, y1: 14, y2: 14, stroke: INK, 'stroke-width': 1.5, ...ns }, g);
+	if (band) drawBand(g);
+	return g;
+}
+
+// The thrown paper: its shadow on the road, a fading trail, the roll itself,
+// and the swish lines left by the throwing arm.
+function drawFlight(svg) {
+	const shadow = el('ellipse', { rx: 30, ry: 6, fill: INK, opacity: 0 }, svg);
+	const trail = [0.26, 0.15, 0.08].map((o) => ({ g: drawRoll(svg, { opacity: 0 }), o }));
+	const flight = drawRoll(svg, { opacity: 0 });
+	return { shadow, trail, flight };
+}
+
+// Swish lines tracing the throwing arm's arc, drawn in the rider's own
+// coordinates (outside the arm, on his right) so they move with him.
+function drawWhoosh(body) {
+	const whoosh = el('g', { opacity: 0, fill: 'none', stroke: INK, 'stroke-linecap': 'round' }, body);
+	[['M120,-338 Q112,-290 72,-266', 4], ['M138,-320 Q130,-284 94,-266', 3], ['M154,-300 Q148,-276 116,-266', 2.2]].forEach(([d, w]) => el('path', { d, 'stroke-width': w }, whoosh));
+	return whoosh;
+}
+
+// The impact: an inked burst and the rubber band snapping off, drawn above
+// the front page, and dust kicked up along the road from under its bottom
+// edge, drawn on the street behind it.
+function drawImpact(svg, street) {
+	const burst = el('g', { opacity: 0, stroke: INK, 'stroke-linecap': 'round' }, svg);
+	const rays = Array.from({ length: 12 }, (_, i) => {
+		const a = (i / 12) * Math.PI * 2 + 0.2;
+		return { line: el('line', { 'stroke-width': i % 2 ? 3 : 5 }, burst), a, len: i % 2 ? 46 : 70 };
+	});
+	const puffs = Array.from({ length: 16 }, (_, i) => {
+		const side = i % 2 ? 1 : -1;
+		return {
+			c: paper(el('circle', { r: 0, stroke: INK, 'stroke-width': 2.2, opacity: 0 }, street)),
+			x0: side * (40 + 320 * rand(i, 5)),
+			// Mostly sideways along the ground, a little upward.
+			vx: side * (120 + 260 * rand(i, 1)),
+			vy: -40 - 110 * rand(i, 2),
+			r: 10 + 16 * rand(i, 3),
+			delay: 0.04 * rand(i, 4),
+		};
+	});
+	// The band: the same flat band as on the roll, which springs into a loose
+	// loop once it snaps free.
+	const band = el('g', { opacity: 0 }, svg);
+	const bandFlat = drawBand(band);
+	const bandLoop = el('ellipse', { rx: BAND_W / 2, ry: BAND_H / 2, fill: 'none', stroke: BAND_RED, 'stroke-width': 4, 'vector-effect': 'non-scaling-stroke', opacity: 0 }, band);
+	return { burst, rays, puffs, band, bandFlat, bandLoop };
+}
+
+// He rides at one steady speed the whole way: up the street, through the
+// grab, roll and throw without slowing, then swerves right and past.
+const RIDE_SPEED = (START_DEPTH - RELEASE_DEPTH) / T.release; // depth units per second
 
 function riderPose(t) {
-	const pa = seg(t, T.approach);
 	const pe = seg(t, T.exit);
-	// Log-space approach, front-loaded so he is close enough to read the throw.
-	let z = START_DEPTH * Math.pow(1.1 / START_DEPTH, Math.pow(pa, 0.75));
-	let X = -40;
-	if (t > T.exit[0]) {
-		z = lerp(1.1, 0.8, ease.inOut(pe));
-		X = -40 + 1500 * ease.in(pe);
-	}
+	const z = Math.max(0.42, START_DEPTH - RIDE_SPEED * t);
+	// After the throw he steers off to the right while still riding forward.
+	const X = -40 + 1150 * pe * pe;
+	// Pedal turns follow the distance ridden, so the cadence stays constant.
+	const turns = PEDAL_PER_DEPTH * RIDE_SPEED * t;
 	const s = 1 / z;
-	const phi = t * 2 * Math.PI * 3;
-	return { s, phi, x: VP.x + X * s, y: VP.y + G * s - 3 * Math.abs(Math.sin(phi)) * s, theta: 2.2 * Math.sin(phi) + 16 * ease.in(pe) };
+	const phi = turns * 2 * Math.PI;
+	// Leans back on the wind-up, forward into the throw, then into the ride away.
+	const wind = ease.inOut(seg(t, T.windup));
+	const thr = seg(t, [T.windup[1], T.release]);
+	const rec = ease.inOut(seg(t, [T.release, T.release + 0.35]));
+	const lean = -6 * wind * (1 - thr) + 8 * ease.out(thr) * (1 - rec);
+	return { s, phi, x: VP.x + X * s, y: VP.y + G * s - 3 * Math.abs(Math.sin(phi)) * s, theta: 2.2 * Math.sin(phi) + lean + 16 * ease.in(pe) };
 }
 
-// Right hand: on the bar, into the basket, paper up, wind up, throw, back.
-const HAND_KEYS = [[0, 64, -150], [T.grab, 64, -150], [T.lift[0], 12, -160], [T.lift[1], 82, -250], [T.windup[0], 84, -252], [T.windup[1], 100, -304], [T.release, 26, -226], [T.release + 0.2, 64, -150]];
-const RELEASE_HAND = [26, -236];
+// Right hand: on the bar, into the basket, paper up, wind up, throw, follow
+// through, back to the bar.
+const HAND_KEYS = [[0, 64, -150], [T.grab, 64, -150], [T.lift[0], 12, -160], [T.lift[1], 82, -250], [T.windup[0], 84, -252], [T.windup[1], 100, -304], [T.release, 58, -262], [T.release + 0.12, 14, -196], [T.release + 0.4, 64, -150]];
+// Where the paper's centre is at release (it is held 10 above the hand).
+const RELEASE_HAND = [58, -272];
 function handAt(t) {
 	for (let i = 0; i < HAND_KEYS.length - 1; i += 1) {
 		const [t0, x0, y0] = HAND_KEYS[i];
@@ -251,29 +388,70 @@ function measureMorph(plate, target, sheet) {
  */
 export function playDeliveryIntro(root, onDone) {
 	const svg = root.querySelector('.np-intro-scene');
+	const fx = root.querySelector('.np-intro-fx');
 	const stage = root.querySelector('.np-intro-stage');
 	const sheet = root.querySelector('.np-intro-sheet');
+	const curlL = root.querySelector('.np-intro-curl-l');
+	const curlR = root.querySelector('.np-intro-curl-r');
 	const plate = root.querySelector('.np-intro-plate');
 	const fades = [...root.querySelectorAll('.np-intro-fade')];
 	const target = document.querySelector('.np-nameplate');
 
 	svg.textContent = '';
-	const scene = drawStreet(svg);
+	fx.textContent = '';
+	const street = drawStreet(svg);
+	const { scene } = street;
 	const r = drawRider(svg);
-	const flight = drawFlight(svg);
+	const fl = drawFlight(svg);
+	const whoosh = drawWhoosh(r.body);
+	const impact = drawImpact(fx, svg);
 	const releasePose = riderPose(T.release);
 	const releaseAt = toScreen(releasePose, RELEASE_HAND);
 	let morph;
 
+	// Where the thrown roll is at flight progress u (0 at the hand, 1 in the
+	// reader's face): an arc toward the centre, growing as it nears, spinning
+	// about two turns at a steady rate to finish at the front page's landing
+	// angle.
+	const rollAt = (u) => {
+		const ue = ease.inOut(u);
+		return {
+			x: lerp(releaseAt[0], 800, ue),
+			y: lerp(releaseAt[1], 450, ue) - 170 * Math.sin(Math.PI * u),
+			sc: releasePose.s * Math.pow(ROLL_END / releasePose.s, Math.pow(u, 1.8)),
+			// Starts at the paper's angle in his hand (its own tilt plus his lean)
+			// and spins at a steady rate, as a thrown roll does.
+			rot: lerp(HELD_RELEASE_ROT + releasePose.theta, SPIN_END, u),
+		};
+	};
+	// The roll's half-width at the end of its flight, as a % of the sheet's
+	// width while the sheet is drawn at half scale. The scene uses "slice", so
+	// one viewBox unit is the larger of the two screen ratios.
+	const rollOpen = () => {
+		const w = sheet.clientWidth || 1;
+		const unit = Math.max(w / 1600, (sheet.clientHeight || 1) / 900);
+		return clamp(((6 * ROLL_END * unit) / (w * 0.5)) * 100, 1, 40);
+	};
+	const place = (g, p) => g.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${p.rot.toFixed(1)}) scale(${p.sc.toFixed(3)})`);
+
 	function render(t) {
 		scene.style.opacity = seg(t, T.fadeIn) * (1 - seg(t, T.expand));
+		animateSky(street, t);
 		r.rider.style.opacity = t < T.exit[1] ? seg(t, T.fadeIn) : 0;
 
 		const pose = riderPose(t);
 		r.rider.setAttribute('transform', `translate(${pose.x.toFixed(1)} ${pose.y.toFixed(1)}) scale(${pose.s.toFixed(4)})`);
 		r.body.setAttribute('transform', `rotate(${pose.theta.toFixed(2)})`);
 		r.shadow.setAttribute('rx', 72 - 4 * Math.abs(Math.sin(pose.phi)));
-		r.tread.setAttribute('stroke-dashoffset', (-t * 420).toFixed(1));
+		// The wheel turns with the pedals (through the gearing): the tread slides
+		// round the tyre and the spokes sweep round the rim.
+		const wheelAngle = pose.phi * GEAR;
+		r.tread.setAttribute('stroke-dashoffset', (-wheelAngle * TYRE_PERIMETER / (2 * Math.PI)).toFixed(1));
+		r.spokes.forEach((sp, i) => {
+			const a = wheelAngle + (i / SPOKES) * 2 * Math.PI;
+			sp.setAttribute('x2', (RIM_RX * Math.cos(a)).toFixed(2));
+			sp.setAttribute('y2', (-WHEEL_R + RIM_RY * Math.sin(a)).toFixed(2));
+		});
 		const k = Math.sin(pose.phi);
 		const leg = (side, kk) => [[side * 20, -168], [side * 37, -118 - 20 * kk], [side * 28, -38 - 20 * kk]];
 		const L1 = leg(-1, k);
@@ -291,7 +469,12 @@ export function playDeliveryIntro(root, onDone) {
 		r.armL.setAttribute('points', polyline(SL, elbow(SL, HL, -1), HL));
 		r.handL.setAttribute('cx', HL[0]);
 		r.handL.setAttribute('cy', HL[1]);
-		r.armR.setAttribute('points', polyline(SR, elbow(SR, HR, 1), HR));
+		// Through the throw the arm reaches straight out toward the reader, so
+		// it is drawn foreshortened (elbow on the line to the hand), not bent.
+		const reach = ease.inOut(seg(t, [T.windup[1] - 0.05, T.release]) * (1 - seg(t, [T.release + 0.14, T.release + 0.32])));
+		const bent = elbow(SR, HR, 1);
+		const ER = [lerp(bent[0], (SR[0] + HR[0]) / 2, reach), lerp(bent[1], (SR[1] + HR[1]) / 2, reach)];
+		r.armR.setAttribute('points', polyline(SR, ER, HR));
 		r.handR.setAttribute('cx', HR[0]);
 		r.handR.setAttribute('cy', HR[1]);
 		r.basketPapers[2].style.opacity = t >= T.lift[0] ? 0 : 1;
@@ -308,42 +491,135 @@ export function playDeliveryIntro(root, onDone) {
 			r.heldSheet.setAttribute('rx', lerp(1, 6, roll));
 			r.heldLines.setAttribute('opacity', 1 - clamp(roll * 1.6));
 			r.heldLines.setAttribute('transform', `scale(${(w / 56).toFixed(3)} 1)`);
-			r.heldBand.setAttribute('opacity', seg(t, [T.roll[1] - 0.05, T.roll[1]]));
+			// Once it is rolled tight, the flat sheet gives way to the roll that
+			// will fly, and the band is slipped on: stretched wide, then snapping
+			// tight round the middle.
+			const tight = seg(t, [T.roll[1] - 0.05, T.roll[1]]);
+			r.heldSheet.style.opacity = 1 - tight;
+			r.heldLines.style.opacity = 1 - tight;
+			r.heldRoll.style.opacity = tight;
+			const bandOn = seg(t, [T.roll[1], T.roll[1] + 0.1]);
+			r.heldBand.style.opacity = t >= T.roll[1] ? 1 : 0;
+			r.heldBand.setAttribute('transform', `translate(0 ${lerp(-14, 0, ease.out(bandOn)).toFixed(2)}) scale(${lerp(1.8, 1, ease.outBack(bandOn)).toFixed(3)} 1)`);
 			let rot = -8;
-			if (t >= T.windup[0] && t < T.windup[1]) rot = lerp(-8, -40, seg(t, T.windup));
-			else if (t >= T.windup[1]) rot = lerp(-40, 20, seg(t, [T.windup[1], T.release]));
+			if (t >= T.windup[0] && t < T.windup[1]) rot = lerp(-8, -40, ease.inOut(seg(t, T.windup)));
+			else if (t >= T.windup[1]) rot = lerp(-40, HELD_RELEASE_ROT, ease.in(seg(t, [T.windup[1], T.release])));
 			r.held.setAttribute('transform', `translate(${HR[0]} ${HR[1] - 10}) rotate(${rot.toFixed(1)})`);
 		}
 
-		// The rolled paper spins toward the reader until it fills the view.
-		const inFlight = t >= T.fly[0] && t < T.fly[1] + 0.02;
-		flight.style.opacity = inFlight ? 1 - seg(t, [T.fly[1] - 0.05, T.fly[1]]) : 0;
+		// Swish lines off the throwing arm.
+		const wo = seg(t, [T.release - 0.06, T.release + 0.02]) * (1 - seg(t, [T.release + 0.08, T.release + 0.3]));
+		whoosh.style.opacity = wo;
+		// The lines draw on along the arc, then trail off.
+		whoosh.setAttribute('stroke-dasharray', '160');
+		whoosh.setAttribute('stroke-dashoffset', (160 * (1 - ease.out(seg(t, [T.windup[1], T.release + 0.08])))).toFixed(1));
+
+		// The rolled paper spins toward the reader, trailing faint copies of
+		// itself, with its shadow racing down the road beneath it.
+		const inFlight = t >= T.fly[0] && t < T.fly[1] + 0.04;
+		const flyFade = 1 - seg(t, [T.fly[1] - 0.03, T.fly[1] + 0.04]);
+		const u = seg(t, T.fly);
+		fl.flight.style.opacity = inFlight ? flyFade : 0;
+		fl.shadow.style.opacity = inFlight ? 0.16 * (1 - seg(u, [0.65, 1])) : 0;
+		fl.trail.forEach(({ g, o }, i) => {
+			const uu = u - 0.045 * (i + 1);
+			g.style.opacity = inFlight && uu > 0 ? o * flyFade * (1 - seg(u, [0.8, 1])) : 0;
+			if (inFlight && uu > 0) place(g, rollAt(uu));
+		});
 		if (inFlight) {
-			const u = seg(t, T.fly);
-			const ue = ease.inOut(u);
-			const x = lerp(releaseAt[0], 800, ue);
-			const y = lerp(releaseAt[1], 470, ue) - 150 * Math.sin(Math.PI * u);
-			const sc = releasePose.s * Math.pow(11 / releasePose.s, Math.pow(u, 1.8));
-			flight.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(-20 + 620 * ease.out(u)).toFixed(1)}) scale(${sc.toFixed(3)})`);
+			const p = rollAt(u);
+			place(fl.flight, p);
+			const gy = lerp(releasePose.y, 1080, Math.pow(u, 1.8));
+			fl.shadow.setAttribute('cx', p.x.toFixed(1));
+			fl.shadow.setAttribute('cy', gy.toFixed(1));
+			fl.shadow.setAttribute('rx', (30 * p.sc).toFixed(1));
+			fl.shadow.setAttribute('ry', (6 * p.sc).toFixed(1));
 		}
 
-		// A small thud as it lands.
-		const thud = [T.land[0] + 0.02, T.land[0] + 0.13];
-		const shake = t > thud[0] && t < thud[1] ? (1 - seg(t, thud)) * 5 * Math.sin(t * 95) : 0;
-		stage.style.transform = shake ? `translate(${shake.toFixed(2)}px, ${(shake * 0.6).toFixed(2)}px)` : '';
+		// The thud: a short shake of the whole street, decaying.
+		const thud = [T.land[0] + 0.02, T.land[0] + 0.2];
+		const tu = seg(t, thud);
+		const shake = t > thud[0] && t < thud[1] ? (1 - tu) * (1 - tu) * 7 * Math.sin(t * 70) : 0;
+		stage.style.transform = shake ? `translate(${shake.toFixed(2)}px, ${(Math.abs(shake) * 0.7).toFixed(2)}px)` : '';
 
-		// The front page lands at a tilt, then opens to the full screen.
+		// The front page lands as the roll, unrolls from the middle out with a
+		// curl at each edge, wobbles to rest, then opens to the full screen.
 		const lu = seg(t, T.land);
+		const pu = ease.out(seg(t, [T.land[0] + 0.05, T.land[1]]));
 		const xu = ease.inOut(seg(t, T.expand));
-		let sk = lerp(0.16, 0.84, ease.outBack(lu));
-		let sr = lerp(-18, -2.5, ease.out(lu));
+		const bounce = t > thud[0] ? 1 - 0.03 * (1 - tu) * Math.sin(tu * Math.PI * 3) : 1;
+		let sk = lerp(0.5, 0.82, ease.out(lu)) * bounce;
+		let sr = lerp(-18, -3, ease.outBack(lu));
 		if (t > T.expand[0]) {
-			sk = lerp(0.84, 1, xu);
-			sr = lerp(-2.5, 0, xu);
+			sk = lerp(0.82, 1, xu);
+			sr = lerp(-3, 0, xu);
 		}
-		sheet.style.opacity = seg(t, [T.land[0] - 0.02, T.land[0] + 0.05]);
+		sheet.style.opacity = seg(t, [T.land[0] - 0.02, T.land[0] + 0.03]);
 		sheet.style.transform = `scale(${sk.toFixed(4)}) rotate(${sr.toFixed(2)}deg)`;
+		// Half the sheet's width that is open, in %; it starts exactly as wide as
+		// the flying roll and runs past 50 at the end so the clip lets go of the
+		// shadow before it is removed.
+		const open0 = rollOpen();
+		const open = lerp(open0, 58, pu);
+		sheet.style.clipPath = pu < 1 ? `inset(-12% ${(50 - open).toFixed(2)}% -12% ${(50 - open).toFixed(2)}%)` : '';
+		const curlW = lerp(open0, 1.1, pu);
+		const curlO = 1 - seg(pu, [0.82, 1]);
+		[curlL, curlR].forEach((c) => {
+			c.style.width = `${curlW.toFixed(2)}%`;
+			c.style.opacity = curlO;
+		});
+		curlL.style.left = `${(50 - open).toFixed(2)}%`;
+		curlR.style.right = `${(50 - open).toFixed(2)}%`;
 		sheet.style.setProperty('--np-intro-shadow', (0.35 * (1 - xu)).toFixed(3));
+		sheet.style.setProperty('--np-intro-lift', (1 - ease.out(lu)).toFixed(3));
+
+		// The impact: a quick inked burst, puffs of dust kicked out along the
+		// ground, and the rubber band snapping off and tumbling away.
+		const bu = seg(t, [T.land[0], T.land[0] + 0.22]);
+		impact.burst.style.opacity = bu > 0 && bu < 1 ? 1 - bu : 0;
+		if (bu > 0 && bu < 1) {
+			const r0 = 250 + 90 * ease.out(bu);
+			impact.rays.forEach(({ line, a, len }) => {
+				const c = Math.cos(a);
+				const n = Math.sin(a);
+				line.setAttribute('x1', (800 + c * r0).toFixed(1));
+				line.setAttribute('y1', (450 + n * r0 * 0.9).toFixed(1));
+				line.setAttribute('x2', (800 + c * (r0 + len * (1 - bu))).toFixed(1));
+				line.setAttribute('y2', (450 + n * (r0 + len * (1 - bu)) * 0.9).toFixed(1));
+			});
+		}
+		// Along the front page's bottom edge as it comes to rest.
+		const ground = [800, 450 + 450 * 0.8];
+		impact.puffs.forEach((p) => {
+			const du = seg(t, [T.land[0] + p.delay, T.land[0] + p.delay + 0.55]);
+			if (du <= 0 || du >= 1) { p.c.style.opacity = 0; return; }
+			const m = ease.out(du);
+			p.c.setAttribute('cx', (ground[0] + p.x0 + p.vx * m).toFixed(1));
+			p.c.setAttribute('cy', (ground[1] + p.vy * m + 60 * du * du).toFixed(1));
+			p.c.setAttribute('r', (p.r * (0.4 + 0.9 * m) * (1 - 0.5 * du)).toFixed(1));
+			p.c.style.opacity = (0.9 * (1 - du)).toFixed(3);
+		});
+		// The band takes over from the flying roll's band in the same spot, at
+		// the same size and angle, sits on the landed roll for a beat, then
+		// snaps as the paper starts to unroll: it contracts, flies off and
+		// tumbles away.
+		const nu = seg(t, [T.land[0] + 0.04, T.land[0] + 0.6]);
+		const bandShown = t >= T.fly[1] && nu < 1;
+		impact.band.style.opacity = bandShown ? 1 - seg(nu, [0.6, 1]) : 0;
+		if (bandShown) {
+			const snap = seg(nu, [0, 0.16]);
+			const fly = ease.out(seg(nu, [0.05, 1]));
+			const bx = 800 + 470 * fly;
+			const by = 450 - 380 * fly + 560 * nu * nu;
+			// Relaxed, the band is smaller than when it was stretched round the roll.
+			const sc = ROLL_END * lerp(1, 0.6, ease.out(snap)) * lerp(1, 0.8, fly);
+			// Tumbling end over end: the loop flattens and opens as it turns.
+			const tumble = snap > 0 ? 0.25 + 0.75 * Math.abs(Math.cos(nu * 11)) : 1;
+			impact.bandFlat.style.opacity = 1 - snap;
+			impact.bandLoop.style.opacity = snap;
+			impact.bandLoop.setAttribute('ry', lerp(BAND_H / 2, BAND_W / 2.4, ease.out(snap)).toFixed(2));
+			impact.band.setAttribute('transform', `translate(${bx.toFixed(1)} ${by.toFixed(1)}) rotate(${(-18 + 560 * fly).toFixed(1)}) scale(${sc.toFixed(3)} ${(sc * tumble).toFixed(3)})`);
+		}
 
 		// Its nameplate settles onto the real masthead; the rest dissolves.
 		if (t >= T.expand[0] && morph === undefined) morph = measureMorph(plate, target, sheet);

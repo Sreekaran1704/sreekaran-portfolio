@@ -51,6 +51,8 @@ function DeliveryIntro() {
 			<div className="np-intro-stage">
 				<svg className="np-intro-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" />
 				<div className="np-intro-sheet" aria-hidden="true">
+					<div className="np-intro-curl np-intro-curl-l" />
+					<div className="np-intro-curl np-intro-curl-r" />
 					<div className="np-intro-sheet-inner">
 						<div className="np-intro-ear np-intro-fade">
 							<span><b>Late Edition</b><span className="np-intro-vol"> · Vol. I, No. 1</span></span>
@@ -87,6 +89,7 @@ function DeliveryIntro() {
 						</div>
 					</div>
 				</div>
+				<svg className="np-intro-fx" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" />
 			</div>
 			<button type="button" className="np-intro-skip">
 				Skip intro ›

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Project write-ups as newspaper features
    The same colour edition as the rest of the paper: Projects-desk red kickers,
-   Playfair headlines, a Source Serif reading column, drop caps, pull-quote
+   EB Garamond headlines, a Source Serif reading column, drop caps, pull-quote
    callouts and interview-style dialogue. Long pieces are navigated rather
    than collapsed: an "In this story" box and a contents rail that follows the
    reader. Everything is scoped to .reader so it wins over older fh-* styles.
@@ -89,7 +89,7 @@
 }
 
 .reader .notice-link-outline {
-	background: #fff;
+	background: var(--np-sheet);
 	color: var(--rd-ink);
 }
 
@@ -103,7 +103,7 @@
 }
 
 .reader .notice-link-outline:hover {
-	background: #fff;
+	background: var(--np-sheet);
 	color: var(--rd-ink);
 }
 
@@ -260,7 +260,7 @@
 	flex-direction: column;
 	gap: 0.25rem;
 	padding: 1rem 1.1rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	border-top: 5px solid var(--rd-accent);
 	border-radius: 0;
@@ -269,7 +269,7 @@
 }
 
 .reader .fh-hero-stat:nth-child(2n) {
-	background: #fff;
+	background: var(--np-sheet);
 	border-top-color: var(--c-front);
 	transform: none;
 }
@@ -331,7 +331,7 @@
 .reader .rd-tldr {
 	margin: 0 0 2rem;
 	padding: 1.2rem 1.4rem 1.3rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	border-top: 6px solid var(--rd-accent);
 	box-shadow: 5px 5px 0 var(--rd-ink);
@@ -350,9 +350,10 @@
 .reader .rd-tldr p,
 .reader .rd-tldr li {
 	margin: 0;
-	font-family: var(--np-display);
-	font-size: 1.22rem;
-	font-weight: 600;
+	/* Running text, so the reading serif rather than the headline Garamond. */
+	font-family: var(--np-body);
+	font-size: 1.1rem;
+	font-weight: 500;
 	line-height: 1.4;
 	color: var(--rd-ink);
 }
@@ -425,7 +426,7 @@
 .reader .rd-objective::first-letter {
 	float: left;
 	margin: 0.1em 0.12em 0 0;
-	font-family: var(--np-display);
+	font-family: var(--np-dropcap);
 	font-size: 3.6em;
 	font-weight: 900;
 	line-height: 0.8;
@@ -472,7 +473,7 @@
 
 .reader .rd-tools li {
 	padding: 0.25rem 0.75rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 1px solid rgba(22, 20, 18, 0.25);
 	border-radius: 999px;
 	font-family: var(--np-label);
@@ -486,7 +487,7 @@
 .reader .rd-contents {
 	margin: 0 0 2.8rem;
 	padding: 1.1rem 1.3rem 1.2rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	box-shadow: 5px 5px 0 var(--c-front);
 }
@@ -696,7 +697,7 @@
 .reader .rd-rail + .fh-section > p:first-child::first-letter {
 	float: left;
 	margin: 0.08em 0.12em 0 0;
-	font-family: var(--np-display);
+	font-family: var(--np-dropcap);
 	font-size: 3.7em;
 	font-weight: 900;
 	line-height: 0.78;
@@ -729,16 +730,16 @@
 
 .reader .fh-section p.fh-lede,
 .reader .rd-body p.fh-lede {
-	font-family: var(--np-display);
-	font-size: 1.35rem;
-	font-weight: 600;
+	font-family: var(--np-body);
+	font-size: 1.2rem;
+	font-weight: 500;
 	line-height: 1.45;
 	color: var(--rd-ink);
 }
 
 .reader code {
 	padding: 0.05rem 0.35rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 1px solid var(--rd-line);
 	border-radius: 3px;
 	font-size: 0.9em;
@@ -761,7 +762,7 @@
 .reader .fh-plain-list li {
 	margin: 0;
 	padding: 0.2rem 0.8rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 1px solid rgba(22, 20, 18, 0.3);
 	border-radius: 999px;
 	font-family: var(--np-label);
@@ -824,7 +825,7 @@
 
 .reader .fh-insight.fh-insight-final {
 	padding: 1.2rem 1.4rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	border-top: 6px solid var(--c-front);
 	box-shadow: 5px 5px 0 var(--rd-ink);
@@ -862,7 +863,8 @@
 }
 
 .reader .fh-insight-final p {
-	font-size: 1.2rem;
+	font-family: var(--np-body);
+	font-size: 1.12rem;
 	font-style: normal;
 	line-height: 1.55;
 }
@@ -884,7 +886,7 @@
 	padding: 1.4rem 1.3rem 1.2rem;
 	background:
 		radial-gradient(rgba(22, 20, 18, 0.1) 1.2px, transparent 1.5px) 0 0 / 9px 9px,
-		#fbf8f1;
+		var(--np-sheet);
 	border: 2.5px solid var(--rd-ink);
 	box-shadow: 5px 5px 0 var(--rd-ink);
 }
@@ -946,7 +948,7 @@
 	max-width: 32rem;
 	margin: 0 0 2.1rem;
 	padding: 0.8rem 1.15rem 0.85rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2.5px solid var(--rd-ink);
 	border-radius: 26px;
 }
@@ -972,7 +974,7 @@
 	left: -11px;
 	bottom: calc(0.7rem + 2.5px);
 	border-width: 6px 12px 4.5px 0;
-	border-color: transparent #fff transparent transparent;
+	border-color: transparent var(--np-sheet) transparent transparent;
 	transform: skewY(22deg);
 }
 
@@ -988,7 +990,7 @@
 	left: auto;
 	right: -11px;
 	border-width: 6px 0 4.5px 12px;
-	border-color: transparent transparent transparent #fff;
+	border-color: transparent transparent transparent var(--np-sheet);
 	transform: skewY(-22deg);
 }
 
@@ -1016,7 +1018,7 @@
 	overflow: hidden;
 	border: 2.5px solid var(--rd-ink);
 	border-radius: 50%;
-	background: #fff;
+	background: var(--np-sheet);
 }
 
 .reader .rd-face .face-bg { fill: var(--tone); opacity: 0.22; }
@@ -1058,7 +1060,7 @@
 .reader .rd-cast {
 	margin: 0 0 2.8rem;
 	padding: 1.1rem 1.3rem 1.3rem;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	box-shadow: 5px 5px 0 var(--c-writing);
 }
@@ -1187,7 +1189,7 @@
 .reader .fh-chart-figure,
 .reader .fh-image-figure {
 	margin: 1.6rem 0;
-	background: #fff;
+	background: var(--np-sheet);
 	border: 2px solid var(--rd-ink);
 	border-radius: 0;
 	box-shadow: 4px 4px 0 var(--rd-ink);
@@ -1216,7 +1218,7 @@
 
 .reader .fh-table tbody tr:nth-child(even),
 .reader .fh-chart-table tbody tr:nth-child(even) {
-	background: #faf6ee;
+	background: var(--np-sheet);
 }
 
 .reader .fh-table tbody td,
@@ -1288,7 +1290,7 @@
 	border: 2px solid var(--rd-ink);
 	border-radius: 0;
 	box-shadow: 2px 2px 0 var(--rd-ink);
-	background: #fff;
+	background: var(--np-sheet);
 	font-family: var(--np-label);
 	font-style: normal;
 	font-weight: 600;
@@ -1312,7 +1314,7 @@
 
 .reader .fh-formula-block,
 .reader .fh-result-line {
-	background: #fff;
+	background: var(--np-sheet);
 	border: 1px solid var(--rd-line);
 	border-left: 4px solid var(--c-front);
 	border-radius: 0;
