@@ -1,0 +1,1239 @@
+/* ==========================================================================
+   LookBack prototype (components/projects/LookBackDemo.jsx). The stages and
+   window come from the Connect Head demo (.chd-stage, PrototypeWindow). The
+   phone is a port of the app's own screens at the device's real size,
+   412 × 915 dp, scaled as a whole to fit: dotted paper with a red margin
+   line, Caveat handwriting, washi tape and stickers. Sizes and colours are
+   set inline from the app's tokens; this file holds layout and motion.
+   Motion is transform and opacity only, and stops for reduced motion.
+   ========================================================================== */
+
+.lbd-stage-app {
+	--stage: var(--c-contact, #a1306a);
+}
+
+.lbd-stage-icon {
+	--stage: var(--c-skills, #964500);
+}
+
+/* ---------- The device ---------- */
+
+.lbd-fit {
+	position: relative;
+	margin: 0 auto;
+}
+
+.lbd-device {
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 6px;
+	background: #1f1b17;
+	border-radius: 40px;
+	box-shadow: 6px 6px 0 rgba(22, 20, 18, 0.85);
+	transform-origin: 0 0;
+}
+
+.lbd {
+	--lbd-hand: 'Caveat', 'Comic Neue', cursive;
+	position: relative;
+	width: 412px;
+	height: 915px;
+	overflow: hidden;
+	border-radius: 34px;
+	background: var(--desk);
+	color: var(--on-desk);
+	font-family: var(--lbd-hand);
+	text-align: left;
+	isolation: isolate;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.lbd *,
+.lbd *::before,
+.lbd *::after {
+	box-sizing: border-box;
+}
+
+.lbd p,
+.lbd h3,
+.lbd h4 {
+	margin: 0;
+}
+
+.lbd button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	text-align: inherit;
+}
+
+.lbd button:disabled {
+	cursor: default;
+	opacity: 0.4;
+}
+
+.lbd :focus-visible {
+	outline: 2px solid #3b8fe8;
+	outline-offset: 2px;
+}
+
+.lbd img {
+	display: block;
+	max-width: none;
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+.lbd-abs {
+	position: absolute;
+}
+
+.lbd-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.lbd-hit {
+	z-index: 3;
+	background: transparent;
+}
+
+.lbd-hide {
+	visibility: hidden;
+}
+
+.lbd-stack-xl,
+.lbd-stack-xxl {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.lbd-stack-xxl {
+	gap: 32px;
+}
+
+/* The Android status bar, drawn over the page as on the phone. */
+.lbd-status {
+	position: absolute;
+	inset: 0 0 auto;
+	z-index: 30;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 32px;
+	padding: 0 26px;
+	font: 600 13px/1 Inter, Roboto, -apple-system, sans-serif;
+	color: var(--on-desk);
+	pointer-events: none;
+}
+
+.lbd-status-icons {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.lbd-status-icons i,
+.lbd-status-icons b {
+	display: block;
+	width: 13px;
+	height: 9px;
+	border-radius: 2px;
+	background: currentColor;
+	opacity: 0.85;
+}
+
+.lbd-status-icons b {
+	width: 20px;
+	height: 10px;
+	border-radius: 3px;
+}
+
+/* ---------- Pages: every screen is a page of the same notebook ---------- */
+
+.lbd-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	isolation: isolate;
+}
+
+.lbd-page {
+	position: absolute;
+	inset: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 44px 20px 104px;
+	scrollbar-width: none;
+	background-color: var(--page, var(--desk));
+	background-image:
+		linear-gradient(90deg, transparent 11px, var(--margin) 11px, var(--margin) 12.2px, transparent 12.2px),
+		radial-gradient(circle at 10px 10px, var(--dots) 1.3px, transparent 1.8px),
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-size: 100% 100%, 20px 20px, 180px 180px;
+	background-repeat: no-repeat, repeat, repeat;
+}
+
+.lbd-page::-webkit-scrollbar {
+	display: none;
+}
+
+.lbd[data-tone='dark'] .lbd-page {
+	background-image:
+		linear-gradient(90deg, transparent 11px, var(--margin) 11px, var(--margin) 12.2px, transparent 12.2px),
+		radial-gradient(circle at 10px 10px, var(--dots) 1.3px, transparent 1.8px),
+		radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.45) 100%),
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .4 -.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-size: 100% 100%, 20px 20px, 100% 100%, 180px 180px;
+	background-repeat: no-repeat, repeat, no-repeat, repeat;
+}
+
+/* Home, Years and Settings stay built and cross-fade, as the app's tabs do. */
+.lbd-tabs .lbd-page {
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.16s ease;
+}
+
+.lbd-tabs .lbd-page.is-on {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Pushed screens slide in from the right; writing comes up from the bottom; a year opens under its diary. */
+.lbd-route {
+	animation: lbd-slide-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.lbd-route.is-leaving {
+	animation: lbd-slide-out 0.28s cubic-bezier(0.4, 0, 0.8, 0.4) both;
+	pointer-events: none;
+}
+
+.lbd-route-entry {
+	z-index: 25;
+	animation-name: lbd-rise-up;
+}
+
+.lbd-route-entry.is-leaving {
+	animation-name: lbd-sink-down;
+}
+
+.lbd-route-year {
+	animation: lbd-fade 0.15s ease both;
+}
+
+.lbd-route-year.is-leaving {
+	animation: lbd-fade-out 0.2s ease both;
+}
+
+.lbd-page-entry {
+	padding-bottom: 96px;
+}
+
+@keyframes lbd-slide-in {
+	from { transform: translateX(100%); }
+}
+
+@keyframes lbd-slide-out {
+	to { transform: translateX(100%); }
+}
+
+@keyframes lbd-rise-up {
+	from { transform: translateY(100%); }
+}
+
+@keyframes lbd-sink-down {
+	to { transform: translateY(100%); }
+}
+
+@keyframes lbd-fade {
+	from { opacity: 0; }
+}
+
+@keyframes lbd-fade-out {
+	to { opacity: 0; }
+}
+
+.lbd-fade-in {
+	animation: lbd-fade 0.2s ease both;
+}
+
+.lbd-pop-in {
+	animation: lbd-pop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.lbd-rise-in {
+	animation: lbd-rise-small 0.36s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+@keyframes lbd-pop {
+	from { opacity: 0; transform: translateY(24px) scale(0.9); }
+}
+
+@keyframes lbd-rise-small {
+	from { opacity: 0; transform: translateY(-14px); }
+}
+
+/* ---------- Buttons ---------- */
+
+.lbd-pressable {
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.lbd-pressable:active:not(:disabled) {
+	transform: translateY(-3px) scale(1.03);
+}
+
+.lbd-circle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+}
+
+.lbd-pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border-radius: 999px;
+}
+
+.lbd-toggle {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 4px;
+	border-radius: 999px;
+}
+
+.lbd-toggle-tab {
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	bottom: 4px;
+	border-radius: 999px;
+	transition: transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.lbd-toggle > button {
+	position: relative;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 46px;
+	padding-right: 12px;
+	transition: color 0.2s ease;
+}
+
+.lbd-chip {
+	width: 72px;
+	height: 56px;
+	border: 3px solid;
+	border-radius: 10px;
+}
+
+.lbd-swatch {
+	position: relative;
+	width: 46px;
+	height: 46px;
+	border: 3px solid;
+	border-radius: 50%;
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.lbd-textbtn {
+	min-width: 110px;
+	padding: 4px 0 !important;
+	text-align: right !important;
+}
+
+.lbd-input {
+	width: 130px;
+	padding: 4px 0;
+	border: 0;
+	border-bottom: 1px dashed currentColor;
+	background: transparent;
+	text-align: right;
+	outline: none;
+}
+
+.lbd-rowbtn {
+	display: block;
+	width: 100%;
+}
+
+.lbd-checkrow {
+	display: flex !important;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	min-height: 54px;
+}
+
+.lbd-paperchip {
+	display: flex !important;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	width: 72px;
+}
+
+.lbd-paperchip-sheet {
+	position: relative;
+	display: block;
+	width: 64px;
+	height: 64px;
+	border-radius: 6px;
+	background-image: radial-gradient(circle, var(--dot) 1.6px, transparent 2px) !important;
+	background-size: 16px 16px !important;
+	background-position: 8px 8px !important;
+	background-repeat: repeat !important;
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.lbd-paperchip-sheet {
+	-webkit-mask: linear-gradient(#000 0 0);
+}
+
+.lbd-paperchip-check {
+	position: absolute;
+	right: -8px;
+	top: -8px;
+	width: 26px;
+	height: 26px;
+	border: 2px solid;
+	border-radius: 50%;
+}
+
+/* ---------- The bunny ---------- */
+
+.lbd-buddy {
+	position: relative;
+	display: block;
+	flex: none;
+	pointer-events: none;
+}
+
+.lbd-buddy > span,
+.lbd-bob {
+	display: block;
+}
+
+.lbd-bob {
+	position: relative;
+	overflow: hidden;
+	transform-origin: 50% 100%;
+	animation: lbd-bob 1.9s ease-in-out infinite alternate;
+	animation-play-state: paused;
+}
+
+.lbd-bow {
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-mask: url('/images/lookback/buddy/bow.png') center / 100% 100% no-repeat;
+	mask: url('/images/lookback/buddy/bow.png') center / 100% 100% no-repeat;
+}
+
+.lbd-bob-wave {
+	animation-name: lbd-rock;
+}
+
+.lbd-bob-cheer {
+	animation-name: lbd-bounce;
+	animation-duration: 0.475s;
+}
+
+.lbd-bob-sleepy {
+	animation-name: lbd-breathe;
+	animation-duration: 3.04s;
+}
+
+.lbd[data-live] .lbd-bob {
+	animation-play-state: running;
+}
+
+.lbd[data-live] .lbd-tabs .lbd-page:not(.is-on) .lbd-bob {
+	animation-play-state: paused;
+}
+
+.lbd-buddy.is-pop {
+	animation: lbd-buddy-pop 0.38s cubic-bezier(0.34, 1.7, 0.64, 1) both;
+}
+
+.lbd-hop {
+	animation: lbd-hop 0.42s ease-out;
+	transform-origin: 50% 100%;
+}
+
+@keyframes lbd-bob {
+	from { transform: translateY(-3px); }
+	to { transform: translateY(3px); }
+}
+
+@keyframes lbd-rock {
+	from { transform: translateY(-3px) rotate(-5deg); }
+	to { transform: translateY(3px) rotate(5deg); }
+}
+
+@keyframes lbd-bounce {
+	from { transform: translateY(-7px); }
+	to { transform: translateY(7px); }
+}
+
+@keyframes lbd-breathe {
+	from { transform: translateY(-1.2px) scaleY(0.98); }
+	to { transform: translateY(1.2px) scaleY(1.02); }
+}
+
+@keyframes lbd-buddy-pop {
+	from { transform: scale(0.4); }
+}
+
+@keyframes lbd-hop {
+	30% { transform: translateY(-12px) scaleX(0.94) scaleY(1.08); }
+	100% { transform: none; }
+}
+
+/* ---------- Paper objects ---------- */
+
+.lbd-sticker {
+	display: block;
+	flex: none;
+	overflow: visible;
+}
+
+.lbd-press {
+	cursor: pointer;
+	outline-offset: 6px;
+}
+
+.lbd-press > .lbd-scrap-inner {
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.lbd-press:active > .lbd-scrap-inner {
+	translate: 0 -3px;
+	scale: 1.03;
+}
+
+.lbd-develop {
+	animation: lbd-fade-out 1.4s ease both;
+}
+
+.lbd-flicker {
+	animation: lbd-flicker 0.56s steps(1) both;
+}
+
+@keyframes lbd-flicker {
+	0%, 37% { opacity: 0; }
+	50% { opacity: 0.86; }
+	62% { opacity: 0.17; }
+	75% { opacity: 0.86; }
+	87% { opacity: 0.43; }
+	100% { opacity: 0.86; }
+}
+
+.lbd-add-sticker {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: 2px dashed;
+	border-radius: 50%;
+}
+
+/* Rubber stamp: double border, dashed inner line, a faint second impression. */
+.lbd-stampmark {
+	display: block;
+	padding: 2px;
+	border: 2px solid var(--c);
+	border-radius: 6px;
+	opacity: 0.9;
+}
+
+.lbd-stampmark::before {
+	content: '';
+	position: absolute;
+	inset: 1px -1.5px -1px 1.5px;
+	border: 2px solid var(--c);
+	border-radius: 6px;
+	opacity: 0.35;
+}
+
+.lbd-stampmark > span {
+	display: block;
+	padding: 2px 8px;
+	border: 1px dashed var(--c);
+	border-radius: 3px;
+}
+
+/* ---------- Letters from your past self ---------- */
+
+.lbd-deck {
+	touch-action: pan-y;
+	user-select: none;
+}
+
+.lbd-deck-card {
+	transition: transform 0.42s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.2s ease;
+}
+
+.lbd-deck-card.is-still {
+	transition: none;
+}
+
+.lbd-deck-card.is-flying {
+	transition: transform 0.2s ease-in;
+}
+
+.lbd-yearstamp {
+	width: 44px;
+	height: 35.2px;
+	transition: transform 0.3s cubic-bezier(0.34, 1.5, 0.64, 1);
+}
+
+.lbd-env {
+	position: relative;
+}
+
+/* The flap flips up: the sealed flap folds away first, then the open one unfolds behind the letter. */
+.lbd-env-flap {
+	transform-origin: 50% 0;
+	transition: transform 0.21s ease-in 0.21s;
+}
+
+.lbd-env-flap-open {
+	transform: scaleY(0);
+	transform-origin: 50% 100%;
+	transition: transform 0.21s ease-out;
+}
+
+.lbd-env.is-open .lbd-env-flap {
+	transform: scaleY(0);
+	transition-delay: 0s;
+}
+
+.lbd-env.is-open .lbd-env-flap-open {
+	transform: scaleY(1);
+	transition-delay: 0.21s;
+}
+
+.lbd-env-closed {
+	transition: opacity 0.15s ease 0.2s;
+}
+
+.lbd-env.is-open .lbd-env-closed {
+	opacity: 0;
+	transition-delay: 0s;
+}
+
+.lbd-env-letter {
+	opacity: 0;
+	transform: translateY(var(--rise));
+	transition: transform 0.42s cubic-bezier(0.34, 1.25, 0.64, 1), opacity 0.1s ease;
+}
+
+.lbd-env.is-open .lbd-env-letter {
+	opacity: 1;
+	transform: none;
+	transition-delay: 0.12s;
+}
+
+/* ---------- The cupboard, and a diary leaving it ---------- */
+
+.lbd-spine {
+	display: block;
+	flex: none;
+	transform-origin: 50% 100%;
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.1s;
+}
+
+.lbd-spine:active {
+	transform: translateY(-6px) rotate(-3deg);
+}
+
+.lbd-spine-art {
+	position: relative;
+	display: block;
+}
+
+.lbd-flight {
+	position: absolute;
+	inset: 0;
+	z-index: 26;
+	pointer-events: auto;
+}
+
+.lbd-flight-page {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.lbd-flight.is-open .lbd-flight-page {
+	opacity: 1;
+	transition-delay: 0.2s;
+}
+
+.lbd-flight.is-fade {
+	opacity: 0;
+	transition: opacity 0.32s ease;
+}
+
+.lbd-flight.is-fade .lbd-flight-page {
+	opacity: 1;
+}
+
+.lbd-flight-spine {
+	position: absolute;
+	transform-origin: 50% 100%;
+	transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.2s ease;
+}
+
+.lbd-flight.is-pull .lbd-flight-spine {
+	transform: translateY(-26px) rotate(-3deg);
+}
+
+.lbd-flight:not(.is-pull) .lbd-flight-spine {
+	opacity: 0;
+	transform: translateY(-26px) rotate(-3deg) scale(1.1);
+}
+
+.lbd-flight-cover {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	perspective: 900px;
+}
+
+.lbd-flight:not(.is-pull) .lbd-flight-cover {
+	opacity: 1;
+	animation: lbd-cover-fly 0.56s cubic-bezier(0.3, 1.2, 0.5, 1) both;
+}
+
+.lbd-flight-cover > .lbd-cover {
+	position: absolute;
+	left: 0;
+	top: 380px;
+	transform: translate(-50%, -50%);
+}
+
+@keyframes lbd-cover-fly {
+	from {
+		transform: translate(var(--from-x), calc(var(--from-y) - 380px)) scale(0.25) rotate(-8deg);
+	}
+}
+
+.lbd-cover {
+	display: block;
+	transform-style: preserve-3d;
+}
+
+.lbd-cover-pages {
+	position: absolute;
+	inset: 6px -6px -6px 6px;
+	border-radius: 12px;
+	background: repeating-linear-gradient(to bottom, #fffdf8 0 3px, #e9e0cc 3px 4px);
+	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.lbd-cover-front {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 14px;
+	background:
+		repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.07) 0 6px, transparent 6px 12px),
+		var(--c);
+	border: 1.5px solid color-mix(in srgb, var(--ink) 55%, transparent);
+	transform-origin: 0 50%;
+	backface-visibility: hidden;
+	transition: transform 0.42s cubic-bezier(0.5, 0, 0.3, 1);
+}
+
+.lbd-flight.is-open .lbd-cover-front,
+.lbd-flight.is-fade .lbd-cover-front {
+	transform: rotateY(-150deg);
+}
+
+.lbd-cover-band {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 16%;
+	width: 12px;
+	background: var(--ink);
+	opacity: 0.55;
+}
+
+.lbd-cover-label {
+	position: relative;
+	padding: 6px 18px;
+	background: #fffdf8;
+	border-radius: 6px;
+	transform: rotate(-4deg);
+	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.lbd-cover-count {
+	position: absolute;
+	right: -8px;
+	bottom: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background: #fffdf8;
+	border: 3px solid var(--c2);
+}
+
+.lbd-spark {
+	position: absolute;
+	left: 0;
+	top: 380px;
+	opacity: 0;
+	transform: rotate(var(--a)) translateY(0) scale(0.4);
+}
+
+.lbd-flight.is-open .lbd-spark {
+	animation: lbd-spark 0.7s ease-out both;
+}
+
+@keyframes lbd-spark {
+	0% { opacity: 1; transform: rotate(var(--a)) translateY(-40px) scale(0.5); }
+	70% { opacity: 1; }
+	100% { opacity: 0; transform: rotate(var(--a)) translateY(-190px) scale(1); }
+}
+
+/* ---------- A year's pile ---------- */
+
+.lbd-pile-item {
+	transition: transform 0.62s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.lbd-fall {
+	animation: lbd-fall 0.46s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+}
+
+@keyframes lbd-fall {
+	from { opacity: 0; transform: translateY(-520px) rotate(24deg); }
+	1% { opacity: 1; }
+}
+
+.lbd-mini {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform-origin: 0 0;
+}
+
+.lbd-month {
+	opacity: 0;
+	transform: translateY(-12px);
+	transition: opacity 0.4s ease, transform 0.4s ease;
+	pointer-events: none;
+}
+
+.lbd-month.is-on {
+	opacity: 1;
+	transform: none;
+}
+
+/* ---------- Writing ---------- */
+
+.lbd-lined {
+	position: relative;
+	display: block;
+	padding: 8px 16px 0;
+	border-radius: 3px;
+	transform: rotate(-0.8deg);
+}
+
+.lbd-lined {
+	background-image:
+		linear-gradient(90deg, transparent 32px, var(--margin) 32px, var(--margin) 33px, transparent 33px),
+		repeating-linear-gradient(to bottom, transparent 0 29px, var(--rule) 29px 30px) !important;
+	background-size: 100% 100%, 100% 30px !important;
+	background-position: 0 0, 0 4px !important;
+}
+
+.lbd-lined textarea {
+	display: block;
+	width: 100%;
+	padding: 4px 0 0 24px;
+	border: 0;
+	background: transparent;
+	resize: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.lbd-lined textarea::placeholder {
+	color: var(--ph);
+}
+
+.lbd-lined:focus-within {
+	outline: 2px solid #3b8fe8;
+	outline-offset: 3px;
+}
+
+.lbd-celebrate {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ---------- The paper navigation strip ---------- */
+
+.lbd-nav {
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	bottom: 8px;
+	z-index: 20;
+	transition: transform 0.28s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.2s ease;
+}
+
+.lbd-nav.is-hidden {
+	opacity: 0;
+	transform: translateY(104px);
+	pointer-events: none;
+}
+
+.lbd-nav-row {
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 72px;
+	padding: 0 8px;
+}
+
+.lbd-nav-side {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.lbd-tab {
+	position: relative;
+	display: flex !important;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 72px;
+}
+
+.lbd-tab-pill {
+	position: absolute;
+	top: 9px;
+	bottom: 9px;
+	left: 50%;
+	width: min(calc(100% - 8px), 86px);
+	border-radius: 22.5px;
+	transform: translateX(-50%);
+}
+
+.lbd-nav-mid {
+	position: relative;
+	display: flex;
+	flex: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	height: 72px;
+	padding-bottom: 4px;
+}
+
+.lbd-ears {
+	position: absolute;
+	left: 50%;
+	display: flex;
+	justify-content: center;
+	gap: 14px;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.lbd-ears i {
+	display: block;
+	width: 14.9px;
+	height: 31px;
+	padding: 3.1px;
+	border: 1px solid;
+	border-radius: 7.4px;
+	overflow: hidden;
+}
+
+.lbd-ears b {
+	display: block;
+	height: 100%;
+	border-radius: 6.2px;
+}
+
+.lbd-write {
+	position: absolute !important;
+	left: 50%;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	margin-left: -31px !important;
+	border: 4px solid !important;
+	border-radius: 50%;
+}
+
+.lbd-status-pill {
+	position: absolute;
+	left: 50%;
+	bottom: 16px;
+	z-index: 40;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 46px;
+	padding: 0 20px;
+	translate: -50% 0;
+	width: max-content;
+	max-width: calc(100% - 32px);
+	border-radius: 999px;
+	background: #2db86a;
+	color: #fff;
+	box-shadow: 1px 2px 1px rgba(45, 184, 106, 0.24), 3px 8px 14px rgba(45, 184, 106, 0.15);
+	pointer-events: none;
+}
+
+/* ---------- The app icon's moods ---------- */
+
+.lbd-moods {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 1.4rem;
+	align-items: center;
+}
+
+.lbd-homescreen {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	padding: 20px 16px 16px;
+	background: linear-gradient(160deg, #f7d9c4, #e9c6d8 45%, #c9d4ee);
+	border: 1.5px solid var(--np-ink, #161412);
+	border-radius: 22px;
+	box-shadow: 4px 4px 0 var(--np-ink, #161412);
+}
+
+.lbd-homescreen-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px 8px;
+	align-items: start;
+}
+
+.lbd-app {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+.lbd-app i {
+	width: 42px;
+	aspect-ratio: 1;
+	background: var(--app);
+	border-radius: 30%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.lbd-app small {
+	font: 600 10px/1.1 Inter, -apple-system, sans-serif;
+	color: #3a2f2a;
+}
+
+.lbd-app-lookback {
+	grid-column: 2 / span 2;
+	grid-row: 1 / span 2;
+}
+
+.lbd-app-lookback small {
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.lbd-icon-stack {
+	position: relative;
+	display: block;
+	width: min(110px, 100%);
+	aspect-ratio: 1;
+	border-radius: 24%;
+	overflow: hidden;
+	box-shadow: 0 6px 14px rgba(42, 33, 24, 0.28);
+}
+
+.lbd-icon-stack img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transform: scale(0.92);
+	transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.5, 0.64, 1);
+}
+
+.lbd-icon-stack img.is-on {
+	opacity: 1;
+	transform: none;
+}
+
+.lbd-widget {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 18px;
+	box-shadow: 0 4px 10px rgba(42, 33, 24, 0.2);
+}
+
+.lbd-mood-controls {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.9rem;
+	font-family: var(--np-label, Inter, sans-serif);
+	font-size: 0.85rem;
+	color: var(--np-ink, #161412);
+}
+
+.lbd-mood-state {
+	margin: 0;
+	min-height: 3.2em;
+	font-family: var(--np-body, Georgia, serif);
+	font-size: 1rem;
+	line-height: 1.45;
+}
+
+.lbd-range {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	width: 100%;
+}
+
+.lbd-range input {
+	width: 100%;
+	accent-color: var(--stage);
+}
+
+.lbd-range-ticks {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 4px;
+	font-size: 0.7rem;
+	color: var(--np-muted, #5b544a);
+}
+
+.lbd-range-ticks i {
+	font-style: normal;
+}
+
+.lbd-check {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	cursor: pointer;
+}
+
+.lbd-check input {
+	accent-color: var(--stage);
+}
+
+.lbd-mood-foot {
+	margin: 0;
+	font-size: 0.78rem;
+	color: var(--np-muted, #5b544a);
+}
+
+/* ---------- The window around the phone (PrototypeWindow) ---------- */
+
+.lbd-window .pj-proto-inner {
+	padding: 1.6rem 1rem;
+}
+
+/* Popped out or full screen, the phone fits the window (PhoneFit measures it). */
+.pj-proto-window.is-pip .lbd-window-fill,
+.pj-proto-window.is-pip .pj-proto-inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pj-proto-window.is-pip .lbd-device {
+	box-shadow: none;
+}
+
+/* ---------- Editions, phones, reduced motion ---------- */
+
+/* The black & white edition prints photos in greyscale, but the prototype is
+   the app's own interface, so its art keeps its colours, as Connect Head's
+   interface keeps its accent. */
+html[data-edition='bw'] .lbd img,
+html[data-edition='bw'] .lbd svg,
+html[data-edition='bw'] .lbd-moods img {
+	filter: none;
+}
+
+html[data-edition='bw'] .lbd-homescreen {
+	box-shadow: none;
+}
+
+@media (max-width: 719px) {
+	.lbd-window .pj-proto-inner {
+		padding: 0.75rem 0.3rem;
+	}
+
+	.lbd-moods {
+		grid-template-columns: 1fr;
+	}
+
+	.lbd-stage-icon .lbd-mood-controls {
+		padding: 0 0.4rem 0.4rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lbd *,
+	.lbd *::before,
+	.lbd *::after,
+	.lbd-icon-stack img {
+		animation: none !important;
+		transition: none !important;
+	}
+}

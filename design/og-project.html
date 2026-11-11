@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Source of the per-project link-preview cards in public/og/. One template,
-     five versions picked by ?p=loan | fanhouse | photocull | dialhack | connecthead. Every figure here is
+     six versions picked by ?p=loan | fanhouse | photocull | dialhack | connecthead | lookback. Every figure here is
      copied from the project's own page; update both together. Regenerate with
      (from the nextjs-tailwindcss-portfolio folder), once per version:
      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot="$PWD/public/og/loan.png" "file://$PWD/design/og-project.html?p=loan" -->
@@ -164,6 +164,18 @@ const projects = {
 		visual: `<figure class="frame"><img src="../public/images/connect-head/mac-overview-light.jpg" alt="" style="object-position: 50% 0">
 			<figcaption class="label">The Mac home page · free, open source</figcaption></figure>`,
 		cta: 'See the project →',
+	},
+	lookback: {
+		tone: '#a8326e',
+		h1: '46px',
+		section: 'Mobile app',
+		kicker: 'Product + React Native · Android',
+		headline: 'LookBack: A Daily Journal That Writes Back a Year Later',
+		dek: 'One small thing a day comes back on the same date a year later, as a sealed letter from your past self.',
+		stats: [['120 Hz', 'On a mid-range phone'], ['1.8%', 'Scroll jank, was 19%'], ['58 MB', 'APK, was 179 MB']],
+		visual: `<figure class="frame" style="background:#fbf5e6"><img src="../public/images/lookback/widget-preview.png" alt="" style="object-fit: contain; height: 190px">
+			<figcaption class="label">The home-screen widget · Android 1.0</figcaption></figure>`,
+		cta: 'Try the app →',
 	},
 };
 const p = projects[new URLSearchParams(location.search).get('p')] || projects.loan;

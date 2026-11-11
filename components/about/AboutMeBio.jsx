@@ -39,7 +39,7 @@ const chapters = [
 		title: 'What I’m looking for',
 		lead: 'I finished my M.S. in Computer Science, Data Science track, at UMKC in May 2026 with a 3.97 GPA, and I’m looking for my next team.',
 		more: [
-			'I’m applying for Data Analyst, Business Analyst, Data Scientist, Analytics Engineer and Applied AI roles. I’m based in Dallas and open to relocating anywhere in the US. Between applications, I write about causal inference and how language models work, and I keep building: a live job-market pipeline with its own MCP server, a forecasting backtest, and a photo-curation tool that runs on your own machine.',
+			'I’m applying for Data Analyst, Business Analyst, Data Scientist, Analytics Engineer and Applied AI roles. I’m open to roles anywhere in the US. Between applications, I write about causal inference and how language models work, and I keep building: a live job-market pipeline with its own MCP server, a forecasting backtest, and a photo-curation tool that runs on your own machine.',
 		],
 	},
 ];

@@ -19,6 +19,13 @@ export const projectNotes = {
     ],
     estimatesNote: 'per customer / day · Matched DiD · Profit not estimated',
   },
+  'lookback-daily-memory-journal': {
+    displayTitle: 'LookBack',
+    summary: 'A cosy Android journal: one small thing a day, and on the same date a year later it comes back as a sealed letter from your past self.',
+    metric: '120 Hz', finding: 'Frame timing showed the GPU, not JavaScript, was the bottleneck; caching still paper objects as GPU textures cut scroll jank in a 73-memory year from 19% to 1.8%.',
+    annotation: 'One small thing a day.', stages: ['Write today', 'Wait a year', 'Open the letter'],
+    liveLabel: 'Download for Android',
+  },
   'connect-head-sony-ult-wear': {
     displayTitle: 'Connect Head',
     summary: 'An unofficial Mac and Android app for Sony ULT WEAR headphones, built because Sony’s own app was slow to connect and clunky to use.',

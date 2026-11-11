@@ -6,6 +6,7 @@ import { projectNotes } from '../../data/projectNotes';
 import Link from 'next/link';
 import ProjectVideo from '../../components/projects/ProjectVideo';
 import ConnectHeadDemo from '../../components/projects/ConnectHeadDemo';
+import LookBackDemo from '../../components/projects/LookBackDemo';
 
 // Some data strings carry a literal "&amp;".
 const decode = (text = '') => text.replace(/&amp;/g, '&');
@@ -123,6 +124,7 @@ function ProjectSingle({ project }) {
 					<section className="pj-media" aria-label="Video and screenshots">
 						{media.video && <ProjectVideo video={media.video} />}
 						{media.demo === 'connect-head' && <ConnectHeadDemo />}
+						{media.demo === 'lookback' && <LookBackDemo />}
 
 						{media.images?.length > 0 && (
 							<div className="pj-media-shots">

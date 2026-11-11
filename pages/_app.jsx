@@ -4,6 +4,7 @@ import '../styles/reader.css';
 import '../styles/mobile.css';
 import '../styles/design.css';
 import '../styles/connect-head-demo.css';
+import '../styles/lookback-demo.css';
 import '../styles/report.css';
 import '../styles/rain.css';
 import '../styles/smog.css';

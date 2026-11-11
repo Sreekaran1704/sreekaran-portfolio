@@ -3530,13 +3530,14 @@ html[data-edition='bw'] .reader {
 
 /* Square corners and no shadows anywhere, except the few things that are
    round by nature: portraits, balloons, timeline dots and icon buttons. */
-html[data-edition='bw'] *,
-html[data-edition='bw'] *::before,
-html[data-edition='bw'] *::after {
+html[data-edition='bw'] *:not(.lbd-device *),
+html[data-edition='bw'] *:not(.lbd-device *)::before,
+html[data-edition='bw'] *:not(.lbd-device *)::after {
 	box-shadow: none !important;
 }
 
-html[data-edition='bw'] *:not(.rd-face):not(.rd-balloon):not(.np-ab-chapter-no):not(.np-edition-swatch):not(.np-ticker-label i):not(.askme-dot) {
+/* The LookBack phone (.lbd-device) is the app's own screen, so it keeps its shape. */
+html[data-edition='bw'] *:not(.rd-face):not(.rd-balloon):not(.np-ab-chapter-no):not(.np-edition-swatch):not(.np-ticker-label i):not(.askme-dot):not(.lbd-device):not(.lbd-device *) {
 	border-radius: 0 !important;
 }
 
