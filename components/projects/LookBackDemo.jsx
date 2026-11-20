@@ -14,35 +14,44 @@ import {
 	IoColorPaletteOutline,
 	IoCreate,
 	IoCreateOutline,
+	IoCutOutline,
 	IoHappyOutline,
+	IoHeartOutline,
 	IoHome,
 	IoHomeOutline,
 	IoImagesOutline,
 	IoLibrary,
 	IoLibraryOutline,
 	IoLogoGoogle,
+	IoMic,
+	IoMicOutline,
 	IoMoonOutline,
 	IoNotificationsOutline,
+	IoPause,
+	IoPlay,
 	IoSettings,
 	IoSettingsOutline,
 	IoShuffle,
 	IoSparkles,
 	IoStarOutline,
+	IoStop,
 	IoSunnyOutline,
+	IoSyncOutline,
+	IoTrashOutline,
 } from 'react-icons/io5';
 import PrototypeWindow from './PrototypeWindow';
 
 // A working copy of the LookBack Android app, ported screen by screen from its
 // React Native source (src/app, src/components, src/theme), so it looks and
 // behaves like the phone app. The memories are the app's own built-in sample
-// set (src/dev/seed.ts) with its painted sample photos, so nothing here is
-// personal. Motion is transforms and opacity, and stops for reduced motion.
+// set (src/dev/seed.ts) with its painted sample photos and hummed sample voice
+// notes, so nothing here is personal. Motion is transforms and opacity, and stops for reduced motion.
 
 const IMG = '/images/lookback';
-const APK = 'https://github.com/Sreekaran1704/LookBack/releases/download/v1.0.0/LookBack-1.0.0.apk';
+const APK = 'https://github.com/Sreekaran1704/LookBack/releases/download/v1.2.0/LookBack-1.2.0.apk';
 const TODAY = '2026-11-11';
 /** The phone's screen in dp, the 20:9 Android phone the app was built on, and its bezel. */
-const SCREEN = { w: 412, h: 915 };
+const SCREEN = { w: 363, h: 800 };
 const BEZEL = 6;
 const DEVICE = { w: SCREEN.w + BEZEL * 2, h: SCREEN.h + BEZEL * 2 };
 /** The phone's clock reads 9:41 am. */
@@ -51,13 +60,13 @@ const NOW_MINUTES = 9 * 60 + 41;
 /* ---------- Theme (src/theme) ---------- */
 
 const PAPERS = [
-	{ name: 'cream', label: 'Cream', light: '#FBF5E6', dark: '#2A251E', dots: '#5B8CC9' },
-	{ name: 'peach', label: 'Peach', light: '#FFE9E1', dark: '#3B2722', dots: '#F29A86' },
-	{ name: 'rose', label: 'Rose', light: '#FCE4EC', dark: '#3A2030', dots: '#E57BA2' },
-	{ name: 'lemon', label: 'Lemon', light: '#FBF3CC', dark: '#35301A', dots: '#D9A521' },
-	{ name: 'mint', label: 'Mint', light: '#E2F5EA', dark: '#1D3429', dots: '#3FAF7C' },
-	{ name: 'sky', label: 'Sky', light: '#E1EEFB', dark: '#1C2B3E', dots: '#4D8DD6' },
-	{ name: 'lavender', label: 'Lavender', light: '#ECE6FA', dark: '#2A2440', dots: '#8B6FD9' },
+	{ name: 'cream', label: 'Cream', light: '#FBF5E6', dark: '#2A251E', darkDeep: '#1B1814', dots: '#5B8CC9', accent2: '#E8A23B' },
+	{ name: 'peach', label: 'Peach', light: '#FFE9E1', dark: '#3B2722', darkDeep: '#261915', dots: '#F29A86', accent2: '#6FB59B' },
+	{ name: 'rose', label: 'Rose', light: '#FCE4EC', dark: '#3A2030', darkDeep: '#25141F', dots: '#E57BA2', accent2: '#9C7BD9' },
+	{ name: 'lemon', label: 'Lemon', light: '#FBF3CC', dark: '#35301A', darkDeep: '#221E10', dots: '#D9A521', accent2: '#6FA8DC' },
+	{ name: 'mint', label: 'Mint', light: '#E2F5EA', dark: '#1D3429', darkDeep: '#12221A', dots: '#3FAF7C', accent2: '#F29A86' },
+	{ name: 'sky', label: 'Sky', light: '#E1EEFB', dark: '#1C2B3E', darkDeep: '#111B28', dots: '#4D8DD6', accent2: '#F2B33D' },
+	{ name: 'lavender', label: 'Lavender', light: '#ECE6FA', dark: '#2A2440', darkDeep: '#1B172A', dots: '#8B6FD9', accent2: '#E57BA2' },
 ];
 
 const YEAR_PALETTES = [
@@ -135,6 +144,44 @@ function paperShadow(tint, lift, dark) {
 	return `${lift}px ${2 * lift}px ${lift}px ${withAlpha(tint, base)}, ${3 * lift}px ${8 * lift}px ${14 * lift}px ${withAlpha(tint, base * 0.6)}`;
 }
 
+const blend = (a, b, t) => {
+	const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+	const [x, y] = [p(a), p(b)];
+	return `#${x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
+};
+
+/** The bars are made of the chosen paper (papers.ts navColors): a brighter sheet of it, or lamp-lit in dark. */
+function navColors(paper, tone) {
+	if (tone === 'light') {
+		return {
+			strip: blend(paper.light, '#FFFFFF', 0.55),
+			edge: withAlpha(paper.dots, 0.35),
+			stitch: withAlpha(paper.dots, 0.6),
+			shadow: withAlpha(paper.darkDeep, 0.2),
+			ink: '#2A2118',
+			inkMuted: blend('#7A6A58', paper.dots, 0.2),
+			active: withAlpha(paper.dots, 0.24),
+			tape: paper.dots,
+			tape2: paper.accent2,
+			plus: paper.dots,
+			rim: '#FFFDF8',
+		};
+	}
+	return {
+		strip: blend(paper.dark, paper.dots, 0.2),
+		edge: withAlpha(paper.dots, 0.45),
+		stitch: withAlpha(blend(paper.dots, '#FFFFFF', 0.25), 0.7),
+		shadow: withAlpha('#000000', 0.55),
+		ink: blend(paper.light, '#FFFFFF', 0.3),
+		inkMuted: withAlpha(paper.light, 0.62),
+		active: withAlpha(paper.dots, 0.4),
+		tape: blend(paper.dots, paper.dark, 0.15),
+		tape2: blend(paper.accent2, paper.dark, 0.2),
+		plus: paper.dots,
+		rim: blend(paper.light, paper.dark, 0.08),
+	};
+}
+
 function makeTheme(paperName, tone, width) {
 	const paper = PAPERS.find((p) => p.name === paperName) || PAPERS[0];
 	const dark = tone === 'dark';
@@ -146,13 +193,14 @@ function makeTheme(paperName, tone, width) {
 		lite: false,
 		paper,
 		colors,
+		nav: navColors(paper, tone),
 		width,
 		contentW: width - 40,
 		shadow: (tint, lift = 1) => (dark ? paperShadow('#000000', lift, true) : paperShadow(tint || LIGHT.shadowBase, lift, false)),
 	};
 }
 
-const ThemeContext = createContext(makeTheme('cream', 'light', 412));
+const ThemeContext = createContext(makeTheme('rose', 'light', SCREEN.w));
 const useTheme = () => useContext(ThemeContext);
 
 /** Crowds of small objects (the year pile) draw without soft shadows, as LiteShadows does. */
@@ -361,8 +409,8 @@ const textFor = (i) => (i % 7 === 3 ? LONG[i % 3] : i % 5 === 1 ? QUOTES[i % 3] 
 
 function sampleEntries() {
 	const plan = [
-		{ localDate: shiftYears(TODAY, -1), text: 'Picnic in the park with the whole crew.\nWe stayed until the lights came on.', photo: true },
-		{ localDate: shiftYears(TODAY, -2), text: 'Moved into the new place. Boxes everywhere.', photo: false },
+		{ localDate: shiftYears(TODAY, -1), text: 'Picnic in the park with the whole crew.\nWe stayed until the lights came on.', photo: true, voice: 4 },
+		{ localDate: shiftYears(TODAY, -2), text: 'Moved into the new place. Boxes everywhere.', photo: false, voice: 4 },
 		{ localDate: shiftYears(TODAY, -3), text: '"Begin anywhere." — painted on the café wall', photo: false },
 		{ localDate: shiftYears(TODAY, -4), text: 'Road trip, day one.', photo: true },
 	];
@@ -382,6 +430,7 @@ function sampleEntries() {
 			localDate: item.localDate,
 			text: item.text,
 			photo: item.photo ? hashString(item.localDate) : null,
+			voice: item.voice ? { seed: hashString(item.localDate), ms: item.voice * 1000, wave: sampleWave(hashString(item.localDate), item.voice) } : null,
 			createdAt: item.localDate,
 			objectType: null,
 			tapePattern: null,
@@ -390,7 +439,9 @@ function sampleEntries() {
 			tapeColor: null,
 		}));
 }
-const SAMPLE = sampleEntries();
+// Built on first use: the sample voice notes need the waveform helpers defined further down.
+let sampleCache = null;
+const sampleSet = () => (sampleCache = sampleCache || sampleEntries());
 const TODAY_ID = `entry-${TODAY}`;
 
 /* ---------- Small helpers ---------- */
@@ -641,8 +692,74 @@ function DateStamp({ text, color, angle = -6, style }) {
 	);
 }
 
+/**
+ * Words on a paper object (WritableText): plain text, or while writing, the same words as a text box in
+ * exactly that style, so you write on the paper itself.
+ */
+function Words({ text, style, lines, editor, focus = false }) {
+	const ref = useRef(null);
+	useEffect(() => {
+		if (focus) ref.current?.focus({ preventScroll: true });
+	}, [focus]);
+	if (!editor) return <p style={{ ...style, ...clamp(lines) }}>{text}</p>;
+	return (
+		<textarea
+			ref={ref}
+			className="lbd-writable"
+			value={editor.value}
+			onChange={(event) => editor.onChange(event.target.value)}
+			onFocus={editor.onFocus}
+			onClick={(event) => event.stopPropagation()}
+			placeholder={editor.placeholder}
+			aria-label={editor.label}
+			rows={1}
+			style={{ ...style, '--ph': 'rgba(122, 106, 88, 0.85)' }}
+		/>
+	);
+}
+
+/** Where a photo's words go (polaroid.ts): on the strip when they fit (2 lines of 20), else on the back with "… P.T.O". */
+const PTO = 'P.T.O';
+function wrappedLines(text, perLine) {
+	let total = 0;
+	for (const paragraph of text.split('\n')) {
+		let lines = 1;
+		let used = 0;
+		for (const word of paragraph.split(/\s+/).filter(Boolean)) {
+			let w = word.length;
+			const need = used === 0 ? w : used + 1 + w;
+			if (need <= perLine) {
+				used = need;
+				continue;
+			}
+			if (used > 0) {
+				lines += 1;
+				used = 0;
+			}
+			while (w > perLine) {
+				lines += 1;
+				w -= perLine;
+			}
+			used = w;
+		}
+		total += lines;
+	}
+	return total;
+}
+function planPolaroidWords(text, voice = false) {
+	const words = text.trim();
+	if (!words) return { front: null, back: null, teaser: null };
+	if (voice) return { front: null, back: words, teaser: null };
+	if (wrappedLines(words, 20) <= 2) return { front: words, back: null, teaser: null };
+	const room = 40 - (PTO.length + 4) - 4;
+	const flat = words.replace(/\s+/g, ' ');
+	const cut = flat.slice(0, room);
+	const space = cut.lastIndexOf(' ');
+	return { front: null, back: words, teaser: (space > room * 0.5 ? cut.slice(0, space) : cut).trim() };
+}
+
 /** A note on lined or plain paper with a torn bottom edge and sometimes a folded corner. */
-function TornNote({ width, text, paper, tint, seed, ruled = true, folded = false, numberOfLines, lift = 1 }) {
+function TornNote({ width, text, paper, tint, seed, ruled = true, folded = false, numberOfLines, lift = 1, editor }) {
 	const theme = useTheme();
 	const { colors } = theme;
 	const handwritten = text.length <= 110;
@@ -669,7 +786,7 @@ function TornNote({ width, text, paper, tint, seed, ruled = true, folded = false
 					/>
 				)}
 				{lines && <span className="lbd-abs" aria-hidden="true" style={{ left: 25.6, top: 0, bottom: 0, width: 1, background: colors.marginLine }} />}
-				<p style={ty(kind, { color: colors.ink, paddingLeft: ruled ? 16 : 0, position: 'relative', whiteSpace: 'pre-line', ...clamp(numberOfLines) })}>{text}</p>
+				<Words text={text} editor={editor} lines={numberOfLines} style={ty(editor ? 'hand' : kind, { color: colors.ink, paddingLeft: ruled ? 16 : 0, position: 'relative', whiteSpace: 'pre-line' })} />
 				{folded && (
 					<svg width={24} height={24} className="lbd-abs" style={{ right: 0, top: 0 }} aria-hidden="true">
 						<path d="M 0 0 L 24 24 L 0 24 Z" fill={colors.paperWhite} />
@@ -685,17 +802,108 @@ function TornNote({ width, text, paper, tint, seed, ruled = true, folded = false
 	);
 }
 
-function Polaroid({ width, photo, caption, tint, develop, lift = 1 }) {
-	const theme = useTheme();
-	const inner = width - 20;
+/** A photo printed like old instant film (vintageFilm): sepia, faded, softer, with a warm wash and vignette. */
+function FilmPhoto({ seed }) {
 	return (
-		<div style={{ width, background: theme.colors.paperWhite, padding: '10px 10px 0', borderRadius: 3, boxShadow: theme.shadow(tint, lift) }}>
-			<div style={{ position: 'relative', width: inner, height: inner, background: theme.colors.inkFaint, overflow: 'hidden' }}>
-				{photo != null && <SeedPhoto seed={photo} />}
-				{develop && <span key={photo} className="lbd-abs lbd-develop" style={{ inset: 0, background: theme.colors.paperWhite }} />}
+		<span className="lbd-film">
+			<SeedPhoto seed={seed} />
+		</span>
+	);
+}
+
+/**
+ * Instant film (Polaroid.tsx): the print, and a deep strip where the words are handwritten when they fit.
+ * Longer words (or any words, when a voice note has the strip) go on its back, cream ruled paper with the
+ * date and a heart, and the front says "P.T.O ↻". It turns over in 3D. No photo but a voice note: the
+ * waveform is the print.
+ */
+function Polaroid({ width, photo, words = '', date, tint, develop, lift = 1, voice, player, flipped = false, editor }) {
+	const theme = useTheme();
+	const { colors } = theme;
+	const inner = width - 20;
+	const fontSize = inner / (20 * 0.45);
+	const hand = { fontFamily: 'var(--lbd-hand)', fontWeight: 600, fontSize, lineHeight: `${fontSize * 1.08}px` };
+	const backHand = { ...hand, fontSize: fontSize * 0.78, lineHeight: `${fontSize * 0.78 * 1.25}px` };
+	const stripH = Math.max(46, inner * 0.27);
+	const height = 10 + inner + stripH;
+	const voiceOnStrip = !!voice && photo != null;
+	const value = editor ? editor.value : words;
+	const plan = planPolaroidWords(value, voiceOnStrip);
+	const hasBack = plan.back !== null || (!!editor && voiceOnStrip);
+	const showBack = editor ? (voiceOnStrip ? flipped : plan.back !== null) : flipped && hasBack;
+	const frontEditor = editor && !voiceOnStrip && !plan.back;
+	const backEditor = editor && (plan.back !== null || voiceOnStrip);
+	const ptoText = <span style={{ color: tint, fontWeight: 700 }}>{`${PTO} ↻`}</span>;
+	let strip;
+	if (voiceOnStrip) {
+		strip = (
+			<span style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 4, height: stripH, padding: '0 4px' }}>
+				<VoiceRow voice={voice} width={inner - 8} height={Math.round(stripH * 0.46)} color={tint} player={player} />
+				{plan.back && <span style={{ ...hand, fontSize: fontSize * 0.8, lineHeight: `${fontSize * 0.9}px` }}>{ptoText}</span>}
+			</span>
+		);
+	} else {
+		strip = (
+			<span style={{ display: 'flex', alignItems: 'center', height: stripH, padding: '0 4px', transform: 'rotate(-2deg)' }}>
+				{frontEditor ? (
+					<Words editor={{ ...editor, placeholder: 'a few words on the polaroid…' }} focus={!showBack && editor.focusSide} style={{ ...hand, color: colors.ink, width: '100%' }} />
+				) : plan.front ? (
+					<p style={{ ...hand, color: colors.ink, ...clamp(2) }}>{plan.front}</p>
+				) : plan.teaser ? (
+					<p style={{ ...hand, color: colors.ink, ...clamp(2) }}>
+						{`${plan.teaser}… `}
+						{ptoText}
+					</p>
+				) : date ? (
+					<p style={{ ...hand, color: colors.ink, whiteSpace: 'nowrap' }}>{date}</p>
+				) : null}
+			</span>
+		);
+	}
+	const front = (
+		<div className="lbd-face" style={{ width, height, background: colors.paperWhite, padding: '10px 10px 0', borderRadius: 3, boxShadow: theme.shadow(tint, lift) }}>
+			<div style={{ position: 'relative', width: inner, height: inner, background: colors.inkFaint, overflow: 'hidden' }}>
+				{photo != null ? <FilmPhoto seed={photo} /> : voice ? <SoundPrint size={inner} tint={tint} voice={voice} player={player} /> : null}
+				{develop && <span key={photo} className="lbd-abs lbd-develop" style={{ inset: 0, background: colors.paperWhite }} />}
 			</div>
-			<div style={{ height: 46, display: 'flex', alignItems: 'center', padding: '0 4px' }}>
-				{caption && <p style={ty('hand', { color: theme.colors.ink, transform: 'rotate(-2deg)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' })}>{caption}</p>}
+			{strip}
+		</div>
+	);
+	const gap = parseFloat(backHand.lineHeight);
+	const back = hasBack ? (
+		<div
+			className="lbd-face lbd-face-back"
+			style={{
+				width,
+				height,
+				padding: 12,
+				display: 'flex',
+				flexDirection: 'column',
+				borderRadius: 3,
+				background: `repeating-linear-gradient(to bottom, transparent 0 ${gap - 1}px, ${colors.ruleLine} ${gap - 1}px ${gap}px) 0 12px / 100% calc(100% - 24px) no-repeat, ${colors.paper}`,
+				boxShadow: theme.shadow(tint, lift),
+			}}
+		>
+			<div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+				{backEditor ? (
+					<Words editor={{ ...editor, placeholder: 'a few words on the back…' }} focus={showBack && editor.focusSide} style={{ ...backHand, color: colors.ink, width: '100%' }} />
+				) : (
+					<p style={{ ...backHand, color: colors.ink, whiteSpace: 'pre-line' }}>{plan.back}</p>
+				)}
+			</div>
+			<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<span style={ty('handSmall', { color: colors.inkMuted })}>{date}</span>
+				<svg width={20} height={20} viewBox="0 0 24 24" aria-hidden="true">
+					<path d={HEART_PATH} fill={withAlpha(tint, 0.85)} />
+				</svg>
+			</span>
+		</div>
+	) : null;
+	return (
+		<div className="lbd-card3d" style={{ width, height }}>
+			<div className={`lbd-card3d-in ${showBack ? 'is-back' : ''}`}>
+				{front}
+				{back}
 			</div>
 		</div>
 	);
@@ -712,7 +920,7 @@ function TapedPhoto({ width, photo, tint, corners, lift = 1 }) {
 	return (
 		<div style={{ position: 'relative', width, padding: 4, background: theme.colors.paperWhite, boxShadow: theme.shadow(tint, lift) }}>
 			<div style={{ width: inner, height: inner * 1.25 }}>
-				<SeedPhoto seed={photo} />
+				<FilmPhoto seed={photo} />
 			</div>
 			{corners && (
 				<>
@@ -733,7 +941,7 @@ function ticketPath(w, h, n, perfX) {
 }
 
 /** Ticket stub for short quotes: perforated edge and punched notches. */
-function TicketStub({ width, text, paper, accent, stubLabel, serial, lift = 1 }) {
+function TicketStub({ width, text, paper, accent, stubLabel, serial, lift = 1, editor }) {
 	const theme = useTheme();
 	const [ref, size] = useSize();
 	const h = size.h || 110;
@@ -757,14 +965,14 @@ function TicketStub({ width, text, paper, accent, stubLabel, serial, lift = 1 })
 			</div>
 			<div style={{ position: 'relative', flex: 1, padding: '16px 16px 16px 12px', display: 'flex', flexDirection: 'column', gap: 4 }}>
 				<span style={ty('small', { color: accent, letterSpacing: 1.2, whiteSpace: 'nowrap' })}>{compact ? `Nº ${serial}` : `ADMIT ONE · Nº ${serial}`}</span>
-				<p style={ty(compact ? 'label' : 'ticket', { color: theme.colors.ink })}>{text}</p>
+				<Words text={text} editor={editor} style={ty(compact ? 'label' : 'ticket', { color: theme.colors.ink, position: 'relative' })} />
 			</div>
 		</div>
 	);
 }
 
 /** A memory as a physical scrapbook object, with its fastener and sticker (ScrapObject.tsx). */
-function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOfLines, lift = 1, develop = false, tapeFlicker = false, onPress, onPressTape, onPressSticker, label }) {
+function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOfLines, lift = 1, develop = false, tapeFlicker = false, onPress, onPressTape, onPressSticker, label, player, flipped = false, editor }) {
 	const theme = useTheme();
 	const { colors } = theme;
 	const look = lookOverride || lookForEntry(entry);
@@ -773,16 +981,18 @@ function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOf
 	const tapeP = paletteByName(entry.tapeColor) || palette;
 	const stickerP = paletteByName(entry.stickerColor) || palette;
 	const photo = entry.photo;
+	const voice = entry.voice || null;
+	// A voice memory is always a polaroid (its waveform is the picture, or runs along a photo's strip), and so
+	// is a photo with words (they go on its strip, or its back).
+	const objectType = voice || (photo != null && (editor ? true : entry.text.trim().length > 0)) ? 'polaroid' : look.objectType;
 	const notePapers = [colors.paper, colors.paperWhite, colors.blush, palette.tint];
 	const notePaper = notePapers[Math.floor(look.sizeJitter * notePapers.length)] || colors.paper;
-	const photoNote = photo != null && entry.text.trim().length > 0 && (look.objectType === 'polaroid' || look.objectType === 'tapedPhoto');
-	const caption = photoNote ? displayDate(entry.localDate) : firstLine(entry.text, 28) || displayDate(entry.localDate);
-
 	let body = null;
-	if (look.objectType === 'polaroid') body = <Polaroid width={width} photo={photo} caption={caption} tint={palette.primary} develop={develop} lift={lift} />;
-	else if (look.objectType === 'tapedPhoto') body = photo != null ? <TapedPhoto width={width} photo={photo} tint={palette.primary} corners={look.sizeJitter > 0.5} lift={lift} /> : null;
-	else if (look.objectType === 'ticket')
-		body = <TicketStub width={width} text={entry.text} paper={palette.tint} accent={palette.primary} stubLabel={String(year)} serial={String(look.pathSeed % 10000).padStart(4, '0')} lift={lift} />;
+	if (objectType === 'polaroid')
+		body = <Polaroid width={width} photo={photo} words={entry.text} date={displayDate(entry.localDate)} tint={palette.primary} develop={develop} lift={lift} voice={voice} player={player} flipped={flipped} editor={editor} />;
+	else if (objectType === 'tapedPhoto') body = photo != null ? <TapedPhoto width={width} photo={photo} tint={palette.primary} corners={look.sizeJitter > 0.5} lift={lift} /> : null;
+	else if (objectType === 'ticket')
+		body = <TicketStub width={width} text={entry.text} paper={palette.tint} accent={palette.primary} stubLabel={String(year)} serial={String(look.pathSeed % 10000).padStart(4, '0')} lift={lift} editor={editor} />;
 	else
 		body = (
 			<TornNote
@@ -795,6 +1005,7 @@ function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOf
 				folded={look.folded}
 				numberOfLines={numberOfLines}
 				lift={lift}
+				editor={editor}
 			/>
 		);
 
@@ -813,21 +1024,6 @@ function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOf
 	const drawn = (
 		<div className="lbd-scrap-inner" style={{ position: 'relative', width, transform: `rotate(${look.tilt}deg)` }}>
 			{body}
-			{photoNote && (
-				<div style={{ position: 'relative', marginLeft: 'auto', width: noteW, marginTop: -width * 0.16, marginRight: -width * 0.12, transform: `rotate(${-look.tilt * 1.5 + 3}deg)` }}>
-					<TornNote
-						width={noteW}
-						text={entry.text.trim()}
-						paper={notePaper === colors.paperWhite ? colors.paper : notePaper}
-						tint={palette.primary}
-						seed={look.pathSeed + 7}
-						ruled
-						numberOfLines={numberOfLines ?? 4}
-						lift={lift * 0.8}
-					/>
-					<WashiTape width={noteW * 0.4} color={tapeP.primary} color2={tapeP.secondary} pattern={look.tapePattern} angle={-look.tapeAngle - 10} style={{ top: -11, left: noteW * 0.08 }} />
-				</div>
-			)}
 			{look.fastener === 'tape' ? (
 				<WashiTape
 					width={tapeWidth}
@@ -880,20 +1076,63 @@ function ScrapObject({ entry, width, look: lookOverride, stamp = false, numberOf
 }
 
 /** The bunny: a pre-rendered pose with its bow tinted in the year's colour (Buddy.tsx). */
-function Buddy({ mood = 'happy', size = 96, accent, bump, entrance = true, style }) {
+const BLINKS = new Set(['happy', 'wave', 'peek']);
+/**
+ * Alive like the app's: it bobs and breathes, blinks every few seconds (now and then twice), tilts its
+ * head now and then, hops when `bump` changes, and when `tappable`, squishes and hops when poked.
+ */
+function Buddy({ mood = 'happy', size = 96, accent, bump, entrance = true, style, tappable = false }) {
+	const id = useId();
 	const [seen, setSeen] = useState(bump);
-	const [hops, setHops] = useState(0);
+	const [jump, setJump] = useState({ n: 0, kind: '' });
 	if (bump !== seen) {
 		setSeen(bump);
-		setHops((h) => h + 1);
+		setJump((j) => ({ n: j.n + 1, kind: 'lbd-hop' }));
 	}
+	const r = mulberry32(hashString(id));
+	const blinkDur = 3.4 + r() * 3.2;
+	const blinkDelay = -r() * blinkDur;
+	const double = r() < 0.3;
+	const tiltDur = 6 + r() * 4;
+	const tiltDelay = -r() * tiltDur;
+	const tiltSide = r() < 0.5 ? -1 : 1;
 	const height = mood === 'peek' ? size * 0.68 : size;
+	const poke = () => {
+		buzz();
+		setJump((j) => ({ n: j.n + 1, kind: 'lbd-poke' }));
+	};
+	const tilts = mood !== 'wave' && mood !== 'cheer';
+	const tapProps = tappable
+		? {
+				role: 'button',
+				tabIndex: 0,
+				'aria-label': 'The bunny',
+				onClick: poke,
+				onKeyDown: (event) => {
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault();
+						poke();
+					}
+				},
+			}
+		: { 'aria-hidden': true };
 	return (
-		<span className={`lbd-buddy ${entrance ? 'is-pop' : ''}`} style={{ width: size, height, ...style }} aria-hidden="true">
-			<span key={hops} className={hops ? 'lbd-hop' : ''}>
-				<span className={`lbd-bob lbd-bob-${mood}`} style={{ width: size, height }}>
-					<img src={`${IMG}/buddy/${mood}.png`} alt="" draggable="false" style={{ width: size, height: size }} />
-					<span className="lbd-bow" style={{ width: size, height: size, background: accent || '#F5B23C' }} />
+		<span className={`lbd-buddy ${entrance ? 'is-pop' : ''} ${tappable ? 'is-tappable' : ''}`} style={{ width: size, height, ...style }} {...tapProps}>
+			<span key={jump.n} className={jump.kind}>
+				<span className={tilts ? 'lbd-tilt' : ''} style={tilts ? { animationDuration: `${tiltDur}s`, animationDelay: `${tiltDelay}s`, '--tilt': `${tiltSide * 4}deg` } : undefined}>
+					<span className={`lbd-bob lbd-bob-${mood}`} style={{ width: size, height }}>
+						<img src={`${IMG}/buddy/${mood}.png`} alt="" draggable="false" style={{ width: size, height: size }} />
+						{BLINKS.has(mood) && (
+							<img
+								src={`${IMG}/buddy/${mood}-blink.png`}
+								alt=""
+								draggable="false"
+								className={`lbd-blink ${double ? 'is-double' : ''}`}
+								style={{ width: size, height: size, animationDuration: `${blinkDur}s`, animationDelay: `${blinkDelay}s` }}
+							/>
+						)}
+						<span className="lbd-bow" style={{ width: size, height: size, background: accent || '#F5B23C' }} />
+					</span>
 				</span>
 			</span>
 		</span>
@@ -971,12 +1210,13 @@ function SectionHeader({ title, detail, accent }) {
 	const theme = useTheme();
 	const [ref, size] = useSize();
 	return (
-		<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 8, marginBottom: 16 }}>
-			<div>
+		// Title and date share one baseline; the wavy underline hangs below, outside the row (1.2 fix).
+		<div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 28 }}>
+			<div style={{ position: 'relative' }}>
 				<h3 ref={ref} style={ty('heading', { color: theme.colors.onDesk, whiteSpace: 'nowrap', display: 'inline-block', paddingRight: 5 })}>
 					{title}
 				</h3>
-				<div style={{ position: 'relative', height: 12 }}>
+				<div style={{ position: 'absolute', left: 0, top: '100%', height: 12 }}>
 					<Doodle kind="underline" width={size.w} height={12} color={accent || theme.colors.amber} seed={title.length} style={{ left: 0, top: 0 }} />
 				</div>
 			</div>
@@ -1479,23 +1719,740 @@ function YearsCupboard({ entries, onOpenYear, flying }) {
 	);
 }
 
-/** The diary's cover, as it looks once pulled off the shelf (AlbumStack.tsx, simplified). */
-function DiaryCover({ year, count, width }) {
+/* ---------- Opening a diary (BookFlight.tsx) ---------- */
+
+/** The app's timings (tokens.ts motion.bookFlight), in ms. */
+const BOOK = { pull: 300, travel: 620, turn: 520, open: 820, page: 560, pageGap: 140, burst: 900, settle: 220, dive: 640 };
+const BOOK_COVER_SHARE = 0.42;
+const BOOK_TARGET_Y = 0.44;
+const BOOK_ARC = 70;
+const BOOK_PERSPECTIVE = 1400;
+const EASE_INOUT = 'cubic-bezier(0.65, 0, 0.35, 1)';
+const EASE_SOFT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const COVER_EASE = 'cubic-bezier(0.42, 0, 0.25, 1)';
+const PAGE_EASE = 'cubic-bezier(0.4, 0, 0.3, 1)';
+const SPARKS = 12;
+
+/** When each part of the flight starts, from the tap (the same arithmetic as BookFlight). */
+function bookTimes() {
+	const travelAt = BOOK.pull * 0.6;
+	const turnAt = travelAt + BOOK.travel * 0.7;
+	const openAt = turnAt + BOOK.turn;
+	const pagesAt = openAt + BOOK.open * 0.45;
+	const openedAt = Math.max(openAt + BOOK.open, pagesAt + BOOK.pageGap + BOOK.page) + BOOK.settle;
+	return { travelAt, turnAt, openAt, pagesAt, openedAt, done: openedAt + BOOK.dive };
+}
+
+/** A diary's cover as it lies in your hands (AlbumStack coverOnly): linen in the year's colour, stitched edge,
+ * elastic band, a paper name label, a sleepy face, the memory count, and a ribbon tab peeking out of the top. */
+function DiaryCover({ year, count, width, height }) {
 	const palette = yearPalette(year);
-	const height = width * 1.24;
 	return (
-		<span className="lbd-cover" style={{ width, height, '--c': palette.primary, '--c2': palette.secondary, '--ink': palette.ink }}>
-			<span className="lbd-cover-pages" />
-			<span className="lbd-cover-front">
-				<span className="lbd-cover-band" />
-				<span className="lbd-cover-label" style={ty('month', { color: palette.ink })}>
-					{year}
-				</span>
-				<span className="lbd-cover-count" style={ty('small', { color: palette.ink })}>
-					{count}
-				</span>
+		<span className="lbd-cover2" style={{ width, height, '--c': palette.primary, '--c2': palette.secondary, '--ink': palette.ink }}>
+			<span className="lbd-cover2-tab" style={{ background: palette.secondary }} />
+			<span className="lbd-cover2-stitch" />
+			<span className="lbd-cover2-band" />
+			<span className="lbd-cover2-label" style={ty('month', { color: palette.ink, fontSize: width * 0.2, lineHeight: `${width * 0.24}px` })}>
+				{year}
+			</span>
+			<svg className="lbd-cover2-face" width={width * 0.36} height={width * 0.14} viewBox="0 0 36 14" aria-hidden="true">
+				<ellipse cx="4" cy="9" rx="4" ry="2.4" fill="#FF9DB0" opacity="0.55" />
+				<ellipse cx="32" cy="9" rx="4" ry="2.4" fill="#FF9DB0" opacity="0.55" />
+				<path d="M7 5 Q 10 8 13 5 M23 5 Q 26 8 29 5" stroke={palette.ink} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+				<path d="M15.5 9 Q 18 11.5 20.5 9" stroke={palette.ink} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+			</svg>
+			<span className="lbd-cover2-count" style={ty('small', { color: palette.ink, borderColor: palette.secondary })}>
+				{count}
 			</span>
 		</span>
+	);
+}
+
+/** Ruled paper for the diary's pages. */
+const ruledPaper = (bg) => `repeating-linear-gradient(to bottom, transparent 0 21px, rgba(91, 140, 201, 0.32) 21px 22px) 0 18px / 100% calc(100% - 30px) no-repeat, ${bg}`;
+
+/**
+ * Pulling a diary off the shelf, as the app does it: the spine tips out of its row and floats to the middle,
+ * turns like a solid box onto its cover, the cover swings open over the top, two pages flutter over, the book
+ * slides to centre the open spread (glow and sparkles), and then the view zooms into the right-hand page until
+ * it is the year page. The year page is opened underneath, hidden by the paper, while the book turns.
+ */
+function DiaryFlight({ flight, W, H, dark, onPush, onDone }) {
+	const palette = yearPalette(flight.year);
+	const coverW = W * BOOK_COVER_SHARE;
+	const coverH = coverW * 1.3;
+	const hingeX = W / 2 - coverW / 2;
+	const cy = H * BOOK_TARGET_Y;
+	const top = cy - coverH / 2;
+	const k = coverH / flight.h;
+	const spineW = flight.w * k;
+	const spread = coverW / 2;
+	const pageCx = W / 2 + coverW / 2;
+	const zoom = Math.max(W / coverW, H / coverH) * 1.08;
+	const pageTint = dark ? '#ECE2CA' : palette.tint;
+	const paper = '#FFFDF8';
+	// The moving parts, collected as they mount (a plain holder: they are only read in the effect).
+	const [parts] = useState(() => ({}));
+	const set = (name) => (el) => {
+		parts[name] = el;
+	};
+	const sparks = (() => {
+		const rng = seededRng(`sparkle-${flight.year}`);
+		return Array.from({ length: SPARKS }, (_, i) => ({
+			angle: (i / SPARKS) * Math.PI * 2 + rng.range(-0.2, 0.2),
+			distance: coverW * rng.range(0.8, 1.3),
+			size: rng.range(18, 30),
+			spin: rng.range(-90, 90),
+			kind: ['star', 'heart', 'sun', 'star'][i % 4],
+			color: i % 3 === 0 ? '#F5B23C' : i % 3 === 1 ? palette.primary : palette.secondary,
+		}));
+	})();
+
+	useEffect(() => {
+		const r = parts;
+		const t = bookTimes();
+		const anims = [];
+		const go = (el, frames, opts) => {
+			if (el) anims.push(el.animate(frames, { fill: 'both', ...opts }));
+		};
+		const persp = `perspective(${BOOK_PERSPECTIVE}px)`;
+		// The room softens to paper as the book leaves the shelf (fully opaque before the year page opens under it).
+		go(r.backdrop, [{ opacity: 0 }, { opacity: 0.4, offset: BOOK.pull / (t.travelAt + BOOK.travel) }, { opacity: 1 }], { duration: t.travelAt + BOOK.travel, easing: 'linear' });
+		// The spine: tips forward and lifts out of its row, then floats to the middle in an arc, growing to the cover's height.
+		const dx = flight.x - (hingeX - spineW);
+		const dy = flight.y - top;
+		const flyDur = t.travelAt + BOOK.travel;
+		const pullEnd = BOOK.pull / flyDur;
+		const startT = `translate(${dx}px, ${dy}px) scale(${1 / k})`;
+		go(
+			r.spineFly,
+			[
+				{ transform: `${startT} rotate(0deg)`, easing: 'cubic-bezier(0.33, 1, 0.68, 1)' },
+				{ transform: `translate(${dx}px, ${dy - 26}px) scale(${1.06 / k}) rotate(-4deg)`, offset: pullEnd, easing: 'cubic-bezier(0.45, 0, 0.3, 1)' },
+				{ transform: `translate(${dx * 0.45}px, ${dy * 0.45 - BOOK_ARC}px) scale(${(1 / k + 1) / 2}) rotate(-5deg)`, offset: pullEnd + (1 - pullEnd) * 0.5, easing: 'cubic-bezier(0.3, 0, 0.3, 1)' },
+				{ transform: 'translate(0px, 0px) scale(1) rotate(0deg)' },
+			],
+			{ duration: flyDur },
+		);
+		// …then turns away on its right edge as the cover comes round on the same edge, darkening as it turns from the light.
+		go(r.spineTurn, [{ transform: `${persp} rotateY(0deg)` }, { transform: `${persp} rotateY(-90deg)` }], { delay: t.turnAt, duration: BOOK.turn, easing: EASE_INOUT });
+		go(r.spineShade, [{ opacity: 0 }, { opacity: 0.5 }], { delay: t.turnAt, duration: BOOK.turn, easing: EASE_INOUT });
+		go(r.spineFly, [{ visibility: 'visible' }, { visibility: 'hidden' }], { delay: t.turnAt + BOOK.turn - 10, duration: 10 });
+		// The soft shadow under the book gathers as it comes to rest, and widens as it opens.
+		go(r.shadow, [{ opacity: 0, transform: 'scaleX(0.6)' }, { opacity: 0.55, transform: 'scaleX(1)' }], { delay: t.travelAt, duration: BOOK.travel, easing: EASE_SOFT });
+		go(r.shadowWide, [{ transform: 'translateX(0) scaleX(1)' }, { transform: `translateX(${spread}px) scaleX(1.85)` }], { delay: t.openAt, duration: BOOK.open, easing: COVER_EASE });
+		// The cover: edge-on until the turn, faces you, then swings open over the top and lies flat on the left.
+		const total = t.openAt + BOOK.open;
+		go(
+			r.cover,
+			[
+				{ transform: `${persp} rotateY(90deg)`, offset: 0 },
+				{ transform: `${persp} rotateY(90deg)`, offset: t.turnAt / total, easing: EASE_INOUT },
+				{ transform: `${persp} rotateY(0deg)`, offset: (t.turnAt + BOOK.turn) / total, easing: COVER_EASE },
+				{ transform: `${persp} rotateY(0deg)`, offset: t.openAt / total, easing: COVER_EASE },
+				{ transform: `${persp} rotateY(-180deg)`, offset: 1 },
+			],
+			{ duration: total },
+		);
+		go(r.coverShade, [{ opacity: 0.5 }, { opacity: 0 }], { delay: t.turnAt, duration: BOOK.turn, easing: EASE_INOUT });
+		// Shown by visibility, not opacity: fading a 3D element flattens it, and its back face would show through.
+		go(r.cover, [{ visibility: 'hidden' }, { visibility: 'visible' }], { delay: t.turnAt, duration: 2 });
+		// The pages under the cover, there once the book has turned round; the whole book slides to centre the spread.
+		go(r.block, [{ opacity: 0 }, { opacity: 1 }], { delay: t.turnAt + BOOK.turn * 0.9, duration: 60 });
+		go(r.book, [{ transform: 'translateX(0px)' }, { transform: `translateX(${spread}px)` }], { delay: t.openAt, duration: BOOK.open, easing: COVER_EASE });
+		// Two pages flutter over after the cover, one after the other.
+		[r.page0, r.page1].forEach((el, i) => {
+			go(el, [{ transform: `${persp} rotateY(0deg)` }, { transform: `${persp} rotateY(-180deg)` }], { delay: t.pagesAt + i * BOOK.pageGap, duration: BOOK.page, easing: PAGE_EASE });
+			go(el, [{ visibility: 'hidden' }, { visibility: 'visible' }], { delay: t.turnAt + BOOK.turn * 0.95, duration: 2 });
+		});
+		// A warm glow grows behind the open book, and stars and hearts burst out of it.
+		go(r.glow, [{ opacity: 0, transform: 'scale(0.6)' }, { opacity: 0.85, transform: 'scale(1.15)' }], { delay: t.openAt, duration: BOOK.open, easing: EASE_SOFT });
+		sparks.forEach((s, i) => {
+			const el = r[`spark${i}`];
+			const x = Math.cos(s.angle) * s.distance;
+			const y = Math.sin(s.angle) * s.distance * 0.75;
+			go(
+				el,
+				[
+					{ opacity: 0, transform: 'translate(0px, 0px) scale(0.3) rotate(0deg)' },
+					{ opacity: 1, offset: 0.2 },
+					{ opacity: 1, offset: 0.7 },
+					{ opacity: 0, transform: `translate(${x}px, ${y}px) scale(1) rotate(${s.spin}deg)` },
+				],
+				{ delay: t.openAt + BOOK.open * 0.55 + i * 25, duration: BOOK.burst, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' },
+			);
+		});
+		// The book zooms into its right-hand page until it fills the screen, the words fading first, then the page
+		// fades into the real year page underneath.
+		go(r.scene, [{ transform: 'translate(0px, 0px) scale(1)' }, { transform: `translate(${W / 2 - pageCx}px, ${H / 2 - cy}px) scale(${zoom})` }], { delay: t.openedAt, duration: BOOK.dive, easing: EASE_INOUT });
+		go(r.words, [{ opacity: 1 }, { opacity: 0 }], { delay: t.openedAt, duration: BOOK.dive * 0.4 });
+		go(r.root, [{ opacity: 1 }, { opacity: 0 }], { delay: t.openedAt + BOOK.dive * 0.55, duration: BOOK.dive * 0.45, easing: 'ease-in' });
+		const timers = [setTimeout(onPush, t.turnAt), setTimeout(() => buzz(14), t.openAt + BOOK.open), setTimeout(onDone, t.done)];
+		return () => {
+			timers.forEach(clearTimeout);
+			anims.forEach((a) => a.cancel());
+		};
+		// The flight plays once, from the spine it was given.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const face = { position: 'absolute', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' };
+	const sheet = { width: coverW, height: coverH, borderRadius: 8, border: `0.6px solid ${withAlpha(palette.ink, 0.25)}`, overflow: 'hidden' };
+	return (
+		<div ref={set('root')} className="lbd-flight2" aria-hidden="true">
+			<span ref={set('backdrop')} className="lbd-abs" style={{ inset: 0, background: 'var(--desk)' }} />
+			<div ref={set('scene')} className="lbd-abs" style={{ inset: 0, transformOrigin: `${pageCx}px ${cy}px` }}>
+				<span ref={set('glow')} className="lbd-abs" style={{ left: W / 2 - coverW * 1.2, top: cy - coverW * 1.2, width: coverW * 2.4, height: coverW * 2.4, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(245, 178, 60, 0.55) 0%, rgba(245, 178, 60, 0.22) 45%, rgba(245, 178, 60, 0) 100%)', opacity: 0 }} />
+				<span ref={set('shadowWide')} className="lbd-abs" style={{ left: W / 2 - coverW * 0.65, top: cy + coverH / 2 - coverH * 0.06, width: coverW * 1.3, height: coverH * 0.16 }}>
+					<span ref={set('shadow')} className="lbd-abs" style={{ inset: 0, borderRadius: '50%', background: `radial-gradient(closest-side, ${withAlpha(palette.ink, 0.5)}, ${withAlpha(palette.ink, 0)})`, opacity: 0 }} />
+				</span>
+				<div ref={set('book')} className="lbd-abs" style={{ left: 0, top: 0, width: W, height: H, transformStyle: 'preserve-3d' }}>
+					{/* The pages under the cover: edges peeking out, and the first page (the year page in small). */}
+					<div ref={set('block')} className="lbd-abs" style={{ left: hingeX, top, width: coverW, height: coverH, opacity: 0 }}>
+						{[3, 2, 1].map((n) => (
+							<span key={n} className="lbd-abs" style={{ ...sheet, left: n * 3, top: n * 3, background: n % 2 ? paper : '#FBF5E6' }} />
+						))}
+						<span className="lbd-abs lbd-center" style={{ ...sheet, left: 0, top: 0, flexDirection: 'column', background: pageTint }}>
+							<span ref={set('words')} className="lbd-center" style={{ flexDirection: 'column' }}>
+								<span style={ty('handLarge', { color: palette.primary, fontSize: coverW * 0.22, lineHeight: `${coverW * 0.26}px` })}>{flight.year}</span>
+								<span style={ty('handSmall', { color: '#7A6A58', fontSize: coverW * 0.1 })}>
+									{flight.count} {flight.count === 1 ? 'memory' : 'memories'}
+								</span>
+							</span>
+							<span className="lbd-abs" style={{ left: 0, top: 0, bottom: 0, width: coverW * 0.1, background: palette.ink, opacity: 0.08 }} />
+						</span>
+					</div>
+					{/* Two pages flutter over after the cover; the second's back says hello. */}
+					{[0, 1].map((i) => (
+						<div key={i} ref={set(`page${i}`)} className="lbd-abs" style={{ left: hingeX, top, width: coverW, height: coverH, transformOrigin: '0 50%', transformStyle: 'preserve-3d', visibility: 'hidden' }}>
+							<span style={{ ...face, ...sheet, left: 0, top: 0, background: ruledPaper(paper) }} />
+							<span className="lbd-center" style={{ ...face, ...sheet, left: 0, top: 0, transform: 'rotateY(180deg)', flexDirection: 'column', background: ruledPaper(paper) }}>
+								{i === 1 && (
+									<>
+										<span style={ty('hand', { color: '#2A2118', fontSize: coverW * 0.12, lineHeight: `${coverW * 0.15}px`, textAlign: 'center' })}>
+											hello again,
+											<br />
+											{flight.year}
+										</span>
+										<span style={ty('handSmall', { color: palette.primary, fontSize: coverW * 0.11 })}>✿ ♥ ✿</span>
+									</>
+								)}
+							</span>
+						</div>
+					))}
+					{/* The cover, which comes round on the spine's edge and swings open to its lining. */}
+					<div ref={set('cover')} className="lbd-abs" style={{ left: hingeX, top, width: coverW, height: coverH, transformOrigin: '0 50%', transformStyle: 'preserve-3d', visibility: 'hidden' }}>
+						<span style={{ ...face, left: 0, top: 0 }}>
+							<DiaryCover year={flight.year} count={flight.count} width={coverW} height={coverH} />
+							<span ref={set('coverShade')} className="lbd-abs" style={{ inset: 0, borderRadius: 10, background: '#2A2118', opacity: 0.5 }} />
+						</span>
+						<span className="lbd-center" style={{ ...face, left: 0, top: 0, width: coverW, height: coverH, borderRadius: 10, background: palette.primary, transform: 'rotateY(180deg)' }}>
+							<span style={{ width: coverW * 0.78, height: coverH * 0.82, borderRadius: 8, background: palette.tint, opacity: 0.9 }} />
+						</span>
+					</div>
+				</div>
+				{/* The spine, as it left the shelf. */}
+				<div ref={set('spineFly')} className="lbd-abs" style={{ left: hingeX - spineW, top, width: spineW, height: coverH, transformOrigin: '0 0' }}>
+					<div ref={set('spineTurn')} style={{ width: spineW, height: coverH, transformOrigin: '100% 50%' }}>
+						<div style={{ width: flight.w, height: flight.h, transform: `scale(${k})`, transformOrigin: '0 0', position: 'relative' }}>
+							<BookSpine year={flight.year} count={flight.count} age={parseDate(TODAY).year - flight.year} />
+							<span ref={set('spineShade')} className="lbd-abs" style={{ inset: 0, borderRadius: 6, background: '#2A2118', opacity: 0 }} />
+						</div>
+					</div>
+				</div>
+				{sparks.map((s, i) => (
+					<span key={i} ref={set(`spark${i}`)} className="lbd-abs" style={{ left: W / 2 + spread - s.size / 2, top: cy - s.size / 2, opacity: 0 }}>
+						<Sticker kind={s.kind} size={s.size} color={s.color} color2={palette.secondary} />
+					</span>
+				))}
+			</div>
+		</div>
+	);
+}
+
+/* ---------- Version 1.2: voice, action bars, header (voice.ts, Waveform.tsx, Screen.tsx) ---------- */
+
+/** A tiny tap on phones that can buzz (the app plays Android's own haptic effects). */
+const buzz = (ms = 8) => {
+	try {
+		// Only after a real tap: browsers refuse (and log) vibration before the person has touched the page.
+		if (typeof navigator !== 'undefined' && navigator.vibrate && navigator.userActivation?.hasBeenActive) navigator.vibrate(ms);
+	} catch {
+		// Haptics are best-effort.
+	}
+};
+
+const mixHex = (a, b, t) => {
+	const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+	const [x, y] = [p(a), p(b)];
+	return `#${x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
+};
+
+const WAVE_BARS = 32;
+const MIN_BAR = 0.08;
+const VOICE_MAX_MS = 60000;
+const formatVoiceMs = (ms) => {
+	const total = Math.max(0, Math.round((ms || 0) / 1000));
+	return `${Math.floor(total / 60)}:${pad2(total % 60)}`;
+};
+
+/** The levels heard while recording, squeezed into 32 bars, loudest = full height (shapeWaveform). */
+function shapeWaveform(levels, bars = WAVE_BARS) {
+	if (!levels.length) return Array.from({ length: bars }, () => MIN_BAR);
+	const out = [];
+	for (let i = 0; i < bars; i++) {
+		const from = Math.floor((i * levels.length) / bars);
+		const to = Math.max(from + 1, Math.floor(((i + 1) * levels.length) / bars));
+		let peak = 0;
+		for (let j = from; j < to && j < levels.length; j++) peak = Math.max(peak, levels[j]);
+		out.push(peak);
+	}
+	const loudest = Math.max(...out);
+	return out.map((v) => Math.round(Math.max(MIN_BAR, loudest > 0 ? v / loudest : 0) * 100) / 100);
+}
+
+/** The hummed tune the sample voice notes play (src/dev/seedVoice.ts): a note per syllable. */
+const NOTES = [262, 294, 330, 349, 392, 440, 494, 523];
+const SYLLABLE = 0.32;
+const SYLLABLE_GAP = 0.08;
+function syllable(seed, k) {
+	const r = mulberry32(seed + k * 7919);
+	return { freq: NOTES[Math.floor(r() * NOTES.length)], loud: 0.35 + r() * 0.6 };
+}
+/** The waveform the recorder would have measured for that tune. */
+function sampleWave(seed, seconds) {
+	const levels = [];
+	const r = mulberry32(seed);
+	for (let t = 0; t < seconds; t += 0.08) {
+		const k = Math.floor(t / (SYLLABLE + SYLLABLE_GAP));
+		const inSyl = t - k * (SYLLABLE + SYLLABLE_GAP);
+		levels.push(inSyl > SYLLABLE ? 0.02 : syllable(seed, k).loud * Math.sin((Math.PI * inSyl) / SYLLABLE) + r() * 0.04);
+	}
+	return shapeWaveform(levels);
+}
+/** Plays the hum from `from` to `to` seconds on a Web Audio context; returns the oscillators to stop. */
+function hum(ctx, seed, from, to) {
+	const nodes = [];
+	const step = SYLLABLE + SYLLABLE_GAP;
+	const now = ctx.currentTime + 0.02;
+	for (let k = Math.floor(from / step); k * step < to; k++) {
+		const start = Math.max(from, k * step);
+		const end = Math.min(to, k * step + SYLLABLE);
+		if (end <= start) continue;
+		const { freq, loud } = syllable(seed, k);
+		const osc = ctx.createOscillator();
+		const gain = ctx.createGain();
+		osc.type = 'triangle';
+		osc.frequency.value = freq;
+		const at = now + (start - from);
+		const len = end - start;
+		gain.gain.setValueAtTime(0, at);
+		gain.gain.linearRampToValueAtTime(0.16 * loud, at + Math.min(0.06, len / 3));
+		gain.gain.linearRampToValueAtTime(0, at + len);
+		osc.connect(gain).connect(ctx.destination);
+		osc.start(at);
+		osc.stop(at + len + 0.02);
+		nodes.push(osc);
+	}
+	return nodes;
+}
+
+/**
+ * Plays a voice memory (useVoicePlayback.ts): Listen / Pause, picking up where it left off, rewinding at
+ * the end. The demo can't ship real voices, so it plays the sample's hummed tune.
+ */
+function useVoicePlayer(voice) {
+	const [state, setState] = useState({ seed: voice?.seed, playing: false, offset: 0, startedAt: 0 });
+	const ctxRef = useRef(null);
+	const nodes = useRef([]);
+	const timer = useRef(null);
+	const stopAudio = () => {
+		nodes.current.forEach((n) => {
+			try {
+				n.stop();
+			} catch {
+				// Already stopped.
+			}
+		});
+		nodes.current = [];
+		clearTimeout(timer.current);
+	};
+	useEffect(() => () => ctxRef.current?.close?.(), []);
+	// A new recording replaces the old one (or the page goes): stop the old sound.
+	useEffect(() => () => stopAudio(), [voice?.seed]);
+	// …and start the new one from the top.
+	if (state.seed !== voice?.seed) setState({ seed: voice?.seed, playing: false, offset: 0, startedAt: 0 });
+	if (!voice) return null;
+	const dur = voice.ms;
+	const toggle = () => {
+		buzz();
+		if (state.playing) {
+			stopAudio();
+			setState((s) => ({ ...s, playing: false, offset: Math.min(dur, s.offset + performance.now() - s.startedAt), startedAt: 0 }));
+			return;
+		}
+		const offset = state.offset >= dur - 50 ? 0 : state.offset;
+		try {
+			const Ctx = window.AudioContext || window.webkitAudioContext;
+			if (Ctx) {
+				ctxRef.current = ctxRef.current || new Ctx();
+				ctxRef.current.resume?.();
+				nodes.current = hum(ctxRef.current, voice.seed, offset / 1000, dur / 1000);
+			}
+		} catch {
+			// No sound in this browser: the waveform still plays.
+		}
+		setState((s) => ({ ...s, playing: true, offset, startedAt: performance.now() }));
+		timer.current = setTimeout(() => {
+			stopAudio();
+			setState((s) => ({ ...s, playing: false, offset: 0, startedAt: 0 }));
+		}, dur - offset);
+	};
+	return { playing: state.playing, offset: state.offset, dur, toggle };
+}
+
+const HEART_PATH = 'M12 21s-7.5-4.6-9.6-9.1C.8 8.4 2.9 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.8 0 5.9 3.9 4.3 7.4C19.5 16.4 12 21 12 21z';
+
+/**
+ * A voice memory's waveform: soft capsules lighter on top, loud where the voice was loud. As it plays,
+ * the part heard fills in and a little heart rides along. `live`: recording (all filled, heart at the end).
+ */
+function Waveform({ wave, width, height, color, player, live = false }) {
+	const theme = useTheme();
+	const bars = wave && wave.length ? wave : Array.from({ length: WAVE_BARS }, () => MIN_BAR);
+	const slot = width / bars.length;
+	const barW = Math.max(2, slot * 0.6);
+	const fill = `linear-gradient(180deg, ${mixHex(color, '#FFFFFF', 0.45)} 0%, ${color} 55%, ${mixHex(color, '#FFFFFF', 0.18)} 100%)`;
+	const row = (
+		<span className="lbd-wave-row" style={{ width, height }}>
+			{bars.map((v, i) => (
+				<span key={i} style={{ width: slot }}>
+					<i style={{ width: barW, height: Math.max(barW, height * v), borderRadius: barW / 2, background: fill }} />
+				</span>
+			))}
+		</span>
+	);
+	const playing = player?.playing;
+	const at = live ? 1 : player ? player.offset / player.dur : 0;
+	const anim = playing ? { animationDuration: `${player.dur}ms`, animationDelay: `-${player.offset}ms` } : null;
+	const heart = Math.max(10, height * 0.5);
+	const showHeart = live || playing || at > 0.001;
+	return (
+		<span className="lbd-wave" style={{ width, height }} aria-hidden="true">
+			<span style={{ opacity: 0.32 }}>{row}</span>
+			<span className={`lbd-wave-played ${playing ? 'is-playing' : ''}`} style={{ height, width: playing ? undefined : `${at * 100}%`, ...anim }}>
+				{row}
+			</span>
+			{showHeart && (
+				<span className={`lbd-wave-head ${playing ? 'is-playing' : ''}`} style={{ top: (height - heart) / 2, width: heart, height: heart, left: playing ? undefined : `${at * 100}%`, ...anim }}>
+					<svg viewBox="0 0 24 24" width={heart} height={heart} className={playing || live ? 'lbd-heart-beat' : ''}>
+						<path d={HEART_PATH} fill={color} stroke={theme.colors.paperWhite} strokeWidth={2.4} strokeLinejoin="round" />
+					</svg>
+				</span>
+			)}
+		</span>
+	);
+}
+
+function PlayButton({ size, color, player, label }) {
+	const theme = useTheme();
+	const Icon = player?.playing ? IoPause : IoPlay;
+	const face = (
+		<span className="lbd-center" style={{ width: size, height: size, borderRadius: '50%', background: color, flex: 'none' }}>
+			<Icon size={size * 0.5} color={theme.colors.paperWhite} style={{ marginLeft: player?.playing ? 0 : size * 0.06 }} />
+		</span>
+	);
+	if (!player) return face;
+	return (
+		<button
+			type="button"
+			className="lbd-pressable"
+			aria-label={player.playing ? 'Pause the voice note' : `Play the voice note, ${label}`}
+			onClick={(event) => {
+				event.stopPropagation();
+				player.toggle();
+			}}
+			style={{ padding: 0, border: 0, background: 'none', cursor: 'pointer', borderRadius: '50%' }}
+		>
+			{face}
+		</button>
+	);
+}
+
+/** The listening row: play button, waveform, length (on a polaroid's strip under its photo). */
+function VoiceRow({ voice, width, height, color, player }) {
+	const theme = useTheme();
+	const button = Math.round(height * 0.86);
+	const fontSize = Math.max(14, height * 0.42);
+	const labelW = fontSize * 1.9;
+	const label = formatVoiceMs(voice.ms);
+	return (
+		<span style={{ display: 'flex', alignItems: 'center', gap: 8, width, height }}>
+			<PlayButton size={button} color={color} player={player} label={label} />
+			<Waveform wave={voice.wave} width={Math.max(0, width - button - labelW - 16)} height={height} color={color} player={player} />
+			<span style={ty('hand', { fontSize, lineHeight: `${fontSize * 1.15}px`, color: theme.colors.inkMuted, width: labelW, textAlign: 'right' })}>{label}</span>
+		</span>
+	);
+}
+
+/** A voice memory with no photo: its waveform, big, is the picture. */
+function SoundPrint({ size, tint, voice, player }) {
+	const theme = useTheme();
+	return (
+		<span
+			className="lbd-abs lbd-center"
+			style={{ inset: 0, flexDirection: 'column', gap: 16, background: `radial-gradient(circle farthest-corner at 40% 35%, ${withAlpha(tint, 0.1)} 0%, ${withAlpha(tint, 0.32)} 100%), ${theme.colors.paper}` }}
+		>
+			<Waveform wave={voice.wave} width={size * 0.8} height={size * 0.4} color={tint} player={player} />
+			<span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+				<PlayButton size={Math.round(size * 0.17)} color={tint} player={player} label={formatVoiceMs(voice.ms)} />
+				<span style={ty('label', { fontSize: size * 0.09, lineHeight: `${size * 0.11}px`, color: theme.colors.ink })}>{formatVoiceMs(voice.ms)}</span>
+			</span>
+		</span>
+	);
+}
+
+/** A little hand-drawn garden wall for the bunny to peek over (BrickWall.tsx). */
+function BrickWall({ width, height }) {
+	if (width <= 0 || height <= 0) return null;
+	const BRICK = ['#C9765A', '#C9765A', '#DB8E70', '#A95F47'];
+	const cap = 5;
+	const gap = 2;
+	const rows = Math.max(2, Math.round((height - cap) / 13));
+	const rowH = (height - cap - gap * (rows + 1)) / rows;
+	const perRow = 3;
+	const brickW = (width - gap * (perRow + 1)) / perRow;
+	const r = mulberry32(7);
+	const bricks = [];
+	for (let row = 0; row < rows; row++) {
+		const y = cap + gap + row * (rowH + gap);
+		const shift = row % 2 ? -brickW / 2 : 0;
+		for (let i = 0; i <= perRow; i++) {
+			const x0 = gap + shift + i * (brickW + gap);
+			const x = Math.max(gap, x0);
+			const w = Math.min(width - gap, x0 + brickW) - x;
+			if (w > 2) bricks.push({ x, y, w, fill: BRICK[Math.floor(r() * BRICK.length)] });
+		}
+	}
+	return (
+		<svg width={width} height={height} aria-hidden="true" style={{ display: 'block', position: 'relative' }}>
+			<rect x={0.5} y={cap / 2} width={width - 1} height={height - cap / 2 - 0.5} rx={4} fill="#F1E2C8" stroke="#7E4E3A" />
+			{bricks.map((b, i) => (
+				<rect key={i} x={b.x} y={b.y} width={b.w} height={rowH} rx={3} fill={b.fill} stroke="#7E4E3A" strokeWidth={0.8} strokeOpacity={0.6} />
+			))}
+			<rect x={0} y={0} width={width} height={cap + 1} rx={cap / 2} fill="#DB8E70" stroke="#7E4E3A" />
+		</svg>
+	);
+}
+
+/**
+ * The top of a page (PageHeader): the title with its highlighter swipe, one handwritten line, and the
+ * bunny peeking in, exactly as tall as the words beside it; with `wall`, over a little brick wall.
+ */
+function PageHeader({ title, count, subtitle, accent, buddyAccent, buddy = true, bump, wall = false }) {
+	const theme = useTheme();
+	const [ref, size] = useSize();
+	const textH = size.h;
+	const peek = 0.68;
+	const baseWall = wall ? Math.round(textH * 0.3) : 0;
+	const tuck = Math.round(baseWall * 0.45);
+	const buddySize = textH > 0 ? Math.min((textH - baseWall + tuck) / peek, 96) : 0;
+	const sink = wall ? Math.min(tuck, Math.round(buddySize * peek * 0.15)) : 0;
+	const wallH = wall ? Math.round(textH - buddySize * peek + sink) : 0;
+	const flower = subtitle?.endsWith('✿');
+	return (
+		<div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
+			<div ref={ref} style={{ flex: 1 }}>
+				<ScreenTitle title={title} count={count} accent={accent} />
+				{subtitle && (
+					<p style={ty('hand', { color: theme.colors.onDeskMuted, marginTop: 4, whiteSpace: 'pre-line' })}>
+						{flower ? subtitle.slice(0, -1) : subtitle}
+						{flower && <span style={{ color: theme.nav.tape2 }}>✿</span>}
+					</p>
+				)}
+			</div>
+			{buddy && buddySize > 0 && (
+				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+					<Buddy mood="peek" accent={buddyAccent || accent} size={buddySize} bump={bump} tappable style={wall ? { marginBottom: -sink } : undefined} />
+					{wall && <BrickWall width={Math.round(buddySize * 1.05)} height={wallH} />}
+				</div>
+			)}
+		</div>
+	);
+}
+
+/**
+ * A page's own buttons in one taped, stitched paper bar at the bottom, where the thumb is (ActionRow):
+ * equal places of icon + handwritten label; the main action a tilted sticker capsule with a white rim.
+ */
+function ActionRow({ actions, lead, tapes = true }) {
+	const theme = useTheme();
+	const { colors } = theme;
+	const nav = theme.nav;
+	return (
+		<div style={{ position: 'relative' }}>
+			<div className="lbd-actrow" style={{ background: nav.strip, borderColor: nav.edge, boxShadow: `0 3px 0 ${nav.shadow}` }}>
+				<span className="lbd-actrow-stitch" style={{ borderColor: nav.stitch }} />
+				{lead}
+				{actions.map((a) => {
+					const fg = a.primary ? nav.rim : a.tint || (a.active ? nav.ink : nav.inkMuted);
+					const Icon = a.icon;
+					return (
+						<button
+							key={a.key}
+							type="button"
+							className="lbd-act lbd-pressable"
+							disabled={a.disabled}
+							aria-label={a.ariaLabel || a.label}
+							aria-pressed={a.active === undefined ? undefined : !!a.active}
+							onClick={() => {
+								buzz();
+								a.onClick();
+							}}
+							style={{ flex: a.primary ? 1.4 : 1 }}
+						>
+							<span
+								className="lbd-act-in"
+								style={
+									a.primary
+										? { background: a.primary, border: `2.5px solid ${nav.rim}`, transform: 'rotate(-2deg)', boxShadow: theme.shadow(a.primary, 0.6) }
+										: a.active
+											? { background: nav.active }
+											: null
+								}
+							>
+								<Icon size={22} color={fg} />
+								<span style={ty('small', { color: a.primary ? nav.rim : a.active || a.tint ? nav.ink : nav.inkMuted, whiteSpace: 'nowrap' })}>{a.label}</span>
+							</span>
+						</button>
+					);
+				})}
+			</div>
+			{tapes && (
+				<>
+					<WashiTape width={52.8} color={nav.tape} color2={nav.rim} pattern="stripes" angle={-24} style={{ left: -12, top: -8, zIndex: 2 }} />
+					<WashiTape width={52.8} color={nav.tape2} color2={nav.rim} pattern="dots" angle={22} style={{ right: -12, top: -8, zIndex: 2 }} />
+				</>
+			)}
+		</div>
+	);
+}
+
+/** The bar at a pushed page's foot; anything above it (a sheet, the voice strip) rises out of it. */
+function ActionBar({ actions, children }) {
+	return (
+		<div className="lbd-actions">
+			{children}
+			<ActionRow actions={actions} />
+		</div>
+	);
+}
+
+/** A question asked on paper (ConfirmSheet): the bunny peeking over a taped card, "Keep it" + the action. */
+function ConfirmSheet({ title, message, confirmLabel, confirmIcon, onConfirm, onCancel }) {
+	const theme = useTheme();
+	const palette = yearPalette(parseDate(TODAY).year);
+	return (
+		<div className="lbd-confirm" role="dialog" aria-modal="true" aria-label={title}>
+			<button type="button" className="lbd-confirm-scrim" aria-label="Keep it" onClick={onCancel} />
+			<div className="lbd-confirm-card">
+				<div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 24, marginBottom: -2 }}>
+					<Buddy mood="peek" size={110} accent={palette.primary} entrance={false} />
+				</div>
+				<Panel seed="confirm" accent={palette.primary} accent2={palette.secondary}>
+					<p style={ty('heading', { color: theme.colors.ink })}>{title}</p>
+					<p style={ty('caption', { color: theme.colors.inkMuted, marginTop: 8 })}>{message}</p>
+					<div style={{ display: 'flex', gap: 12, marginTop: 16, marginBottom: 8 }}>
+						<PillButton label="Keep it" icon={IoHeartOutline} grow onClick={onCancel} />
+						<PillButton label={confirmLabel} icon={confirmIcon} tone="dark" grow onClick={onConfirm} />
+					</div>
+				</Panel>
+			</div>
+		</div>
+	);
+}
+
+/**
+ * Recording a voice note (VoiceRecorder.tsx), simulated in the browser: the waveform draws itself from a
+ * made-up level meter (no microphone is used), up to a minute; Done keeps it.
+ */
+function useVoiceRecording(onDone) {
+	const [rec, setRec] = useState({ recording: false, elapsed: 0, levels: [] });
+	const timer = useRef(null);
+	const started = useRef(0);
+	const seed = useRef(1);
+	const stop = () => {
+		clearInterval(timer.current);
+		setRec((r) => {
+			if (r.recording && r.elapsed >= 500) {
+				const voice = { wave: shapeWaveform(r.levels), ms: Math.round(r.elapsed), seed: seed.current };
+				setTimeout(() => onDone(voice), 0);
+			}
+			return { ...r, recording: false };
+		});
+		buzz(12);
+	};
+	const start = () => {
+		buzz(12);
+		seed.current = Math.floor(Math.random() * 1e6) + 1;
+		started.current = performance.now();
+		const r = mulberry32(seed.current);
+		setRec({ recording: true, elapsed: 0, levels: [] });
+		clearInterval(timer.current);
+		timer.current = setInterval(() => {
+			const t = (performance.now() - started.current) / 1000;
+			const k = Math.floor(t / (SYLLABLE + SYLLABLE_GAP));
+			const inSyl = t - k * (SYLLABLE + SYLLABLE_GAP);
+			const level = inSyl > SYLLABLE ? 0.03 : syllable(seed.current, k).loud * Math.sin((Math.PI * inSyl) / SYLLABLE) + r() * 0.05;
+			setRec((s) => ({ ...s, elapsed: t * 1000, levels: [...s.levels, level] }));
+			if (t * 1000 >= VOICE_MAX_MS) stop();
+		}, 80);
+	};
+	useEffect(() => () => clearInterval(timer.current), []);
+	return { ...rec, start, stop };
+}
+
+/** The slim strip above the writing page's bar: recording (waveform + time + Done), or Listen · Re-record · Remove. */
+function VoiceStrip({ rec, voice, player, onRemove, accent }) {
+	const theme = useTheme();
+	const [waveRef, waveSize] = useSize();
+	if (!rec.recording && !voice) return null;
+	const live = rec.levels.slice(-WAVE_BARS);
+	const liveWave = [...Array.from({ length: WAVE_BARS - live.length }, () => 0.06), ...live];
+	const lead = rec.recording ? (
+		<span style={{ flex: 2.6, display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 12, minWidth: 0 }}>
+			<span className="lbd-rec-dot" style={{ background: accent }} />
+			<span ref={waveRef} style={{ flex: 1, height: 28, minWidth: 0 }}>
+				{waveSize.w > 0 && <Waveform wave={liveWave} width={waveSize.w} height={28} color={accent} live />}
+			</span>
+			<span style={ty('label', { color: theme.colors.ink })}>{formatVoiceMs(rec.elapsed)}</span>
+		</span>
+	) : (
+		<span className="lbd-center" style={{ flex: 1, flexDirection: 'column', gap: 1 }}>
+			<IoMic size={22} color={accent} />
+			<span style={ty('small', { color: theme.colors.inkMuted })}>{formatVoiceMs(voice.ms)}</span>
+		</span>
+	);
+	const actions = rec.recording
+		? [{ key: 'done', icon: IoStop, label: 'Done', primary: accent, ariaLabel: 'Stop recording', onClick: rec.stop }]
+		: [
+				...(player ? [{ key: 'listen', icon: player.playing ? IoPause : IoPlay, label: player.playing ? 'Pause' : 'Listen', tint: accent, active: player.playing, onClick: player.toggle }] : []),
+				{
+					key: 'again',
+					icon: IoMicOutline,
+					label: 'Re-record',
+					ariaLabel: 'Record the voice note again',
+					onClick: () => {
+						if (player?.playing) player.toggle();
+						rec.start();
+					},
+				},
+				{ key: 'remove', icon: IoTrashOutline, label: 'Remove', ariaLabel: 'Remove the voice note', onClick: onRemove },
+			];
+	return (
+		<div className="lbd-rise-in">
+			<ActionRow lead={lead} actions={actions} tapes={false} />
+		</div>
 	);
 }
 
@@ -1524,13 +2481,7 @@ function HomePage({ entries, todayEntry, go, scrollRef, on, flying, onOpenYear, 
 	return (
 		<Page id="home" on={on} scrollRef={scrollRef}>
 			<div className="lbd-stack-xxl">
-				<div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
-					<div style={{ flex: 1 }}>
-						<ScreenTitle title="LookBack" accent={thisYear.secondary} />
-						<p style={ty('hand', { color: colors.onDeskMuted, marginTop: 4 })}>one small thing a day ✿</p>
-					</div>
-					<Buddy mood="peek" accent={thisYear.primary} size={64} />
-				</div>
+				<PageHeader title="LookBack" subtitle="one small thing a day ✿" accent={thisYear.secondary} buddyAccent={thisYear.primary} wall />
 				<div>
 					<SectionHeader title="On this day" detail={monthDay(TODAY)} accent={thisYear.primary} />
 					<LetterDeck entries={memories} onOpen={(entry) => go({ type: 'memory', id: entry.id })} reduceMotion={reduceMotion} />
@@ -1541,7 +2492,7 @@ function HomePage({ entries, todayEntry, go, scrollRef, on, flying, onOpenYear, 
 						<div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
 							<ScrapObject entry={todayEntry} width={theme.contentW * 0.5} numberOfLines={4} onPress={() => go({ type: 'memory', id: todayEntry.id })} />
 							<div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
-								<Buddy mood="happy" accent={thisYear.primary} size={64} />
+								<Buddy mood="happy" accent={thisYear.primary} size={64} tappable />
 								<p style={ty('caption', { color: colors.onDeskMuted })}>Saved. See you next year.</p>
 								<PillButton label="Edit today" icon={IoCreateOutline} onClick={() => go({ type: 'entry' })} />
 							</div>
@@ -1571,15 +2522,14 @@ function YearsPage({ entries, on, onOpenYear, flying }) {
 	return (
 		<Page id="years" on={on}>
 			<div className="lbd-stack-xl">
-				<div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
-					<div style={{ flex: 1 }}>
-						<ScreenTitle title="Years" count={years.length || undefined} accent={palette.secondary} />
-						<p style={ty('hand', { color: theme.colors.onDeskMuted, marginTop: 4 })}>
-							{oldest !== undefined ? `${entries.length} memories since ${oldest}. Tap a diary to open it.` : 'Your diaries will stand here.'}
-						</p>
-					</div>
-					<Buddy mood="peek" accent={palette.primary} size={64} />
-				</div>
+				<PageHeader
+					title="Years"
+					count={years.length || undefined}
+					subtitle={oldest !== undefined ? `${entries.length} memories since ${oldest}.\nTap a diary to open it.` : 'Your diaries will stand here.'}
+					accent={palette.secondary}
+					buddyAccent={palette.primary}
+					wall
+				/>
 				<YearsCupboard entries={entries} onOpenYear={onOpenYear} flying={flying} />
 			</div>
 			<PageFooter label="the bookshelf" />
@@ -1638,7 +2588,7 @@ function MonthHeader({ month, count, top, palette, on }) {
 }
 
 /** A year, opened: every memory thrown on the page; Tidy up sorts them under their months ([year].tsx). */
-function YearPage({ year, entries, tidy, onBack, go, reduceMotion, scrollRef }) {
+function YearPage({ year, entries, tidy, onTidy, onBack, go, reduceMotion, scrollRef, stackAfter = 0 }) {
 	const theme = useTheme();
 	const palette = yearPalette(year);
 	const contentW = theme.contentW;
@@ -1659,13 +2609,17 @@ function YearPage({ year, entries, tidy, onBack, go, reduceMotion, scrollRef }) 
 	const pileIndex = new Map(shuffled.map((e, i) => [e.id, i]));
 	const MINI = 1.7;
 	return (
-		<Page id={`year-${year}`} on scrollRef={scrollRef} style={{ '--page': theme.dark ? undefined : palette.tint }}>
-			<div style={{ marginBottom: 16 }}>
-				<CircleButton icon={IoChevronBack} label="Back" tint={palette.primary} onClick={onBack} />
-			</div>
-			<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 32 }}>
-				<ScreenTitle title={String(year)} count={entries.length} accent={palette.secondary} />
-				<Buddy mood="peek" accent={palette.primary} size={64} bump={tidy ? 1 : 0} />
+		<>
+		<Page id={`year-${year}`} on scrollRef={scrollRef} className="lbd-page-bar" style={{ '--page': theme.dark ? undefined : palette.tint }}>
+			<div style={{ marginBottom: 32 }}>
+				<PageHeader
+					title={String(year)}
+					count={entries.length}
+					subtitle={tidy ? 'sorted by month ✿' : 'all in one happy pile ✿'}
+					accent={palette.secondary}
+					buddyAccent={palette.primary}
+					bump={tidy ? 1 : 0}
+				/>
 			</div>
 			<Lite>
 				<div className="lbd-pile" style={{ position: 'relative', height: tidy ? tidied.height : scattered.height }}>
@@ -1682,7 +2636,7 @@ function YearPage({ year, entries, tidy, onBack, go, reduceMotion, scrollRef }) 
 								className="lbd-abs lbd-pile-item"
 								style={{ left: 0, top: 0, width: itemW, height: cellH, zIndex: z, transform: `translate(${slot.x}px, ${slot.y}px) rotate(${slot.rotate}deg) scale(${slot.scale})` }}
 							>
-								<div className="lbd-fall" style={{ animationDelay: reduceMotion ? '0ms' : `${120 + z * 55}ms` }}>
+								<div className="lbd-fall" style={{ animationDelay: reduceMotion ? '0ms' : `${stackAfter + 120 + z * 55}ms` }}>
 									<div className="lbd-mini" style={{ width: itemW * MINI, transform: `scale(${1 / MINI})` }}>
 										<span className="lbd-abs" style={{ inset: 0, background: theme.colors.shadowBase, opacity: 0.2, borderRadius: 6, transform: 'translate(4px, 6px)' }} />
 										<ScrapObject entry={entry} look={look} width={itemW * MINI} numberOfLines={5} onPress={() => go({ type: 'memory', id: entry.id })} />
@@ -1695,28 +2649,70 @@ function YearPage({ year, entries, tidy, onBack, go, reduceMotion, scrollRef }) 
 			</Lite>
 			<PageFooter label={`${year} · ${entries.length} ${entries.length === 1 ? 'page' : 'pages'}`} />
 		</Page>
+		{/* Inside a diary its own buttons replace the main bar: Back, and Tidy up / Scatter. */}
+		<ActionBar
+			actions={[
+				{ key: 'back', icon: IoChevronBack, label: 'Back', tint: palette.primary, onClick: onBack },
+				...(entries.length > 1 ? [{ key: 'tidy', icon: tidy ? IoShuffle : IoAlbumsOutline, label: tidy ? 'Scatter' : 'Tidy up', tint: palette.primary, active: tidy, onClick: onTidy }] : []),
+			]}
+		/>
+		</>
 	);
 }
 
-function MemoryPage({ entry, onBack, go }) {
+function MemoryPage({ entry, onBack, go, onDelete }) {
 	const theme = useTheme();
-	const palette = yearPalette(parseDate(entry.localDate).year);
-	const isToday = entry.localDate === TODAY;
+	const year = parseDate(entry.localDate).year;
+	const palette = yearPalette(year);
+	const player = useVoicePlayer(entry.voice);
+	const [asking, setAsking] = useState(false);
+	// A polaroid whose words are on its back turns over (with a voice note and a photo, the words are always on the back).
+	const [flipped, setFlipped] = useState(false);
+	const isPolaroid = entry.photo != null || !!entry.voice;
+	const hasBack = isPolaroid && planPolaroidWords(entry.text, entry.photo != null && !!entry.voice).back !== null;
+	const actions = [{ key: 'back', icon: IoChevronBack, label: 'Back', tint: palette.primary, onClick: onBack }];
+	if (player) actions.push({ key: 'play', icon: player.playing ? IoPause : IoPlay, label: player.playing ? 'Pause' : 'Listen', tint: palette.primary, active: player.playing, onClick: player.toggle });
+	if (hasBack) actions.push({ key: 'turn', icon: IoSyncOutline, label: flipped ? 'Turn back' : 'Turn over', tint: palette.primary, active: flipped, onClick: () => setFlipped((f) => !f) });
+	actions.push({ key: 'delete', icon: IoTrashOutline, label: 'Delete', ariaLabel: 'Delete this memory', onClick: () => setAsking(true) });
 	return (
-		<Page id={`memory-${entry.id}`} on>
-			<div className="lbd-stack-xl">
-				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-					<CircleButton icon={IoChevronBack} label="Back" tint={palette.primary} onClick={onBack} />
-					{isToday && <PillButton label="Edit" icon={IoCreateOutline} onClick={() => go({ type: 'entry' })} />}
+		<>
+			<Page id={`memory-${entry.id}`} on className="lbd-page-bar">
+				<div className="lbd-stack-xl">
+					{/* The date is the title; how long ago it was goes under it. */}
+					<PageHeader title={monthDay(entry.localDate)} subtitle={`${memoryKicker(entry.localDate, TODAY)} · ${year}`} accent={palette.secondary} buddyAccent={palette.primary} />
+					<div style={{ display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
+						<ScrapObject
+							entry={entry}
+							width={theme.width * 0.84}
+							stamp={!flipped}
+							lift={1.6}
+							player={player}
+							flipped={flipped}
+							onPress={player && !flipped ? player.toggle : hasBack ? () => setFlipped((f) => !f) : undefined}
+							label={player && !flipped ? 'Play the voice note' : hasBack ? 'Turn it over' : undefined}
+						/>
+					</div>
+					<p style={ty('hand', { color: theme.colors.onDeskMuted, textAlign: 'right', transform: 'rotate(-2deg)' })}>saved on {displayDate(entry.createdAt)}</p>
+					<PageFooter label={`a page from ${year}`} />
 				</div>
-				<p style={ty('headline', { color: theme.colors.onDesk })}>{memoryKicker(entry.localDate, TODAY)}</p>
-				<div style={{ display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
-					<ScrapObject entry={entry} width={theme.width * 0.84} stamp lift={1.6} />
-				</div>
-				{entry.photo != null && entry.text && <p style={ty('body', { color: theme.colors.onDesk, whiteSpace: 'pre-line' })}>{entry.text}</p>}
-				<p style={ty('hand', { color: theme.colors.onDeskMuted, textAlign: 'right', transform: 'rotate(-2deg)' })}>saved on {displayDate(entry.createdAt)}</p>
-			</div>
-		</Page>
+			</Page>
+			{/* The page's own buttons at the foot, where the thumb is; the main bar steps aside inside a memory. */}
+			<ActionBar actions={actions} />
+			{asking && (
+				<ConfirmSheet
+					title="Let this one go?"
+					message={`Bun will forget the page from ${displayDate(entry.localDate)}${entry.photo != null ? ', photo and all' : entry.voice ? ', voice and all' : ''}. It leaves this phone now and your Drive backup at the next backup. There's no getting it back.`}
+					confirmLabel="Shred it"
+					confirmIcon={IoCutOutline}
+					onConfirm={() => {
+						setAsking(false);
+						buzz(20);
+						onDelete(entry);
+					}}
+					onCancel={() => setAsking(false)}
+				/>
+			)}
+		</>
 	);
 }
 
@@ -1794,8 +2790,15 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 	const [tape, setTape] = useState(existing?.tapePattern ?? null);
 	const [stickerColor, setStickerColor] = useState(existing?.stickerColor ?? null);
 	const [tapeColor, setTapeColor] = useState(existing?.tapeColor ?? null);
+	/** What opens above the bar: the photo choices, or the sticker / tape options. */
 	const [part, setPart] = useState(null);
 	const [celebrating, setCelebrating] = useState(null);
+	const [voice, setVoice] = useState(existing?.voice ?? null);
+	const [askRemove, setAskRemove] = useState(false);
+	/** A photo with a voice note: its words are written on the back, so it can be turned over. */
+	const [onBack, setOnBack] = useState(false);
+	const player = useVoicePlayer(voice);
+	const rec = useVoiceRecording(setVoice);
 	const previewRef = useRef(null);
 	const pageRef = useRef(null);
 	const pageW = theme.contentW;
@@ -1805,6 +2808,8 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 		setPhoto(source === 'camera' ? PICKS[(at + 3) % PICKS.length] : PICKS[(at + 1) % PICKS.length]);
 		setSetAside(null);
 		setDevelop((d) => d + 1);
+		setMode('photo');
+		setPart(null);
 	};
 	const changeMode = (next) => {
 		if (next === mode) return;
@@ -1818,18 +2823,19 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 		}
 	};
 	const openPart = (next) => {
-		setPart((p) => (p === next ? null : next));
+		setPart(next);
 		const page = pageRef.current;
 		const preview = previewRef.current;
 		if (page && preview) page.scrollTo({ top: preview.offsetTop - 12, behavior: reduceMotion ? 'auto' : 'smooth' });
 	};
 
-	const canSave = !celebrating && (mode === 'photo' ? photo != null : text.trim().length > 0);
+	const canSave = !celebrating && !rec.recording && (mode === 'photo' ? photo != null : text.trim().length > 0 || voice != null);
 	const entry = {
 		id: TODAY_ID,
 		localDate: TODAY,
 		text: text.trim(),
 		photo: mode === 'photo' ? photo : null,
+		voice,
 		createdAt: TODAY,
 		objectType: null,
 		tapePattern: tape,
@@ -1837,9 +2843,13 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 		stickerColor,
 		tapeColor,
 	};
-	const preview = { ...entry, text: text.trim() || (mode === 'photo' ? '' : 'Your moment goes here…') };
+	const preview = { ...entry, text };
 	const seededLook = lookForEntry(preview);
-	const previewLook = mode === 'photo' && photo == null ? { ...seededLook, objectType: 'polaroid' } : seededLook;
+	// You type on the paper itself, so its kind must not change mid-sentence: a note's paper is picked once (as if
+	// for a short note) and only a ticket turns into a torn note when the words outgrow it.
+	const shortType = lookForEntry({ ...preview, text: 'a', photo: null }).objectType;
+	const noteType = shortType === 'ticket' && text.length <= 70 ? 'ticket' : 'tornNote';
+	const previewLook = mode === 'photo' ? { ...seededLook, objectType: 'polaroid' } : { ...seededLook, objectType: noteType };
 	const stickerPick = paletteByName(stickerColor) || palette;
 	const tapePick = paletteByName(tapeColor) || palette;
 	const lines = mode === 'photo' ? 3 : 6;
@@ -1854,13 +2864,77 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 		setTimeout(() => onSave(entry), 1250);
 	};
 
+	// Photo and Style open right above the bar, in view without scrolling (1.2).
+	const sheet = part ? (
+		<div key={part === 'photo' ? 'photo' : 'style'} className="lbd-rise-in lbd-sheet" style={{ background: colors.panel, boxShadow: theme.shadow(undefined, 1) }}>
+			{part === 'photo' ? (
+				<>
+					<p style={ty('label', { color: colors.ink })}>{photo != null && mode === 'photo' ? 'Another photo?' : 'Add a photo'}</p>
+					<div style={{ display: 'flex', gap: 12 }}>
+						<PillButton label="Library" icon={IoImagesOutline} grow onClick={() => pick('library')} />
+						<PillButton label="Camera" icon={IoCameraOutline} grow onClick={() => pick('camera')} />
+					</div>
+					{photo != null && voice && <PillButton label={onBack ? 'Back to the photo' : 'Write on the back'} icon={IoSyncOutline} color={palette.primary} onClick={() => setOnBack((b) => !b)} />}
+				</>
+			) : (
+				<>
+					<SlidingToggle options={PARTS} value={part} onChange={setPart} accent={palette.secondary} label="Sticker or tape" />
+					<div style={{ display: 'flex', flexDirection: 'column', gap: 16, overflowY: 'auto', maxHeight: 300 }}>
+					{part === 'sticker' ? (
+					<>
+					<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
+					<Chip selected={sticker === null} onClick={() => setSticker(null)} label="Surprise me">
+					<IoSparkles size={22} color={palette.primary} />
+					</Chip>
+					<Chip selected={sticker === 'none'} onClick={() => setSticker('none')} label="No sticker">
+					<IoClose size={22} color={colors.inkMuted} />
+					</Chip>
+					{STICKERS.map((kind) => (
+					<Chip key={kind} selected={sticker === kind} onClick={() => setSticker(kind)} label={`${kind} sticker`}>
+					<Sticker kind={kind} size={33} color={stickerPick.primary} color2={stickerPick.secondary} />
+					</Chip>
+					))}
+					</div>
+					<ColorRow label="Sticker color" value={stickerColor} onChange={setStickerColor} year={palette} />
+					</>
+					) : (
+					<>
+					<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
+					<Chip selected={tape === null} onClick={() => setTape(null)} label="Surprise me">
+					<IoSparkles size={22} color={palette.primary} />
+					</Chip>
+					{TAPE_PATTERNS.map((pattern) => (
+					<Chip key={pattern} selected={tape === pattern} onClick={() => setTape(pattern)} label={`${pattern} tape`}>
+					<span style={{ position: 'relative', width: 46, height: 22 }}>
+					<WashiTape width={46} color={tapePick.primary} color2={tapePick.secondary} pattern={pattern} angle={-8} style={{ left: 0, top: 0 }} />
+					</span>
+					</Chip>
+					))}
+					</div>
+					<ColorRow label="Tape color" value={tapeColor} onChange={setTapeColor} year={palette} />
+					</>
+					)}
+
+					</div>
+				</>
+			)}
+		</div>
+	) : null;
+	const actions = [
+		{ key: 'close', icon: IoClose, label: 'Close', onClick: onClose },
+		{ key: 'photo', icon: IoCameraOutline, label: 'Photo', tint: palette.primary, active: part === 'photo', onClick: () => setPart((p) => (p === 'photo' ? null : 'photo')) },
+		{ key: 'style', icon: IoColorPaletteOutline, label: 'Style', tint: palette.primary, active: part === 'sticker' || part === 'tape', onClick: () => setPart((p) => (p === 'sticker' || p === 'tape' ? null : 'sticker')) },
+		// Voice records (and stops); once there is a note, the strip above has Listen · Re-record · Remove.
+		...(voice && !rec.recording
+			? []
+			: [{ key: 'voice', icon: rec.recording ? IoStop : IoMicOutline, label: rec.recording ? 'Stop' : 'Voice', tint: palette.primary, active: rec.recording, onClick: () => { setPart(null); if (rec.recording) rec.stop(); else rec.start(); } }]),
+		{ key: 'save', icon: IoCheckmark, label: existing ? 'Update' : 'Save', primary: colors.green, disabled: !canSave, onClick: save },
+	];
+
 	return (
+		<>
 		<Page id="entry" on scrollRef={pageRef} className="lbd-page-entry">
 			<div className="lbd-stack-xl">
-				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-					<CircleButton icon={IoClose} label="Close" onClick={onClose} />
-					<PillButton label={existing ? 'Update' : 'Stick it in'} icon={IoCheckmark} tone="green" onClick={save} disabled={!canSave} />
-				</div>
 				<ScreenTitle title="Today" count={monthDay(TODAY)} accent={palette.secondary} />
 				<SlidingToggle options={MODES} value={mode} onChange={changeMode} accent={palette.primary} label="Kind of memory" />
 				<div ref={previewRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 0 12px', gap: 16 }} aria-live="polite">
@@ -1869,84 +2943,58 @@ function EntryPage({ existing, onClose, onSave, reduceMotion }) {
 						entry={preview}
 						look={previewLook}
 						develop={develop > 0}
-						width={pageW * 0.6}
-						numberOfLines={6}
-						onPress={mode === 'photo' && photo == null ? () => pick('library') : undefined}
+						width={pageW * 0.8}
+						player={player}
+						flipped={onBack}
+						editor={{
+							value: text,
+							onChange: setText,
+							placeholder: 'A note, a quote, anything small…',
+							label: mode === 'photo' ? 'Words on the polaroid' : "Today's note",
+							onFocus: () => setPart(null),
+							focusSide: true,
+						}}
+						onPress={mode === 'photo' && photo == null ? () => pick('library') : photo != null && voice ? () => setOnBack((b) => !b) : undefined}
 						label="Pick a photo"
 						onPressTape={() => openPart('tape')}
 						onPressSticker={() => openPart('sticker')}
 					/>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, alignSelf: 'stretch' }}>
-						<Buddy mood={photo != null && mode === 'photo' ? 'cheer' : text.trim() ? 'happy' : 'wave'} accent={palette.primary} size={51.2} bump={`${text.length}-${develop}`} />
+						<Buddy mood={photo != null && mode === 'photo' ? 'cheer' : text.trim() ? 'happy' : 'wave'} accent={palette.primary} size={51.2} bump={`${text.length}-${develop}`} tappable />
 						<p style={ty('small', { color: colors.onDeskMuted, flex: 1 })}>
 							{canSave
-								? `Lovely. I'll bring this back on ${displayDate(shiftYears(TODAY, 1))}. Tap the tape or sticker to change them.`
+								? `Lovely. I'll bring this back on ${displayDate(shiftYears(TODAY, 1))}. Decorate it from the buttons below.`
 								: mode === 'photo'
-									? 'Tap the polaroid to pick a photo, then write a note to stick on it.'
-									: 'Write below and watch it appear. Tap the tape or sticker to change them.'}
+									? photo != null
+										? 'Write on the strip under the photo. Longer words go on the back: P.T.O!'
+										: 'Tap the polaroid (or Photo below) to pick a photo, then write on it.'
+									: 'Write right on the paper, or say it out loud with Voice.'}
 						</p>
 					</div>
 				</div>
-				{mode === 'photo' && (
-					<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12 }}>
-						<PillButton label={photo != null ? 'Another photo' : 'Library'} icon={IoImagesOutline} onClick={() => pick('library')} />
-						<PillButton label="Camera" icon={IoCameraOutline} onClick={() => pick('camera')} />
-					</div>
-				)}
-				<label className="lbd-lined" style={{ background: colors.paperWhite, boxShadow: theme.shadow(palette.primary, 1), '--rule': colors.ruleLine, '--margin': colors.marginLine }}>
-					<textarea
-						value={text}
-						onChange={(event) => setText(event.target.value)}
-						onFocus={() => setPart(null)}
-						placeholder={mode === 'photo' ? 'A little note to stick on the photo…' : 'A note, a quote, anything small…'}
-						aria-label={mode === 'photo' ? 'Note on the photo' : "Today's note"}
-						style={ty('body', { color: colors.ink, lineHeight: '30px', minHeight: 30 * lines, '--ph': colors.inkMuted })}
-					/>
-				</label>
-				<div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-					<SlidingToggle options={PARTS} value={part ?? 'none'} onChange={openPart} accent={palette.secondary} label="Change the sticker or tape" />
-					{part && (
-						<div key={part} className="lbd-rise-in" style={{ background: colors.panel, borderRadius: 6, padding: 16, display: 'flex', flexDirection: 'column', gap: 16, boxShadow: theme.shadow(undefined, 1) }}>
-							{part === 'sticker' ? (
-								<>
-									<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
-										<Chip selected={sticker === null} onClick={() => setSticker(null)} label="Surprise me">
-											<IoSparkles size={22} color={palette.primary} />
-										</Chip>
-										<Chip selected={sticker === 'none'} onClick={() => setSticker('none')} label="No sticker">
-											<IoClose size={22} color={colors.inkMuted} />
-										</Chip>
-										{STICKERS.map((kind) => (
-											<Chip key={kind} selected={sticker === kind} onClick={() => setSticker(kind)} label={`${kind} sticker`}>
-												<Sticker kind={kind} size={33} color={stickerPick.primary} color2={stickerPick.secondary} />
-											</Chip>
-										))}
-									</div>
-									<ColorRow label="Sticker color" value={stickerColor} onChange={setStickerColor} year={palette} />
-								</>
-							) : (
-								<>
-									<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
-										<Chip selected={tape === null} onClick={() => setTape(null)} label="Surprise me">
-											<IoSparkles size={22} color={palette.primary} />
-										</Chip>
-										{TAPE_PATTERNS.map((pattern) => (
-											<Chip key={pattern} selected={tape === pattern} onClick={() => setTape(pattern)} label={`${pattern} tape`}>
-												<span style={{ position: 'relative', width: 46, height: 22 }}>
-													<WashiTape width={46} color={tapePick.primary} color2={tapePick.secondary} pattern={pattern} angle={-8} style={{ left: 0, top: 0 }} />
-												</span>
-											</Chip>
-										))}
-									</div>
-									<ColorRow label="Tape color" value={tapeColor} onChange={setTapeColor} year={palette} />
-								</>
-							)}
-						</div>
-					)}
-				</div>
 			</div>
-			{celebrating && <Celebration entry={celebrating} palette={palette} />}
 		</Page>
+		<ActionBar actions={actions}>
+			{sheet}
+			<VoiceStrip rec={rec} voice={rec.recording ? null : voice} player={player} onRemove={() => setAskRemove(true)} accent={palette.primary} />
+		</ActionBar>
+		{askRemove && (
+			<ConfirmSheet
+				title="Take your voice off?"
+				message={`Only the voice note goes; your words${photo != null ? ' and photo' : ''} stay.`}
+				confirmLabel="Remove it"
+				confirmIcon={IoTrashOutline}
+				onConfirm={() => {
+					setAskRemove(false);
+					if (player?.playing) player.toggle();
+					setVoice(null);
+					setOnBack(false);
+				}}
+				onCancel={() => setAskRemove(false)}
+			/>
+		)}
+		{celebrating && <Celebration entry={celebrating} palette={palette} />}
+		</>
 	);
 }
 
@@ -2045,10 +3093,7 @@ function SettingsPage({ on, look, onLook, entries, name, setName, reminder, setR
 	return (
 		<Page id="settings" on={on}>
 			<div className="lbd-stack-xxl">
-				<div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-					<ScreenTitle title="Settings" accent={palette.secondary} />
-					<Buddy mood="peek" accent={palette.primary} size={64} />
-				</div>
+				<PageHeader title="Settings" subtitle="make this notebook yours ✿" accent={palette.secondary} buddyAccent={palette.primary} />
 
 				<Panel seed="you" accent={palette.primary} accent2={palette.secondary}>
 					<CardTitle icon={IoHappyOutline} title="You" color={palette.primary} />
@@ -2178,83 +3223,80 @@ function SettingsPage({ on, look, onLook, entries, name, setName, reminder, setR
 
 /* ---------- The paper navigation strip (NavBar.tsx) ---------- */
 
-function stripPath(w, h, cx, cy, notchR, inset = 0) {
-	const r = 22 - inset;
-	const top = inset;
-	const left = inset;
-	const right = w - inset;
-	const bottom = h - inset;
-	const R = notchR + inset;
-	const y0 = top + 4;
-	const dx = Math.sqrt(Math.max(0, R * R - (y0 - cy) ** 2));
-	const large = y0 < cy ? 1 : 0;
-	return `M ${left + r} ${top} L ${cx - dx - 12} ${top} Q ${cx - dx} ${top} ${cx - dx} ${y0} A ${R} ${R} 0 ${large} 0 ${cx + dx} ${y0} Q ${cx + dx} ${top} ${cx + dx + 12} ${top} L ${right - r} ${top} Q ${right} ${top} ${right} ${top + r} L ${right} ${bottom - r} Q ${right} ${bottom} ${right - r} ${bottom} L ${left + r} ${bottom} Q ${left} ${bottom} ${left} ${bottom - r} L ${left} ${top + r} Q ${left} ${top} ${left + r} ${top} Z`;
-}
 
-function NavTab({ icon: Icon, activeIcon: ActiveIcon, label, active, accent, onClick }) {
+function NavTab({ icon: Icon, activeIcon: ActiveIcon, label, active, onClick }) {
 	const theme = useTheme();
 	const Shown = active && ActiveIcon ? ActiveIcon : Icon;
 	return (
 		<button type="button" className="lbd-tab lbd-pressable" aria-current={active ? 'page' : undefined} aria-label={label} onClick={onClick}>
-			{active && <span className="lbd-tab-pill" style={{ background: withAlpha(accent, 0.28) }} />}
-			<Shown size={22} color={active ? theme.colors.ink : theme.colors.inkMuted} style={{ position: 'relative' }} />
-			<span style={ty('small', { color: active ? theme.colors.ink : theme.colors.inkMuted, position: 'relative' })}>{label}</span>
+			<Shown size={22} color={active ? theme.nav.ink : theme.nav.inkMuted} style={{ position: 'relative' }} />
+			<span style={ty('small', { color: active ? theme.nav.ink : theme.nav.inkMuted, position: 'relative' })}>{label}</span>
 		</button>
 	);
 }
 
-function NavBar({ hidden, tab, written, action, onTab, onWrite }) {
+/** Rounded strip outline, `inset` in from the edge (for the stitch). */
+function stripPath(w, h, inset = 0) {
+	const r = 22 - inset;
+	const [l, t, rt, b] = [inset, inset, w - inset, h - inset];
+	return `M ${l + r} ${t} L ${rt - r} ${t} Q ${rt} ${t} ${rt} ${t + r} L ${rt} ${b - r} Q ${rt} ${b} ${rt - r} ${b} L ${l + r} ${b} Q ${l} ${b} ${l} ${b - r} L ${l} ${t + r} Q ${l} ${t} ${l + r} ${t} Z`;
+}
+
+const NAV_TABS = [
+	{ key: 'home', label: 'Home', icon: IoHomeOutline, activeIcon: IoHome },
+	{ key: 'years', label: 'Years', icon: IoLibraryOutline, activeIcon: IoLibrary },
+	{ key: 'settings', label: 'Settings', icon: IoSettingsOutline, activeIcon: IoSettings },
+];
+
+/**
+ * The bar at the foot of Home, Years and Settings (NavBar.tsx): a stitched strip of the chosen paper,
+ * taped at both ends, with three equal places and a highlight under the page you're on; beside it the
+ * round + sticker with bunny ears that writes today (green once written, a pencil to edit).
+ */
+function NavBar({ hidden, tab, written, onTab, onWrite }) {
 	const theme = useTheme();
-	const { colors } = theme;
-	const palette = yearPalette(parseDate(TODAY).year);
+	const { colors, nav } = theme;
 	const w = theme.width - 40;
 	const h = 72;
 	const d = 62;
-	const cx = w / 2;
-	const cy = d * 0.08;
-	const notchR = d / 2 + 6;
-	const fill = written ? colors.green : palette.primary;
+	const gap = 8;
+	const stripW = w - d - gap;
+	const slot = stripW / NAV_TABS.length;
+	const on = NAV_TABS.findIndex((t) => t.key === tab);
+	const fill = written ? colors.green : nav.plus;
+	const tapeW = 52.8;
 	return (
 		<nav className={`lbd-nav ${hidden ? 'is-hidden' : ''}`} aria-label="Pages" inert={hidden} style={{ height: h }}>
-			<svg width={w} height={h + 3} className="lbd-abs" style={{ left: 0, top: 0, overflow: 'visible' }} aria-hidden="true">
-				<path d={stripPath(w, h, cx, cy, notchR)} fill={withAlpha(palette.ink, theme.dark ? 0.5 : 0.18)} transform="translate(0 3)" />
-				<path d={stripPath(w, h, cx, cy, notchR)} fill={colors.panel} stroke={withAlpha(palette.ink, 0.25)} strokeWidth={1} />
-				<path d={stripPath(w, h, cx, cy, notchR, 5)} fill="none" stroke={withAlpha(palette.primary, 0.55)} strokeWidth={1.4} strokeDasharray="5 4" strokeLinecap="round" />
+			<svg width={stripW} height={h + 3} className="lbd-abs" style={{ left: 0, top: 0, overflow: 'visible' }} aria-hidden="true">
+				<path d={stripPath(stripW, h)} fill={nav.shadow} transform="translate(0 3)" />
+				<path d={stripPath(stripW, h)} fill={nav.strip} stroke={nav.edge} strokeWidth={1} />
+				<path d={stripPath(stripW, h, 5)} fill="none" stroke={nav.stitch} strokeWidth={1.4} strokeDasharray="5 4" strokeLinecap="round" />
 			</svg>
-			<WashiTape width={52.8} color={palette.primary} color2={colors.paperWhite} pattern="stripes" angle={-24} style={{ left: -12, top: -8, zIndex: 2 }} />
-			<WashiTape width={52.8} color={palette.secondary} color2={colors.paperWhite} pattern="dots" angle={22} style={{ right: -12, top: -8, zIndex: 2 }} />
-			<div className="lbd-nav-row">
-				<div className="lbd-nav-side">
-					<NavTab icon={IoHomeOutline} activeIcon={IoHome} label="Home" active={tab === 'home'} accent={palette.primary} onClick={() => onTab('home')} />
-					<NavTab icon={IoLibraryOutline} activeIcon={IoLibrary} label="Years" active={tab === 'years'} accent={palette.primary} onClick={() => onTab('years')} />
-				</div>
-				<div className="lbd-nav-mid" style={{ width: notchR * 2 }}>
-					<span className="lbd-ears" style={{ top: cy - d / 2 - d * 0.3, width: d }} aria-hidden="true">
-						{[-16, 16].map((r) => (
-							<i key={r} style={{ transform: `rotate(${r}deg)`, background: colors.paperWhite, borderColor: withAlpha(palette.ink, 0.25) }}>
-								<b style={{ background: colors.buddyEar }} />
-							</i>
-						))}
-					</span>
-					<button
-						type="button"
-						className="lbd-write lbd-pressable"
-						onClick={onWrite}
-						aria-label={written ? "Edit today's memory" : "Write today's memory"}
-						style={{ top: cy - d / 2, width: d, height: d, background: fill, borderColor: colors.paperWhite, boxShadow: theme.shadow(fill, 1.2) }}
-					>
-						{written ? <IoCreate size={26.4} color={colors.paperWhite} /> : <IoAdd size={33} color={colors.paperWhite} />}
-					</button>
-					<span style={ty('small', { color: colors.ink, textAlign: 'center' })}>{written ? 'edit ✓' : 'write'}</span>
-				</div>
-				<div className="lbd-nav-side">
-					{action && (
-						<span key={action.label} className="lbd-fade-in" style={{ flex: 1, display: 'flex' }}>
-							<NavTab icon={action.icon} label={action.label} accent={palette.primary} onClick={action.onClick} />
-						</span>
-					)}
-					<NavTab icon={IoSettingsOutline} activeIcon={IoSettings} label="Settings" active={tab === 'settings'} accent={palette.primary} onClick={() => onTab('settings')} />
-				</div>
+			<WashiTape width={tapeW} color={nav.tape} color2={nav.rim} pattern="stripes" angle={-24} style={{ left: -12, top: -8, zIndex: 2 }} />
+			<WashiTape width={tapeW} color={nav.tape2} color2={nav.rim} pattern="dots" angle={22} style={{ left: stripW - tapeW + 12, top: -8, zIndex: 2 }} />
+			<div className="lbd-nav-tabs" style={{ width: stripW, height: h }}>
+				{on >= 0 && <span className="lbd-nav-pill" style={{ left: on * slot + 9, width: slot - 18, background: nav.active }} />}
+				{NAV_TABS.map((t) => (
+					<NavTab key={t.key} icon={t.icon} activeIcon={t.activeIcon} label={t.label} active={tab === t.key} onClick={() => onTab(t.key)} />
+				))}
+			</div>
+			<div className="lbd-nav-plus" style={{ left: stripW + gap, width: d, height: h }}>
+				<span className="lbd-ears" style={{ top: (h - d) / 2 - d * 0.32, width: d }} aria-hidden="true">
+					{[-16, 16].map((r) => (
+						<i key={r} style={{ transform: `rotate(${r}deg)`, background: nav.rim, borderColor: nav.edge }}>
+							<b style={{ background: colors.buddyEar }} />
+						</i>
+					))}
+				</span>
+				<button
+					type="button"
+					className="lbd-plus lbd-pressable"
+					onClick={onWrite}
+					aria-label={written ? "Edit today's memory" : "Write today's memory"}
+					style={{ width: d, height: d, background: fill, borderColor: nav.rim, boxShadow: theme.shadow(fill, 1.2) }}
+				>
+					{written ? <IoCreate size={26.4} color={nav.rim} /> : <IoAdd size={33} color={nav.rim} />}
+				</button>
 			</div>
 		</nav>
 	);
@@ -2263,7 +3305,7 @@ function NavBar({ hidden, tab, written, action, onTab, onWrite }) {
 /* ---------- The app ---------- */
 
 /**
- * The phone keeps the device's real screen size, 412 × 915 dp, so every layout wraps as it does on
+ * The phone keeps the real device's screen size (OnePlus Nord 5: 1272 × 2800 px at 560 dpi = 363 × 800 dp), so every layout wraps as it does on
  * the phone; when the column is narrower or the window shorter, the whole phone is scaled down
  * instead of re-flowed. Popped out or full screen, it fits the window it is in.
  */
@@ -2321,7 +3363,8 @@ function LookBackApp({ look, onLook }) {
 	const pillCount = useRef(0);
 	const width = rootSize.w || SCREEN.w;
 	const theme = makeTheme(look.paper, look.tone, width);
-	const entries = todayEntry ? [...SAMPLE, todayEntry] : SAMPLE;
+	const [deleted, setDeleted] = useState(() => new Set());
+	const entries = (todayEntry ? [...sampleSet(), todayEntry] : sampleSet()).filter((e) => !deleted.has(e.id));
 
 	useEffect(() => {
 		const el = rootRef.current;
@@ -2365,7 +3408,7 @@ function LookBackApp({ look, onLook }) {
 		toast(`Saved for ${displayDate(shiftYears(TODAY, 1))}`);
 	};
 
-	// Pulling a diary off the shelf: it lifts out, flies to the middle as its cover, opens, and the year appears.
+	// Pulling a diary off the shelf: the whole flight (DiaryFlight) plays over the page; the year opens underneath.
 	const openYear = (year, spineEl) => {
 		if (flight) return;
 		if (reduceMotion || !spineEl || !rootRef.current) {
@@ -2375,6 +3418,7 @@ function LookBackApp({ look, onLook }) {
 		const root = rootRef.current.getBoundingClientRect();
 		const rect = spineEl.getBoundingClientRect();
 		const scale = root.width / rootRef.current.offsetWidth || 1;
+		buzz(10);
 		setFlight({
 			year,
 			count: entries.filter((e) => parseDate(e.localDate).year === year).length,
@@ -2382,29 +3426,23 @@ function LookBackApp({ look, onLook }) {
 			y: (rect.top - root.top) / scale,
 			w: rect.width / scale,
 			h: rect.height / scale,
-			phase: 'pull',
+			key: (flight?.key ?? 0) + 1 + year,
 		});
-		later(() => setFlight((f) => f && { ...f, phase: 'fly' }), 220);
-		later(() => setFlight((f) => f && { ...f, phase: 'open' }), 780);
-		later(() => push({ type: 'year', year }), 1100);
-		later(() => setFlight((f) => f && { ...f, phase: 'fade' }), 1150);
-		later(() => setFlight(null), 1500);
 	};
 
 	const top = stack[stack.length - 1];
-	const onEntry = top?.type === 'entry';
-	const yearTop = top?.type === 'year' ? top : null;
-	const action =
-		yearTop && entries.filter((e) => parseDate(e.localDate).year === yearTop.year).length > 1
-			? {
-					label: tidy ? 'Scatter' : 'Tidy up',
-					icon: tidy ? IoShuffle : IoAlbumsOutline,
-					onClick: () => {
-						yearRef.current?.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-						setTidy((t) => !t);
-					},
-				}
-			: null;
+	// The main bar is for Home / Years / Settings only: pages you open into have their own bar (1.2).
+	const pushed = !!top;
+	const toggleTidy = () => {
+		yearRef.current?.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+		setTidy((t) => !t);
+	};
+	const deleteEntry = (entry) => {
+		setDeleted((d) => new Set(d).add(entry.id));
+		if (entry.id === todayEntry?.id) setTodayEntry(null);
+		pop();
+		toast('Let go. All gone ✿');
+	};
 
 	const renderRoute = (route) => {
 		if (route.type === 'year') {
@@ -2413,6 +3451,9 @@ function LookBackApp({ look, onLook }) {
 					year={route.year}
 					entries={entries.filter((e) => parseDate(e.localDate).year === route.year)}
 					tidy={tidy}
+					onTidy={toggleTidy}
+					// Opened from the shelf, the page waits under the book; its memories stack on after the reveal.
+					stackAfter={route.flown ? bookTimes().done - bookTimes().turnAt : 0}
 					onBack={pop}
 					go={push}
 					reduceMotion={reduceMotion}
@@ -2422,7 +3463,7 @@ function LookBackApp({ look, onLook }) {
 		}
 		if (route.type === 'memory') {
 			const entry = entries.find((e) => e.id === route.id);
-			return entry ? <MemoryPage entry={entry} onBack={pop} go={push} /> : null;
+			return entry ? <MemoryPage entry={entry} onBack={pop} go={push} onDelete={deleteEntry} /> : null;
 		}
 		return <EntryPage existing={todayEntry} onClose={pop} onSave={save} reduceMotion={reduceMotion} />;
 	};
@@ -2483,20 +3524,15 @@ function LookBackApp({ look, onLook }) {
 				})}
 
 				{flight && (
-					<div className={`lbd-flight is-${flight.phase}`} aria-hidden="true">
-						<span className="lbd-flight-page" style={{ background: theme.dark ? theme.colors.desk : yearPalette(flight.year).tint }} />
-						<span className="lbd-flight-spine" style={{ left: flight.x, top: flight.y, width: flight.w, height: flight.h }}>
-							<BookSpine year={flight.year} count={flight.count} age={parseDate(TODAY).year - flight.year} />
-						</span>
-						<span className="lbd-flight-cover" style={{ '--from-x': `${flight.x + flight.w / 2 - width / 2}px`, '--from-y': `${flight.y + flight.h / 2}px` }}>
-							<DiaryCover year={flight.year} count={flight.count} width={width * 0.62} />
-							{STICKERS.slice(0, 4).flatMap((kind, i) => [0, 1, 2].map((k) => (
-								<span key={`${kind}${k}`} className="lbd-spark" style={{ '--a': `${(i * 3 + k) * 30}deg` }}>
-									<Sticker kind={k === 1 ? 'heart' : kind === 'moon' ? 'star' : kind} size={20} color={yearPalette(flight.year).primary} color2={yearPalette(flight.year).secondary} />
-								</span>
-							)))}
-						</span>
-					</div>
+					<DiaryFlight
+						key={flight.key}
+						flight={flight}
+						W={width}
+						H={rootSize.h || SCREEN.h}
+						dark={theme.dark}
+						onPush={() => push({ type: 'year', year: flight.year, flown: true })}
+						onDone={() => setFlight(null)}
+					/>
 				)}
 
 				<div className="lbd-status" aria-hidden="true">
@@ -2509,10 +3545,10 @@ function LookBackApp({ look, onLook }) {
 				</div>
 
 				<NavBar
-					hidden={onEntry}
+					hidden={pushed}
 					tab={stack.length ? null : tab}
 					written={!!todayEntry}
-					action={action}
+					action={null}
 					onTab={goTab}
 					onWrite={() => push({ type: 'entry' })}
 				/>
@@ -2611,7 +3647,7 @@ function IconMoods() {
 /* ---------- The stages ---------- */
 
 export default function LookBackDemo() {
-	const [look, setLook] = useState({ paper: 'cream', tone: 'light' });
+	const [look, setLook] = useState({ paper: 'rose', tone: 'light' });
 
 	return (
 		<div className="chd-wrap lbd-wrap" id="live-prototype">
@@ -2620,7 +3656,7 @@ export default function LookBackDemo() {
 					<span className="chd-stage-pulse" aria-hidden="true" /> Live prototype · Android app
 				</p>
 				<div className="chd-bar">
-					<p className="chd-bar-note">Tap an envelope, swipe the letters, write today, pull a diary off the shelf. Sample memories only.</p>
+					<p className="chd-bar-note">Version 1.2: open the 2025 letter and tap Listen, record a voice note, poke the bunny, pull a diary off the shelf. Sample memories only; recording is simulated.</p>
 					<div className="chd-theme" role="group" aria-label="Appearance">
 						{[
 							['light', 'Light'],
@@ -2658,7 +3694,7 @@ export default function LookBackDemo() {
 			</section>
 
 			<p className="chd-caption">
-				A working copy of the app, ported screen by screen from its React Native source, with its real icon and mascot art. The memories are the app’s own built-in sample set. On a wide screen, pop it out to keep it beside you while you read.
+				A working copy of the app as of version 1.2, ported screen by screen from its React Native source, with its real icon and mascot art. The memories are the app’s own built-in sample set; the voice notes play a hummed tune, and recording is simulated (no microphone is used). On a wide screen, pop it out to keep it beside you while you read.
 			</p>
 		</div>
 	);

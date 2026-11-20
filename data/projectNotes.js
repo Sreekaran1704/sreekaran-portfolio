@@ -21,7 +21,7 @@ export const projectNotes = {
   },
   'lookback-daily-memory-journal': {
     displayTitle: 'LookBack',
-    summary: 'A cosy Android journal: one small thing a day, and on the same date a year later it comes back as a sealed letter from your past self.',
+    summary: 'A cosy Android journal: one small thing a day (words, a photo or your voice), and on the same date a year later it comes back as a sealed letter from your past self.',
     metric: '120 Hz', finding: 'Frame timing showed the GPU, not JavaScript, was the bottleneck; caching still paper objects as GPU textures cut scroll jank in a 73-memory year from 19% to 1.8%.',
     annotation: 'One small thing a day.', stages: ['Write today', 'Wait a year', 'Open the letter'],
     liveLabel: 'Download for Android',

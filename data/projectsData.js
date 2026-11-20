@@ -4,21 +4,21 @@ export const projectsData = [
 		title: 'LookBack: A Daily Journal That Writes Back a Year Later',
 		url: 'lookback-daily-memory-journal',
 		githubUrl: 'https://github.com/Sreekaran1704/LookBack',
-		liveUrl: 'https://github.com/Sreekaran1704/LookBack/releases/tag/v1.0.0',
+		liveUrl: 'https://github.com/Sreekaran1704/LookBack/releases/tag/v1.2.0',
 		// The project page offers the APK itself instead of the release page.
 		downloads: [
-			{ label: 'Download for Android', href: 'https://github.com/Sreekaran1704/LookBack/releases/download/v1.0.0/LookBack-1.0.0.apk' },
+			{ label: 'Download for Android', href: 'https://github.com/Sreekaran1704/LookBack/releases/download/v1.2.0/LookBack-1.2.0.apk' },
 		],
-		downloadsNote: 'v1.0.0 · LookBack-1.0.0.apk, 58 MB · Android 7+, arm64 · Signed, with a SHA-256 checksum on the release page',
+		downloadsNote: 'v1.2.0 · LookBack-1.2.0.apk, 61 MB · Android 7+, arm64 · Signed, installs over earlier versions and keeps your memories · SHA-256 on the release page',
 		category: 'Mobile App',
 		type: 'Project',
 		// Link-preview card, rendered from design/og-project.html?p=lookback.
 		ogImage: '/og/lookback.png',
-		ogImageAlt: 'LookBack: a cosy Android journal. One small thing a day comes back on the same date a year later as a letter from your past self.',
+		ogImageAlt: 'LookBack: a cosy Android journal. One small thing a day (words, a photo or your voice) comes back on the same date a year later as a letter from your past self.',
 		ProjectHeader: {
 			title: 'LookBack: A Daily Journal That Writes Back a Year Later',
 			publishDate: '2026',
-			tags: 'Product Design / React Native / Expo / Local-First / 120 Hz Performance',
+			tags: 'Product Design / React Native / Expo / Local-First / Voice / 120 Hz Performance',
 		},
 		ProjectImages: [],
 		// Shown on the project page: a working prototype of the app on a phone.
@@ -41,7 +41,7 @@ export const projectsData = [
 				{
 					id: 1213,
 					title: 'How it was built',
-					details: 'With an AI coding assistant (Claude Code). I set the product direction, design and priorities, reviewed and tested every build on a real phone, and drove the performance and privacy decisions. About one week, 9 to 11 November 2026, from first commit to the public 1.0',
+					details: 'With an AI coding assistant (Claude Code). I set the product direction, design and priorities, reviewed and tested every build on a real phone, and drove the performance and privacy decisions. About one week from first commit to the public 1.0 (9 to 11 November 2026), then 1.1 (17 November) and 1.2 (19 November) from daily use',
 				},
 				{
 					id: 1214,
@@ -51,7 +51,7 @@ export const projectsData = [
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Journaling apps ask for too much and give little back. LookBack asks for one small thing a day, a note, a quote or a photo, and on the same date a year later it comes back as a sealed letter from your past self. The goal was to ship that loop as a complete, private Android app that feels like a handmade paper scrapbook and runs smoothly at 120 Hz on a mid-range phone.',
+				'Journaling apps ask for too much and give little back. LookBack asks for one small thing a day, a note, a photo or a few seconds of your voice, and on the same date a year later it comes back as a sealed letter from your past self. The goal was to ship that loop as a complete, private Android app that feels like a handmade paper scrapbook and runs smoothly at 120 Hz on a mid-range phone.',
 			Technologies: [
 				{
 					title: 'Tools & Methods',
@@ -68,6 +68,8 @@ export const projectsData = [
 						'Google Drive API',
 						'Android widget',
 						'Expo config plugins',
+						'expo-audio',
+						'Perfetto',
 					],
 				},
 			],
@@ -114,14 +116,29 @@ export const projectsData = [
 						'Profile before fixing: per-frame breakdowns showed whether time went to the main thread, layout or the GPU. The biggest wins came from finding that the GPU, not JavaScript, was the bottleneck.\n\nCache still things as textures: static, shadow-heavy objects (envelopes, settings cards, the shelf) are cached as GPU textures while they are still, so a frame repaints a picture instead of redrawing blurred shadows and vector shapes.\n\nViewport-aware caching: in a year’s pile, items within one screen of the viewport become textures at on-screen size (about 1 MB each, around 14 MB in all); far ones stay plain drawings to cap memory.\n\nProgressive rendering: a year opens with the first items drawn, the rest stack on with an animation, and the page builds ahead in idle time, so scrolling never has to build views mid-scroll.\n\nPersistent tabs: the main pages stay mounted, so switching is a cross-fade between pages that already exist instead of a rebuild mid-transition. That exposed two new problems: hidden pages kept the mascot animating, and a text field auto-focusing on Settings caused a 350 ms stall. Both were found with frame timing and fixed with a page-active signal and a tap-to-edit field.\n\nData from the first frame: all entries load into an in-memory store during the splash screen, so screens read synchronously with no spinners. Reminders and backup wait 3 seconds after launch. Photos are downscaled once on import (camera photos are often over 4000 px; they are stored at 1600 px).',
 				},
 				{
-					title: 'Architecture and quality',
+					title: 'Version 1.2: say it out loud',
 					details:
-						'Repository pattern: all data access goes through entriesRepository, settingsRepository and backupRepository, so the Drive backup plugged in without touching any screen.\n\nVersioned SQLite migrations: tracked with PRAGMA user_version, and a shipped migration is never edited.\n\nTested core logic: dates and leap years, on-this-day matching, notification planning, backup merging, the layout maths for the scattered and tidy year views, the icon’s mood and paper settings are pure modules with no React Native imports, covered by 82 unit tests.\n\nNative config without hand-edited native code: custom Expo config plugins for 120 Hz and release signing, alternate launcher icons, and a home-screen widget that runs headless. One script (CanvasKit / Skia) draws the app icon, adaptive icon layers, splash, notification icons, widget preview and every mascot pose from a single drawing.',
+						'Voice memories: record up to a minute and the waveform draws itself as you speak. The recorder’s level meter is sampled every 80 ms and saved as 32 bars with the memory, so drawing a waveform never has to decode audio. A voice memory is always a polaroid: on its own, the waveform is the picture; with a photo, the waveform runs along the strip under it. Tap it and the bars fill in as it plays, with a little heart riding along. Voice files back up to Drive like photos, under the same tested merge rules.\n\nPhotos look like old instant film: a touch of sepia, faded colour and softer contrast, with a cream wash, a warm cast and a vignette, all drawn on the GPU.\n\nThe bunny got soft fur, blinks (sometimes twice), breathes, tilts its head now and then, and squishes and hops when you poke it. Its poses are still pre-rendered pictures, so Home still idles at 4–5 ms of GPU per frame.',
 				},
 				{
-					title: 'Shipping 1.0',
+					title: 'One-handed, and nicer in the hand',
 					details:
-						'I generated a release signing key kept outside the repo, signed the APK, verified its signature and checksum, registered the release key with Google OAuth, and published a GitHub release with a SHA-256 for verification. Before going public I ran a secrets audit and removed private files that had been committed by accident.\n\nI built LookBack with an AI coding assistant, acting as product owner and tech lead: setting the direction, reviewing every build on a real device, and deciding what to measure and what to cut. It went from first commit to a signed public release in about a week.',
+						'Every page’s own buttons moved into one labelled bar at the bottom, where the thumb is, inspired by One UI and drawn as taped, stitched paper: Back · Listen · Turn over · Delete on a memory; Close · Photo · Style · Voice · Update when writing. Photo and Style open their choices right above the bar, so nothing hides below the fold. The main Home / Years / Settings bar steps aside inside a memory or a diary.\n\nHaptics use Android’s own crisp effects instead of the old buzzy vibration, with a small vocabulary where each touch means one thing: a two-part click on buttons, ticks for choices and toggles, a landing tick when a turned polaroid comes down, a thud when a diary falls open, a confirm on save.\n\nSmall fixes from daily use: the section titles and dates now sit on one line, swiping letters no longer drags the whole page, the delete question glides in instead of bouncing, and removing a voice note asks first.',
+				},
+				{
+					title: 'Finding a one-second stutter with Perfetto',
+					details:
+						'Opening a memory sometimes froze for about a second. Instead of guessing, I captured a Perfetto system trace on the phone and read the slowest frames with Perfetto’s trace processor. The culprit was the page-slide animation: on Android it redrew the page behind in software, on the CPU. A plain slide, building the memory only after the slide finishes, keeping paper objects as GPU textures while they are still, and moving large SVG gradients to native GPU gradients took the worst frame during the slide from 1.1 s to about 20 ms.\n\nOpening a diary built every animated piece in its first frame (150 ms). Building the pieces in stages, just before each is needed, cut the 99th-percentile frame to 44 ms.',
+				},
+				{
+					title: 'Architecture and quality',
+					details:
+						'Repository pattern: all data access goes through entriesRepository, settingsRepository and backupRepository, so the Drive backup plugged in without touching any screen.\n\nVersioned SQLite migrations: tracked with PRAGMA user_version, and a shipped migration is never edited.\n\nTested core logic: dates and leap years, on-this-day matching, notification planning, backup merging, the layout maths for the scattered and tidy year views, the icon’s mood and paper settings are pure modules with no React Native imports, covered by 109 unit tests.\n\nNative config without hand-edited native code: custom Expo config plugins for 120 Hz and release signing, alternate launcher icons, and a home-screen widget that runs headless. One script (CanvasKit / Skia) draws the app icon, adaptive icon layers, splash, notification icons, widget preview and every mascot pose from a single drawing.',
+				},
+				{
+					title: 'Shipping, and shipping again',
+					details:
+						'I generated a release signing key kept outside the repo, signed the APK, verified its signature and checksum, registered the release key with Google OAuth, and published a GitHub release with a SHA-256 for verification. Before going public I ran a secrets audit and removed private files that had been committed by accident.\n\nEvery later release is signed with the same key, so it installs as an update and keeps people’s memories. 1.1 came a week after 1.0 from real daily use (a Google sign-in bug and memory deletion that syncs correctly), and 1.2 two days later. A Google Play submission is fully prepared (listing, Data safety answers, privacy policy, store graphics) and waits on the developer account.\n\nI built LookBack with an AI coding assistant, acting as product owner and tech lead: setting the direction, reviewing every build on a real device, and deciding what to measure and what to cut.',
 				},
 			],
 			SocialSharingHeading: '',
