@@ -127,7 +127,7 @@ function ProjectSingle({ project }) {
 						{media.demo === 'lookback' && <LookBackDemo />}
 
 						{media.images?.length > 0 && (
-							<div className="pj-media-shots">
+							<div className={`pj-media-shots${media.shotsLayout === 'phones' ? ' pj-media-shots--phones' : ''}`}>
 								{media.images.map((image) => (
 									<figure key={image.img} className="fh-image-figure">
 										<img src={image.img} alt={image.title} loading="lazy" />

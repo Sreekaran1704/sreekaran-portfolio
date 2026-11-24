@@ -21,10 +21,10 @@ export const projectNotes = {
   },
   'lookback-daily-memory-journal': {
     displayTitle: 'LookBack',
-    summary: 'A cosy Android journal: one small thing a day (words, a photo or your voice), and on the same date a year later it comes back as a sealed letter from your past self.',
-    metric: '120 Hz', finding: 'Frame timing showed the GPU, not JavaScript, was the bottleneck; caching still paper objects as GPU textures cut scroll jank in a 73-memory year from 19% to 1.8%.',
-    annotation: 'One small thing a day.', stages: ['Write today', 'Wait a year', 'Open the letter'],
-    liveLabel: 'Download for Android',
+    summary: 'A leather-bound Android diary: one small thing a day (words, a photo or your voice), and on the same date a year later it comes back as a letter from your past self, so you can write back.',
+    metric: '120 Hz', finding: 'Frame timing showed the GPU, not JavaScript, was the bottleneck; caching still objects as GPU textures cut scroll jank in a 73-memory year from 19% to 1.8%. Pages shared between phones go direct over WebRTC with Ed25519-signed handshakes, so no server ever holds them.',
+    annotation: 'One small thing a day.', stages: ['Write today', 'Wait a year', 'Write back'],
+    liveLabel: 'Join the Play test',
   },
   'connect-head-sony-ult-wear': {
     displayTitle: 'Connect Head',

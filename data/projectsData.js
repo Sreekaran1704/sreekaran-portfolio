@@ -1,29 +1,38 @@
 export const projectsData = [
 	{
 		id: 12,
-		title: 'LookBack: A Daily Journal That Writes Back a Year Later',
+		title: 'LookBack: A Leather Diary That Writes Back a Year Later',
 		url: 'lookback-daily-memory-journal',
 		githubUrl: 'https://github.com/Sreekaran1704/LookBack',
-		liveUrl: 'https://github.com/Sreekaran1704/LookBack/releases/tag/v1.2.0',
-		// The project page offers the APK itself instead of the release page.
-		downloads: [
-			{ label: 'Download for Android', href: 'https://github.com/Sreekaran1704/LookBack/releases/download/v1.2.0/LookBack-1.2.0.apk' },
-		],
-		downloadsNote: 'v1.2.0 · LookBack-1.2.0.apk, 61 MB · Android 7+, arm64 · Signed, installs over earlier versions and keeps your memories · SHA-256 on the release page',
+		// In a Google Play closed test: join the testers' group, then opt in on Play.
+		liveUrl: 'https://groups.google.com/g/lookback-testers',
+		downloadsNote: 'v1.3 · Google Play closed test: join the lookback-testers Google Group, then opt in at play.google.com/apps/testing/com.yearbook.app and install from Play · Android, free · The older v1.2 APK (previous design) is on GitHub releases',
 		category: 'Mobile App',
 		type: 'Project',
 		// Link-preview card, rendered from design/og-project.html?p=lookback.
 		ogImage: '/og/lookback.png',
-		ogImageAlt: 'LookBack: a cosy Android journal. One small thing a day (words, a photo or your voice) comes back on the same date a year later as a letter from your past self.',
+		ogImageAlt: 'LookBack: a leather-bound Android diary. One small thing a day (words, a photo or your voice) comes back on the same date a year later as a letter from your past self, and you can write back.',
 		ProjectHeader: {
-			title: 'LookBack: A Daily Journal That Writes Back a Year Later',
+			title: 'LookBack: A Leather Diary That Writes Back a Year Later',
 			publishDate: '2026',
-			tags: 'Product Design / React Native / Expo / Local-First / Voice / 120 Hz Performance',
+			tags: 'Product Design / React Native / Expo / Local-First / WebRTC + Ed25519 / 120 Hz Performance',
 		},
 		ProjectImages: [],
-		// Shown on the project page: a working prototype of the app on a phone.
+		// Shown on the project page: a working prototype of the app, then the Play Store screenshots.
 		ProjectMedia: {
 			demo: 'lookback',
+			shotsLayout: 'phones',
+			images: [
+				{ title: 'A letter from last year: the same day, one year ago', img: '/images/lookback/screens/1.jpg' },
+				{ title: 'Then write back, in sepia ink under the original', img: '/images/lookback/screens/2.jpg' },
+				{ title: 'Your voice on tape: up to a minute, on a little recorder', img: '/images/lookback/screens/3.jpg' },
+				{ title: 'A diary for every year, each its own book on the shelf', img: '/images/lookback/screens/4.jpg' },
+				{ title: 'Open a year and every page is there', img: '/images/lookback/screens/5.jpg' },
+				{ title: 'Draw your portrait, one frame of 35mm film', img: '/images/lookback/screens/6.jpg' },
+				{ title: 'Give a page to someone: phone to phone, encrypted', img: '/images/lookback/screens/7.jpg' },
+				{ title: 'Yours, and only yours: no ads, no tracking', img: '/images/lookback/screens/8.jpg' },
+			],
+			note: 'Google Play screenshots of version 1.3, made from sample memories so no real diary is shown.',
 		},
 		ProjectInfo: {
 			ClientHeading: 'Project Type',
@@ -31,27 +40,27 @@ export const projectsData = [
 				{
 					id: 1211,
 					title: 'Role',
-					details: 'Solo: product, design direction, engineering, testing and release',
+					details: 'Solo: idea, product, design direction, engineering, testing, release and store listing',
 				},
 				{
 					id: 1212,
 					title: 'Platform',
-					details: 'Android 7+ (arm64 APK). The codebase is Expo / React Native, so it is cross-platform, but iOS is not released',
+					details: 'Android: in a Google Play closed test (1.3), with signed APKs of 1.0 to 1.2 on GitHub. The codebase is Expo / React Native, so it is cross-platform, but iOS is not released',
 				},
 				{
 					id: 1213,
 					title: 'How it was built',
-					details: 'With an AI coding assistant (Claude Code). I set the product direction, design and priorities, reviewed and tested every build on a real phone, and drove the performance and privacy decisions. About one week from first commit to the public 1.0 (9 to 11 November 2026), then 1.1 (17 November) and 1.2 (19 November) from daily use',
+					details: 'With an AI coding assistant (Claude Code). I set the product direction, design and priorities, reviewed and tested every build on a real phone, and made the performance, privacy, security and release decisions. First commit 9 November 2026; 1.0 on 11 November, 1.1 on 17, 1.2 on 19, and 1.3 (full redesign and sharing) into Google Play testing on 23 November',
 				},
 				{
 					id: 1214,
 					title: 'Privacy',
-					details: 'Local-first: no accounts, no servers, no analytics. Optional backup goes to your own Google Drive',
+					details: 'Local-first: the diary stays on the phone, with no ads and no tracking. Optional backup goes to your own Google Drive; pages you give go phone to phone and are never stored on a server',
 				},
 			],
 			ObjectivesHeading: 'Objective',
 			ObjectivesDetails:
-				'Journaling apps ask for too much and give little back. LookBack asks for one small thing a day, a note, a photo or a few seconds of your voice, and on the same date a year later it comes back as a sealed letter from your past self. The goal was to ship that loop as a complete, private Android app that feels like a handmade paper scrapbook and runs smoothly at 120 Hz on a mid-range phone.',
+				'Journaling apps ask for too much and give little back. LookBack asks for one small thing a day, a few words, a photo or a few seconds of your voice, and on the same date a year later it comes back as a sealed letter from your past self, so you can see how it feels now, and write back. The goal was to ship that loop as a complete, private Android app that feels like a leather-bound diary and runs smoothly at 120 Hz on a mid-range phone.',
 			Technologies: [
 				{
 					title: 'Tools & Methods',
@@ -64,12 +73,17 @@ export const projectsData = [
 						'Gesture Handler',
 						'Skia',
 						'expo-router',
+						'expo-audio',
 						'expo-notifications',
+						'WebRTC',
+						'Ed25519',
+						'Supabase',
+						'Firebase Cloud Messaging',
 						'Google Drive API',
 						'Android widget',
 						'Expo config plugins',
-						'expo-audio',
 						'Perfetto',
+						'Jest',
 					],
 				},
 			],
@@ -78,7 +92,12 @@ export const projectsData = [
 				{
 					title: 'The problem',
 					details:
-						'Journaling apps ask for a lot (long entries, daily prompts, streak pressure), and what they give back is a list of old text you rarely reread.\n\nLookBack turns that around. It asks for one small thing a day and pays it back a year later, on the same day, which is the moment a memory means the most: “one year ago today…”. The reward is emotional, not points. It is a letter from your past self.',
+						'Journaling apps ask for a lot (long entries, daily prompts, streak pressure), and what they give back is a list of old text you rarely reread.\n\nLookBack turns that around. It asks for one small thing a day and pays it back a year later, on the same day, which is the moment a memory means the most: “one year ago today…”. You write down what weighed on you, or what made you smile; a year later it returns and you see how it feels now. The reward is emotional, not points: a letter from your past self, and the chance to answer it.',
+				},
+				{
+					title: 'Write back to your past self',
+					details:
+						'A returned memory offers “Write back to your past self”. Your reply is kept in sepia ink under the original, so the page holds both voices, a year apart.\n\nI deliberately left out a “how heavy was it” rating that came up along the way: the app shouldn’t grade feelings. The reply is the reflection.',
 				},
 				{
 					title: 'Scoping the core loop',
@@ -86,59 +105,49 @@ export const projectsData = [
 						'One entry per day: editable all day, which keeps the habit light and the data model simple. The rule lives in the data layer, not the database, so backup merges stay simple.\n\nOn this day: same month and day, any earlier year. I decided the leap-day edge case on purpose: a 29 February memory comes back on 28 February in non-leap years.\n\nThe right day: dates are stored as your local calendar date, never one derived from UTC, which avoids the classic bug where a late-night entry lands on the wrong day.',
 				},
 				{
-					title: 'Retention without nagging',
+					title: 'A redesign: from scrapbook to leather diary',
 					details:
-						'Reminders: they fire only on days that actually have a memory from an earlier year, never as a generic daily nag, and they read like a letter: “💌 A little letter from 2025 — One year ago today: …”. They are scheduled in a rolling 30-day window, rebuilt on every app open and every save.\n\nAn app icon that misses you: the launcher icon is the bunny mascot, and it gets more dramatic the longer today’s page stays empty. It is happy by default, pleads after 6 pm, cries after a missed day and wails in a puddle after four or more. It never appears for someone who hasn’t started, so there is no nagging before the first entry. Behind it is a small, pure, tested state machine. You can try it in the second prototype above.\n\nHome-screen widget: add today’s memory in one tap. It shows “💌 2 letters!” when past years match, or your streak.',
+						'The first three releases looked like a cutesy paper scrapbook with a bunny mascot. Living with it, I decided that look didn’t fit what the app is for, which is sitting with what weighed on you a year ago. So for 1.3 I redesigned the whole app.\n\nThree directions first: I compared Letterpress, 70s Analog and Leather as mockups before building anything, and chose leather.\n\nThe result: bottle-green leather with stitching and gold tooling, cream ruled pages, Cormorant Garamond and IM Fell English type, and only your own words in handwriting (Caveat). Seven paper colours, each by day or by lamplight at night (a deep shade of the same paper, not black).\n\nBuilt in phases, checking day and night tones on the phone after each, and kept one-handed: every page’s buttons sit in a labelled bar at the foot of the screen, where the thumb is.',
 				},
 				{
-					title: 'Onboarding and personalisation',
+					title: 'Voice on tape, years on a shelf',
 					details:
-						'On first run, the mascot asks one thing per page, in order: your name, a paper colour and light or dark (the whole app re-themes live as you pick), a reminder time, and optional Drive backup. Notification permission is asked in context, on the reminder page. Every answer saves immediately, so quitting halfway keeps your progress.\n\nThere are 7 paper colours, each in light and dark. Dark mode is “the same paper by lamplight”, not black, so the app stays warm.',
+						'Voice memories: record up to a minute. Your voice goes on a little cassette, and a leather-cased tape recorder plays it back, reels turning and a needle following your voice. The level meter is sampled while recording and saved as waveform bars with the memory, so drawing never has to decode audio. Voice files back up to Drive like photos.\n\nYears: each year is its own book standing on a shelf. Open one and it becomes a volume of loose pages, every memory of that year.\n\nFilm portraits: you draw your own portrait as one frame of 35mm film, with 12 skin tones, 20 hair styles (including afro, coils, locs, braids and cornrows), head coverings (including hijab and turban) and four film stocks. Every option is open to everyone, with no gender presets. It is your seal wherever you appear.',
+				},
+				{
+					title: 'Giving a page, without trusting a server',
+					details:
+						'I wanted to give a page to someone the way you hand over a letter, while keeping the promise that memories never sit in a cloud.\n\nPhone to phone: a page goes directly between the two phones over a WebRTC data channel, encrypted with DTLS, on the same Wi-Fi or across networks. There is no relay server: I accepted that a few mobile networks which block direct connections will fail (and retry) rather than route pages through a third party.\n\nSupabase only introduces phones: Google sign-in, nearby tokens over Bluetooth, a private Realtime inbox per account for short signalling notes, and push alerts through Firebase Cloud Messaging when the app is closed. Notes go through a database function (send_note) that stamps the real sender, and clients can’t write to the Realtime tables directly.\n\nSigned handshakes: each phone has an Ed25519 key kept in secure storage. Each side signs its connection offer, which contains the encryption fingerprint, and the other side checks it against the key saved for that person, from their QR code or first contact (trust on first use). A mismatch drops the connection, so even a compromised server can’t read or redirect a page in transit.\n\nBugs only real phones showed: signalling notes sometimes arrived twice and made two connections that broke each other (every note is now handled once, and the handshake is single-flight); and Android’s first WebRTC connection in a fresh run found no network addresses (a throwaway warm-up connection fixes it).',
+				},
+				{
+					title: 'Retention without nagging',
+					details:
+						'Reminders: they fire only on days that actually have a memory from an earlier year, never as a generic daily nag, and they read like a letter: “💌 A little letter from 2025 — One year ago today: …”. They are scheduled in a rolling 30-day window, rebuilt on every app open and every save.\n\nAn app icon that misses you: the launcher icon changes the longer today’s page stays empty, and never before someone has started. Behind it is a small, pure, tested state machine.\n\nHome-screen widget: add today’s memory in one tap. It shows “💌 2 letters!” when past years match, or your streak.',
 				},
 				{
 					title: 'Privacy as a product feature',
 					details:
-						'Everything lives on the phone, in SQLite and files. There are no accounts, no servers and no analytics.\n\nBackup is optional and goes to your own Google Drive, using the narrowest permission, drive.file, so the app can only see files it created, in a visible LookBack folder you can open yourself. Sync is two-way with explicit merge rules: the latest edit wins per entry, one entry per day, photos move only when missing, and photos upload before the manifest so a crash can’t leave dangling references. Sample data never leaves the phone.\n\nI turned off Android’s automatic app backup after finding that it restored a stale copy of the data on reinstall. One clear, user-controlled backup path beats two competing ones.',
-				},
-				{
-					title: 'A cutesy paper journal',
-					details:
-						'Every entry is a physical object, such as a polaroid, a torn note, a ticket stub or a taped photo, with washi tape, a clip or a pin, and a sticker. Its look is seeded by the entry’s id, so it stays the same every time, and you can override it. Handwriting is used everywhere, and every screen shares one notebook: dotted paper, a red margin line and a page footer.\n\nThe mascot, a soft cream bunny, is drawn entirely in code, so there are no image assets to license, and it is pre-rendered to images for speed. Years live as diaries on a wooden shelf that show their age; tapping one flies the book off the shelf and opens it.\n\nThe UI went through many rounds of real-device feedback. The diaries first lay flat and became upright spines, “like a real cupboard”. A page transition that looked janky was rebuilt around a hidden pre-render and a reveal.',
+						'The diary lives on the phone, in SQLite and files. There are no ads and no tracking.\n\nBackup is optional and goes to your own Google Drive, using the narrowest permission, drive.file, so the app can only see files it created, in a visible LookBack folder you can open yourself. Sync is two-way with explicit merge rules: the latest edit wins per entry, one entry per day, photos move only when missing, photos upload before the manifest, and deletions travel as tombstones so a deleted memory never comes back from another copy.\n\nI turned off Android’s automatic app backup after finding that it restored a stale copy of the data on reinstall. One clear, user-controlled backup path beats two competing ones.',
 				},
 				{
 					title: 'Engineering: the 120 Hz pass',
 					details:
-						'All numbers were measured on a real phone (OnePlus Nord 5) with Android’s own frame-timing tools.\n\nRefresh rate: the app ran at the phone’s default 90 Hz. A native config plugin now requests the fastest display mode, capped at 120 Hz to save battery.\n\nScrolling a year of 73 memories: janky frames fell from 19% to 1.8%, and GPU time per frame from 11–12 ms to 6 ms, inside the 8.3 ms budget at 120 Hz.\n\nHome and Settings: janky frames while scrolling Home fell from 9.2% to 0%, and idle GPU time from 12 ms to 5 ms per frame. The Settings page went from 16.6 ms to 5.5 ms per frame.\n\nNavigation: switching between main pages was about 15% janky, with 230–370 ms stalls. Now each switch drops 0 to 3 slow frames, and the stalls are gone. Opening a year from the shelf went from 23% janky to about 5%.\n\nDownload size: the release APK went from 179 MB to 58 MB with an arm64-only build.',
+						'All numbers were measured on a real phone (OnePlus Nord 5) with Android’s own frame-timing tools and Perfetto traces.\n\nRefresh rate: the app ran at the phone’s default 90 Hz. A native config plugin now requests the fastest display mode, capped at 120 Hz.\n\nScrolling a year of 73 memories: janky frames fell from 19% to 1.8%, and GPU time per frame from 11–12 ms to 6 ms, inside the 8.3 ms budget at 120 Hz.\n\nHome and Settings: janky frames while scrolling Home fell from 9.2% to 0–0.3%, and idle GPU time from 12 ms to about 5 ms per frame. Settings went from 16.6 ms to 5.5 ms per frame.\n\nOpening things: the slowest frame when opening a memory went from about 1 s to about 20 ms; opening a diary, from 150 ms to 44 ms.\n\nSwiping between the main pages: a hand-built JavaScript slider never felt attached to the finger, so I replaced it with Android’s native pager: 0.3% janky frames, 9 ms median.\n\nDownload size: the release APK went from 179 MB to 58 MB with an arm64-only build.',
 				},
 				{
 					title: 'How the frames were won',
 					details:
-						'Profile before fixing: per-frame breakdowns showed whether time went to the main thread, layout or the GPU. The biggest wins came from finding that the GPU, not JavaScript, was the bottleneck.\n\nCache still things as textures: static, shadow-heavy objects (envelopes, settings cards, the shelf) are cached as GPU textures while they are still, so a frame repaints a picture instead of redrawing blurred shadows and vector shapes.\n\nViewport-aware caching: in a year’s pile, items within one screen of the viewport become textures at on-screen size (about 1 MB each, around 14 MB in all); far ones stay plain drawings to cap memory.\n\nProgressive rendering: a year opens with the first items drawn, the rest stack on with an animation, and the page builds ahead in idle time, so scrolling never has to build views mid-scroll.\n\nPersistent tabs: the main pages stay mounted, so switching is a cross-fade between pages that already exist instead of a rebuild mid-transition. That exposed two new problems: hidden pages kept the mascot animating, and a text field auto-focusing on Settings caused a 350 ms stall. Both were found with frame timing and fixed with a page-active signal and a tap-to-edit field.\n\nData from the first frame: all entries load into an in-memory store during the splash screen, so screens read synchronously with no spinners. Reminders and backup wait 3 seconds after launch. Photos are downscaled once on import (camera photos are often over 4000 px; they are stored at 1600 px).',
-				},
-				{
-					title: 'Version 1.2: say it out loud',
-					details:
-						'Voice memories: record up to a minute and the waveform draws itself as you speak. The recorder’s level meter is sampled every 80 ms and saved as 32 bars with the memory, so drawing a waveform never has to decode audio. A voice memory is always a polaroid: on its own, the waveform is the picture; with a photo, the waveform runs along the strip under it. Tap it and the bars fill in as it plays, with a little heart riding along. Voice files back up to Drive like photos, under the same tested merge rules.\n\nPhotos look like old instant film: a touch of sepia, faded colour and softer contrast, with a cream wash, a warm cast and a vignette, all drawn on the GPU.\n\nThe bunny got soft fur, blinks (sometimes twice), breathes, tilts its head now and then, and squishes and hops when you poke it. Its poses are still pre-rendered pictures, so Home still idles at 4–5 ms of GPU per frame.',
-				},
-				{
-					title: 'One-handed, and nicer in the hand',
-					details:
-						'Every page’s own buttons moved into one labelled bar at the bottom, where the thumb is, inspired by One UI and drawn as taped, stitched paper: Back · Listen · Turn over · Delete on a memory; Close · Photo · Style · Voice · Update when writing. Photo and Style open their choices right above the bar, so nothing hides below the fold. The main Home / Years / Settings bar steps aside inside a memory or a diary.\n\nHaptics use Android’s own crisp effects instead of the old buzzy vibration, with a small vocabulary where each touch means one thing: a two-part click on buttons, ticks for choices and toggles, a landing tick when a turned polaroid comes down, a thud when a diary falls open, a confirm on save.\n\nSmall fixes from daily use: the section titles and dates now sit on one line, swiping letters no longer drags the whole page, the delete question glides in instead of bouncing, and removing a voice note asks first.',
-				},
-				{
-					title: 'Finding a one-second stutter with Perfetto',
-					details:
-						'Opening a memory sometimes froze for about a second. Instead of guessing, I captured a Perfetto system trace on the phone and read the slowest frames with Perfetto’s trace processor. The culprit was the page-slide animation: on Android it redrew the page behind in software, on the CPU. A plain slide, building the memory only after the slide finishes, keeping paper objects as GPU textures while they are still, and moving large SVG gradients to native GPU gradients took the worst frame during the slide from 1.1 s to about 20 ms.\n\nOpening a diary built every animated piece in its first frame (150 ms). Building the pieces in stages, just before each is needed, cut the 99th-percentile frame to 44 ms.',
+						'Profile before fixing: per-frame breakdowns showed whether time went to the main thread, layout or the GPU. The biggest wins came from finding that the GPU, not JavaScript, was the bottleneck.\n\nCache still things as textures: static, shadow-heavy objects are cached as GPU textures while they are still, so a frame repaints a picture instead of redrawing blurred shadows and vector shapes. In long lists, items within one screen of the viewport become textures at on-screen size (about 1 MB each, around 14 MB in all); far ones stay plain drawings to cap memory.\n\nFinding a one-second stutter: a Perfetto trace showed the page-slide animation redrawing the page behind in software, on the CPU. A plain slide, building the memory only after the slide finishes, and moving large SVG gradients (about 40 ms each on the CPU) to native GPU gradients fixed it.\n\nProgressive rendering: pages build their heavy parts after the slide-in and keep building ahead in idle time, so scrolling never has to build views mid-scroll. Hidden pages pause their animations, and all entries load into memory during the splash screen, so screens have their data in the first frame.',
 				},
 				{
 					title: 'Architecture and quality',
 					details:
-						'Repository pattern: all data access goes through entriesRepository, settingsRepository and backupRepository, so the Drive backup plugged in without touching any screen.\n\nVersioned SQLite migrations: tracked with PRAGMA user_version, and a shipped migration is never edited.\n\nTested core logic: dates and leap years, on-this-day matching, notification planning, backup merging, the layout maths for the scattered and tidy year views, the icon’s mood and paper settings are pure modules with no React Native imports, covered by 109 unit tests.\n\nNative config without hand-edited native code: custom Expo config plugins for 120 Hz and release signing, alternate launcher icons, and a home-screen widget that runs headless. One script (CanvasKit / Skia) draws the app icon, adaptive icon layers, splash, notification icons, widget preview and every mascot pose from a single drawing.',
+						'Repository pattern: all data access goes through repositories, so Drive backup and sharing plugged in without touching any screen.\n\nVersioned SQLite migrations: 10 schema versions tracked with PRAGMA user_version, and a shipped migration is never edited.\n\nTested core logic: dates and leap years, on-this-day matching, notification planning, backup merging, the sharing protocol, signed identity, portraits, polaroid text layout, voice rules, year layout, the icon’s mood and paper themes are pure modules with no React Native imports, covered by 168 unit tests in 17 suites.\n\nNative config without hand-edited native code: Expo config plugins for 120 Hz, release signing and optional hardware features (so Play doesn’t hide the app from tablets and Chromebooks). Scripts (Skia / CanvasKit) draw the icons, splash and Play feature graphic, and the eight Play screenshots are rendered from an HTML panorama with headless Chrome, from sample data so no real diary content is published.',
 				},
 				{
 					title: 'Shipping, and shipping again',
 					details:
-						'I generated a release signing key kept outside the repo, signed the APK, verified its signature and checksum, registered the release key with Google OAuth, and published a GitHub release with a SHA-256 for verification. Before going public I ran a secrets audit and removed private files that had been committed by accident.\n\nEvery later release is signed with the same key, so it installs as an update and keeps people’s memories. 1.1 came a week after 1.0 from real daily use (a Google sign-in bug and memory deletion that syncs correctly), and 1.2 two days later. A Google Play submission is fully prepared (listing, Data safety answers, privacy policy, store graphics) and waits on the developer account.\n\nI built LookBack with an AI coding assistant, acting as product owner and tech lead: setting the direction, reviewing every build on a real device, and deciding what to measure and what to cut.',
+						'Signed releases: a release signing key kept outside the repo; every APK’s signer and SHA-256 checked and published on GitHub. Before going public I ran a secrets audit, and later answered GitHub secret-scanning alerts by restricting the (public-by-design) Firebase key to the app’s package and signing key.\n\nOne key for GitHub and Play: I uploaded the same key to Play App Signing, so a GitHub install updates cleanly from Play and nobody loses their memories.\n\nA release-process lesson: in 1.2, Gradle reused a cached developer build, so the release briefly shipped a hidden developer panel. Clean rebuilds are now a required release step.\n\nGoogle Play: content rating, Data safety form, privacy policy and account-deletion page, store listing and graphics are done, and 1.3.0 is in a closed test. New personal developer accounts need 12+ testers for 14 days before production; that test is running. It is not public on Play yet.\n\nI built LookBack with an AI coding assistant, acting as product owner and tech lead: setting the direction, reviewing every build on a real device, and deciding what to measure, what to cut and what to ship.',
 				},
 			],
 			SocialSharingHeading: '',

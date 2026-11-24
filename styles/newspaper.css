@@ -5500,6 +5500,27 @@ html[data-edition='bw'] .pj-video-seek {
 	}
 }
 
+/* Phone screenshots (tall portrait panels): two across on phones, four on wide
+   screens, and no full-width first shot. */
+.pj-media-shots--phones {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.reader .pj-media-shots--phones .fh-image-figure img {
+	border-radius: 10px;
+}
+
+@media (min-width: 768px) {
+	.pj-media-shots--phones {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.pj-media-shots--phones .fh-image-figure:first-child {
+		grid-column: auto;
+	}
+}
+
 /* ---------- Newsprint grain ----------
    A faint fibre noise over the paper colour so the page reads as printed
    stock rather than a flat screen fill. The B&W edition stays clean white. */

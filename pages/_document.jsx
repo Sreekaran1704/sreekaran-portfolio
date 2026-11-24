@@ -7,9 +7,10 @@ import { Html, Head, Main, NextScript } from 'next/document';
 // the real app's type. Comic Neue letters the speech balloons in the story
 // write-ups; Space Mono sets labels in the black & white edition; Kalam
 // hand-letters the special reports' cartoon strips; Caveat is the LookBack
-// demo's handwriting, as in the real app.
+// demo's handwriting, as in the real app; Cormorant Garamond (gilt titles)
+// and IM Fell English (printed dates) are its other two faces.
 const FONTS_URL =
-	'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Faustina:wght@400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Inter:wght@400;500;600;700&family=Comic+Neue:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Caveat:wght@400..700&display=swap';
+	'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Faustina:wght@400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Inter:wght@400;500;600;700&family=Comic+Neue:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=IM+Fell+English:ital@0;1&display=swap';
 
 export default function Document() {
 	return (
